@@ -38,9 +38,21 @@ public class CommonInstallDelegate implements IDelegate {
 						.equals(evt.getProjectFacet().getId())) {
 					try {
 						FacetedProjectFramework.removeListener(this);
-						Properties props =  new Properties();
+						final Properties props =  new Properties();
 						fillHibernateProps(props , project, monitor);
-						Installer.install(props, project.getName(), true, monitor);
+						Thread th = new Thread(new Runnable() {
+							
+							@Override
+							public void run() {
+								try {
+									Thread.sleep(1000);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								Installer.install(props, project.getName(), false, monitor);							}
+						});
+						th.start();
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -53,6 +65,8 @@ public class CommonInstallDelegate implements IDelegate {
 	
 	private void fillHibernateProps(Properties props, IProject project, IProgressMonitor monitor) {
 		try {
+			props.setProperty("persistence.unit", project.getName());
+			
 			Properties properties = new Properties();
 			JpaProject jpaProject = waitForJpaProject(project);
 			if (jpaProject == null) {
@@ -80,7 +94,6 @@ public class CommonInstallDelegate implements IDelegate {
 				}
 			}
 			
-			props.setProperty("persistence.unit", project.getName());
 			if (dialect != null) {
 				props.setProperty("hibernate.dialect", dialect.toString());
 				String dsName = "java:/comp/env/jdbc/" + profile.getDatabaseName();

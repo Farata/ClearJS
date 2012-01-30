@@ -19,6 +19,8 @@
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
 			<fileset dir="../resources/sample_project" />
 		</copy>
+		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{persistence.unit}**" value="${persistence.unit}" />
+		<!-- replace file="${workspace.path}/${project.name}/.settings/org.eclipse.wst.common.project.facet.core.xml" token="&lt;/faceted-project&gt;" value="&lt;installed facet=&quot;jpt.jpa&quot; version=&quot;2.0&quot;/&gt;&lt;/faceted-project&gt;" /-->
 
 	</target>
 
