@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="project" default="default">
+	<description>
+	</description>
+	<property file="build.properties" />
+	<target name="default" depends="install-new, install-sample"></target>
+	<target name="install-new" if="is.new">
+		<!--delete failonerror="false">
+			<fileset dir="${workspace.path}/${project.name}" />
+		</delete -->
+
+		<mkdir dir="${workspace.path}/${project.name}" />
+		<copy todir="${workspace.path}/${project.name}" overwrite="true">
+			<fileset dir="../resources/new_project" />
+		</copy>
+	</target>
+	
+	<target name="install-sample" if="is.sample">
+		<!-- delete failonerror="false">
+			<fileset dir="${workspace.path}/${project.name}" />
+		</delete -->
+
+		<mkdir dir="${workspace.path}/${project.name}" />
+		<copy todir="${workspace.path}/${project.name}" overwrite="true">
+			<fileset dir="../resources/sample_project" />
+		</copy>
+	</target>
+
+</project>

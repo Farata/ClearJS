@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ClearDataBuilder JS
+Bundle-SymbolicName: com.farata.cleardatabuilder.js;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.farata.cleardatabuilder.js.Activator
+Bundle-Vendor: FARATA
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.wst.common.project.facet.core,
+ org.eclipse.wst.common.project.facet.ui,
+ org.eclipse.core.resources,
+ org.apache.ant;bundle-version="1.8.2",
+ org.eclipse.ant.core;bundle-version="3.2.300",
+ org.eclipse.ant.launching;bundle-version="1.0.100",
+ org.eclipse.ant.ui;bundle-version="3.5.100"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.jpt.jpa.core.internal.facet,
+ org.eclipse.ui.actions,
+ org.eclipse.wst.jsdt.web.core.internal.project

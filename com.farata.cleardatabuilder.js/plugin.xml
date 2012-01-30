@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension point="org.eclipse.wst.common.project.facet.core.facets">
+		<category id="com.farata.cleardatabuilder.js.facet.category">
+			<label>Clear Data Builder JS 1.0 Facets</label>
+			<description>Clear Data Builder JS 1.0 Facets</description>
+		</category>
+		<project-facet id="com.farata.cleardatabuilder.js.facet.common">
+			<label>CDB JS Web Project Facet</label>
+			<description>CDB JS Web Project Facet</description>
+			<member category="com.farata.cleardatabuilder.js.facet.category" />
+		</project-facet>
+		<project-facet-version facet="com.farata.cleardatabuilder.js.facet.common"
+			version="1.0">
+			<constraint>
+				<or>
+					<and>
+						<requires facet="jst.web" />
+						<requires facet="jpt.jpa" />
+					</and>
+					<and>
+						<requires facet="jst.web" />
+						<requires facet="com.farata.cleardatabuilder.facet.sample" />
+					</and>
+				</or>
+			</constraint>
+		</project-facet-version>
+		<action facet="com.farata.cleardatabuilder.js.facet.common"
+			id="com.farata.cleardatabuilder.js.facet.common.install" type="install">
+			<delegate
+				class="com.farata.cleardatabuilder.js.facet.common.CommonInstallDelegate" />
+			<config-factory
+				class="com.farata.cleardatabuilder.js.facet.common.CommonInstallConfigFactory" />
+		</action>
+		<action facet="com.farata.cleardatabuilder.js.facet.common"
+			id="com.farata.cleardatabuilder.js.facet.common.uninstall" type="uninstall">
+			<delegate
+				class="com.farata.cleardatabuilder.js.facet.common.CommonUninstallDelegate" />
+		</action>
+
+		<project-facet id="com.farata.cleardatabuilder.js.facet.sample">
+			<label>CDB JS Sample Project Facet</label>
+			<description>CDB JS Sample Project Facet</description>
+			<member category="com.farata.cleardatabuilder.js.facet.category" />
+		</project-facet>
+		<project-facet-version facet="com.farata.cleardatabuilder.js.facet.sample"
+			version="1.0">
+			<constraint>
+				<and>
+					<requires facet="jst.web" />
+				</and>
+			</constraint>
+		</project-facet-version>
+		<action facet="com.farata.cleardatabuilder.js.facet.sample"
+			id="com.farata.cleardatabuilder.js.facet.sample.install" type="install">
+			<delegate
+				class="com.farata.cleardatabuilder.js.facet.sample.SampleInstallDelegate" />
+			<config-factory
+				class="com.farata.cleardatabuilder.js.facet.sample.SampleInstallConfigFactory" />
+		</action>
+		<action facet="com.farata.cleardatabuilder.js.facet.sample"
+			id="com.farata.cleardatabuilder.js.facet.sample.uninstall" type="uninstall">
+			<delegate
+				class="com.farata.cleardatabuilder.js.facet.sample.SampleUninstallDelegate" />
+		</action>
+
+	</extension>
+
+</plugin>
