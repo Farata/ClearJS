@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="project" default="default">
 
-    <target name="default" >
-    	<delete dir="dist" failonerror="no"/>
- 		<mkdir dir="dist"/>   
-    	<javac srcdir="src" destdir="dist" debug="on" debuglevel="lines,vars,source" deprecation="deprecation" optimize="optimize"
+	<target name="default" >
+		<delete dir="dist" failonerror="no"/>
+		<mkdir dir="dist"/>
+		<javac srcdir="src" destdir="dist" debug="on" debuglevel="lines,vars,source" deprecation="deprecation" optimize="optimize"
     			       source="1.6" target="1.6">
-    				<classpath>
-    					<fileset dir="../com.farata.lib.js/base">
-    						<include name="**/*.jar"/>
-    					</fileset>
-    					<fileset dir="../com.farata.lib.js/servlet">
-    						<include name="**/*.jar"/>
-    					</fileset>
-    				  </classpath>
-    			</javac>
-    			<jar destfile="dist/clear.rumtime.js.jar" basedir="dist" />
-    			<jar destfile="dist/clear.rumtime.js.jar" basedir="src" update="true" />
-    </target>
+			<classpath>
+				<fileset dir="../com.farata.lib.js/base">
+					<include name="**/*.jar"/>
+				</fileset>
+				<fileset dir="../com.farata.lib.js/servlet">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+		<jar destfile="dist/clear.rumtime.js.jar" basedir="dist" />
+		<jar destfile="dist/clear.rumtime.js.jar" basedir="src" update="true" />
+	</target>
 
 </project>
