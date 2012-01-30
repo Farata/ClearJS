@@ -1,0 +1,16 @@
+<project name="project" default="main">
+    <property file="build.properties" />
+    <target name="main">
+        <delete dir="build" />
+        <mkdir dir="build" />
+        <delete dir="dist" failonerror="false"/>
+        <mkdir dir="dist" />
+        <delete dir="features" />
+        <mkdir dir="features" />
+        <delete dir="plugins" />
+        <mkdir dir="plugins" />
+        <delete file="content.jar" />
+        <delete file="artifacts.jar" />
+        <eclipse.refreshLocal resource="com.farata.cleardatabuilder.site"/>
+    </target>
+</project>
