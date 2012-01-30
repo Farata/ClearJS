@@ -21,7 +21,7 @@
 					</and>
 					<and>
 						<requires facet="jst.web" />
-						<requires facet="com.farata.cleardatabuilder.facet.sample" />
+						<requires facet="com.farata.cleardatabuilder.js.facet.sample" />
 					</and>
 				</or>
 			</constraint>

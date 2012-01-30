@@ -38,8 +38,9 @@ public class CommonInstallDelegate implements IDelegate {
 						.equals(evt.getProjectFacet().getId())) {
 					try {
 						FacetedProjectFramework.removeListener(this);
-						//project.delete(true, monitor);
-						Installer.install(project.getName(), true, monitor);
+						Properties props =  new Properties();
+						fillHibernateProps(props , project, monitor);
+						Installer.install(props, project.getName(), true, monitor);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -79,14 +80,15 @@ public class CommonInstallDelegate implements IDelegate {
 				}
 			}
 			
+			props.setProperty("persistence.unit", project.getName());
 			if (dialect != null) {
 				props.setProperty("hibernate.dialect", dialect.toString());
 				String dsName = "java:/comp/env/jdbc/" + profile.getDatabaseName();
-				props.setProperty("hibernate.db_name", dsName);
+				props.setProperty("jta.data.source", dsName);
 			} else {
 				props.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
 				String dsName = "java:/comp/env/jdbc/companydb";
-				props.setProperty("hibernate.db_name", dsName);
+				props.setProperty("jta.data.source", dsName);
 			}
 
 		} catch (Exception e) {
