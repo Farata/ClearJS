@@ -8,6 +8,7 @@ import org.eclipse.ant.core.AntRunner;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -55,8 +56,9 @@ public class Installer {
 		try {
 			ant.run();
 			IProject prj = root.getProject(projectName.trim());
-			prj.open(null);
+			prj.open(monitor);
 			prj.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			prj.build(IncrementalProjectBuilder.CLEAN_BUILD, monitor);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

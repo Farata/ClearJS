@@ -68,7 +68,7 @@ public class CommonInstallDelegate implements IDelegate {
 			props.setProperty("persistence.unit", project.getName());
 			
 			Properties properties = new Properties();
-			JpaProject jpaProject = waitForJpaProject(project);
+			JpaProject jpaProject = JptJpaCorePlugin.getJpaProject(project);
 			if (jpaProject == null) {
 				return;
 			}
