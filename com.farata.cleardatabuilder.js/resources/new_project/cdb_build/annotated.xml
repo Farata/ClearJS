@@ -93,6 +93,52 @@
 			</method>
 		</methods>
 	</annotated-type>
+	<annotated-type name="com.farata.java_test.service.IAssociateService">
+		<annotations>
+			<annotation name="clear.cdb.annotations.CX_Service">
+				<exists/>
+			</annotation>
+		</annotations>
+		<methods>
+			<method to-string="java.util.List&lt;com.farata.java_test.dto.AssociateDTO&gt; getAssociates(java.lang.Long companyId)" name="getAssociates">
+				<parameters>
+					<parameter name="companyId" type="java.lang.Long" order="0"/>
+				</parameters>
+				<annotations>
+					<annotation name="clear.cdb.annotations.CX_GenerateDataCollection">
+						<exists/>
+						<method name="collectionType" value="com.farata.java_test.collections.AssociateCollection"/>
+					</annotation>
+					<annotation name="clear.cdb.annotations.CX_FillMethod">
+						<exists/>
+						<method name="autoSyncEnabled" value="true"/>
+					</annotation>
+				</annotations>
+			</method>
+		</methods>
+	</annotated-type>
+	<annotated-type name="com.farata.java_test.service.ICompanyService">
+		<annotations>
+			<annotation name="clear.cdb.annotations.CX_Service">
+				<exists/>
+			</annotation>
+		</annotations>
+		<methods>
+			<method to-string="java.util.List&lt;com.farata.java_test.dto.CompanyDTO&gt; getCompanies()" name="getCompanies">
+				<parameters>
+				</parameters>
+				<annotations>
+					<annotation name="clear.cdb.annotations.CX_GenerateDataCollection">
+						<exists/>
+					</annotation>
+					<annotation name="clear.cdb.annotations.CX_FillMethod">
+						<exists/>
+						<method name="autoSyncEnabled" value="true"/>
+					</annotation>
+				</annotations>
+			</method>
+		</methods>
+	</annotated-type>
 	<dto-mappings>
 	</dto-mappings>
 </annotated-types>
