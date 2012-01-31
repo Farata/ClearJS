@@ -7,6 +7,9 @@ import java.util.Set;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.sqltools.core.DatabaseIdentifier;
 import org.eclipse.datatools.sqltools.core.profile.ProfileUtil;
@@ -14,6 +17,8 @@ import org.eclipse.jpt.jpa.core.JpaDataSource;
 import org.eclipse.jpt.jpa.core.JpaProject;
 import org.eclipse.jpt.jpa.core.JptJpaCorePlugin;
 import org.eclipse.jpt.jpa.db.ConnectionProfile;
+import org.eclipse.ui.progress.UIJob;
+import org.eclipse.ui.progress.WorkbenchJob;
 import org.eclipse.wst.common.project.facet.core.FacetedProjectFramework;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action.Type;
@@ -55,22 +60,19 @@ public class CommonInstallDelegate implements IDelegate {
 						FacetedProjectFramework.removeListener(this);
 						final Properties props = new Properties();
 						fillHibernateProps(props, project, monitor);
-						Thread th = new Thread(new Runnable() {
-
+						Job job = new Job("Installing " + project.getName()) {
+							
 							@Override
-							public void run() {
-								try {
-									Thread.sleep(1000);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
+							protected IStatus run(
+									IProgressMonitor iprogressmonitor) {
 								Installer.install(props, project.getName(),
 										sampleInstallConfig == null ? true
-												: false, monitor);
+												: false, null);
+								return Status.OK_STATUS;
 							}
-						});
-						th.start();
-
+						};
+						job.schedule(100);
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
