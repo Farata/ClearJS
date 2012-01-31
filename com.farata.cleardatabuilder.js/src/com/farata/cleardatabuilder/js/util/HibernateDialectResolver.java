@@ -1,4 +1,4 @@
-package com.farata.cleardatabuilder.util;
+package com.farata.cleardatabuilder.js.util;
 
 import org.hibernate.dialect.DB2Dialect;
 import org.hibernate.dialect.DerbyDialect;
