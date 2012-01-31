@@ -66,5 +66,88 @@
 		</action>
 
 	</extension>
+	
+	<extension point="org.eclipse.wst.common.project.facet.ui.images">
+		<image category="com.farata.cleardatabuilder.js.facet.category"
+			path="icons/myflex-category.ico" />
+		<image facet="com.farata.cleardatabuilder.facet.common" path="icons/flex-facet.ico" />
+		<image facet="com.farata.cleardatabuilder.facet.sample" path="icons/flex-facet.ico" />
+	</extension>
 
+	<extension point="org.eclipse.wst.common.project.facet.ui.wizardPages">
+		<wizard-pages action="com.farata.cleardatabuilder.js.facet.common.install">
+			<page
+				class="com.farata.cleardatabuilder.js.facet.common.CommonInstallWizardPage" />
+		</wizard-pages>
+		<wizard-pages action="com.farata.cleardatabuilder.js.facet.sample.install">
+			<page
+				class="com.farata.cleardatabuilder.js.facet.sample.SampleInstallWizardPage" />
+		</wizard-pages>
+	</extension>
+	
+	<extension point="org.eclipse.wst.common.project.facet.core.runtimes">
+		<supported>
+			<runtime-component any="true" />
+			<facet id="com.farata.cleardatabuilder.facet.common" />
+		</supported>
+		<supported>
+			<runtime-component any="true" />
+			<facet id="com.farata.cleardatabuilder.facet.sample" />
+		</supported>
+	</extension>
+	
+	<extension id="com.farata.cleardatabuilder.annotationProcessorFactory"
+		name="CDB Annotation Processor Factory" point="org.eclipse.jdt.apt.core.annotationProcessorFactory">
+		<factories enableDefault="true">
+			<factory
+				class="com.farata.cdb.annotations.processor.CDBHQLAnnotationProcessor" />
+		</factories>
+	</extension>
+	
+	<extension point="org.eclipse.core.resources.natures" id="com.farata.cleardatabuilder.js.CDBJSNature"
+		name="Clear Data Builder JS Nature">
+		<runtime>
+			<run class="com.farata.cleardatabuilder.js.builder.ClearNature">
+			</run>
+		</runtime>
+		<builder id="com.farata.cleardatabuilder.js.builder"></builder>
+	</extension>
+	<extension id="builder" name="Clear Data Builder" point="org.eclipse.core.resources.builders">
+		<builder>
+			<run class="com.farata.cleardatabuilder.js.builder.ClearBuilder">
+			</run>
+		</builder>
+	</extension>
+	<extension point="org.eclipse.ui.propertyPages">
+		<page class="com.farata.cleardatabuilder.js.ui.ClearPreferences" id="com.farata.cleardatabuilder.js.ui.cdbPreferences"
+			name="Clear Data Builder JS">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+					<test property="org.eclipse.core.resources.projectNature"
+						value="com.farata.cleardatabuilder.js.CDBNature" />
+				</adapt>
+			</enabledWhen>
+		</page>
+	</extension>
+	<extension point="org.eclipse.jdt.apt.core.annotationProcessorFactory">
+		<factories enableDefault="true">
+			<factory
+				class="com.farata.cleardatabuilder.js.validation.apt.CDBAnnotationProcessorFactory" />
+		</factories>
+	</extension>
+	<extension point="org.eclipse.jdt.ui.quickFixProcessors">
+		<quickFixProcessor id="CDBJSQuickFixProcessor"
+			name="CDB JS Quick Fix Processor" class="com.farata.cleardatabuilder.js.validation.correction.CDBQuickFixProcessor">
+			<handledMarkerTypes>
+				<markerType id="org.eclipse.jdt.apt.core.compile.problem" />
+			</handledMarkerTypes>
+			<enablement>
+				<with variable="projectNatures">
+					<iterate operator="or">
+						<equals value="com.farata.cleardatabuilder.js.CDBNature" />
+					</iterate>
+				</with>
+			</enablement>
+		</quickFixProcessor>
+	</extension>
 </plugin>
