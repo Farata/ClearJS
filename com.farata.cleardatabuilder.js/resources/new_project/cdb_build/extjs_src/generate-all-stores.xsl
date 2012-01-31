@@ -20,7 +20,7 @@
 				<xsl:variable name="typeName" select="helper:getTypeName($interfaceName)" />
 				<xsl:variable name="packageName" select="helper:getPackageName($interfaceName)" />
 				<xsl:apply-templates select="/" mode="service-output">
-					<xsl:with-param name="serviceName"	  select="helper:createGenServiceName($typeName)" />
+					<xsl:with-param name="serviceName"	  select="helper:createSubServiceName($typeName)" />
 					<xsl:with-param name="interfaceName"  select="$interfaceName" />
 					<xsl:with-param name="rootPackage"    select="$packageName" />
 					<xsl:with-param name="subServiceName" select="helper:createSubServiceName($typeName)" />
@@ -36,7 +36,7 @@
 		<xsl:param name="subServiceName" />
 		<xsl:variable name="methods" select="annotated-types/annotated-type[@name=$interfaceName]/methods/method"/>
 		<xsl:for-each select="$methods">
-	<xsl:variable name="name" select="current()" />
+	<xsl:variable name="methodNode" select="current()" />
 	<xsl:choose>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_JPQLMethod']">
@@ -47,6 +47,12 @@
 					<xsl:with-param name="appName" 		  select="$appName" />
 					<xsl:with-param name="methodName" 	  select="@name" />
 					<xsl:with-param name="interfaceName"  select="$interfaceName" />
+					
+					<xsl:with-param name="create"  select="concat($methodNode/@name,'_insertItems')" />
+					<xsl:with-param name="read"  select="$methodNode/@name" />
+					<xsl:with-param name="update"  select="concat($methodNode/@name,'_updateItems')" />
+					<xsl:with-param name="destroy"  select="concat($methodNode/@name,'_deleteItems')" />
+					
 				</xsl:call-template>
 			</redirect:write>
 		</xsl:when>
@@ -59,6 +65,14 @@
 					<xsl:with-param name="appName" 		  select="$appName" />
 					<xsl:with-param name="methodName" 	  select="@name" />
 					<xsl:with-param name="interfaceName"  select="$interfaceName" />
+					
+					<xsl:with-param name="create"  select="concat($methodNode/@name,'_insertItems')" />
+					<xsl:with-param name="read"    select="$methodNode/@name" />
+					<xsl:with-param name="update"  select="concat($methodNode/@name,'_updateItems')" />
+					<xsl:with-param name="destroy" select="concat($methodNode/@name,'_deleteItems')" />
+					
+					
+					
 				</xsl:call-template>
 			</redirect:write>
 		</xsl:when>
@@ -71,6 +85,12 @@
 					<xsl:with-param name="appName" 		  select="$appName" />
 					<xsl:with-param name="methodName" 	  select="@name" />
 					<xsl:with-param name="interfaceName"  select="$interfaceName" />
+					
+					<xsl:with-param name="create"  select="concat($methodNode/@name,'_create')" />
+					<xsl:with-param name="read"    select="$methodNode/@name" />
+					<xsl:with-param name="update"  select="concat($methodNode/@name,'_update')" />
+					<xsl:with-param name="destroy" select="concat($methodNode/@name,'_delete')" />
+					
 				</xsl:call-template>
 			</redirect:write>
 		</xsl:when>
@@ -83,6 +103,13 @@
 					<xsl:with-param name="appName" 		  select="$appName" />
 					<xsl:with-param name="methodName" 	  select="@name" />
 					<xsl:with-param name="interfaceName"  select="$interfaceName" />
+					
+					<xsl:with-param name="create"  select="concat($methodNode/@name,'_insertItems')" />
+					<xsl:with-param name="read"    select="$methodNode/@name" />
+					<xsl:with-param name="update"  select="concat($methodNode/@name,'_updateItems')" />
+					<xsl:with-param name="destroy" select="concat($methodNode/@name,'_deleteItems')" />
+					
+					
 				</xsl:call-template>
 			</redirect:write>
 		</xsl:when>
