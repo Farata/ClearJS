@@ -11,19 +11,22 @@
 		<xsl:param name="appName" />
 		<xsl:param name="methodName" />
 		<xsl:param name="interfaceName" />
-
+		<xsl:param name="create" />
+		<xsl:param name="read"   />
+		<xsl:param name="update" />
+		<xsl:param name="destroy" />
 	<xsl:variable name="transferType" select="helper:getMethodTransferType($interfaceName, $methodName)"/>
-
-	Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>',{
+	
+	Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Store',{
 
 		extend: 'Clear.data.DirectStore',
 		model:'<xsl:value-of select="helper:getTypeName($transferType)"/>',
 		
 		api: {
-			create:'',
-			read : '',
-			update:'',
-			delete:''
+			create:'<xsl:value-of select="concat($serviceName,'.',$create)"/>',
+			read : '<xsl:value-of select="concat($serviceName,'.',$read)"/>',
+			update:'<xsl:value-of select="concat($serviceName,'.',$update)"/>',
+			destroy:'<xsl:value-of select="concat($serviceName,'.',$destroy)"/>'
 		},
 
 		constructor: function(config) {
@@ -33,6 +36,5 @@
 			me.callParent([cnfg]);
 		}
 	});
-			
 	</xsl:template>
 </xsl:stylesheet>
