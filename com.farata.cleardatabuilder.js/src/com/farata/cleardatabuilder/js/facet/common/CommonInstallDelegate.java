@@ -71,7 +71,7 @@ public class CommonInstallDelegate implements IDelegate {
 								return Status.OK_STATUS;
 							}
 						};
-						job.schedule(100);
+						job.schedule(500);
 						
 					} catch (Exception e) {
 						e.printStackTrace();
