@@ -1,6 +1,6 @@
 <project name="project" default="main">
 	<property file="build.properties" />
-	<property name="cdb-package" value="com/farata/cdb"/>
+	<property name="cdb-package" value="clear.runtime.js"/>
 	<property name="apis" value="cdb" />
 	<property name="apiNamespace" value="Ext.app" />
 	
