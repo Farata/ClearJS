@@ -11,6 +11,6 @@
         <mkdir dir="plugins" />
         <delete file="content.jar" />
         <delete file="artifacts.jar" />
-        <eclipse.refreshLocal resource="com.farata.cleardatabuilder.site"/>
+        <eclipse.refreshLocal resource="com.farata.cleardatabuilder.js.site"/>
     </target>
 </project>

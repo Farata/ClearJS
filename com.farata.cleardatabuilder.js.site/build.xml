@@ -4,15 +4,15 @@
 
 	<target name="main" depends="clean">
 		<xmlproperty file="site.xml" collapseattributes="true"/>
-		<replace file="../com.farata.cleardatabuilder/resources/FlexProjectTemplate/cdb_build/.version"	token="4.6.0.qualifier" value="${site.feature.version}"/>
-		<eclipse.refreshLocal resource="com.farata.cleardatabuilder"/>
-		<jar destfile="plugins/com.farata.cleardatabuilder_${site.feature.version}.jar" update="true">
-			<fileset dir="../com.farata.cleardatabuilder">
+		<replace file="../com.farata.cleardatabuilder.js/resources/new_project/cdb_build/.version"	token="1.0.0.qualifier" value="${site.feature.version}"/>
+		<eclipse.refreshLocal resource="com.farata.cleardatabuilder.js"/>
+		<jar destfile="plugins/com.farata.cleardatabuilder.js_${site.feature.version}.jar" update="true">
+			<fileset dir="../com.farata.cleardatabuilder.js">
 				<include name="resources/FlexProjectTemplate/cdb_build/.version"/>
 			</fileset>
 		</jar>
-		<replace file="../com.farata.cleardatabuilder/resources/FlexProjectTemplate/cdb_build/.version"	token="${site.feature.version}" value="4.6.0.qualifier"/>
-		<eclipse.refreshLocal resource="com.farata.cleardatabuilder"/>
+		<replace file="../com.farata.cleardatabuilder.js/resources/new_project/cdb_build/.version"	token="${site.feature.version}" value="1.0.0.qualifier"/>
+		<eclipse.refreshLocal resource="com.farata.cleardatabuilder.js"/>
 		<copy todir="build">
 			<fileset dir=".">
 				<include name="features/*.*" />
@@ -25,7 +25,7 @@
 		<zip destfile="dist/site_${site.feature.version}.zip">
 			<fileset dir="build" />
 		</zip>
-		<eclipse.refreshLocal resource="com.farata.cleardatabuilder.site"/>
+		<eclipse.refreshLocal resource="com.farata.cleardatabuilder.js.site"/>
 	</target>
 	<target name="clean">
 		<delete dir="build" />
