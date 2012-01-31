@@ -19,14 +19,7 @@ public class ClearBuilder extends IncrementalProjectBuilder {
 	@Override
 	protected IProject[] build(final int kind, final Map args,
 			final IProgressMonitor monitor) throws CoreException {
-		try {
-			IFolder flex_src = getProject().getFolder("flex_src");
-			if (flex_src.isDerived()) {
-				flex_src.setDerived(false, monitor);
-			}
-		} catch (Throwable e) {
-		}
-
+		
 //		try {
 //			if (!CDBMigration.checkProjectVersion(getProject(), monitor, true)) {
 //				return new IProject[0];
@@ -53,7 +46,7 @@ public class ClearBuilder extends IncrementalProjectBuilder {
 				}
 				flag = getProject().getFile("cdb_build/.flag");
 				flag.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-				getProject().refreshLocal(IResource.DEPTH_INFINITE, monitor);
+				//getProject().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			}
 		}
 		return new IProject[0];
