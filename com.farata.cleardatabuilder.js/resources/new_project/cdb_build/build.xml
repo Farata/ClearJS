@@ -22,7 +22,9 @@
 		<antcall target="compileServiceInterfaces" />
 		<antcall target="generateDTOs" />
 		<antcall target="generateServices" />
-		<antcall target="generateDJNServices" />
+		<antcall target="generateDNJSettings-xml" />
+		<antcall target="generateEXT_Store" />
+		
 
 		<!--antcall target="generateFlex" /-->
 		<!-- TO BE DELETED-->
@@ -179,86 +181,13 @@
 	<!-- -->
 
 
-	<target name="generateDJNServices">
-		<antcall target="generateDirectJEngine" />
-		<antcall target="generateRequestRouter" />
-		<antcall target="generateBatchMember" />
-		<antcall target="generateBatchGateway" />
-	</target>
 
 
+	
 
-	<target name="generateDirectJEngine">
-		<path id="build.class.path">
-			<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
-			<pathelement path="${classes-folder}" />
-		</path>
-		<pathconvert property="cp" refid="build.class.path" />
-		<path id="srcfiles">
-			<fileset dir="${project-root}/src">
-				<include name="**/*.java" />
-			</fileset>
-		</path>
-		<xslt classpathref="build.class.path" in="annotated.xml" style="src/DirectJNgineServlet-generation.xsl" out="${project-root}/src/${cdb-package}/DirectJNgineServlet.java" force="true">
-			<param name="package" expression="${cdb-package}" />
-		</xslt>
+	
 
-		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" />
-	</target>
-
-	<target name="generateRequestRouter">
-		<path id="build.class.path">
-			<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
-			<pathelement path="${classes-folder}" />
-		</path>
-		<pathconvert property="cp" refid="build.class.path" />
-		<path id="srcfiles">
-			<fileset dir="${project-root}/src">
-				<include name="**/*.java" />
-			</fileset>
-		</path>
-		<xslt classpathref="build.class.path" in="annotated.xml" style="src/RequestRouter-generation.xsl" out="${project-root}/src/${cdb-package}/RequestRouter.java" force="true">
-			<param name="package" expression="${cdb-package}" />
-		</xslt>
-
-		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" />
-	</target>
-	<target name="generateBatchMember">
-		<path id="build.class.path">
-			<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
-			<pathelement path="${classes-folder}" />
-		</path>
-		<pathconvert property="cp" refid="build.class.path" />
-		<path id="srcfiles">
-			<fileset dir="${project-root}/src">
-				<include name="**/*.java" />
-			</fileset>
-		</path>
-		<xslt classpathref="build.class.path" in="annotated.xml" style="src/BatchMember-generation.xsl" out="${project-root}/src/${cdb-package}/BatchMember.java" force="true">
-			<param name="package" expression="${cdb-package}" />
-		</xslt>
-
-		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" />
-	</target>
-
-	<target name="generateBatchGateway">
-		<path id="build.class.path">
-			<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
-			<pathelement path="${classes-folder}" />
-		</path>
-		<pathconvert property="cp" refid="build.class.path" />
-		<path id="srcfiles">
-			<fileset dir="${project-root}/src">
-				<include name="**/*.java" />
-			</fileset>
-		</path>
-		<xslt classpathref="build.class.path" in="annotated.xml" style="src/BatchGateway-generation.xsl" out="${project-root}/src/${cdb-package}/BatchGateway.java" force="true">
-			<param name="package" expression="${cdb-package}" />
-		</xslt>
-
-		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" />
-	</target>
-
+	
 
 
 	<target name="generateDNJSettings-xml">
