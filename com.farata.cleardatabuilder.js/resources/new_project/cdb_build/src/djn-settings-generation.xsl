@@ -14,7 +14,7 @@
 	<xsl:template match="/">
 		&lt;init-param&gt;
 			&lt;param-name&gt;<xsl:value-of select="$apis"/>.classes&lt;/param-name&gt;
-			&lt;param-value&gt;<xsl:value-of select="helper:replaceAll($package, '/', '.')"/>.BatchGateway<xsl:for-each select="annotated-types/annotated-type">
+			&lt;param-value&gt;<xsl:value-of select="$package"/>.BatchGateway<xsl:for-each select="annotated-types/annotated-type">
 				<xsl:variable name="interfaceName" select="@name" /><xsl:variable name="packageName" select="helper:getPackageName($interfaceName)" />
 				<xsl:variable name="typeName" select="helper:getTypeName($interfaceName)" />
 			,<xsl:value-of select="helper:createSubServiceName($interfaceName)" />
