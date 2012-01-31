@@ -40,7 +40,7 @@
 	<xsl:choose>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_JPQLMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '.js')" />
+			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Store.js')" />
 			<redirect:write file="{$fileName}">
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
@@ -58,7 +58,7 @@
 		</xsl:when>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_FillMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '.js')" />
+			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Store.js')" />
 			<redirect:write file="{$fileName}">
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
@@ -78,7 +78,7 @@
 		</xsl:when>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_GetMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '.js')" />
+			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Store.js')" />
 			<redirect:write file="{$fileName}">
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName" 	  select="$serviceName" />
@@ -96,7 +96,7 @@
 		</xsl:when>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_FillChildrenMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '.js')" />
+			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Store.js')" />
 			<redirect:write file="{$fileName}">
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
