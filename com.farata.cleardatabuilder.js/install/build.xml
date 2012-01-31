@@ -12,6 +12,14 @@
 		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{persistence.unit}**" value="${persistence.unit}" />
 		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{jta.data.source}**" value="${jta.data.source}" />
 		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{hibernate.dialect}**" value="${hibernate.dialect}" />
+		<replace file="${workspace.path}/${project.name}/WebContent/META-INF/context.xml" token="**{dataSourceDriverClassName}**" value="${dataSourceDriverClassName}" />
+		<replace file="${workspace.path}/${project.name}/WebContent/META-INF/context.xml" token="**{dataSourceName}**" value="${dataSourceName}" />
+		<replace file="${workspace.path}/${project.name}/WebContent/META-INF/context.xml" token="**{dataSourceUrl}**" value="${dataSourceUrl}" />
+		<replace file="${workspace.path}/${project.name}/WebContent/META-INF/context.xml" token="**{dataSourceUserName}**" value="${dataSourceUserName}" />
+		<replace file="${workspace.path}/${project.name}/WebContent/META-INF/context.xml" token="**{dataSourcePassword}**" value="${dataSourcePassword}" />
+		<replace file="${workspace.path}/${project.name}/.externalToolBuilders/CDB_ANT.launch" token="**{project_name}**" value="${project.name}" />
+		<replace file="${workspace.path}/${project.name}/.project" token="**{project_name}**" value="${project.name}" />
+		
 	</target>
 	
 	<target name="install-sample" if="is.sample">
@@ -20,8 +28,6 @@
 			<fileset dir="../resources/sample_project" />
 		</copy>
 		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{persistence.unit}**" value="${persistence.unit}" />
-		<!-- replace file="${workspace.path}/${project.name}/.settings/org.eclipse.wst.common.project.facet.core.xml" token="&lt;/faceted-project&gt;" value="&lt;installed facet=&quot;jpt.jpa&quot; version=&quot;2.0&quot;/&gt;&lt;/faceted-project&gt;" /-->
-
 	</target>
 
 </project>
