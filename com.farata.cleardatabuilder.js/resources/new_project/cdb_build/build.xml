@@ -24,6 +24,7 @@
 		<antcall target="generateServices" />
 		<antcall target="generateDNJSettings-xml" />
 		<antcall target="generateEXT_Store" />
+		<antcall target="generateEXT_TestUI"/>
 		
 
 		<!--antcall target="generateFlex" /-->
@@ -232,7 +233,24 @@
 
 		</target>
 	
-	
+	<target name="generateEXT_TestUI">
+
+				<path id="build.class.path">
+					<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+					<pathelement path="${classes-folder}" />
+				</path>
+				<pathconvert property="cp" refid="build.class.path" />
+				<path id="srcfiles">
+					<fileset dir="${project-root}/src">
+						<include name="**/*.java" />
+					</fileset>
+				</path>
+				<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-all-grids.xsl" out="tmp-grid.txt" force="true">
+					<param name="jsOutputFolder" expression="${project-root}/WebContent/app/view" />
+					<param name="appName" expression="CDB" />
+				</xslt>
+
+			</target>
 
 
 	<!--  -->
