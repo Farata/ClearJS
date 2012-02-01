@@ -2,7 +2,7 @@ Ext.Loader.setConfig({
 	disableCaching: false,
 	enabled: true,
 	paths  : {
-		AM: 'app', Clear:'clear'
+		**{project.name}**: 'app', Clear:'clear'
 	}
 });
 
@@ -18,7 +18,7 @@ Ext.require(
 
 
 		Ext.application({
-			name: 'AM',
+			name: '**{project.name}**',
 			appFolder:'app',
 			controllers: [
               
