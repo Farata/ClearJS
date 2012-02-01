@@ -8,7 +8,6 @@
 	<xsl:output  method="text" />	
 
 	<xsl:param name="apis" />
-	<xsl:param name="apiNamespace" />
 	<xsl:param name="package" />
 	
 	<xsl:template match="/">

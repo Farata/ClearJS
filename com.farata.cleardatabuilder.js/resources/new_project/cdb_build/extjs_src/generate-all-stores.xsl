@@ -9,6 +9,7 @@
 
 	<xsl:param name="jsOutputFolder" />
 	<xsl:param name="appName" />
+	<xsl:param name="remoteActionNamespace"/>
 	
 	<xsl:include href="generate-store.xsl" />
 	
@@ -45,6 +46,7 @@
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
 					<xsl:with-param name="appName" 		  select="$appName" />
+					<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />
 					<xsl:with-param name="methodName" 	  select="@name" />
 					<xsl:with-param name="interfaceName"  select="$interfaceName" />
 					
@@ -63,6 +65,7 @@
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
 					<xsl:with-param name="appName" 		  select="$appName" />
+					<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />
 					<xsl:with-param name="methodName" 	  select="@name" />
 					<xsl:with-param name="interfaceName"  select="$interfaceName" />
 					
@@ -83,6 +86,7 @@
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName" 	  select="$serviceName" />
 					<xsl:with-param name="appName" 		  select="$appName" />
+					<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />
 					<xsl:with-param name="methodName" 	  select="@name" />
 					<xsl:with-param name="interfaceName"  select="$interfaceName" />
 					
@@ -101,6 +105,7 @@
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
 					<xsl:with-param name="appName" 		  select="$appName" />
+					<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />
 					<xsl:with-param name="methodName" 	  select="@name" />
 					<xsl:with-param name="interfaceName"  select="$interfaceName" />
 					

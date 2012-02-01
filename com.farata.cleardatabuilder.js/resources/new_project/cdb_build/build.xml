@@ -1,8 +1,9 @@
 <project name="project" default="main">
 	<property file="build.properties" />
 	<property name="cdb-package" value="clear.runtime.js"/>
-	<property name="apis" value="cdb" />
+	<property name="apis" value="remote" />
 	<property name="apiNamespace" value="Ext.app" />
+	<property name="remoteActionsNamespace" value="Clear.action" />
 	
 	
 	<xmlproperty file="${project-root}/src/META-INF/persistence.xml" collapseAttributes="true" />
@@ -229,7 +230,8 @@
 			</path>
 			<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-all-stores.xsl" out="tmp.txt" force="true">
 				<param name="jsOutputFolder" expression="${project-root}/WebContent/app/store" />
-				<param name="appName" expression="CDB" />
+				<param name="appName" expression="${appName}" />
+				<param name="remoteActionNamespace" expression="${remoteActionsNamespace}" />
 			</xslt>
 
 		</target>

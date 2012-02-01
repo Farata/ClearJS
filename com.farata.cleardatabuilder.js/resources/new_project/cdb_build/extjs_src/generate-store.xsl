@@ -9,6 +9,7 @@
 	<xsl:template match="/" name="generate-store.xsl">
 		<xsl:param name="serviceName"/>
 		<xsl:param name="appName" />
+		<xsl:param name="remoteActionNamespace"/>
 		<xsl:param name="methodName" />
 		<xsl:param name="interfaceName" />
 		<xsl:param name="create" />
@@ -17,24 +18,35 @@
 		<xsl:param name="destroy" />
 	<xsl:variable name="transferType" select="helper:getMethodTransferType($interfaceName, $methodName)"/>
 	
-	Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Store',{
+Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Store',{
 
-		extend: 'Clear.data.DirectStore',
-		model:'<xsl:value-of select="helper:getTypeName($transferType)"/>',
+	extend: 'Clear.data.DirectStore',
+	requires  : ['Ext.direct.Manager','<xsl:value-of select="$appName"/>.model.<xsl:value-of select="helper:getTypeName($transferType)"/>','Ext.window.MessageBox'],
+	model:'<xsl:value-of select="$appName"/>.model.<xsl:value-of select="helper:getTypeName($transferType)"/>',
 		
-		api: {
-			create:'<xsl:value-of select="concat($serviceName,'.',$create)"/>',
-			read : '<xsl:value-of select="concat($serviceName,'.',$read)"/>',
-			update:'<xsl:value-of select="concat($serviceName,'.',$update)"/>',
-			destroy:'<xsl:value-of select="concat($serviceName,'.',$destroy)"/>'
-		},
+	api: {
+		create:'<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$create)"/>',
+		read : '<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$read)"/>',
+		update:'<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$update)"/>',
+		destroy:'<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$destroy)"/>'
+    },
+	
+	autoLoad: true,
 
-		constructor: function(config) {
-			var me = this;
-			var cnfg = config || {};
-			Ext.copyTo(cnfg, me, "paramOrder,paramsAsHash,directFn,api,simpleSortMode", true);
-			me.callParent([cnfg]);
+		listeners: {
+	
+		beforeload: function(store, operation) {
+						console.log("beforeload");
+		},
+		load: function(store, records, successful, error){
+			if (successful) {
+				Ext.MessageBox.alert( "Information", Ext.String.format("Loaded {0} records",records.length));
+			} else {
+				Ext.MessageBox.alert( error.message, Ext.String.format("{0}::{1} failed: {2}", error.action, error.method, error.where));
+
+			}
 		}
-	});
+	}
+});
 	</xsl:template>
 </xsl:stylesheet>
