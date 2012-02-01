@@ -20,9 +20,7 @@ Ext.require(
 		Ext.application({
 			name: '**{project.name}**',
 			appFolder:'app',
-			controllers: [
-              
-            ],
+			controllers: [],
             launch: function() {
             	Ext.create('Ext.container.Viewport', {
                     layout: 'fit',
