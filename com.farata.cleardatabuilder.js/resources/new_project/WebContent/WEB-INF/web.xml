@@ -1,52 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd" [
+  <!ENTITY remoteClasses SYSTEM "djn-settings.xml">
+]>
+<web-app>
   <display-name>CDB_ExtJS_Gen</display-name>
   <servlet>
 		<servlet-name>DjnServlet</servlet-name>
 		<servlet-class>clear.djn.servlet.DirectJNgineServlet</servlet-class>
 		
-		<init-param>
-			<param-name>apis</param-name>
-			<param-value>cdb</param-value>
-		</init-param>
-	
-		<init-param>
-			<param-name>cdb.apiFile</param-name>
-			<param-value>cdb/Api.js</param-value>
-		</init-param>
-	
-		<init-param>
-			<param-name>cdb.apiNamespace</param-name>
-			<param-value>Ext.app</param-value>
-		</init-param>
 		
 		
-		<!-- insert generated settings  -->
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>minify</param-name>
+			<param-value>true</param-value>
+		</init-param>
 		
+		&remoteClasses;
+		
+		<init-param>
+			<param-name>createSourceFiles</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
 		<init-param>
 			<param-name>providersUrl</param-name>
 			<param-value>djn/directprovider</param-value>
 		</init-param>
 		
+		
+		
 		<init-param>
-      		<param-name>batchRequestsMultithreadingEnabled</param-name>
-      		<param-value>true</param-value>
-    	</init-param>
-	
+			<param-name>batchRequestsMultithreadingEnabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>apis</param-name>
+			<param-value>remote</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>remote.apiFile</param-name>
+			<param-value>direct/ServerConfig.js</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>remote.apiNamespace</param-name>
+			<param-value>Clear.direct</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>remote.actionsNamespace</param-name>
+			<param-value>Clear.action</param-value>
+		</init-param>
+		
 		<load-on-startup>1</load-on-startup>
-	</servlet>
-	
+  </servlet>  
+  
   <servlet-mapping>
-		<servlet-name>DjnServlet</servlet-name>
-		<url-pattern>/djn/directprovider/*</url-pattern>
-	</servlet-mapping>
+    <servlet-name>ClearDjnServlet</servlet-name>
+    <url-pattern>/djn/directprovider/*</url-pattern>
+  </servlet-mapping>
+		
   
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
 </web-app>
