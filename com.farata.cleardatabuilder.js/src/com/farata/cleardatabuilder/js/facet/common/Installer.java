@@ -58,7 +58,7 @@ public class Installer {
 			IProject prj = root.getProject(projectName.trim());
 			prj.open(monitor);
 			prj.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-			//prj.build(IncrementalProjectBuilder.CLEAN_BUILD, monitor);
+			prj.build(IncrementalProjectBuilder.CLEAN_BUILD, monitor);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.4"?>
 <plugin>
 	<extension point="org.eclipse.wst.common.project.facet.core.facets">
 		<category id="com.farata.cleardatabuilder.js.facet.category">
@@ -12,7 +11,7 @@
 			<member category="com.farata.cleardatabuilder.js.facet.category" />
 		</project-facet>
 		<project-facet-version facet="com.farata.cleardatabuilder.js.facet.common"
-			version="2.0">
+			version="1.0">
 			<constraint>
 				<or>
 					<and>
@@ -45,7 +44,7 @@
 			<member category="com.farata.cleardatabuilder.js.facet.category" />
 		</project-facet>
 		<project-facet-version facet="com.farata.cleardatabuilder.js.facet.sample"
-			version="2.0">
+			version="1.0">
 			<constraint>
 				<and>
 					<requires facet="jst.web" />
@@ -70,8 +69,8 @@
 	<extension point="org.eclipse.wst.common.project.facet.ui.images">
 		<image category="com.farata.cleardatabuilder.js.facet.category"
 			path="icons/myflex-category.ico" />
-		<image facet="com.farata.cleardatabuilder.facet.common" path="icons/flex-facet.ico" />
-		<image facet="com.farata.cleardatabuilder.facet.sample" path="icons/flex-facet.ico" />
+		<image facet="com.farata.cleardatabuilder.js.facet.common" path="icons/flex-facet.ico" />
+		<image facet="com.farata.cleardatabuilder.js.facet.sample" path="icons/flex-facet.ico" />
 	</extension>
 
 	<extension point="org.eclipse.wst.common.project.facet.ui.wizardPages">
@@ -88,15 +87,15 @@
 	<extension point="org.eclipse.wst.common.project.facet.core.runtimes">
 		<supported>
 			<runtime-component any="true" />
-			<facet id="com.farata.cleardatabuilder.facet.common" />
+			<facet id="com.farata.cleardatabuilder.js.facet.common" />
 		</supported>
 		<supported>
 			<runtime-component any="true" />
-			<facet id="com.farata.cleardatabuilder.facet.sample" />
+			<facet id="com.farata.cleardatabuilder.js.facet.sample" />
 		</supported>
 	</extension>
 	
-	<extension id="com.farata.cleardatabuilder.annotationProcessorFactory"
+	<extension id="com.farata.cleardatabuilder.js.annotationProcessorFactory"
 		name="CDB Annotation Processor Factory" point="org.eclipse.jdt.apt.core.annotationProcessorFactory">
 		<factories enableDefault="true">
 			<factory
@@ -132,7 +131,7 @@
 	<extension point="org.eclipse.jdt.apt.core.annotationProcessorFactory">
 		<factories enableDefault="true">
 			<factory
-				class="com.farata.cleardatabuilder.js.validation.apt.CDBAnnotationProcessorFactory" />
+				class="com.farata.cleardatabuilder.validation.apt.CDBAnnotationProcessorFactory" />
 		</factories>
 	</extension>
 	<extension point="org.eclipse.jdt.ui.quickFixProcessors">
