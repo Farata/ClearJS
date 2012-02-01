@@ -1,0 +1,166 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>com.farata.myflex</groupId>
+		<artifactId>com.farata.myflex</artifactId>
+		<version>${version.major}.${cctimestamp}</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.farata.myflex</groupId>
+	<artifactId>com.farata.dto2extjs.asap</artifactId>
+	<packaging>jar</packaging>
+	<version>${version.major}.${cctimestamp}</version>
+	<name>cdb.dto2extjs.plugin</name>
+	<url>http://www.faratasystems.com/</url>
+	<build>
+		<sourceDirectory>${basedir}/src/</sourceDirectory>
+		<outputDirectory>${basedir}/target/bin/</outputDirectory>
+		<resources>
+			<resource>
+				<directory>${basedir}</directory>
+				<excludes>
+					<exclude>bin/**/*.*</exclude>
+					<exclude>src/**/*.*</exclude>
+					<exclude>**/CVS/*.*</exclude>
+					<exclude>.settings/**/*.*</exclude>
+					<exclude>export/**/*.*</exclude>
+					<exclude>lib/tools.jar</exclude>
+					<exclude>.compatibility</exclude>
+					<exclude>.classpath</exclude>
+					<exclude>.project</exclude>
+					<exclude>build.properties</exclude>
+					<exclude>build.xml</exclude>
+					<exclude>pom.xml</exclude>
+					<exclude>.classpath</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>${basedir}/src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+					<exclude>**/CVS/*.*</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>set_manifest_version</id>
+						<phase>compile</phase>
+						<configuration>
+							<tasks>
+								<replace file="${project.build.outputDirectory}/META-INF/MANIFEST.MF"
+									token="version.timestamp" value="${project.version}" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>none</addMavenDescriptor>
+						<manifestFile> ${project.build.outputDirectory}/META-INF/MANIFEST.MF </manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<!--  Local -->
+		<dependency>
+			<groupId>cdb.dto2extjs</groupId>
+			<artifactId>annotations</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/../cdb.dto2extjs.plugin/lib/com.farata.dto2extjs.annotations.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>cdb.dto2extjs</groupId>
+			<artifactId>tools</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/../cdb.dto2extjs.plugin/lib/tools.jar</systemPath>
+		</dependency>
+
+		<!-- Other -->
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>runtime</artifactId>
+			<version>3.4.0.v20080512</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>osgi</artifactId>
+			<version>3.4.2.v20080826-1230</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>common</artifactId>
+			<version>3.4.0.v20080421-2006</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>jobs</artifactId>
+			<version>3.4.0.v20080512</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.core.runtime.compatibility</groupId>
+			<artifactId>registry</artifactId>
+			<version>3.2.200.v20080610</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>registry</artifactId>
+			<version>3.4.0.v20080516-0950</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>preferences</artifactId>
+			<version>3.2.201.R34x_v20080709</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>contenttype</artifactId>
+			<version>3.3.0.v20080604-1400</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>app</artifactId>
+			<version>1.1.0.v20080421-2006</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jdt.apt</groupId>
+			<artifactId>core</artifactId>
+			<version>3.3.101.R34x_v20080902-1220</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>resources</artifactId>
+			<version>3.4.1.R34x_v20080902</version>
+		</dependency>		
+	</dependencies>
+</project>

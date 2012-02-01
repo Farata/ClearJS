@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+   <extension
+         id="org.eclipse.jdt.apt.core.annotationProcessorFactory"
+         name="Annotation Processor Factory"
+         point="org.eclipse.jdt.apt.core.annotationProcessorFactory">
+      <factories enableDefault="true">
+         <factory class="com.farata.dto2extjs.asap.AS3AnnotationProcessorFactory"/>
+      </factories>  
+   </extension>
+</plugin>

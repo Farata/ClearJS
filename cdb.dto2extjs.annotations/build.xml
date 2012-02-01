@@ -1,0 +1,18 @@
+<project name="project" default="main">
+	<target name="main" depends="clean">
+		<javac classpath="${cp}" srcdir="src" optimize="false" debug="true" destdir="build" />
+		<mkdir dir="export/lib"/>
+		<jar destfile="export/lib/com.farata.dto2extjs.annotations.jar">
+			<fileset dir="build" />
+			<fileset dir="src" />
+		</jar>
+		<copy todir="../cdb.dto2extjs.plugin/lib">
+			<fileset file="export/lib/com.farata.dto2extjs.annotations.jar" />
+		</copy>
+	</target>
+	<target name="clean">
+		<delete file="export/lib/com.farata.dto2extjs.annotations.jar" />
+		<delete dir="build" />
+		<mkdir dir="build" />
+	</target>
+</project>
