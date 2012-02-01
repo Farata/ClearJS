@@ -12,7 +12,7 @@
 	<xsl:param name="jsOutputFolder" />
 	<xsl:param name="appName" />
 	
-	<xsl:include href="generate-grid.xsl" />
+	<xsl:include href="generate-controller.xsl" />
 	
 	<xsl:template match="/|/">
 		<xsl:for-each select="annotated-types/annotated-type">
@@ -43,9 +43,9 @@
 	<xsl:choose>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_JPQLMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Panel.js')" />
+			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Controller.js')" />
 			<redirect:write file="{$fileName}">
-				<xsl:call-template name="generate-grid.xsl">
+				<xsl:call-template name="generate-controller.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
 					<xsl:with-param name="appName" 		  select="$appName" />
 					<xsl:with-param name="methodName" 	  select="@name" />
@@ -55,9 +55,9 @@
 		</xsl:when>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_FillMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Panel.js')" />
+			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Controller.js')" />
 			<redirect:write file="{$fileName}">
-				<xsl:call-template name="generate-grid.xsl">
+				<xsl:call-template name="generate-controller.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
 					<xsl:with-param name="appName" 		  select="$appName" />
 					<xsl:with-param name="methodName" 	  select="@name" />
@@ -67,9 +67,9 @@
 		</xsl:when>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_GetMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '.js')" />
+			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Controller.js')" />
 			<redirect:write file="{$fileName}">
-				<xsl:call-template name="generate-grid.xsl">
+				<xsl:call-template name="generate-controller.xsl">
 					<xsl:with-param name="serviceName" 	  select="$serviceName" />
 					<xsl:with-param name="appName" 		  select="$appName" />
 					<xsl:with-param name="methodName" 	  select="@name" />
@@ -79,9 +79,9 @@
 		</xsl:when>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_FillChildrenMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '.js')" />
+			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Controller.js')" />
 			<redirect:write file="{$fileName}">
-				<xsl:call-template name="generate-grid.xsl">
+				<xsl:call-template name="generate-controller.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
 					<xsl:with-param name="appName" 		  select="$appName" />
 					<xsl:with-param name="methodName" 	  select="@name" />
