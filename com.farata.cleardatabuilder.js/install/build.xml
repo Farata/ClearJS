@@ -19,7 +19,7 @@
 		<replace file="${workspace.path}/${project.name}/WebContent/META-INF/context.xml" token="**{dataSourcePassword}**" value="${dataSourcePassword}" />
 		<replace file="${workspace.path}/${project.name}/.externalToolBuilders/CDB_ANT.launch" token="**{project_name}**" value="${project.name}" />
 		<replace file="${workspace.path}/${project.name}/.project" token="**{project_name}**" value="${project.name}" />
-		<replace file="${workspace.path}/${project.name}/cdb_build/build.properties" token="**{project_name}**" value="${project.name}" />
+		<replace file="${workspace.path}/${project.name}/cdb_build/build.properties" token="**{project.name}**" value="${project.name}" />
 	</target>
 	
 	<target name="install-sample" if="is.sample">
