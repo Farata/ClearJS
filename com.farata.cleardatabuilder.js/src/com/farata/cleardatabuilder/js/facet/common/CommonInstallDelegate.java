@@ -55,24 +55,25 @@ public class CommonInstallDelegate implements IDelegate {
 			@Override
 			public void handleEvent(IFacetedProjectEvent event) {
 				IProjectFacetActionEvent evt = (IProjectFacetActionEvent) event;
-				if ("wst.jsdt.web".equals(evt.getProjectFacet().getId())) {
+				if ("com.farata.cleardatabuilder.js.facet.common".equals(evt.getProjectFacet().getId())) {
 					try {
 						FacetedProjectFramework.removeListener(this);
 						final Properties props = new Properties();
 						fillHibernateProps(props, project, monitor);
-						Job job = new Job("Installing " + project.getName()) {
-							
+						final String prjName = project.getName();
+						Job job = new Job("Installing " + prjName) {
+
 							@Override
 							protected IStatus run(
 									IProgressMonitor iprogressmonitor) {
-								Installer.install(props, project.getName(),
+								Installer.install(props, prjName,
 										sampleInstallConfig == null ? true
 												: false, null);
 								return Status.OK_STATUS;
 							}
 						};
 						job.schedule(500);
-						
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
