@@ -250,7 +250,7 @@
 				</path>
 				<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-all-grids.xsl" out="tmp-grid.txt" force="true">
 					<param name="jsOutputFolder" expression="${project-root}/WebContent/app/view" />
-					<param name="appName" expression="CDB" />
+					<param name="appName" expression="${appName}" />
 				</xslt>
 
 			</target>
@@ -269,7 +269,7 @@
 					</path>
 					<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-all-controllers.xsl" out="tmp.txt" force="true">
 						<param name="jsOutputFolder" expression="${project-root}/WebContent/app/controller" />
-						<param name="appName" expression="CDB" />
+						<param name="appName" expression="${appName}" />
 					</xslt>
 
 				</target>
