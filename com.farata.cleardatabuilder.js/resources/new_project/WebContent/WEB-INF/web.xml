@@ -8,7 +8,7 @@
   <display-name>CDB_ExtJS_Gen</display-name>
   <servlet>
 		<servlet-name>ClearDjnServlet</servlet-name>
-		<servlet-class>clear.djn.servlet.DirectJNgineServlet</servlet-class>
+		<servlet-class>clear.runtime.js.CDBDirectJNgineServlet</servlet-class>
 		
 		
 		
