@@ -12,7 +12,7 @@
 			<member category="com.farata.cleardatabuilder.js.facet.category" />
 		</project-facet>
 		<project-facet-version facet="com.farata.cleardatabuilder.js.facet.common"
-			version="1.0">
+			version="2.0">
 			<constraint>
 				<or>
 					<and>
@@ -45,7 +45,7 @@
 			<member category="com.farata.cleardatabuilder.js.facet.category" />
 		</project-facet>
 		<project-facet-version facet="com.farata.cleardatabuilder.js.facet.sample"
-			version="1.0">
+			version="2.0">
 			<constraint>
 				<and>
 					<requires facet="jst.web" />
