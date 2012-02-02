@@ -10,7 +10,7 @@ Ext.require(
 	['Ext.direct.Manager'],
 
 	function() {
-		var providerConfig = Clear.direct.providerConfig;
+		var providerConfig = Clear.direct.REMOTING_API;
 		providerConfig.enableBuffer = 0;
 		var provider = Ext.Direct.addProvider( providerConfig);
 		Djn.RemoteCallSupport.addCallValidation(provider);
