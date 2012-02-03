@@ -33,10 +33,7 @@
 			}
 			throw new RuntimeException(e);
 		}
-			<xsl:if test="$javaAutoSyncEnabled">
-		MessagingUtils.pushChanges("<xsl:value-of select="$interfaceName"/>.<xsl:value-of select="$methodNode/@name"/>", items);
-			</xsl:if>
- 		return items;
+		return items;
  	}
 
 	public List&lt;ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_insertItems(List&lt;ChangeObject&gt; items) throws Exception {
@@ -47,9 +44,6 @@
             	list.add(changeObject);
             }	       	
         }
-			<xsl:if test="$javaAutoSyncEnabled">
-		MessagingUtils.pushChanges("<xsl:value-of select="$interfaceName"/>.<xsl:value-of select="$methodNode/@name"/>", list);
-			</xsl:if>
 		return list;
 	} 	
 
@@ -61,9 +55,6 @@
             	list.add(changeObject);
             }	       	
         }
-			<xsl:if test="$javaAutoSyncEnabled">
-		MessagingUtils.pushChanges("<xsl:value-of select="$interfaceName"/>.<xsl:value-of select="$methodNode/@name"/>", list);
-			</xsl:if>
 		return list;
 	} 	
 
@@ -75,9 +66,6 @@
             	list.add(changeObject);
             }	       	
         }
-			<xsl:if test="$javaAutoSyncEnabled">
-		MessagingUtils.pushChanges("<xsl:value-of select="$interfaceName"/>.<xsl:value-of select="$methodNode/@name"/>", list);
-			</xsl:if>
 		return list;
 	} 	
 

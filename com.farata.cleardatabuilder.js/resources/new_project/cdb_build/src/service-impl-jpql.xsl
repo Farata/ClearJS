@@ -232,9 +232,7 @@
 			}
 			throw new RuntimeException(e);
 		}
-			<xsl:if test="$autoSyncEnabled">
-		MessagingUtils.pushChanges("<xsl:value-of select="$interfaceName"/>.<xsl:value-of select="$methodNode/@name"/>", items<xsl:if test="$springEnabled">, "_messageBroker"</xsl:if>);
-			</xsl:if>
+			
  		return items;
  	}
 
@@ -295,9 +293,6 @@
 				list.add(co);
 			}
 		}
-			<xsl:if test="$autoSyncEnabled">
-		MessagingUtils.pushChanges("<xsl:value-of select="$interfaceName"/>.<xsl:value-of select="$methodNode/@name"/>", list<xsl:if test="$springEnabled">, "_messageBroker"</xsl:if>);
-			</xsl:if>
 		return list;
 	} 	
 	
@@ -379,9 +374,6 @@
 				list.add(co);
 			}
 		}
-			<xsl:if test="$autoSyncEnabled">
-		MessagingUtils.pushChanges("<xsl:value-of select="$interfaceName"/>.<xsl:value-of select="$methodNode/@name"/>", list<xsl:if test="$springEnabled">, "_messageBroker"</xsl:if>);
-			</xsl:if>
 		return list;	
 	} 
 	
@@ -478,9 +470,6 @@
 				list.add(co);
 			}
 		}
-			<xsl:if test="$autoSyncEnabled">
-		MessagingUtils.pushChanges("<xsl:value-of select="$interfaceName"/>.<xsl:value-of select="$methodNode/@name"/>", list<xsl:if test="$springEnabled">, "_messageBroker"</xsl:if>);
-			</xsl:if>
 		return list;
 	} 	
 		</xsl:if>
