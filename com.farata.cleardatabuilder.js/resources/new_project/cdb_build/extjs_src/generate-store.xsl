@@ -25,10 +25,10 @@ Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$servi
 	model:'<xsl:value-of select="$appName"/>.model.<xsl:value-of select="helper:getTypeName($transferType)"/>',
 		
 	api: {
-		create:'<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$create)"/>',
-		read : '<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$read)"/>',
-		update:'<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$update)"/>',
-		destroy:'<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$destroy)"/>'
+		create:<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$create)"/>,
+		read : <xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$read)"/>,
+		update:<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$update)"/>,
+		destroy:<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$destroy)"/>
     },
 	
 	autoLoad: true,
