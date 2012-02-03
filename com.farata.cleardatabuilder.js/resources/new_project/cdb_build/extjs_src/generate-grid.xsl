@@ -16,11 +16,22 @@
 
 		extend: 'Ext.grid.Panel',
 		store:	'<xsl:value-of select="$appName" />.store.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Store',
-		alias:	'widget.<xsl:value-of select="$serviceName"/>Panel',
+		alias:	'widget.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Panel',
 		
 		columns:	[
-			{ header:'Id', dataIndex: 'id', flex:1 },
-			{ header:'company', dataIndex: 'company', flex:1, editor:{xtype:'textfield'} }
+		<xsl:for-each select="//method/query/types">
+			{ 
+				<xsl:variable name="vartype" select="type/@name" />
+				
+				header:'<xsl:value-of select="type/@alias" />', 
+				dataIndex: '<xsl:value-of select="type/@alias" />',
+				flex:1
+				
+				<xsl:if test="contains($vartype, 'String')" >,editor:{xtype:'textfield'} </xsl:if>
+			},
+		</xsl:for-each>
+			
+			
 		],
 		
 		tbar : 		[ 

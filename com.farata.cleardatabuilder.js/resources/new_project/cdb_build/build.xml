@@ -24,9 +24,12 @@
 		<antcall target="generateDTOs" />
 		<antcall target="generateServices" />
 		<antcall target="generateDNJSettings-xml" />
-		<antcall target="generateEXT_Store" />
-		<antcall target="generateEXT_TestUI"/>
+		<antcall target="generateEXT_app.jsHeader"/>
 		<antcall target="generateEXT_Controller"/>
+		<antcall target="generateEXT_app.jsContainer"/>
+		<antcall target="generateEXT_grids"/>
+		<antcall target="generateEXT_app.jsFooter"/>
+		<antcall target="generateEXT_Store" />
 		
 
 		<!--antcall target="generateFlex" /-->
@@ -216,46 +219,7 @@
 	
 	
 	
-	<target name="generateEXT_Store">
-
-			<path id="build.class.path">
-				<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
-				<pathelement path="${classes-folder}" />
-			</path>
-			<pathconvert property="cp" refid="build.class.path" />
-			<path id="srcfiles">
-				<fileset dir="${project-root}/src">
-					<include name="**/*.java" />
-				</fileset>
-			</path>
-			<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-all-stores.xsl" out="tmp.txt" force="true">
-				<param name="jsOutputFolder" expression="${project-root}/WebContent/app/store" />
-				<param name="appName" expression="${appName}" />
-				<param name="remoteActionNamespace" expression="${remoteActionsNamespace}" />
-			</xslt>
-
-		</target>
-	
-	<target name="generateEXT_TestUI">
-
-				<path id="build.class.path">
-					<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
-					<pathelement path="${classes-folder}" />
-				</path>
-				<pathconvert property="cp" refid="build.class.path" />
-				<path id="srcfiles">
-					<fileset dir="${project-root}/src">
-						<include name="**/*.java" />
-					</fileset>
-				</path>
-				<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-all-grids.xsl" out="tmp-grid.txt" force="true">
-					<param name="jsOutputFolder" expression="${project-root}/WebContent/app/view" />
-					<param name="appName" expression="${appName}" />
-				</xslt>
-
-			</target>
-	
-	<target name="generateEXT_Controller">
+	<target name="generateEXT_app.jsHeader">
 
 					<path id="build.class.path">
 						<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
@@ -267,12 +231,111 @@
 							<include name="**/*.java" />
 						</fileset>
 					</path>
-					<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-all-controllers.xsl" out="tmp.txt" force="true">
-						<param name="jsOutputFolder" expression="${project-root}/WebContent/app/controller" />
-						<param name="appName" expression="${appName}" />
+					<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-app_js-header.xsl" out="tmp.txt" force="true">
+						<param name="jsOutputFolder" expression="${project-root}/WebContent" />
+						<param name="appName" expression="CDB" />
+						<param name="remoteActionNamespace" expression="${remoteActionsNamespace}" />
 					</xslt>
 
 				</target>
+		
+		<target name="generateEXT_Controller">
+
+							<path id="build.class.path">
+								<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+								<pathelement path="${classes-folder}" />
+							</path>
+							<pathconvert property="cp" refid="build.class.path" />
+							<path id="srcfiles">
+								<fileset dir="${project-root}/src">
+									<include name="**/*.java" />
+								</fileset>
+							</path>
+							<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-all-controllers.xsl" out="tmp.txt" force="true">
+								<param name="jsOutputFolder" expression="${project-root}/WebContent/app/controller" />
+								<param name="appName" expression="CDB" />
+							</xslt>
+
+						</target>
+		
+		<target name="generateEXT_app.jsContainer">
+
+						<path id="build.class.path">
+							<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+							<pathelement path="${classes-folder}" />
+						</path>
+						<pathconvert property="cp" refid="build.class.path" />
+						<path id="srcfiles">
+							<fileset dir="${project-root}/src">
+								<include name="**/*.java" />
+							</fileset>
+						</path>
+						<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-app_js-container.xsl" out="tmp.txt" force="true">
+							<param name="jsOutputFolder" expression="${project-root}/WebContent" />
+							<param name="appName" expression="${appName}" />
+							<param name="remoteActionNamespace" expression="${remoteActionsNamespace}" />
+						</xslt>
+
+					</target>
+		
+		<target name="generateEXT_grids">
+
+						<path id="build.class.path">
+							<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+							<pathelement path="${classes-folder}" />
+						</path>
+						<pathconvert property="cp" refid="build.class.path" />
+						<path id="srcfiles">
+							<fileset dir="${project-root}/src">
+								<include name="**/*.java" />
+							</fileset>
+						</path>
+						<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-all-grids.xsl" out="tmp.txt" force="true">
+							<param name="jsOutputFolder" expression="${project-root}/WebContent/app/view" />
+							<param name="appName" expression="CDB" />
+						</xslt>
+
+					</target>
+		
+		<target name="generateEXT_app.jsFooter">
+
+							<path id="build.class.path">
+								<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+								<pathelement path="${classes-folder}" />
+							</path>
+							<pathconvert property="cp" refid="build.class.path" />
+							<path id="srcfiles">
+								<fileset dir="${project-root}/src">
+									<include name="**/*.java" />
+								</fileset>
+							</path>
+							<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-app_js-footer.xsl" out="tmp.txt" force="true">
+								<param name="jsOutputFolder" expression="${project-root}/WebContent" />
+								<param name="appName" expression="${appName}" />
+								<param name="remoteActionNamespace" expression="${remoteActionsNamespace}" />
+							</xslt>
+
+						</target>
+		
+		<target name="generateEXT_Store">
+
+				<path id="build.class.path">
+					<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+					<pathelement path="${classes-folder}" />
+				</path>
+				<pathconvert property="cp" refid="build.class.path" />
+				<path id="srcfiles">
+					<fileset dir="${project-root}/src">
+						<include name="**/*.java" />
+					</fileset>
+				</path>
+				<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-all-stores.xsl" out="tmp.txt" force="true">
+					<param name="jsOutputFolder" expression="${project-root}/WebContent/app/store" />
+					<param name="appName" expression="${appName}" />
+					<param name="remoteActionNamespace" expression="${remoteActionsNamespace}" />
+				</xslt>
+
+			</target>
 
 	<!--  -->
 

@@ -37,59 +37,98 @@
 		<xsl:param name="rootPackage" />
 		<xsl:param name="subServiceName" />
 		<xsl:variable name="methods" select="annotated-types/annotated-type[@name=$interfaceName]/methods/method"/>
-		<xsl:for-each select="$methods">
-	<xsl:variable name="methodNode" select="current()" />
+	<xsl:for-each select="$methods">
+		<xsl:variable name="methodNode" select="current()" />
 
-	<xsl:choose>
-		<xsl:when
-			test="annotations/annotation[@name='clear.cdb.annotations.CX_JPQLMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Panel.js')" />
-			<redirect:write file="{$fileName}">
-				<xsl:call-template name="generate-grid.xsl">
-					<xsl:with-param name="serviceName"    select="$serviceName" />
-					<xsl:with-param name="appName" 		  select="$appName" />
-					<xsl:with-param name="methodName" 	  select="@name" />
-					<xsl:with-param name="interfaceName"  select="$interfaceName" />
-				</xsl:call-template>
-			</redirect:write>
-		</xsl:when>
-		<xsl:when
-			test="annotations/annotation[@name='clear.cdb.annotations.CX_FillMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Panel.js')" />
-			<redirect:write file="{$fileName}">
-				<xsl:call-template name="generate-grid.xsl">
-					<xsl:with-param name="serviceName"    select="$serviceName" />
-					<xsl:with-param name="appName" 		  select="$appName" />
-					<xsl:with-param name="methodName" 	  select="@name" />
-					<xsl:with-param name="interfaceName"  select="$interfaceName" />
-				</xsl:call-template>
-			</redirect:write>
-		</xsl:when>
-		<xsl:when
-			test="annotations/annotation[@name='clear.cdb.annotations.CX_GetMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '.js')" />
-			<redirect:write file="{$fileName}">
-				<xsl:call-template name="generate-grid.xsl">
-					<xsl:with-param name="serviceName" 	  select="$serviceName" />
-					<xsl:with-param name="appName" 		  select="$appName" />
-					<xsl:with-param name="methodName" 	  select="@name" />
-					<xsl:with-param name="interfaceName"  select="$interfaceName" />
-				</xsl:call-template>
-			</redirect:write>
-		</xsl:when>
-		<xsl:when
-			test="annotations/annotation[@name='clear.cdb.annotations.CX_FillChildrenMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '.js')" />
-			<redirect:write file="{$fileName}">
-				<xsl:call-template name="generate-grid.xsl">
-					<xsl:with-param name="serviceName"    select="$serviceName" />
-					<xsl:with-param name="appName" 		  select="$appName" />
-					<xsl:with-param name="methodName" 	  select="@name" />
-					<xsl:with-param name="interfaceName"  select="$interfaceName" />
-				</xsl:call-template>
-			</redirect:write>
-		</xsl:when>
-	</xsl:choose>
+		<xsl:choose>
+			<xsl:when
+				test="annotations/annotation[@name='clear.cdb.annotations.CX_GetMethod']">
+				<xsl:variable name="panelName" select="concat($serviceName, '_', @name, '_Panel')" />
+				<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $panelName, '.js')" />
+				<xsl:variable name="appjsPath" select="concat(substring-before($jsOutputFolder, '/app/view'), app.js)"></xsl:variable>
+				
+				<redirect:write file="{$appjsPath}/app.js" append="true">
+					{
+						xtype:'<xsl:value-of select="$panelName"/>'
+					}
+				</redirect:write>
+				
+				<redirect:write file="{$fileName}">
+					<xsl:call-template name="generate-grid.xsl">
+						<xsl:with-param name="serviceName" 	  select="$serviceName" />
+						<xsl:with-param name="appName" 		  select="$appName" />
+						<xsl:with-param name="methodName" 	  select="@name" />
+						<xsl:with-param name="interfaceName"  select="$interfaceName" />
+					</xsl:call-template>
+				</redirect:write>
+			</xsl:when>
+			<xsl:when
+				test="annotations/annotation[@name='clear.cdb.annotations.CX_JPQLMethod']">
+				
+				<xsl:variable name="panelName" select="concat($serviceName, '_', @name, '_Panel')" />
+				<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $panelName, '.js')" />
+				<xsl:variable name="appjsPath" select="concat(substring-before($jsOutputFolder, '/app/view'), app.js)"></xsl:variable>
+				
+				<redirect:write file="{$appjsPath}/app.js" append="true">
+					{
+						xtype:'<xsl:value-of select="$panelName"/>'
+					},
+				</redirect:write>
+				
+				<redirect:write file="{$fileName}">
+					<xsl:call-template name="generate-grid.xsl">
+						<xsl:with-param name="serviceName"    select="$serviceName" />
+						<xsl:with-param name="appName" 		  select="$appName" />
+						<xsl:with-param name="methodName" 	  select="@name" />
+						<xsl:with-param name="interfaceName"  select="$interfaceName" />
+					</xsl:call-template>
+				</redirect:write>
+			</xsl:when>
+			<xsl:when
+				test="annotations/annotation[@name='clear.cdb.annotations.CX_FillMethod']">
+				
+				<xsl:variable name="panelName" select="concat($serviceName, '_', @name, '_Panel')" />
+				<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $panelName, '.js')" />
+				<xsl:variable name="appjsPath" select="concat(substring-before($jsOutputFolder, '/app/view'), app.js)"></xsl:variable>
+				
+				<redirect:write file="{$appjsPath}/app.js" append="true">
+					{
+						xtype:'<xsl:value-of select="$panelName"/>'
+					},
+				</redirect:write>
+
+				<redirect:write file="{$fileName}">
+					<xsl:call-template name="generate-grid.xsl">
+						<xsl:with-param name="serviceName"    select="$serviceName" />
+						<xsl:with-param name="appName" 		  select="$appName" />
+						<xsl:with-param name="methodName" 	  select="@name" />
+						<xsl:with-param name="interfaceName"  select="$interfaceName" />
+					</xsl:call-template>
+				</redirect:write>
+			</xsl:when>
+			<xsl:when
+				test="annotations/annotation[@name='clear.cdb.annotations.CX_FillChildrenMethod']">
+				
+				<xsl:variable name="panelName" select="concat($serviceName, '_', @name, '_Panel')" />
+				<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $panelName, '.js')" />
+				<xsl:variable name="appjsPath" select="concat(substring-before($jsOutputFolder, '/app/view'), app.js)"></xsl:variable>
+				
+				<redirect:write file="{$appjsPath}/app.js" append="true">
+					{
+						xtype:'<xsl:value-of select="$panelName"/>'
+					},
+				</redirect:write>
+
+				<redirect:write file="{$fileName}">
+					<xsl:call-template name="generate-grid.xsl">
+						<xsl:with-param name="serviceName"    select="$serviceName" />
+						<xsl:with-param name="appName" 		  select="$appName" />
+						<xsl:with-param name="methodName" 	  select="@name" />
+						<xsl:with-param name="interfaceName"  select="$interfaceName" />
+					</xsl:call-template>
+				</redirect:write>
+			</xsl:when>
+		</xsl:choose>
 </xsl:for-each>
 		
 		

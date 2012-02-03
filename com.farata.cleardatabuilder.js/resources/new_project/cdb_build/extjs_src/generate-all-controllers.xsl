@@ -41,33 +41,16 @@
 	<xsl:variable name="methodNode" select="current()" />
 
 	<xsl:choose>
-		<xsl:when
-			test="annotations/annotation[@name='clear.cdb.annotations.CX_JPQLMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Controller.js')" />
-			<redirect:write file="{$fileName}">
-				<xsl:call-template name="generate-controller.xsl">
-					<xsl:with-param name="serviceName"    select="$serviceName" />
-					<xsl:with-param name="appName" 		  select="$appName" />
-					<xsl:with-param name="methodName" 	  select="@name" />
-					<xsl:with-param name="interfaceName"  select="$interfaceName" />
-				</xsl:call-template>
-			</redirect:write>
-		</xsl:when>
-		<xsl:when
-			test="annotations/annotation[@name='clear.cdb.annotations.CX_FillMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Controller.js')" />
-			<redirect:write file="{$fileName}">
-				<xsl:call-template name="generate-controller.xsl">
-					<xsl:with-param name="serviceName"    select="$serviceName" />
-					<xsl:with-param name="appName" 		  select="$appName" />
-					<xsl:with-param name="methodName" 	  select="@name" />
-					<xsl:with-param name="interfaceName"  select="$interfaceName" />
-				</xsl:call-template>
-			</redirect:write>
-		</xsl:when>
-		<xsl:when
+				<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_GetMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Controller.js')" />
+			<xsl:variable name="controllerName" select="concat($serviceName, '_', @name, '_Controller')" />
+			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $controllerName, '.js')" />
+			<xsl:variable name="appjsPath" select="concat(substring-before($jsOutputFolder, '/app/controller'), app.js)"></xsl:variable>
+			
+			<redirect:write file="{$appjsPath}/app.js" append="true">
+				'<xsl:value-of select="$controllerName"/>',
+			</redirect:write>
+			
 			<redirect:write file="{$fileName}">
 				<xsl:call-template name="generate-controller.xsl">
 					<xsl:with-param name="serviceName" 	  select="$serviceName" />
@@ -78,8 +61,36 @@
 			</redirect:write>
 		</xsl:when>
 		<xsl:when
+			test="annotations/annotation[@name='clear.cdb.annotations.CX_JPQLMethod']">
+			<xsl:variable name="controllerName" select="concat($serviceName, '_', @name, '_Controller')" />
+			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $controllerName, '.js')" />
+			<xsl:variable name="appjsPath" select="concat(substring-before($jsOutputFolder, '/app/controller'), app.js)"></xsl:variable>
+			
+			<redirect:write file="{$appjsPath}/app.js" append="true">
+				'<xsl:value-of select="$controllerName"/>',
+			</redirect:write>
+			
+			<redirect:write file="{$fileName}">
+			
+				<xsl:call-template name="generate-controller.xsl">
+					<xsl:with-param name="serviceName"    select="$serviceName" />
+					<xsl:with-param name="appName" 		  select="$appName" />
+					<xsl:with-param name="methodName" 	  select="@name" />
+					<xsl:with-param name="interfaceName"  select="$interfaceName" />
+				</xsl:call-template>
+			</redirect:write>
+		</xsl:when>
+		
+		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_FillChildrenMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Controller.js')" />
+			<xsl:variable name="controllerName" select="concat($serviceName, '_', @name, '_Controller')" />
+			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $controllerName, '.js')" />
+			<xsl:variable name="appjsPath" select="concat(substring-before($jsOutputFolder, '/app/controller'), app.js)"></xsl:variable>
+			
+			<redirect:write file="{$appjsPath}/app.js" append="true">
+				'<xsl:value-of select="$controllerName"/>',
+			</redirect:write>
+			
 			<redirect:write file="{$fileName}">
 				<xsl:call-template name="generate-controller.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
