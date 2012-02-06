@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.farata.dto2extjs.annotations.FXKeyColumn;
-import com.farata.dto2extjs.asap.types.AS3TypeReflector;
+import com.farata.dto2extjs.annotations.JSKeyColumn;
+import com.farata.dto2extjs.asap.types.JSTypeReflector;
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 import com.sun.mirror.declaration.AnnotationMirror;
 import com.sun.mirror.declaration.Declaration;
 
-public class AS3KeysBuilder {
+public class JSKeysBuilder {
 	private String syntheticKey = null;
 	private Collection<String> semanticKey = null;	
 	private List<SemanticKeyPart> semanticKeyParts = null;
@@ -20,31 +20,31 @@ public class AS3KeysBuilder {
 	
 	final protected AnnotationProcessorEnvironment apt;
 	
-	public AS3KeysBuilder(final AnnotationProcessorEnvironment apt) {
+	public JSKeysBuilder(final AnnotationProcessorEnvironment apt) {
 		this.apt = apt;
 	}
 
 	public String syntheticKey() { return syntheticKey; }
 	public Collection<String> semanticKey() { return semanticKey; }
 	
-	public void enlist(final IAS3PropertyDefinition property) {
+	public void enlist(final IJSPropertyDefinition property) {
 		final Declaration member = property.origin();
 		final String propertyName = property.name();
 		
 	
-		final AnnotationMirror fxSemanticKeyPart = AS3TypeReflector.
-			getAnnotationMirror(member, FXKeyColumn.class.getName());
+		final AnnotationMirror jsSemanticKeyPart = JSTypeReflector.
+			getAnnotationMirror(member, JSKeyColumn.class.getName());
 		
-		if (null != fxSemanticKeyPart) {
+		if (null != jsSemanticKeyPart) {
 			if (null == semanticKeyParts)
 				semanticKeyParts = new ArrayList<SemanticKeyPart>();
 			
 			semanticKeyParts.add(
 				new SemanticKeyPart(
 					propertyName,
-					member.getAnnotation(FXKeyColumn.class).part(),
-					fxSemanticKeyPart.getPosition().line(), 
-					fxSemanticKeyPart.getPosition().column()
+					member.getAnnotation(JSKeyColumn.class).part(),
+					jsSemanticKeyPart.getPosition().line(), 
+					jsSemanticKeyPart.getPosition().column()
 				)
 			);
 		}

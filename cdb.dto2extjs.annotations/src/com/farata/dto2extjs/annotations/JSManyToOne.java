@@ -34,7 +34,7 @@ import java.lang.annotation.Target;
  * where they represent foreign keys. Importantly, that has to be done prior to insertion of the children into the database to
  * adhere to referential constraints. 
  * </p>
- * <p>ClearDataBuilder technique to handle this requirement assumes that client (Flex ActionScript code) should assign 
+ * <p>ClearDataBuilder technique to handle this requirement assumes that client (JavaScript code) should assign 
  * corresponding properties of the parent and it's children a temporary place-holder value so that
  * the server (Java code) has to replace it with the proper one, obtained upon parent's INSERT. See <a href="http://www.cleartoolkit.com/dokuwiki/doku.php?id=clearwiki:20.cleardatabuilder:03.authoring_java_dto:07.autoincrement_with_fxmanytoone">Supporting Auto-incremented Properties with &#64;FXManyToOne and Local Flex Identities</a>
  * </p>
@@ -52,9 +52,9 @@ import java.lang.annotation.Target;
  * </p>
  * <p>
  * Then, prior to insert of the children, the corresponding properties of the children get replaced with the new ones from the map,
- * provided the class name, property name and original value are known. That's where <code>&#64;FXManyToOne</code> gets handy:</p> 
+ * provided the class name, property name and original value are known. That's where <code>&#64;JSManyToOne</code> gets handy:</p> 
  * <pre>
- *	&#64;FXManyToOne(parent="com.farata.test.entity.Company", property="id")
+ *	&#64;JSManyToOne(parent="com.farata.test.entity.Company", property="id")
 	public Company getCompany() {
 		return this.company;
 	}
@@ -67,7 +67,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target( { ElementType.METHOD, ElementType.FIELD })
-public @interface FXManyToOne {
+public @interface JSManyToOne {
 	public abstract String parent();
 	public abstract String property();
 }

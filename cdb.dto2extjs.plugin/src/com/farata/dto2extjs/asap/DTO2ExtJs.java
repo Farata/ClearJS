@@ -32,14 +32,14 @@ public class DTO2ExtJs extends Plugin {
 	 */
 	@Override public void start(BundleContext context) throws Exception {
 		super.start(context);
-		AS3AnnotationProcessorFactory.INSPECTOR = EclipseEnvironmentInspector.INSTANCE;
+		JSAnnotationProcessorFactory.INSPECTOR = EclipseEnvironmentInspector.INSTANCE;
 	}
 
 	/**
 	 * This method is called when the plug-in is stopped
 	 */
 	@Override public void stop(BundleContext context) throws Exception {
-		AS3AnnotationProcessorFactory.INSPECTOR = AptEnvironmentInspector.INSTANCE;		
+		JSAnnotationProcessorFactory.INSPECTOR = AptEnvironmentInspector.INSTANCE;		
 		super.stop(context);
 		plugin = null;
 	}

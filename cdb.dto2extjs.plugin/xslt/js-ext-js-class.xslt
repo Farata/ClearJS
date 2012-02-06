@@ -19,13 +19,13 @@
   <xsl:import href="chunker.xslt"/>
   
   <!-- Import functionality -->  
-  <xsl:import href="as3-managed-class-generated.xslt"/>
-  <xsl:import href="as3-class-custom.xslt"/>
+  <xsl:import href="js-ext-js-class-generated.xslt"/>
+  <xsl:import href="js-ext-js-class-custom.xslt"/>
   
   <xsl:param name="base" select="."/>
   <xsl:param name="metadata-dump" select="'no'"/>
   <xsl:param name="generated-pckg" select="'generated'"/>
-  
+
   <xsl:variable name="kind" select="/dto2extjs:class/@kind"/>
   <xsl:variable name="packageName">
     <xsl:call-template name="package-of">
@@ -39,7 +39,7 @@
     </xsl:call-template>
   </xsl:variable> 
   <xsl:variable name="genPackage" select="$generated-pckg"/>
-      
+    
   <!-- Global variables -->     
   <xsl:template match="/dto2extjs:class">
     <xsl:variable name="path">
@@ -52,8 +52,8 @@
         </xsl:otherwise>   
       </xsl:choose> 
     </xsl:variable>
-    
-    <!-- Writing generated managed class file, overwrite always -->
+
+    <!-- Writing generated remote class file, overwrite always -->
     <xsl:variable name="generated_file">
       <xsl:call-template name="generated-file">
       	<xsl:with-param name="path" select="$path"/>
@@ -69,9 +69,9 @@
 			select="." mode="generated-file"/></xsl:with-param>
 	</xsl:call-template>	
 	
-    <!-- Writing custom managed class file, only when missing -->	
+    <!-- Writing custom remote class file, only when missing -->	
     <xsl:variable name="custom_file">
-      <xsl:value-of select="concat($path, '/', $className, '.as')"/>
+      <xsl:value-of select="concat($path, '/', $className, '.js')"/>
     </xsl:variable>
     <xsl:variable name="custom_file_exists">
     	<xsl:call-template name="file-exists">
@@ -87,8 +87,7 @@
 				select="." mode="custom-file"/></xsl:with-param>
 		</xsl:call-template>	
     </xsl:if>
-	
-	
+    
     <xsl:if test="$metadata-dump = 'yes'">
 	    <xsl:variable name="metadata_file">
 	      <xsl:value-of select="concat($path, '/', $className, '.xml')"/>
@@ -96,7 +95,7 @@
 		<xsl:call-template name="write.chunk">
 			<xsl:with-param name="filename" select="$metadata_file"/>
 			<xsl:with-param name="method" select="'xml'"/>
-			<xsl:with-param name="standalone" selct="'yes'"/>
+			<xsl:with-param name="standalone" select="'yes'"/>
 			<xsl:with-param name="omit-xml-declaration" select="'no'"/>						
 			<xsl:with-param name="encoding" select="'utf-8'"/>
 			<xsl:param name="media-type" select="'text/xml'"/>	  
@@ -104,7 +103,6 @@
 			<xsl:with-param name="content" select="."/>
 		</xsl:call-template>    	
     </xsl:if>
-	
 	
   </xsl:template>		
 </xsl:stylesheet>

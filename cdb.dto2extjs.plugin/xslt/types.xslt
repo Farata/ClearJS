@@ -276,20 +276,20 @@
   		<xsl:when test="$genPackage">
 		    <xsl:choose>
 		      <xsl:when test="$path">
-		        <xsl:value-of select="concat($path, '/', $genPackage, '/_', $className, '.as')"/>
+		        <xsl:value-of select="concat($path, '/', $genPackage, '/_', $className, '.js')"/>
 		      </xsl:when>    
 		      <xsl:otherwise>
-		       <xsl:value-of select="concat($genPackage, '/_', $className, '.as')"/>
+		       <xsl:value-of select="concat($genPackage, '/_', $className, '.js')"/>
 		      </xsl:otherwise>   
 		    </xsl:choose>   	
   		</xsl:when>
   		<xsl:otherwise>
 		    <xsl:choose>
 		      <xsl:when test="$path">
-		        <xsl:value-of select="concat($path, '/_', $className, '.as')"/>
+		        <xsl:value-of select="concat($path, '/_', $className, '.js')"/>
 		      </xsl:when>    
 		      <xsl:otherwise>
-		       <xsl:value-of select="concat('_', $className, '.as')"/>
+		       <xsl:value-of select="concat('_', $className, '.js')"/>
 		      </xsl:otherwise>   
 		    </xsl:choose>     		
   		</xsl:otherwise>

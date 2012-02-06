@@ -18,12 +18,12 @@ import java.util.Map;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 
-import com.farata.dto2extjs.annotations.FXClassKind;
+import com.farata.dto2extjs.annotations.JSClassKind;
 
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 import com.sun.mirror.apt.Messager;
 
-public class AS3AnnotationProcessorOptions {
+public class JSAnnotationProcessorOptions {
 	
 	private static final String FLEX_WORKSPACE_LINK_TOKEN = "${DOCUMENTS}";
 	
@@ -33,10 +33,10 @@ public class AS3AnnotationProcessorOptions {
 	private boolean     _reconcile = false;
 	private boolean     _dumpMetadata = false;
 	private boolean     _numberAsString = false;
-	private FXClassKind _defaultClassKind = FXClassKind.DEFAULT;
-	private FXClassKind _defaultEnumKind  = FXClassKind.DEFAULT;
+	private JSClassKind _defaultClassKind = JSClassKind.DEFAULT;
+	private JSClassKind _defaultEnumKind  = JSClassKind.STRING_CONSTANTS;
 	
-	public AS3AnnotationProcessorOptions(final AnnotationProcessorEnvironment env) {
+	public JSAnnotationProcessorOptions(final AnnotationProcessorEnvironment env) {
 		_env = env;
 	}
 	
@@ -111,14 +111,14 @@ public class AS3AnnotationProcessorOptions {
 		
 		final String defaultClassKind = options.get(DEFAULT_CLASS_KIND_PARAM);
 		if (null != defaultClassKind && defaultClassKind.length() > 0) {
-			if ( "remote".equalsIgnoreCase(defaultClassKind) )
-				_defaultClassKind = FXClassKind.REMOTE;
-			else if ( "managed".equalsIgnoreCase(defaultClassKind) )
-				_defaultClassKind = FXClassKind.MANAGED;
+			if ( "ext-js".equalsIgnoreCase(defaultClassKind) )
+				_defaultClassKind = JSClassKind.EXT_JS;
+			else if ( "classic".equalsIgnoreCase(defaultClassKind) )
+				_defaultClassKind = JSClassKind.CLASSIC;
 			else {
 				messager.printError(
 					"Invalid value of default class kind option. " +
-					"Please use remote/managed as " + DEFAULT_CLASS_KIND_PARAM + " value."
+					"Please use ext-js/classic as " + DEFAULT_CLASS_KIND_PARAM + " value."
 				);
 				isValid = false;
 			}
@@ -126,14 +126,14 @@ public class AS3AnnotationProcessorOptions {
 		
 		final String defaultEnumKind = options.get(DEFAULT_ENUM_KIND_PARAM);
 		if (null != defaultEnumKind && defaultEnumKind.length() > 0) {
-			if ( "remote".equalsIgnoreCase(defaultEnumKind) )
-				_defaultEnumKind = FXClassKind.REMOTE;
+			if ( "ext-js".equalsIgnoreCase(defaultEnumKind) )
+				_defaultEnumKind = JSClassKind.EXT_JS;
 			else if ( "string-constants".equalsIgnoreCase(defaultEnumKind) )
-				_defaultEnumKind = FXClassKind.STRING_CONSTANTS;
+				_defaultEnumKind = JSClassKind.STRING_CONSTANTS;
 			else {
 				messager.printError(
 					"Invalid value of default enum kind option. " +
-					"Please use remote/constants as " + DEFAULT_ENUM_KIND_PARAM + " value."
+					"Please use ext-js/string-constants as " + DEFAULT_ENUM_KIND_PARAM + " value."
 				);
 				isValid = false;
 			}
@@ -176,8 +176,8 @@ public class AS3AnnotationProcessorOptions {
 	public boolean reconcile() { return _reconcile; }
 	public boolean dumpMetadata() { return _dumpMetadata; }
 	public boolean numberAsString() { return _numberAsString; }
-	public FXClassKind defaultClassKind() { return _defaultClassKind; }
-	public FXClassKind defaultEnumKind() { return _defaultEnumKind; }
+	public JSClassKind defaultClassKind() { return _defaultClassKind; }
+	public JSClassKind defaultEnumKind() { return _defaultEnumKind; }
 	
 	private static Map<String,String> antFix(final Map<String,String> options) {
 		final Map<String, String> result = new HashMap<String, String>( options.size() );

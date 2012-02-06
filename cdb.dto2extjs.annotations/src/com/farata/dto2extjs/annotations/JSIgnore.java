@@ -20,31 +20,31 @@ import java.lang.annotation.RetentionPolicy;
 
 
 /**
- * Is used to restrain or eliminate the property in the ActionScript counterpart of the Java class annotated with &#64;FXClass.
- * <p>When a property is implemented as a public variable, the annotation <code>&#64;FXIgnore</code> is applied to the very public variable.
+ * Is used to restrain or eliminate the property in the JavaScript counterpart of the Java class annotated with &#64;JSClass.
+ * <p>When a property is implemented as a public variable, the annotation <code>&#64;JSIgnore</code> is applied to the very public variable.
  * If a getter and, optionally, setter is present, the annotation must be applied to the getter or setter.
  * </p>
- * <p>When <code>&#64;FXIgnore</p> is applied to the variable or to the getter it will eliminate the corresponding ActionScript
- * property completely. If it is applied to the setter, the corresponding ActionScript property will be generated <i>read-only</i>.
+ * <p>When <code>&#64;JSIgnore</p> is applied to the variable or to the getter it will eliminate the corresponding JavaScript
+ * property completely. If it is applied to the setter, the corresponding JavaScript property will be generated <i>read-only</i>.
  * The later might be useful for annotating interfaces. 
  * </p>
- * <p>Here is an example of the Java DTO interface that marks &#64;FXIgnore-s all setters:
+ * <p>Here is an example of the Java DTO interface that marks &#64;JSIgnore-s all setters:
  * * <pre>
  * package com.farata.test.dto;
- * import com.farata.dto2extjs.annotations.FXClass;
- * import com.farata.dto2extjs.annotations.FXIgnore;
- * &#64;FXClass(kind=FXClassKind.REMOTE)
+ * import com.farata.dto2extjs.annotations.JSClass;
+ * import com.farata.dto2extjs.annotations.JSIgnore;
+ * &#64;JSClass(kind=JSClassKind.EXT_JS)
  * public interface IEmployee {
  * 		public String getFirstName( );
- * 		&#64;FXIgnore
+ * 		&#64;JSIgnore
  * 		public void setFirstName(String firstName);
  *
  * 		public String getLastName();
- * 		&#64;FXIgnore
+ * 		&#64;JSIgnore
  * 		public void setLastName(String lastName);
  * 	
  * 		public Double getSalary();
- * 		&#64;FXIgnore
+ * 		&#64;JSIgnore
  * 		public void setSalary(Double salary);
  * }
  * </pre>
@@ -68,6 +68,6 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.FIELD})
-public @interface FXIgnore {
+public @interface JSIgnore {
 	final public static class any {}
 }

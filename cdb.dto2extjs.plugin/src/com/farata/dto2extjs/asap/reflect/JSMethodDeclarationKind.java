@@ -7,8 +7,8 @@
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  *
  */
-package com.farata.dto2extjs.annotations;
+package com.farata.dto2extjs.asap.reflect;
 
-public enum FXClassKind {
-	DEFAULT, REMOTE, MANAGED, STRING_CONSTANTS
+public enum JSMethodDeclarationKind {
+	DECLARE, OVERRIDE, SKIP
 }

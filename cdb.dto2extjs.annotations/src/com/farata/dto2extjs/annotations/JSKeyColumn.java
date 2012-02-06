@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.FIELD}) 
-public @interface FXKeyColumn {
+public @interface JSKeyColumn {
 	abstract public int part() default 0;
 }

@@ -12,32 +12,32 @@ package com.farata.dto2extjs.asap.reflect;
 import com.sun.mirror.declaration.Declaration;
 import com.sun.mirror.type.TypeMirror;
 
-public class AS3PropertyDefinition implements IAS3PropertyDefinition {
+public class JSPropertyDefinition implements IJSPropertyDefinition {
 	final private Declaration              _origin;
 	private String                   _label;
 	private String                   _resource;
 	private String                   _formatString;
 	final private String                   _name;
 	final private TypeMirror               _type;
-	final private AS3MethodDeclarationKind _declareGetter;
-	final private AS3MethodDeclarationKind _declareSetter;
+	final private JSMethodDeclarationKind _declareGetter;
+	final private JSMethodDeclarationKind _declareSetter;
 	final private boolean                  _isAbstract;
 	
 
-	public AS3PropertyDefinition(
+	public JSPropertyDefinition(
 			final Declaration origin,
 			final String      name, 
 			final TypeMirror  type
 	) {
-		this(origin, name,  type, AS3MethodDeclarationKind.DECLARE, AS3MethodDeclarationKind.DECLARE, false);
+		this(origin, name,  type, JSMethodDeclarationKind.DECLARE, JSMethodDeclarationKind.DECLARE, false);
 	}
 
-	public AS3PropertyDefinition(
+	public JSPropertyDefinition(
 			final Declaration              origin,
 			final String                   name, 
 			final TypeMirror               type,
-			final AS3MethodDeclarationKind declareGetter,
-			final AS3MethodDeclarationKind declareSetter,
+			final JSMethodDeclarationKind declareGetter,
+			final JSMethodDeclarationKind declareSetter,
 			final boolean                  isAbstract) {
 		_origin        = origin;
 		_name          = name;
@@ -59,7 +59,7 @@ public class AS3PropertyDefinition implements IAS3PropertyDefinition {
 	public String resource()                        { return _resource; }
 	public String formatString()                    { return _formatString; }
 	public TypeMirror type()                        { return _type; }
-	public AS3MethodDeclarationKind declareGetter() { return _declareGetter; }
-	public AS3MethodDeclarationKind declareSetter() { return _declareSetter; }
+	public JSMethodDeclarationKind declareGetter() { return _declareGetter; }
+	public JSMethodDeclarationKind declareSetter() { return _declareSetter; }
 	public boolean isAbstract()                     { return _isAbstract; }
 }

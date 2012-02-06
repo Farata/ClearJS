@@ -16,9 +16,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.HashSet;
 
-import com.farata.dto2extjs.annotations.FXClass;
-import com.farata.dto2extjs.annotations.FXIgnore;
-import com.farata.dto2extjs.asap.types.AS3TypeReflector;
+import com.farata.dto2extjs.annotations.JSClass;
+import com.farata.dto2extjs.annotations.JSIgnore;
+import com.farata.dto2extjs.asap.types.JSTypeReflector;
 
 import com.sun.mirror.declaration.InterfaceDeclaration;
 import com.sun.mirror.declaration.MemberDeclaration;
@@ -31,9 +31,9 @@ import com.sun.mirror.type.InterfaceType;
 import com.sun.mirror.type.TypeMirror;
 import com.sun.mirror.util.Declarations;
 
-public class AS3InterfaceDeclarationReflector extends AS3TypeDeclarationReflector {
+public class JSInterfaceDeclarationReflector extends JSTypeDeclarationReflector {
 	
-	public AS3InterfaceDeclarationReflector(final InterfaceDeclaration interfaceDeclaration, final AS3TypeReflector typeReflector) {
+	public JSInterfaceDeclarationReflector(final InterfaceDeclaration interfaceDeclaration, final JSTypeReflector typeReflector) {
 		super(interfaceDeclaration, typeReflector);
 	}
 	
@@ -43,7 +43,7 @@ public class AS3InterfaceDeclarationReflector extends AS3TypeDeclarationReflecto
 			
 			@Override protected void preprocess() {
 				final TypeDeclaration type = source;
-				final Map<String, IAS3PropertyDefinition> properties = _properties;
+				final Map<String, IJSPropertyDefinition> properties = _properties;
 				final Set<MemberDeclaration> propertyMembers = _propertyMembers;
 				final Set<MemberDeclaration> propertyDeclaringMembers = _propertyDeclaringMembers;
 
@@ -109,7 +109,7 @@ public class AS3InterfaceDeclarationReflector extends AS3TypeDeclarationReflecto
 						if (null != settersByName) {
 							boolean oneFound = false;
 							for (final MethodDeclaration nextSetter : settersByName) {
-								if ( nextSetter.getAnnotation(FXIgnore.class) != null )
+								if ( nextSetter.getAnnotation(JSIgnore.class) != null )
 									continue;
 
 								if (oneFound) {
@@ -128,27 +128,27 @@ public class AS3InterfaceDeclarationReflector extends AS3TypeDeclarationReflecto
 						if (null != setter)
 							setters.remove(setterName);
 
-						if ( getter.getAnnotation(FXIgnore.class) != null )
+						if ( getter.getAnnotation(JSIgnore.class) != null )
 							continue;
 						
-						final AS3MethodDeclarationKind declareGetter 
+						final JSMethodDeclarationKind declareGetter 
 							= checkOverride(getter);
-						final AS3MethodDeclarationKind declareSetter 
-							= setter != null ? checkOverride(setter) : AS3MethodDeclarationKind.SKIP;
+						final JSMethodDeclarationKind declareSetter 
+							= setter != null ? checkOverride(setter) : JSMethodDeclarationKind.SKIP;
 							
-						if (declareGetter != AS3MethodDeclarationKind.SKIP ||
-							declareSetter != AS3MethodDeclarationKind.SKIP) {
+						if (declareGetter != JSMethodDeclarationKind.SKIP ||
+							declareSetter != JSMethodDeclarationKind.SKIP) {
 							final String propertyName = 
 								Character.toLowerCase( getterName.charAt(prefixLength) ) + 
 								getterName.substring(prefixLength + 1);
 							
 							properties.put(propertyName, 
-								new AS3PropertyDefinition(
+								new JSPropertyDefinition(
 									getter, propertyName,
 									getter.getReturnType(),
 									declareGetter, declareSetter, 
-									AS3MethodDeclarationKind.SKIP == declareGetter    ||
-									AS3MethodDeclarationKind.SKIP == declareSetter    ||
+									JSMethodDeclarationKind.SKIP == declareGetter    ||
+									JSMethodDeclarationKind.SKIP == declareSetter    ||
 									getter.getModifiers().contains(Modifier.ABSTRACT) || 
 									setter.getModifiers().contains(Modifier.ABSTRACT)
 								)
@@ -170,19 +170,19 @@ public class AS3InterfaceDeclarationReflector extends AS3TypeDeclarationReflecto
 					final Collection<MethodDeclaration> settersByName = entry.getValue();
 					boolean oneFound = false;
 					for (final MethodDeclaration setter : settersByName) {
-						if ( setter.getAnnotation(FXIgnore.class) != null )
+						if ( setter.getAnnotation(JSIgnore.class) != null )
 							continue;
 						if (oneFound) {
 							// If more then one setter found then should be an error
 							break;
 						} else {
-							final AS3MethodDeclarationKind declareSetter = checkOverride(setter);
-							if (AS3MethodDeclarationKind.SKIP != declareSetter) {
+							final JSMethodDeclarationKind declareSetter = checkOverride(setter);
+							if (JSMethodDeclarationKind.SKIP != declareSetter) {
 								final String propertyName = Character.toLowerCase( name.charAt(3) ) + name.substring(4);
 								properties.put(propertyName, 
-									new AS3PropertyDefinition(
+									new JSPropertyDefinition(
 										setter, propertyName, setter.getParameters().iterator().next().getType(),
-										AS3MethodDeclarationKind.SKIP, declareSetter, true 
+										JSMethodDeclarationKind.SKIP, declareSetter, true 
 									)
 								);
 							}
@@ -194,27 +194,27 @@ public class AS3InterfaceDeclarationReflector extends AS3TypeDeclarationReflecto
 				}				
 			}
 			
-			protected AS3MethodDeclarationKind checkOverride(final MethodDeclaration method) {
+			protected JSMethodDeclarationKind checkOverride(final MethodDeclaration method) {
 				final TypeDeclaration type = method.getDeclaringType();
 				for (final InterfaceType superInterface : type.getSuperinterfaces() ) {
 					final TypeDeclaration superDeclaration = superInterface.getDeclaration();
 					if ( wasDefinedInInterface(method, superDeclaration) )
-						return AS3MethodDeclarationKind.SKIP;
+						return JSMethodDeclarationKind.SKIP;
 				}
-				return AS3MethodDeclarationKind.DECLARE;		
+				return JSMethodDeclarationKind.DECLARE;		
 			}
 			
 			protected boolean wasDefinedInInterface(final MethodDeclaration method, final TypeDeclaration intf) {
 				final Declarations declarations = apt.getDeclarationUtils();
 				for (final MethodDeclaration other : intf.getMethods() ) {
-					if ( null != other.getAnnotation(FXIgnore.class) )
+					if ( null != other.getAnnotation(JSIgnore.class) )
 						continue;
 					if ( declarations.overrides(method, other) )
 						return true;
 				}
 				for (final InterfaceType superInterface : intf.getSuperinterfaces() ) {
 					final TypeDeclaration superDeclaration = superInterface.getDeclaration();
-					if ( null == superDeclaration.getAnnotation(FXClass.class) || null != superDeclaration.getAnnotation(FXIgnore.class) )
+					if ( null == superDeclaration.getAnnotation(JSClass.class) || null != superDeclaration.getAnnotation(JSIgnore.class) )
 						continue;
 					if ( wasDefinedInInterface(method, superDeclaration) )
 						return true;

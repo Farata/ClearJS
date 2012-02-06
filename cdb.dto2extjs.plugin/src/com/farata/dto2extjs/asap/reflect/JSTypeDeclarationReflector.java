@@ -21,13 +21,13 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
-import com.farata.dto2extjs.annotations.FXClass;
-import com.farata.dto2extjs.annotations.FXClassKind;
-import com.farata.dto2extjs.annotations.FXIgnore;
-import com.farata.dto2extjs.annotations.FXManyToOne;
-import com.farata.dto2extjs.annotations.FXOneToMany;
-import com.farata.dto2extjs.asap.types.AS3TypeReflector;
-import com.farata.dto2extjs.asap.types.IAS3Type;
+import com.farata.dto2extjs.annotations.JSClass;
+import com.farata.dto2extjs.annotations.JSClassKind;
+import com.farata.dto2extjs.annotations.JSIgnore;
+import com.farata.dto2extjs.annotations.JSManyToOne;
+import com.farata.dto2extjs.annotations.JSOneToMany;
+import com.farata.dto2extjs.asap.types.JSTypeReflector;
+import com.farata.dto2extjs.asap.types.IJSType;
 import com.farata.dto2extjs.asap.types.InvalidJavaTypeException;
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 import com.sun.mirror.declaration.Declaration;
@@ -41,12 +41,12 @@ import com.sun.mirror.type.EnumType;
 import com.sun.mirror.type.InterfaceType;
 import com.sun.mirror.util.SimpleDeclarationVisitor;
 
-abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
+abstract public class JSTypeDeclarationReflector extends XMLFilterImpl {
 	
 	final protected TypeDeclaration  _declaration;
-	final protected AS3TypeReflector _types;
+	final protected JSTypeReflector _types;
 	
-	public AS3TypeDeclarationReflector(final TypeDeclaration declaration, final AS3TypeReflector types) {
+	public JSTypeDeclarationReflector(final TypeDeclaration declaration, final JSTypeReflector types) {
 		_declaration = declaration;
 		_types       = types;
 	}
@@ -83,8 +83,8 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 	
 	abstract public class TypeDeclarationVisitor {
 		
-		final protected Map<String, IAS3PropertyDefinition> 
-			_properties = new HashMap<String, IAS3PropertyDefinition>();
+		final protected Map<String, IJSPropertyDefinition> 
+			_properties = new HashMap<String, IJSPropertyDefinition>();
 		
 		final protected Set<MemberDeclaration> 
 			_propertyMembers = new HashSet<MemberDeclaration>();
@@ -95,14 +95,14 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 		protected AnnotationProcessorEnvironment apt;
 		
 		protected TypeDeclaration source;
-		protected AS3Superclasses superclasses;
-		protected AS3KeysBuilder  keysBuilder; 
+		protected JSSuperclasses superclasses;
+		protected JSKeysBuilder  keysBuilder; 
 		
 		final void init(final TypeDeclaration source, final AnnotationProcessorEnvironment apt) {
 			this.source  = source;
 			this.apt     = apt;
-			superclasses = new AS3Superclasses(source, apt);
-			keysBuilder  = new AS3KeysBuilder(apt);
+			superclasses = new JSSuperclasses(source, apt);
+			keysBuilder  = new JSKeysBuilder(apt);
 			preprocess();
 		}
 		
@@ -126,11 +126,11 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 					attrs.addAttribute("", "final", "final", "NMTOKEN", "true");
 				
 				
-				final FXClassKind fxClassKind = _types.resolveTypeOf(type);
-				final String kind = fxClassKind.name().toLowerCase();
+				final JSClassKind jsClassKind = _types.resolveTypeOf(type);
+				final String kind = jsClassKind.name().toLowerCase();
 				
-				final FXClass fxClass = type.getAnnotation(FXClass.class);
-				String asClass = fxClass.value();
+				final JSClass jsClass = type.getAnnotation(JSClass.class);
+				String asClass = jsClass.value();
 				if (null == asClass || asClass.length() == 0)
 					asClass = type.getQualifiedName();
 				
@@ -140,8 +140,8 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 					kind);
 				
 				final TypeDeclarationKind declarationKind = getTypeKind();
-				final String typeQName = NS_DTO2extjs + ':' + declarationKind.id();
-				startElement(URI_DTO2extjs, declarationKind.id(), typeQName, attrs);
+				final String typeQName = NS_DTO2JS + ':' + declarationKind.id();
+				startElement(URI_DTO2JS, declarationKind.id(), typeQName, attrs);
 				
 				//processInheritance();
 				processSuperinterfaces();
@@ -154,26 +154,26 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 
 				if (null != keysBuilder.syntheticKey()) {
 					final char[] syntheticKey = keysBuilder.syntheticKey().toCharArray();
-					final String syntheticKeyQName = NS_DTO2extjs + ':' + "synthetic-key"; 
-					startElement(URI_DTO2extjs, "synthetic-key", syntheticKeyQName, NO_ATTRS);
+					final String syntheticKeyQName = NS_DTO2JS + ':' + "synthetic-key"; 
+					startElement(URI_DTO2JS, "synthetic-key", syntheticKeyQName, NO_ATTRS);
 					characters(syntheticKey, 0, syntheticKey.length);
-					endElement(URI_DTO2extjs, "synthetic-key", syntheticKeyQName);
+					endElement(URI_DTO2JS, "synthetic-key", syntheticKeyQName);
 				}
 				
 				if (null != keysBuilder.semanticKey()) {
-					final String semanticKeyQName = NS_DTO2extjs + ':' + "semantic-key"; 
-					final String semanticKeyPartQName = NS_DTO2extjs + ':' + "semantic-key-part";
-					startElement(URI_DTO2extjs, "semantic-key", semanticKeyQName, NO_ATTRS);
+					final String semanticKeyQName = NS_DTO2JS + ':' + "semantic-key"; 
+					final String semanticKeyPartQName = NS_DTO2JS + ':' + "semantic-key-part";
+					startElement(URI_DTO2JS, "semantic-key", semanticKeyQName, NO_ATTRS);
 					for (final String partName : keysBuilder.semanticKey()) {
 						final char[] partChars = partName.toCharArray();
-						startElement(URI_DTO2extjs, "semantic-key-part", semanticKeyPartQName, NO_ATTRS);
+						startElement(URI_DTO2JS, "semantic-key-part", semanticKeyPartQName, NO_ATTRS);
 						characters(partChars, 0, partChars.length);
-						endElement(URI_DTO2extjs, "semantic-key-part", semanticKeyPartQName);
+						endElement(URI_DTO2JS, "semantic-key-part", semanticKeyPartQName);
 					}
-					endElement(URI_DTO2extjs, "semantic-key", semanticKeyQName);
+					endElement(URI_DTO2JS, "semantic-key", semanticKeyQName);
 				}
 				
-				endElement(URI_DTO2extjs, declarationKind.id(), typeQName);
+				endElement(URI_DTO2JS, declarationKind.id(), typeQName);
 				
 			} catch (final SAXException ex) {
 				throw new SAXRuntimeException(ex);
@@ -184,8 +184,8 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 		
 		/*
 		protected void processInheritance() throws SAXException {
-			final FXClass fxClass = source.getAnnotation( FXClass.class );
-			if (null == fxClass)
+			final JSClass jsClass = source.getAnnotation( JSClass.class );
+			if (null == jsClass)
 				return;
 			
 			try {
@@ -202,17 +202,17 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 		*/
 		
 		protected void processSuperinterfaces() throws SAXException {
-			final FXClass fxClass = source.getAnnotation( FXClass.class );
-			if (null == fxClass)
+			final JSClass jsClass = source.getAnnotation( JSClass.class );
+			if (null == jsClass)
 				return;
 			
 			try {
-				final String qname = NS_DTO2extjs + ':' + "interfaces";
-				startElement(URI_DTO2extjs, "interfaces", qname, NO_ATTRS);
+				final String qname = NS_DTO2JS + ':' + "interfaces";
+				startElement(URI_DTO2JS, "interfaces", qname, NO_ATTRS);
 				for (final InterfaceType intf : source.getSuperinterfaces() ) {
 					processSuperInterfaceOrClass( intf );
 				}
-				endElement(URI_DTO2extjs, "interfaces", qname);
+				endElement(URI_DTO2JS, "interfaces", qname);
 			} catch (final SAXException ex) {
 				throw new SAXRuntimeException(ex);
 			}
@@ -228,9 +228,9 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 			if ( superclasses.superInterfaceIgnored(decl) )
 				return;
 			
-			final IAS3Type type;
+			final IJSType type;
 			try {
-				type = _types.getAS3Type(baseDeclaredType, source.getPosition());
+				type = _types.getJSType(baseDeclaredType, source.getPosition());
 			} catch (final InvalidJavaTypeException ex) {
 				return;
 			}
@@ -256,11 +256,11 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 			else
 				elementType = "class";
 			
-			final String elementTypeQName = NS_DTO2extjs + ':' + elementType;
+			final String elementTypeQName = NS_DTO2JS + ':' + elementType;
 			try {
-				startElement(URI_DTO2extjs, elementType, elementTypeQName, attrs);
+				startElement(URI_DTO2JS, elementType, elementTypeQName, attrs);
 				_processSuperInterfaceOrClass(baseDeclaredType);
-				endElement(URI_DTO2extjs, elementType, elementTypeQName);
+				endElement(URI_DTO2JS, elementType, elementTypeQName);
 			} catch (final SAXException ex) {
 				throw new SAXRuntimeException(ex);
 			}
@@ -270,7 +270,7 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 		
 		protected void processMethodDeclaration(final MethodDeclaration method) {
 			try {
-				final FXIgnore ignore = method.getAnnotation( FXIgnore.class );
+				final JSIgnore ignore = method.getAnnotation( JSIgnore.class );
 				if (null != ignore)
 					return;
 				
@@ -280,11 +280,11 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 				
 				if (_propertyMembers.contains(method)) {
 					final String propertyName = propertyNameByMethod(method);
-					final IAS3PropertyDefinition propertyDefinition =
+					final IJSPropertyDefinition propertyDefinition =
 						null != propertyName ? _properties.get( propertyName ) : null;
 				
 					if (null != propertyDefinition)
-						declareAS3Property(propertyDefinition);
+						declareJSProperty(propertyDefinition);
 					else {
 						// Nothing
 					}
@@ -297,10 +297,10 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 						actionAttrs.addAttribute("", "final", "final", "NMTOKEN", "true" );
 					
 					actionAttrs.addAttribute("", "name", "name", "NMTOKEN", method.getSimpleName());
-					final String actionQName = NS_DTO2extjs + ':' + "action";
-					startElement(URI_DTO2extjs, "action", actionQName, actionAttrs);
+					final String actionQName = NS_DTO2JS + ':' + "action";
+					startElement(URI_DTO2JS, "action", actionQName, actionAttrs);
 					_processActionDeclaration(method);
-					endElement(URI_DTO2extjs, "action", actionQName);					
+					endElement(URI_DTO2JS, "action", actionQName);					
 				}
 				
 			} catch (final SAXException ex) {
@@ -332,50 +332,50 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 		
 		protected void _processPropertyDeclaration(	final String propertyName,
 				final Declaration origin) throws SAXException {
-			FXOneToMany oneToManyAnnotation = origin.getAnnotation(FXOneToMany.class);
+			JSOneToMany oneToManyAnnotation = origin.getAnnotation(JSOneToMany.class);
 			if (oneToManyAnnotation != null) {
 				AttributesImpl propertyAttrs = new AttributesImpl();
-				String propertyQName = NS_DTO2extjs + ':' + "OneToMany";
+				String propertyQName = NS_DTO2JS + ':' + "OneToMany";
 				String collectionType = oneToManyAnnotation.collectionType();
 				propertyAttrs.addAttribute("", "dataCollectionClass", "collectionType", "NMTOKEN", collectionType);
 				String keys = oneToManyAnnotation.fillArguments().replaceAll("\\s", "");
 				propertyAttrs.addAttribute("", "fillArguments", "fillArguments", "NMTOKEN", keys);
-				FXOneToMany.SyncType sync = oneToManyAnnotation.sync();
+				JSOneToMany.SyncType sync = oneToManyAnnotation.sync();
 				propertyAttrs.addAttribute("", "sync", "sync", "NMTOKEN", sync.toString());
 				int ranking = oneToManyAnnotation.ranking();
 				propertyAttrs.addAttribute("", "ranking", "ranking", "NMTOKEN", ""+ranking);
 				
-				startElement(URI_DTO2extjs, "OneToMany", propertyQName, propertyAttrs);
-				endElement(URI_DTO2extjs, "OneToMany", propertyQName);
+				startElement(URI_DTO2JS, "OneToMany", propertyQName, propertyAttrs);
+				endElement(URI_DTO2JS, "OneToMany", propertyQName);
 			}
-			FXManyToOne manyToOneAnnotation = origin.getAnnotation(FXManyToOne.class);
+			JSManyToOne manyToOneAnnotation = origin.getAnnotation(JSManyToOne.class);
 			if (manyToOneAnnotation != null) {
 				AttributesImpl propertyAttrs = new AttributesImpl();
-				String propertyQName = NS_DTO2extjs + ':' + "ManyToOne";
+				String propertyQName = NS_DTO2JS + ':' + "ManyToOne";
 				String parent = manyToOneAnnotation.parent();
 				if (parent != null) {
 					propertyAttrs.addAttribute("", "parent", "parent", "NMTOKEN", parent);
 				}
-				startElement(URI_DTO2extjs, "ManyToOne", propertyQName, propertyAttrs);
-				endElement(URI_DTO2extjs, "ManyToOne", propertyQName);
+				startElement(URI_DTO2JS, "ManyToOne", propertyQName, propertyAttrs);
+				endElement(URI_DTO2JS, "ManyToOne", propertyQName);
 			}
 		}
 		
 		protected void _processActionDeclaration(final MethodDeclaration method) throws SAXException {}
 		
-		protected void declareAS3Property(final IAS3PropertyDefinition property) throws SAXException {
+		protected void declareJSProperty(final IJSPropertyDefinition property) throws SAXException {
 			keysBuilder.enlist(property);
 
 			if (
-				property.declareGetter() == AS3MethodDeclarationKind.SKIP &&
-				property.declareSetter() == AS3MethodDeclarationKind.SKIP
+				property.declareGetter() == JSMethodDeclarationKind.SKIP &&
+				property.declareSetter() == JSMethodDeclarationKind.SKIP
 				) {
 				return;
 			}
 			
-			final IAS3Type type;
+			final IJSType type;
 			try {
-				type = _types.getAS3Type(property.type(), property.origin().getPosition());
+				type = _types.getJSType(property.type(), property.origin().getPosition());
 			} catch (final InvalidJavaTypeException ex) {
 				return;
 			}			
@@ -412,14 +412,14 @@ abstract public class AS3TypeDeclarationReflector extends XMLFilterImpl {
 				propertyAttrs.addAttribute("", "final", "final", "NMTOKEN", "true" );
 			*/
 			
-			final String propertyQName = NS_DTO2extjs + ':' + "property";
-			startElement(URI_DTO2extjs, "property", propertyQName, propertyAttrs);
+			final String propertyQName = NS_DTO2JS + ':' + "property";
+			startElement(URI_DTO2JS, "property", propertyQName, propertyAttrs);
 			_processPropertyDeclaration(property.name(), property.origin());
-			endElement(URI_DTO2extjs, "property", propertyQName);
+			endElement(URI_DTO2JS, "property", propertyQName);
 		}
 	};
 	
-	final protected static String     NS_DTO2extjs  = "dto2extjs";
-	final protected static String     URI_DTO2extjs = "http://dto2extjs.faratasystems.com/";	
+	final protected static String     NS_DTO2JS  = "dto2extjs";
+	final protected static String     URI_DTO2JS = "http://dto2extjs.faratasystems.com/";	
 	final protected static Attributes NO_ATTRS    = new AttributesImpl();
 }

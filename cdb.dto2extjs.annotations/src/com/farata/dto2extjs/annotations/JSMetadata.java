@@ -17,7 +17,7 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface FXMetadata {
+public @interface JSMetadata {
 	String label() default "";
 	String resource() default "";
 	String formatString() default "";

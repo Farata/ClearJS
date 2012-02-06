@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <xsl:stylesheet 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:fn="http://www.w3.org/2005/xpath-functions"  
   xmlns:dto2extjs="http://dto2extjs.faratasystems.com/"
-  exclude-result-prefixes="dto2extjs xsl fn"
+  exclude-result-prefixes="dto2extjs xsl"
   version="1.1" 
 >
   <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"
@@ -18,6 +17,10 @@
   
   <!-- Import chunker code -->
   <xsl:import href="chunker.xslt"/>  
+    
+  <!-- Import functionality -->  
+  <xsl:import href="js-enum-objects-generated.xslt"/>
+  <xsl:import href="js-enum-objects-custom.xslt"/>
   
   <xsl:param name="base" select="."/>
   <xsl:param name="metadata-dump" select="no"/>
@@ -49,7 +52,7 @@
     
     <!-- Writing generated enum file, overwrite always -->    
     <xsl:variable name="generated_file">
-      <xsl:value-of select="concat($path, '/', $className, '.as')"/>
+      <xsl:value-of select="concat($path, '/', $className, '.js')"/>
     </xsl:variable>
 	<xsl:call-template name="write.text.chunk">
 		<xsl:with-param name="filename" select="$generated_file"/>
@@ -59,6 +62,26 @@
 			select="." mode="generated-file"/></xsl:with-param>
 	</xsl:call-template>	    
 
+    <!-- Writing custom enum file (include), only when missing -->
+    <xsl:variable name="custom_file">
+      <xsl:value-of select="concat($path, '/', $className, '.inc')"/>
+    </xsl:variable>
+    <xsl:variable name="custom_file_exists">
+    	<xsl:call-template name="file-exists">
+    		<xsl:with-param name="name" select="$custom_file"/>
+    	</xsl:call-template>
+    </xsl:variable>
+    <xsl:if test="$custom_file_exists != 'yes'">    
+		<xsl:call-template name="write.text.chunk">
+			<xsl:with-param name="filename" select="$custom_file"/>
+			<xsl:with-param name="encoding" select="'utf-8'"/>
+			<xsl:param name="media-type" select="'text/action-script'"/>	  
+			<xsl:with-param name="content"><xsl:apply-templates 
+				select="." mode="custom-file"/></xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+    
+    
     <xsl:if test="$metadata-dump = 'yes'">
 	    <xsl:variable name="metadata_file">
 	      <xsl:value-of select="concat($path, '/', $className, '.xml')"/>
@@ -76,31 +99,5 @@
     </xsl:if>
         
   </xsl:template>		
-  
-  
-  <xsl:template match="/dto2extjs:enum" mode="generated-file">
-package <xsl:value-of select="$packageName"/> {
-
-  public class <xsl:value-of select="$className"/> {
-    
-    public function <xsl:value-of select="$className"/>():void {
-      throw new Error("Private constructor"); 
-    } 
-    
-    <xsl:apply-templates/>
-    
-    [ArrayElementType("String")]
-    public static const values:Array = [<xsl:for-each select="./dto2extjs:enum-entry"><xsl:text>
-      </xsl:text><xsl:value-of select="concat(/dto2extjs:enum/@name, '.', @name)"/><xsl:if test="position() != last()">,</xsl:if>
-    </xsl:for-each>
-    ];
-  }
-  
-}</xsl:template>		
-
-  <xsl:template match="dto2extjs:enum-entry">
-    public static const <xsl:value-of select="@name"/>:String = "<xsl:value-of select="@name"/>";
-  </xsl:template>
-  
 
 </xsl:stylesheet>

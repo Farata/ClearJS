@@ -7,8 +7,8 @@
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  *
  */
-package com.farata.dto2extjs.asap.reflect;
+package com.farata.dto2extjs.annotations;
 
-public enum AS3MethodDeclarationKind {
-	DECLARE, OVERRIDE, SKIP
+public enum JSClassKind {
+	DEFAULT, EXT_JS, CLASSIC, STRING_CONSTANTS
 }

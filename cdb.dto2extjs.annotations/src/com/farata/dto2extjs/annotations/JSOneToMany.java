@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Is used to generate ActionScript code for remote lazy load of the collection property; can also be used to
+ * Is used to generate JavaScript code for remote lazy load of the collection property; can also be used to
  * control relative order of inserts/deletes between children of the same DTO during BatchService batch preparation.
  * <p>
  *  <table class="innertable">
@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
  *   	<td><code>collectionType</code></td><td>String</td><td>Optional</td>
  *   	<td>Fully qualified name of the subclass of the 
  * <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/flex/4/clear/collections/DataCollection.html">DataCollection</a>
- * that has to be created and lazy-loaded on the ActionScript side
+ * that has to be created and lazy-loaded on the JavaScript side
  *   	</td>
  *   </tr>
  *   <tr>
@@ -39,17 +39,17 @@ import java.lang.annotation.Target;
  *   </tr>
  *  </table>
  *  </p>  
- * <p>Using <code>&#64;FXOneToMany</code> annotation on a Java getter that returns a collection  
- * results in the ActionScript getter that implements remote lazy load of the peer collection. In the example below
- * property <code>getCompanyAssociates</code> is annotated with <code>&#64;FXOneToMany</code>, indicating which
- * collection should be created and filled on the Flex(ActionScript) side:
+ * <p>Using <code>&#64;JSOneToMany</code> annotation on a Java getter that returns a collection  
+ * results in the JavaScript getter that implements remote lazy load of the peer collection. In the example below
+ * property <code>getCompanyAssociates</code> is annotated with <code>&#64;JSOneToMany</code>, indicating which
+ * collection should be created and filled on the JavaScript side:
  * <pre>
- * 	&#64;FXOneToMany(fillArguments="id", collectionType="com.farata.test.collections.CompanyAssociateCollection")
+ * 	&#64;JSOneToMany(fillArguments="id", collectionType="com.farata.test.collections.CompanyAssociateCollection")
  *	public Set<CompanyAssociate> getCompanyAssociates() {
  *		return this.companyAssociates;
  *	}
  * </pre>
- * Accordingly, the generated ActionScript class will contain the following code: 
+ * Accordingly, the generated JavaScript class will contain the following code: 
  *  <pre>
  *  // One to many property "companyAssociates"; collection of com.farata.test.entity.CompanyAssociate 
  *  private var _companyAssociates:com.farata.test.collections.CompanyAssociateCollection;
@@ -65,8 +65,8 @@ import java.lang.annotation.Target;
  *  }
  * </pre>
  * 
- * <p>Annotation <code>&#64;FXOneToMany</code> is not related to <code>&#64;OneToMany</code> JPQL annotation or any JPQL annotation at all.
- * However, the class containing the annotation should be, of itself, annotated with the <code>&#64;FXClass</code>.
+ * <p>Annotation <code>&#64;JSOneToMany</code> is not related to <code>&#64;OneToMany</code> JPQL annotation or any JPQL annotation at all.
+ * However, the class containing the annotation should be, of itself, annotated with the <code>&#64;JSClass</code>.
  * </p>
 
  * <p>If you omit the <code>collectionType</code> the default value is determined from the base name of the
@@ -144,7 +144,7 @@ private function pendindItemFunction(index:int, ipe:ItemPendingError):Object {
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target( { ElementType.METHOD, ElementType.FIELD })
-public @interface FXOneToMany {
+public @interface JSOneToMany {
 	public enum SyncType { BATCH, HIERARCHY }
 	public String collectionType() default "";
 	public String fillArguments() default "";

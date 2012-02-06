@@ -9,35 +9,35 @@
  */
 package com.farata.dto2extjs.asap.types;
 
-import com.farata.dto2extjs.annotations.FXClass;
-import com.farata.dto2extjs.annotations.FXClassKind;
+import com.farata.dto2extjs.annotations.JSClass;
+import com.farata.dto2extjs.annotations.JSClassKind;
 
 import com.sun.mirror.declaration.EnumDeclaration;
 import com.sun.mirror.declaration.TypeDeclaration;
 
-public class AS3CustomType implements IAS3Type {
+public class JSCustomType implements IJSType {
 	final private String      _id;
-	final private FXClassKind _classKind;
+	final private JSClassKind _classKind;
 	final private boolean     _isEnum;
-	final private IAS3Type    _contentType;
+	final private IJSType    _contentType;
 	
-	public AS3CustomType(final String id) {
+	public JSCustomType(final String id) {
 		this(id, null);
 	}
 	
-	public AS3CustomType(final String id, final IAS3Type contentType) {
+	public JSCustomType(final String id, final IJSType contentType) {
 		_id          = id;
 		_classKind   = null;
 		_isEnum      = false;
 		_contentType = contentType;
 	}
 	
-	public AS3CustomType(final TypeDeclaration declaration, final FXClassKind resolvedClassKind) {
+	public JSCustomType(final TypeDeclaration declaration, final JSClassKind resolvedClassKind) {
 		this(declaration, resolvedClassKind, null);
 	}
 
-	public AS3CustomType(final TypeDeclaration declaration, final FXClassKind resolvedClassKind, final IAS3Type contentType) {
-		final FXClass def = declaration.getAnnotation(FXClass.class);
+	public JSCustomType(final TypeDeclaration declaration, final JSClassKind resolvedClassKind, final IJSType contentType) {
+		final JSClass def = declaration.getAnnotation(JSClass.class);
 		String qname = def.value();
 		if (null == qname || qname.length() == 0)
 			qname = declaration.getQualifiedName();
@@ -49,10 +49,10 @@ public class AS3CustomType implements IAS3Type {
 	}
 	
 	public String id() { return _id; }
-	public FXClassKind classKind() { return _classKind; }
+	public JSClassKind classKind() { return _classKind; }
 	public boolean isContainer() { return null != _contentType; }
 	public boolean isEnum() { return _isEnum; }
-	public IAS3Type contentType() {
+	public IJSType contentType() {
 		if (null == _contentType) 
 			throw new UnsupportedOperationException();
 		return _contentType; 

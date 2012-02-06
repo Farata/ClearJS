@@ -9,12 +9,12 @@
  */
 package com.farata.dto2extjs.asap.types;
 
-import com.farata.dto2extjs.annotations.FXClassKind;
+import com.farata.dto2extjs.annotations.JSClassKind;
 
-public interface IAS3Type {
+public interface IJSType {
 	abstract public String id();
-	abstract public FXClassKind classKind();
+	abstract public JSClassKind classKind();
 	abstract public boolean isContainer();
 	abstract public boolean isEnum();
-	abstract public IAS3Type contentType();
+	abstract public IJSType contentType();
 }

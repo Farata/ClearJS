@@ -25,13 +25,13 @@ import javax.xml.transform.sax.SAXSource;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.XMLFilterImpl;
 
-import com.farata.dto2extjs.annotations.FXClass;
-import com.farata.dto2extjs.annotations.FXClassKind;
-import com.farata.dto2extjs.asap.reflect.AS3ClassDeclarationReflector;
-import com.farata.dto2extjs.asap.reflect.AS3EnumDeclarationReflector;
-import com.farata.dto2extjs.asap.reflect.AS3InterfaceDeclarationReflector;
-import com.farata.dto2extjs.asap.reflect.AS3TypeDeclarationReflector;
-import com.farata.dto2extjs.asap.types.AS3TypeReflector;
+import com.farata.dto2extjs.annotations.JSClass;
+import com.farata.dto2extjs.annotations.JSClassKind;
+import com.farata.dto2extjs.asap.reflect.JSClassDeclarationReflector;
+import com.farata.dto2extjs.asap.reflect.JSEnumDeclarationReflector;
+import com.farata.dto2extjs.asap.reflect.JSInterfaceDeclarationReflector;
+import com.farata.dto2extjs.asap.reflect.JSTypeDeclarationReflector;
+import com.farata.dto2extjs.asap.types.JSTypeReflector;
 import com.farata.dto2extjs.asap.types.InvalidJavaTypeException;
 
 import com.sun.mirror.apt.AnnotationProcessor;
@@ -45,12 +45,12 @@ import com.sun.mirror.declaration.InterfaceDeclaration;
 import com.sun.mirror.declaration.ClassDeclaration;
 import com.sun.mirror.declaration.EnumDeclaration;
 
-public class AS3AnnotationProcessor implements AnnotationProcessor {
+public class JSAnnotationProcessor implements AnnotationProcessor {
 	
 	final protected AnnotationProcessorEnvironment _environment;
-	final protected AS3AnnotationProcessorOptions  _options;
+	final protected JSAnnotationProcessorOptions  _options;
 	
-	public AS3AnnotationProcessor(final AnnotationProcessorEnvironment environment, final AS3AnnotationProcessorOptions options) {
+	public JSAnnotationProcessor(final AnnotationProcessorEnvironment environment, final JSAnnotationProcessorOptions options) {
 		_environment = environment;
 		_options     = options;
 	}
@@ -58,36 +58,36 @@ public class AS3AnnotationProcessor implements AnnotationProcessor {
 	public void process() {
 		final Messager messager = _environment.getMessager();
 		// obtain the declaration of the annotation we want to process
-		final AnnotationTypeDeclaration fxClass 
-			= (AnnotationTypeDeclaration)_environment.getTypeDeclaration(FXClass.class.getName());
+		final AnnotationTypeDeclaration jsClass 
+			= (AnnotationTypeDeclaration)_environment.getTypeDeclaration(JSClass.class.getName());
 		
 		// get the annotated types
-		final Collection<Declaration> annotatedTypes = _environment.getDeclarationsAnnotatedWith(fxClass);
+		final Collection<Declaration> annotatedTypes = _environment.getDeclarationsAnnotatedWith(jsClass);
 		final Collection<TypeDeclaration> typeDeclarations = new ArrayList<TypeDeclaration>( annotatedTypes.size() );
 		for (final Declaration decl : annotatedTypes) 
 			if ( decl instanceof TypeDeclaration ) typeDeclarations.add( (TypeDeclaration)decl );
 
 		final Workset workset = new Workset(_environment, typeDeclarations);
-		final AS3TypeReflector _typeReflector = new AS3TypeReflector(
+		final JSTypeReflector _typeReflector = new JSTypeReflector(
 			_environment, workset, 
 			_options.defaultClassKind(), _options.defaultEnumKind(), _options.numberAsString()
 		);
 	
 		for (TypeDeclaration declaration = workset.next(); null != declaration; declaration = workset.next() ) {
 			
-			final AS3TypeDeclarationReflector reflector;
+			final JSTypeDeclarationReflector reflector;
 			final Templates templates;
 			
-			final FXClassKind fxClassKind = _typeReflector.resolveTypeOf(declaration, true); 
+			final JSClassKind jsClassKind = _typeReflector.resolveTypeOf(declaration, true); 
 			if ( declaration instanceof EnumDeclaration ) {
 				final EnumDeclaration eDeclaration = (EnumDeclaration)declaration;
-				reflector = new AS3EnumDeclarationReflector( eDeclaration, _typeReflector );
-				switch (fxClassKind) {
-					case REMOTE:
-						templates = AS3TemplatesCache.as3EnumFarata();
+				reflector = new JSEnumDeclarationReflector( eDeclaration, _typeReflector );
+				switch (jsClassKind) {
+					case EXT_JS:
+						templates = JSTemplatesCache.jsEnumObjects();
 						break;
 					case STRING_CONSTANTS:
-						templates = AS3TemplatesCache.as3EnumAdobe();
+						templates = JSTemplatesCache.jsEnumString();
 						break;
 					default:
 						continue;
@@ -95,21 +95,21 @@ public class AS3AnnotationProcessor implements AnnotationProcessor {
 				
 			} else if (declaration instanceof InterfaceDeclaration) {
 				final InterfaceDeclaration iDeclaration = (InterfaceDeclaration)declaration;
-				reflector = new AS3InterfaceDeclarationReflector( iDeclaration, _typeReflector );
-				templates = AS3TemplatesCache.as3Interface();
+				reflector = new JSInterfaceDeclarationReflector( iDeclaration, _typeReflector );
+				templates = JSTemplatesCache.jsInterface();
 			} else if (declaration instanceof ClassDeclaration) {
-				switch (fxClassKind) {
-					case REMOTE:
-						templates = AS3TemplatesCache.as3RemoteClass();
+				switch (jsClassKind) {
+					case EXT_JS:
+						templates = JSTemplatesCache.jsExtJSClass();
 						break;
-					case MANAGED:
-						templates = AS3TemplatesCache.as3ManagedClass();
+					case CLASSIC:
+						templates = JSTemplatesCache.jsClassicJSClass();
 						break;
 					default:
 						continue;
 				}
 				final ClassDeclaration cDeclaration = (ClassDeclaration)declaration;
-				reflector = new AS3ClassDeclarationReflector( cDeclaration, _typeReflector );
+				reflector = new JSClassDeclarationReflector( cDeclaration, _typeReflector );
 				
 			} else {
 				continue;
@@ -135,7 +135,7 @@ public class AS3AnnotationProcessor implements AnnotationProcessor {
 				ex.printStackTrace();				
 				messager.printError( ex.getLocalizedMessage() );
 			} catch (final InvalidJavaTypeException ex) {
-				// Reported by AS3TypeReflector
+				// Reported by JSTypeReflector
 			} catch (final Exception ex) {
 				ex.printStackTrace();
 				messager.printError( ex.getLocalizedMessage() );				

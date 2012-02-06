@@ -16,16 +16,16 @@ import java.util.TreeSet;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.farata.dto2extjs.asap.types.AS3TypeReflector;
+import com.farata.dto2extjs.asap.types.JSTypeReflector;
 
 import com.sun.mirror.declaration.EnumDeclaration;
 import com.sun.mirror.declaration.EnumConstantDeclaration;
 
 import com.sun.mirror.util.SourcePosition;
 
-public class AS3EnumDeclarationReflector extends AS3TypeDeclarationReflector {
+public class JSEnumDeclarationReflector extends JSTypeDeclarationReflector {
 	
-	public AS3EnumDeclarationReflector(final EnumDeclaration enumDeclaration, final AS3TypeReflector typeReflector) {
+	public JSEnumDeclarationReflector(final EnumDeclaration enumDeclaration, final JSTypeReflector typeReflector) {
 		super(enumDeclaration, typeReflector);
 	}
 	
@@ -51,10 +51,10 @@ public class AS3EnumDeclarationReflector extends AS3TypeDeclarationReflector {
 			final AttributesImpl typeAttrs = new AttributesImpl();
 			typeAttrs.addAttribute("", "name", "name", "NMTOKEN", enumConst.getSimpleName());
 			
-			final String qName = NS_DTO2extjs + ':' + "enum-entry"; 
+			final String qName = NS_DTO2JS + ':' + "enum-entry"; 
 			try {
-				startElement(URI_DTO2extjs, "enum-entry", qName, typeAttrs);
-				endElement(URI_DTO2extjs, "enum-entry", qName);
+				startElement(URI_DTO2JS, "enum-entry", qName, typeAttrs);
+				endElement(URI_DTO2JS, "enum-entry", qName);
 			} catch (final SAXException ex) {
 				throw new SAXRuntimeException(ex);
 			}

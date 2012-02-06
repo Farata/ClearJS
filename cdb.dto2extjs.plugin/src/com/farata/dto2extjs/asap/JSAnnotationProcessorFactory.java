@@ -28,14 +28,14 @@ import com.sun.mirror.apt.RoundState;
 import com.sun.mirror.declaration.AnnotationTypeDeclaration;
 import com.sun.mirror.declaration.TypeDeclaration;
 
-import com.farata.dto2extjs.annotations.FXClass;
+import com.farata.dto2extjs.annotations.JSClass;
 import com.farata.dto2extjs.asap.env.AptEnvironmentInspector;
 import com.farata.dto2extjs.asap.env.IEnvironmentInspector;
 
-public class AS3AnnotationProcessorFactory implements AnnotationProcessorFactory {
+public class JSAnnotationProcessorFactory implements AnnotationProcessorFactory {
 	
 	public Collection<String> supportedOptions() {
-		return AS3AnnotationProcessorOptions.SUPPORTED_OPTIONS;
+		return JSAnnotationProcessorOptions.SUPPORTED_OPTIONS;
 	}
 
 	public Collection<String> supportedAnnotationTypes() {
@@ -67,7 +67,7 @@ public class AS3AnnotationProcessorFactory implements AnnotationProcessorFactory
 	final private Map<AnnotationProcessorEnvironment, Set<TypeDeclaration>> _envs = new WeakHashMap<AnnotationProcessorEnvironment, Set<TypeDeclaration>>();
 	
 	public AnnotationProcessor getProcessorFor(final Set<AnnotationTypeDeclaration> atds, final AnnotationProcessorEnvironment env) {
-		final AS3AnnotationProcessorOptions options = new AS3AnnotationProcessorOptions(env);
+		final JSAnnotationProcessorOptions options = new JSAnnotationProcessorOptions(env);
 		if ( !options.parse() )
 			return AnnotationProcessors.NO_OP;
 		
@@ -99,7 +99,7 @@ public class AS3AnnotationProcessorFactory implements AnnotationProcessorFactory
 			else
 				visited.addAll( targets );
 			
-			return new AS3AnnotationProcessor(env, options);
+			return new JSAnnotationProcessor(env, options);
 			
 		} else {
 			/*
@@ -112,6 +112,6 @@ public class AS3AnnotationProcessorFactory implements AnnotationProcessorFactory
 	static IEnvironmentInspector INSPECTOR = AptEnvironmentInspector.INSTANCE;
 
 	final private static Collection<String> SUPPORTED_ANNOTATIONS 
-		= Arrays.asList( FXClass.class.getName() );
+		= Arrays.asList( JSClass.class.getName() );
 
 }

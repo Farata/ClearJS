@@ -23,9 +23,9 @@ import java.util.TreeMap;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.farata.dto2extjs.annotations.FXIgnore;
-import com.farata.dto2extjs.annotations.FXMetadata;
-import com.farata.dto2extjs.asap.types.AS3TypeReflector;
+import com.farata.dto2extjs.annotations.JSIgnore;
+import com.farata.dto2extjs.annotations.JSMetadata;
+import com.farata.dto2extjs.asap.types.JSTypeReflector;
 
 import com.sun.mirror.declaration.AnnotationMirror;
 import com.sun.mirror.declaration.AnnotationTypeDeclaration;
@@ -43,9 +43,9 @@ import com.sun.mirror.type.TypeMirror;
 
 import com.sun.mirror.util.Declarations;
 
-public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
+public class JSClassDeclarationReflector extends JSTypeDeclarationReflector {
 	
-	public AS3ClassDeclarationReflector(final ClassDeclaration classDeclaration, final AS3TypeReflector typeReflector) {
+	public JSClassDeclarationReflector(final ClassDeclaration classDeclaration, final JSTypeReflector typeReflector) {
 		super(classDeclaration, typeReflector);
 	}
 	
@@ -95,7 +95,7 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 			
 			@Override protected void preprocess() {
 				final TypeDeclaration type = source;
-				final Map<String, IAS3PropertyDefinition> properties = _properties;
+				final Map<String, IJSPropertyDefinition> properties = _properties;
 				final Set<MemberDeclaration> propertyMembers = _propertyMembers;
 				final Set<MemberDeclaration> propertyDeclaringMembers = _propertyDeclaringMembers;
 				
@@ -143,7 +143,7 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 						if (null != settersByName) {
 							boolean oneFound = false;
 							for (final MethodDeclaration nextSetter : settersByName) {
-								if ( nextSetter.getAnnotation(FXIgnore.class) != null )
+								if ( nextSetter.getAnnotation(JSIgnore.class) != null )
 									continue;
 
 								if (oneFound) {
@@ -168,7 +168,7 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 							superSetter = true;
 						}
 
-						if ( getter.getAnnotation(FXIgnore.class) != null )
+						if ( getter.getAnnotation(JSIgnore.class) != null )
 							continue;
 						
 						final String propertyName = 
@@ -193,7 +193,7 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 					final Collection<MethodDeclaration> settersByName = entry.getValue();
 					boolean oneFound = false;
 					for (final MethodDeclaration setter : settersByName) {
-						if ( setter.getAnnotation(FXIgnore.class) != null )
+						if ( setter.getAnnotation(JSIgnore.class) != null )
 							continue;
 						if (oneFound) {
 							// If more then one setter found then should be an error
@@ -222,10 +222,10 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 					= collectPropertiesAnnotations(source, false);
 				
 				if (null != features && !features.isEmpty()) {
-					final String featuresTypeQName = NS_DTO2extjs + ':' + "features";
-					final String featureTypeQName = NS_DTO2extjs + ':' + "feature";
+					final String featuresTypeQName = NS_DTO2JS + ':' + "features";
+					final String featureTypeQName = NS_DTO2JS + ':' + "feature";
 					try {
-						startElement(URI_DTO2extjs, "features", featuresTypeQName, new AttributesImpl());
+						startElement(URI_DTO2JS, "features", featuresTypeQName, new AttributesImpl());
 						for (final Map.Entry<AnnotationTypeDeclaration, TypeDeclaration> feature : features.entrySet()) {
 							final AttributesImpl attrs = new AttributesImpl();
 							attrs.addAttribute(
@@ -233,10 +233,10 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 							attrs.addAttribute(
 								"", "declared-by", "feature", "NMTOKEN", feature.getValue().getQualifiedName());
 							
-							startElement(URI_DTO2extjs, "feature", featureTypeQName, attrs);
-							endElement(URI_DTO2extjs, "feature", featureTypeQName);
+							startElement(URI_DTO2JS, "feature", featureTypeQName, attrs);
+							endElement(URI_DTO2JS, "feature", featureTypeQName);
 						}
-						endElement(URI_DTO2extjs, "features", featuresTypeQName);
+						endElement(URI_DTO2JS, "features", featuresTypeQName);
 					} catch (final SAXException ex) {
 						throw new SAXRuntimeException(ex);
 					}
@@ -253,7 +253,7 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 					// Do not redefine property defined by pair of getter / setter
 					if ( !_properties.containsKey(propertyName) ) {
 						try {
-							declareAS3Property(new AS3PropertyDefinition(field, propertyName, field.getType()));
+							declareJSProperty(new JSPropertyDefinition(field, propertyName, field.getType()));
 						} catch (final SAXException ex) {
 							throw new SAXRuntimeException(ex);
 						}
@@ -264,9 +264,9 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 			
 			protected void _processFieldDeclaration(final FieldDeclaration field) {
 				final String propertyName = field.getSimpleName();
-				AS3PropertyDefinition prop = (AS3PropertyDefinition)_properties.get(propertyName);
-				if ( field.getAnnotation(FXMetadata.class) != null && prop != null) { //TODO : Why prop is null for computed fields?
-					prop.setMetadata( field.getAnnotation(FXMetadata.class).label(), removeCurlyBrackets(field.getAnnotation(FXMetadata.class).resource()), field.getAnnotation(FXMetadata.class).formatString());
+				JSPropertyDefinition prop = (JSPropertyDefinition)_properties.get(propertyName);
+				if ( field.getAnnotation(JSMetadata.class) != null && prop != null) { //TODO : Why prop is null for computed fields?
+					prop.setMetadata( field.getAnnotation(JSMetadata.class).label(), removeCurlyBrackets(field.getAnnotation(JSMetadata.class).resource()), field.getAnnotation(JSMetadata.class).formatString());
 				}
 			}
 			
@@ -282,29 +282,29 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 					final boolean inheritedGetter, 
 					final MethodDeclaration setter,
 					final boolean inheritedSetter,
-					final Map<String, IAS3PropertyDefinition> properties) {
+					final Map<String, IJSPropertyDefinition> properties) {
 				
 				final MethodDeclaration superGetter = inheritedGetter ? getter : null == getter ? null : superMethodOf(getter);
 				final MethodDeclaration superSetter = inheritedSetter ? setter : null == setter ? null : superMethodOf(setter);
-				final AS3MethodDeclarationKind declareGetter;
-				final AS3MethodDeclarationKind declareSetter;
+				final JSMethodDeclarationKind declareGetter;
+				final JSMethodDeclarationKind declareSetter;
 				
 				/* DECLARATION MATRIX -- START */
 				if (null != superGetter) {
 					if (null == setter) {
 						// Read-only and getter was defined previously
-						declareGetter = AS3MethodDeclarationKind.SKIP;
-						declareSetter = AS3MethodDeclarationKind.SKIP;
+						declareGetter = JSMethodDeclarationKind.SKIP;
+						declareSetter = JSMethodDeclarationKind.SKIP;
 					} else if (null == superSetter) {
 						// Setter will be ultimately defined, not declared previously
-						declareSetter = AS3MethodDeclarationKind.DECLARE;
+						declareSetter = JSMethodDeclarationKind.DECLARE;
 						if ( _types.isAbstract(setter) ) {
-							declareGetter = AS3MethodDeclarationKind.SKIP;
+							declareGetter = JSMethodDeclarationKind.SKIP;
 						} else {
 							// First full property definition
 							// if getter is not abstract
 							declareGetter = _types.isAbstract(getter) ?
-								AS3MethodDeclarationKind.SKIP : AS3MethodDeclarationKind.OVERRIDE;
+								JSMethodDeclarationKind.SKIP : JSMethodDeclarationKind.OVERRIDE;
 						}
 					} else {
 						// Both getter and setter are redefined
@@ -313,45 +313,45 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 							!_types.isAbstract(getter) && !_types.isAbstract(setter) && 
 							(_types.isAbstract(superGetter) || _types.isAbstract(superSetter));
 						if (isDef)
-							declareGetter = declareSetter = AS3MethodDeclarationKind.OVERRIDE;
+							declareGetter = declareSetter = JSMethodDeclarationKind.OVERRIDE;
 						else
-							declareGetter = declareSetter = AS3MethodDeclarationKind.SKIP;
+							declareGetter = declareSetter = JSMethodDeclarationKind.SKIP;
 					}
 				} else {
 					// Getter will be ultimately defined, not declared previously
-					declareGetter = null == getter ? AS3MethodDeclarationKind.SKIP : AS3MethodDeclarationKind.DECLARE;
+					declareGetter = null == getter ? JSMethodDeclarationKind.SKIP : JSMethodDeclarationKind.DECLARE;
 					if (null == setter) {
-						declareSetter = AS3MethodDeclarationKind.SKIP;
+						declareSetter = JSMethodDeclarationKind.SKIP;
 					} else if (null != superSetter) {
 						if ( null == getter || _types.isAbstract(getter) ) {
 							// Has super setter here and no property definition
 							// while getter is abstract, so skip setter redefinition
-							declareSetter = AS3MethodDeclarationKind.SKIP;
+							declareSetter = JSMethodDeclarationKind.SKIP;
 						} else {
 							if ( _types.isAbstract(setter) )
-								declareSetter = AS3MethodDeclarationKind.SKIP;
+								declareSetter = JSMethodDeclarationKind.SKIP;
 							else {
 								// First full property definition
-								declareSetter = AS3MethodDeclarationKind.OVERRIDE;
+								declareSetter = JSMethodDeclarationKind.OVERRIDE;
 							}
 						}
 					} else {
-						declareSetter = AS3MethodDeclarationKind.DECLARE;
+						declareSetter = JSMethodDeclarationKind.DECLARE;
 					}
 				}
 				/* DECLARATION MATRIX -- END */
 
-				if (declareGetter != AS3MethodDeclarationKind.SKIP ||
-					declareSetter != AS3MethodDeclarationKind.SKIP) {
+				if (declareGetter != JSMethodDeclarationKind.SKIP ||
+					declareSetter != JSMethodDeclarationKind.SKIP) {
 					
 					properties.put(propertyName, 
-						new AS3PropertyDefinition(
+						new JSPropertyDefinition(
 							null != getter ? getter : setter, 
 							propertyName, 
 							null != getter ? getter.getReturnType() : setter.getParameters().iterator().next().getType(),
 							declareGetter, declareSetter, 
-							AS3MethodDeclarationKind.SKIP == declareGetter    ||
-							AS3MethodDeclarationKind.SKIP == declareSetter    ||
+							JSMethodDeclarationKind.SKIP == declareGetter    ||
+							JSMethodDeclarationKind.SKIP == declareSetter    ||
 							_types.isAbstract(getter) || 
 							_types.isAbstract(setter)
 						)
@@ -370,7 +370,7 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 							final TypeDeclaration type = member.getDeclaringType();
 							for (final AnnotationMirror a : member.getAnnotationMirrors()) {
 								final AnnotationTypeDeclaration decl = a.getAnnotationType().getDeclaration();
-								if (!"com.farata.dto2extjs.annotations.FXIgnore".equals(decl.getQualifiedName())) {
+								if (!"com.farata.dto2extjs.annotations.JSIgnore".equals(decl.getQualifiedName())) {
 									result.put(decl, type);									
 								}
 							}
@@ -397,7 +397,7 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 					public boolean matches(final MethodDeclaration method) {
 						return
 							(isGetterMethod(method) || isSetterMethod(method)) &&
-						    null == method.getAnnotation(FXIgnore.class)
+						    null == method.getAnnotation(JSIgnore.class)
 						;
 					}
 				});
@@ -405,7 +405,7 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 					public boolean matches(final FieldDeclaration field) {
 						return
 							isInstancePublic(field) &&
-						    null == field.getAnnotation(FXIgnore.class)
+						    null == field.getAnnotation(JSIgnore.class)
 						;
 					}
 				});
@@ -420,7 +420,7 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 						if (declarations.overrides(method, other)) {
 							final Collection<Modifier> otherModifiers = other.getModifiers();
 							if (otherModifiers.contains(Modifier.PUBLIC) &&
-								null == other.getAnnotation(FXIgnore.class) )
+								null == other.getAnnotation(JSIgnore.class) )
 								_result = other;
 							return true;
 						}
@@ -440,7 +440,7 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 							if (params != null && params.size() == 1 && propertyType.equals( params.iterator().next().getType() ) ) {
 								final Collection<Modifier> otherModifiers = other.getModifiers();
 								if (otherModifiers.contains(Modifier.PUBLIC) &&
-									null == other.getAnnotation(FXIgnore.class) )
+									null == other.getAnnotation(JSIgnore.class) )
 									_result = other;
 								return true;
 							}
@@ -463,7 +463,7 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 							if (params == null || params.size() == 0) {
 								final Collection<Modifier> otherModifiers = other.getModifiers();
 								if (otherModifiers.contains(Modifier.PUBLIC) && 
-									null == other.getAnnotation(FXIgnore.class) 
+									null == other.getAnnotation(JSIgnore.class) 
 								    )
 								    _result = other;
 								return true;
@@ -541,7 +541,7 @@ public class AS3ClassDeclarationReflector extends AS3TypeDeclarationReflector {
 							return toResults(visitors);
 						
 
-						final AS3Superclasses childSuperclasses = null == inheritedType ? null : new AS3Superclasses(inheritedType, apt);
+						final JSSuperclasses childSuperclasses = null == inheritedType ? null : new JSSuperclasses(inheritedType, apt);
 						inheritedType = superType;
 						
 						if (null != childSuperclasses) {

@@ -13,9 +13,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.HashSet;
 
-import com.farata.dto2extjs.annotations.FXClass;
-import com.farata.dto2extjs.annotations.FXIgnore;
-import com.farata.dto2extjs.asap.types.AS3TypeReflector;
+import com.farata.dto2extjs.annotations.JSClass;
+import com.farata.dto2extjs.annotations.JSIgnore;
+import com.farata.dto2extjs.asap.types.JSTypeReflector;
 
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 import com.sun.mirror.apt.Messager;
@@ -28,7 +28,7 @@ import com.sun.mirror.type.MirroredTypeException;
 import com.sun.mirror.type.MirroredTypesException;
 import com.sun.mirror.util.SourcePosition;
 
-public class AS3Superclasses {
+public class JSSuperclasses {
 	final private TypeDeclaration      _selfClass;
 	final private Set<DeclaredType>    _allSuperclasses;
 	final private Set<TypeDeclaration> _ignoredSuperclasses;
@@ -36,7 +36,7 @@ public class AS3Superclasses {
 	
 	private int _ignoreAnyCount  = 0;
 	
-	public AS3Superclasses(final TypeDeclaration selfClass, final AnnotationProcessorEnvironment apt) {
+	public JSSuperclasses(final TypeDeclaration selfClass, final AnnotationProcessorEnvironment apt) {
 		_selfClass = selfClass;
 		_allSuperclasses = new HashSet<DeclaredType>( selfClass.getSuperinterfaces() );
 		
@@ -51,26 +51,25 @@ public class AS3Superclasses {
 			
 		}
 		
-		final FXClass fxClass = selfClass.getAnnotation(FXClass.class);
+		final JSClass jsClass = selfClass.getAnnotation(JSClass.class);
 		final Set<TypeDeclaration> ignoredSuperclasses = new HashSet<TypeDeclaration>();
-		if (null != fxClass) {
+		if (null != jsClass) {
 			try {
-				Object superclasses = fxClass.ignoreSuperclasses();
-				@SuppressWarnings("unchecked")
+				Object superclasses = jsClass.ignoreSuperclasses();
 				Class<?>[] ignoredSuperclassArray = superclasses instanceof Class ? 
-					new Class[]{(Class)superclasses} : (Class[])superclasses;
+					new Class[]{(Class<?>)superclasses} : (Class[])superclasses;
 				if (null == ignoredSuperclassArray || ignoredSuperclassArray.length == 0) {
 				}
 				else  {
 					for (final Class<?> cls : ignoredSuperclassArray) {
-						if ( cls == FXIgnore.any.class ) {
+						if ( cls == JSIgnore.any.class ) {
 							_ignoreAnyCount++;
 						} else
 							ignoredSuperclasses.add( apt.getTypeDeclaration(cls.getName()) );
 					}
 				}
 			} catch (final MirroredTypeException ex) {
-				final String ignoreAnyClassName = FXIgnore.any.class.getName().replace('$', '.');
+				final String ignoreAnyClassName = JSIgnore.any.class.getName().replace('$', '.');
 				if ( ignoreAnyClassName.equals(ex.getQualifiedName()) ) {
 					_ignoreAnyCount++;
 				} else
@@ -80,7 +79,7 @@ public class AS3Superclasses {
 				if (null == ignoredSuperclassArray || ignoredSuperclassArray.size() == 0) {
 				}
 				else  {
-					final String ignoreAnyClassName = FXIgnore.any.class.getName().replace('$', '.'); 
+					final String ignoreAnyClassName = JSIgnore.any.class.getName().replace('$', '.'); 
 					for (final String className : ignoredSuperclassArray) {
 						if ( ignoreAnyClassName.equals(className) ) {
 							_ignoreAnyCount++;
@@ -145,10 +144,10 @@ public class AS3Superclasses {
 		for (final DeclaredType type : _allSuperclasses) {
 			final TypeDeclaration declaration = type.getDeclaration();
 			final boolean wasIgnored = ignoredSuperclasses.remove( declaration );
-			if (wasIgnored && null != declaration.getAnnotation(FXClass.class)) {
+			if (wasIgnored && null != declaration.getAnnotation(JSClass.class)) {
 				messager.printError(
 					ignoreSuperclassesPosition, 
-					declaration.getQualifiedName() + " may not be excluded, it is annotated as @FXClass"
+					declaration.getQualifiedName() + " may not be excluded, it is annotated as @JSClass"
 				);
 			}
 		}
@@ -164,12 +163,12 @@ public class AS3Superclasses {
 	}
 	
 	private SourcePosition ignoreSuperclassesPosition() {
-		return AS3TypeReflector.getFXClassAnnotationAttributePosition(_selfClass, "ignoreSuperclasses");
+		return JSTypeReflector.getJSClassAnnotationAttributePosition(_selfClass, "ignoreSuperclasses");
 	}
 	
 	public boolean ignored(final TypeDeclaration declaration) {
-		final FXClass fxClass = declaration.getAnnotation(FXClass.class);
-		return (null == fxClass && _ignoreAnyCount > 0) || _ignoredSuperclasses.contains( declaration );
+		final JSClass jsClass = declaration.getAnnotation(JSClass.class);
+		return (null == jsClass && _ignoreAnyCount > 0) || _ignoredSuperclasses.contains( declaration );
 	}
 	
 	public boolean superInterfaceIgnored(final TypeDeclaration declaration) {

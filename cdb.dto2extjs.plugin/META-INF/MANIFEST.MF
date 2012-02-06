@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: DTO-to-Flex Annotations Processor
+Bundle-Name: DTO-to-JS Annotations Processor
 Bundle-SymbolicName: com.farata.dto2extjs.asap;singleton:=true
 Bundle-Version: 4.6.0.qualifier
 Bundle-Vendor: Farata Systems LLC

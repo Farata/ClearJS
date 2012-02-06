@@ -9,9 +9,9 @@
  */
 package com.farata.dto2extjs.asap.types;
 
-import com.farata.dto2extjs.annotations.FXClassKind;
+import com.farata.dto2extjs.annotations.JSClassKind;
 
-public enum AS3BuiltinType implements IAS3Type {
+public enum JSBuiltinType implements IJSType {
 	Void {
 		@Override public String id() { return "void"; }
 	},
@@ -23,8 +23,8 @@ public enum AS3BuiltinType implements IAS3Type {
 	},
 	XML, Object, Number, String, Boolean, Date;
 	public String id() { return name(); }
-	public FXClassKind classKind() { return null; }
+	public JSClassKind classKind() { return null; }
 	public boolean isContainer() { return false; }
 	public boolean isEnum() { return false; }
-	public IAS3Type contentType() { throw new UnsupportedOperationException(); }
+	public IJSType contentType() { throw new UnsupportedOperationException(); }
 }

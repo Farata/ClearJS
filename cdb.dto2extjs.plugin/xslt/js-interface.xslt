@@ -17,28 +17,31 @@
   
   <!-- Import chunker code -->
   <xsl:import href="chunker.xslt"/>  
-    
+  
   <!-- Import functionality -->  
-  <xsl:import href="as3-enum-farata-generated.xslt"/>
-  <xsl:import href="as3-enum-farata-custom.xslt"/>
+  <xsl:import href="js-interface-generated.xslt"/>
+  <xsl:import href="js-interface-custom.xslt"/>
   
   <xsl:param name="base" select="."/>
-  <xsl:param name="metadata-dump" select="no"/>
-  
-  <!-- Global variables --> 
-  <xsl:variable name="className">
-    <xsl:call-template name="last-part-of">
-      <xsl:with-param name="string" select="/dto2extjs:enum/@name" />
-      <xsl:with-param name="char" select="'.'" />
-    </xsl:call-template>
-  </xsl:variable>  
+  <xsl:param name="metadata-dump" select="'no'"/> 
+  <xsl:param name="generated-pckg" select="'generated'"/>
+
+  <xsl:variable name="kind" select="/dto2extjs:interface/@kind"/>
   <xsl:variable name="packageName">
     <xsl:call-template name="package-of">
-      <xsl:with-param name="name" select="/dto2extjs:enum/@name"/>
+      <xsl:with-param name="name" select="/dto2extjs:interface/@name"/>
     </xsl:call-template>
   </xsl:variable>        
-
-  <xsl:template match="/dto2extjs:enum">
+  <xsl:variable name="className">
+    <xsl:call-template name="last-part-of">
+      <xsl:with-param name="string" select="/dto2extjs:interface/@name" />
+      <xsl:with-param name="char" select="'.'" />
+    </xsl:call-template>
+  </xsl:variable> 
+  <xsl:variable name="genPackage" select="$generated-pckg"/>
+      
+  <!-- Global variables -->     
+  <xsl:template match="/dto2extjs:interface">
     <xsl:variable name="path">
       <xsl:choose>
         <xsl:when test="$packageName">
@@ -50,9 +53,13 @@
       </xsl:choose> 
     </xsl:variable>
     
-    <!-- Writing generated enum file, overwrite always -->    
+    <!-- Writing generated interface file, overwrite always -->
     <xsl:variable name="generated_file">
-      <xsl:value-of select="concat($path, '/', $className, '.as')"/>
+      <xsl:call-template name="generated-file">
+      	<xsl:with-param name="path" select="$path"/>
+      	<xsl:with-param name="className" select="$className"/>
+      	<xsl:with-param name="genPackage" select="translate($genPackage, '.', './')"/>
+      </xsl:call-template>
     </xsl:variable>
 	<xsl:call-template name="write.text.chunk">
 		<xsl:with-param name="filename" select="$generated_file"/>
@@ -62,9 +69,9 @@
 			select="." mode="generated-file"/></xsl:with-param>
 	</xsl:call-template>	    
 
-    <!-- Writing custom enum file (include), only when missing -->
+    <!-- Writing custom interface file, only when missing -->
     <xsl:variable name="custom_file">
-      <xsl:value-of select="concat($path, '/', $className, '.inc')"/>
+      <xsl:value-of select="concat($path, '/', $className, '.js')"/>
     </xsl:variable>
     <xsl:variable name="custom_file_exists">
     	<xsl:call-template name="file-exists">
@@ -80,8 +87,7 @@
 				select="." mode="custom-file"/></xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
-    
-    
+
     <xsl:if test="$metadata-dump = 'yes'">
 	    <xsl:variable name="metadata_file">
 	      <xsl:value-of select="concat($path, '/', $className, '.xml')"/>
@@ -97,7 +103,6 @@
 			<xsl:with-param name="content" select="."/>
 		</xsl:call-template>    	
     </xsl:if>
-        
+    
   </xsl:template>		
-
 </xsl:stylesheet>
