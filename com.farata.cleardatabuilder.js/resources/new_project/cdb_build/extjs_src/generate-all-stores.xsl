@@ -12,6 +12,7 @@
 	<xsl:param name="remoteActionNamespace"/>
 	
 	<xsl:include href="generate-store.xsl" />
+	<xsl:include href="generate-extended-store.xsl" />
 	
 	<xsl:template match="/|/">
 		<xsl:for-each select="annotated-types/annotated-type">
@@ -38,11 +39,15 @@
 		<xsl:variable name="methods" select="annotated-types/annotated-type[@name=$interfaceName]/methods/method"/>
 		<xsl:for-each select="$methods">
 	<xsl:variable name="methodNode" select="current()" />
+	<xsl:variable name="generatedFileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Generated_Store.js')" />
+	<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Store.js')" />
+					
+	
+	
 	<xsl:choose>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_JPQLMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Store.js')" />
-			<redirect:write file="{$fileName}">
+			<redirect:write file="{$generatedFileName}">
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
 					<xsl:with-param name="appName" 		  select="$appName" />
@@ -57,11 +62,24 @@
 					
 				</xsl:call-template>
 			</redirect:write>
+			
+			
+		<xsl:if test="not(helper:fileExists($fileName))">
+			<redirect:write file="{$fileName}">
+				<xsl:call-template name="generate-extended-store.xsl">
+				    <xsl:with-param name="serviceName" select="$serviceName" />
+					<xsl:with-param name="appName" select="$appName" />
+					<xsl:with-param name="methodName" select="@name" />
+				</xsl:call-template>
+			</redirect:write>
+		</xsl:if>
+			
+			
+			
 		</xsl:when>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_FillMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Store.js')" />
-			<redirect:write file="{$fileName}">
+			<redirect:write file="{$generatedFileName}">
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
 					<xsl:with-param name="appName" 		  select="$appName" />
@@ -78,11 +96,21 @@
 					
 				</xsl:call-template>
 			</redirect:write>
+			
+		<xsl:if test="not(helper:fileExists($fileName))">
+			<redirect:write file="{$fileName}">
+				<xsl:call-template name="generate-extended-store.xsl">
+				    <xsl:with-param name="serviceName" select="$serviceName" />
+					<xsl:with-param name="appName" select="$appName" />
+					<xsl:with-param name="methodName" select="@name" />
+				</xsl:call-template>
+			</redirect:write>
+		</xsl:if>
+			
 		</xsl:when>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_GetMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Store.js')" />
-			<redirect:write file="{$fileName}">
+			<redirect:write file="{$generatedFileName}">
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName" 	  select="$serviceName" />
 					<xsl:with-param name="appName" 		  select="$appName" />
@@ -97,11 +125,21 @@
 					
 				</xsl:call-template>
 			</redirect:write>
+			
+			
+		<xsl:if test="not(helper:fileExists($fileName))">
+			<redirect:write file="{$fileName}">
+				<xsl:call-template name="generate-extended-store.xsl">
+				    <xsl:with-param name="serviceName" select="$serviceName" />
+					<xsl:with-param name="appName" select="$appName" />
+					<xsl:with-param name="methodName" select="@name" />
+				</xsl:call-template>
+			</redirect:write>
+		</xsl:if>
 		</xsl:when>
 		<xsl:when
 			test="annotations/annotation[@name='clear.cdb.annotations.CX_FillChildrenMethod']">
-			<xsl:variable name="fileName" select="concat($jsOutputFolder, '/', $serviceName, '_', @name, '_Store.js')" />
-			<redirect:write file="{$fileName}">
+			<redirect:write file="{$generatedFileName}">
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
 					<xsl:with-param name="appName" 		  select="$appName" />
@@ -117,6 +155,17 @@
 					
 				</xsl:call-template>
 			</redirect:write>
+			
+		<xsl:if test="not(helper:fileExists($fileName))">
+			<redirect:write file="{$fileName}">
+				<xsl:call-template name="generate-extended-store.xsl">
+				    <xsl:with-param name="serviceName" select="$serviceName" />
+					<xsl:with-param name="appName" select="$appName" />
+					<xsl:with-param name="methodName" select="@name" />
+				</xsl:call-template>
+			</redirect:write>
+		</xsl:if>
+			
 		</xsl:when>
 	</xsl:choose>
 </xsl:for-each>
