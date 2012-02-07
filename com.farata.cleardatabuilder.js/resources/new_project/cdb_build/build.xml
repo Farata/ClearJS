@@ -25,7 +25,7 @@
 		<antcall target="generateServices" />
 		<antcall target="generateDNJSettings-xml" />
 		<antcall target="generateEXT_App" />
-		<antcall target="generateEXT_App"/>
+		
 		
 
 		<!--antcall target="generateFlex" /-->
