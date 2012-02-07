@@ -15,6 +15,8 @@
 	<xsl:include href="generate-grid.xsl"/>
 	<xsl:include href="generate-store.xsl"/>
 	<xsl:include href="generate-extended-store.xsl"/>
+	<xsl:include href="generate-service.xsl"/>
+	
 	
 	<xsl:template match="/|/">
 	
@@ -145,6 +147,14 @@
 		<xsl:variable name="generatedFileName"   select="concat($testPath, '/', helper:replaceAll($appFolderPath, '.', '/'), '/store/_generated/', $elementName )"/>
 		<xsl:variable name="fileName" select="concat($testPath, '/', helper:replaceAll($appFolderPath, '.', '/'), '/store/', $elementPrefix, '_Store.js')" />
 		
+		
+		<xsl:variable name="create"  select="concat(@name,'_insertItems')" />
+		<xsl:variable name="read"  	 select="@name" />
+		<xsl:variable name="update"  select="concat(@name,'_updateItems')" />
+		<xsl:variable name="destroy" select="concat(@name,'_deleteItems')" />
+		
+		
+		
 		<redirect:write file="{$generatedFileName}">
 				<xsl:call-template name="generate-store.xsl">
 					<xsl:with-param name="serviceName"    select="$serviceName" />
@@ -153,10 +163,10 @@
 					<xsl:with-param name="methodName" 	  select="@name" />
 					<xsl:with-param name="interfaceName"  select="$interfaceName" />
 					
-					<xsl:with-param name="create"  select="concat(@name,'_insertItems')" />
-					<xsl:with-param name="read"  select="@name" />
-					<xsl:with-param name="update"  select="concat(@name,'_updateItems')" />
-					<xsl:with-param name="destroy"  select="concat(@name,'_deleteItems')" />
+					<xsl:with-param name="create"  select="$create" />
+					<xsl:with-param name="read"  select="$read" />
+					<xsl:with-param name="update"  select="$update" />
+					<xsl:with-param name="destroy"  select="$destroy" />
 					
 				</xsl:call-template>
 		</redirect:write>
@@ -170,7 +180,26 @@
 				</xsl:call-template>
 			</redirect:write>
 		</xsl:if>
-		 
+		
+		 <!-- generate services -->
+		
+		<xsl:variable name="sName" select="concat($testPath, '/', helper:replaceAll($appFolderPath, '.', '/'), '/service/', $serviceName, '.js')" />
+		
+		<redirect:write file="{$sName}">
+				<xsl:call-template name="generate-service.xsl">
+					<xsl:with-param name="serviceName"    select="$serviceName" />
+					<xsl:with-param name="appName" 		  select="$appName" />
+					<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />
+					<xsl:with-param name="methodName" 	  select="@name" />
+					<xsl:with-param name="interfaceName"  select="$interfaceName" />
+					
+					<xsl:with-param name="create"  select="$create" />
+					<xsl:with-param name="read"  select="$read" />
+					<xsl:with-param name="update"  select="$update" />
+					<xsl:with-param name="destroy"  select="$destroy" />
+					
+				</xsl:call-template>
+		</redirect:write>
 		 
 		 
 		</xsl:for-each>		
