@@ -208,7 +208,7 @@
 				<include name="**/*.java" />
 			</fileset>
 		</path>
-		<xslt classpathref="build.class.path" in="annotated.xml" style="src/djn-settings-generation.xsl" out="${project-root}/WebContent/WEB-INF/djn-settings.xml" force="true">
+		<xslt classpathref="build.class.path" in="annotated.xml" style="src/djn-settings-generation.xsl" out="${project-root}/WebContent/WEB-INF/generated/djn-settings.xml" force="true">
 			<param name="apis" expression="${apis}" />
 			<param name="apiNamespace" expression="${apiNamespace}" />
 			<param name="package" expression="${cdb-package}" />
