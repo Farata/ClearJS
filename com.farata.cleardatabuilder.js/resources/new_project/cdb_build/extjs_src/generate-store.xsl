@@ -16,9 +16,10 @@
 		<xsl:param name="read"   />
 		<xsl:param name="update" />
 		<xsl:param name="destroy" />
+		
 	<xsl:variable name="transferType" select="helper:getMethodTransferType($interfaceName, $methodName)"/>
-	
-Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Generated_Store',{
+		
+Ext.define('<xsl:value-of select="$appName"/>.store._generated.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Generated_Store',{
 
 	extend: 'Clear.data.DirectStore',
 	requires  : ['Ext.direct.Manager','<xsl:value-of select="$appName"/>.model.<xsl:value-of select="helper:getTypeName($transferType)"/>','Ext.window.MessageBox'],

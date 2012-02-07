@@ -12,7 +12,7 @@
 		<xsl:param name="methodName" />
 	
 Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Store',{
-	extend: '<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Generated_Store'
+	extend: '<xsl:value-of select="$appName"/>.store._generated.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Generated_Store'
 });
 	</xsl:template>
 </xsl:stylesheet>
