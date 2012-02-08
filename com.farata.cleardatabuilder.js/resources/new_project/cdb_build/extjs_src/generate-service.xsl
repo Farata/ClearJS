@@ -29,22 +29,22 @@ Ext.define('<xsl:value-of select="$appName"/>.service.<xsl:value-of select="$ser
     	
     },
     
-    create : function(){
+    create : function(items){
     	<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$create)"/>(items,function(result, e) {
     		console.log(result);
     	});
     },
-    read : function(){
+    read : function(items){
     	<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$read)"/>(function(result, e) {
     		return result;
     	});
     },
-    update : function(){
+    update : function(items){
     	<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$update)"/>(items,function(result, e) {
     		console.log(result);
     	});
     },
-    destroy : function(){
+    destroy : function(items){
     	<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$destroy)"/>(items,function(result, e) {
     		console.log(result);
     	});
