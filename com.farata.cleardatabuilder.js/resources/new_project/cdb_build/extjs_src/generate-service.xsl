@@ -38,7 +38,7 @@ Ext.define('<xsl:value-of select="$appName"/>.service.<xsl:value-of select="$ser
     	<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$read)"/>(function(result, e) {
     		return result;
     	});
-    }
+    },
     update : function(){
     	<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$update)"/>(items,function(result, e) {
     		console.log(result);
