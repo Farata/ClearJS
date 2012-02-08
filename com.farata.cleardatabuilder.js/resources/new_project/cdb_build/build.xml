@@ -26,7 +26,6 @@
 		<antcall target="generateDNJSettings-xml" />
 		<antcall target="generateEXT_App" />
 		
-		
 
 		<!--antcall target="generateFlex" /-->
 		<!-- TO BE DELETED-->
@@ -232,7 +231,7 @@
 						</path>
 						<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-all-application.xsl" out="tmp.txt" force="true">
 							<param name="jsOutputFolder" expression="${project-root}/WebContent" />
-							<param name="appName" expression="CDB" />
+							<param name="appName" expression="${appName}" />
 							<param name="remoteActionNamespace" expression="${remoteActionsNamespace}" />
 						</xslt>
 

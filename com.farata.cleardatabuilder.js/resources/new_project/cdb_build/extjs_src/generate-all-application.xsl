@@ -11,6 +11,8 @@
 	<xsl:param name="appName" />
 	<xsl:param name="remoteActionNamespace"/>
 	
+	<xsl:include href="generate-app_js.xsl"/>
+	<xsl:include href="generate-appjs-viewdeclaration.xsl"/>
 	<xsl:include href="generate-controller.xsl"/>
 	<xsl:include href="generate-grid.xsl"/>
 	<xsl:include href="generate-store.xsl"/>
@@ -55,41 +57,17 @@
 			<xsl:variable name="rootFilePath" 	select="concat($testPath, $elementPrefix, '_App.js')" />
 			<xsl:variable name="appFolderPath"	select="concat($packageName, '.', $serviceName, '.', @name)" />
 
-		<!-- add header to app.js-file -->
-		<redirect:write file="{$rootFilePath}">
-			Ext.Loader.setConfig({
-			 disableCaching: false,
-			 enabled: true,
-			 paths  : {
-			  CDB: '<xsl:value-of select="$appName"/>', Clear:'clear'
-			 }
-			});
-			
-			Ext.require(
-			 ['Ext.direct.Manager'],
-			
-			 function() {
-			  var providerConfig = Clear.direct.REMOTING_API;
-			  providerConfig.enableBuffer = 0;
-			  var provider = Ext.Direct.addProvider( providerConfig);
-			  Djn.RemoteCallSupport.addCallValidation(provider);
-			  Djn.RemoteCallSupport.validateCalls = true;
-	
-			Ext.application({
-				name:'<xsl:value-of select="$appName" />',
-				appFolder: 'test/<xsl:value-of select="helper:replaceAll($appFolderPath, '.', '/')"/>',
-				controllers:	[
-		</redirect:write>
-		
+		<xsl:apply-templates select="/" mode="generate-app">
+			<xsl:with-param name="appName" select="$appName"/>
+			<xsl:with-param name="appFolderPath" select="$appFolderPath"/>
+			<xsl:with-param name="elementPrefix" select="$elementPrefix"/>
+			<xsl:with-param name="rootFilePath"	select="$rootFilePath"/>
+		</xsl:apply-templates>
+
 		<!-- start generate controllers -->
 		<xsl:variable name="elementName" select="concat($elementPrefix, '_Controller')" />
 		<xsl:variable name="fileName" select="concat($testPath, helper:replaceAll($appFolderPath, '.', '/'), '/controller/',  $elementName, '.js')"/>
 		
-		<!-- add controller declaration to app.js -->
-		<redirect:write file="{$rootFilePath}" append="true">
-				'<xsl:value-of select="$elementName"/>'
-		</redirect:write>
-
 		<!-- generate controller -->
 		<redirect:write file="{$fileName}">
 				<xsl:call-template name="generate-controller.xsl">
@@ -100,26 +78,9 @@
 				</xsl:call-template>
 		</redirect:write>
 		
-		<!-- generate body of app.js -->
-		<redirect:write file="{$rootFilePath}" append="true">
-			],
-		
-		launch:function(){
-			Ext.create('Ext.container.Viewport',{
-				items:
-				[
-		</redirect:write>
-		
 		<!-- start generate panels -->
 		<xsl:variable name="elementName"	select="concat($elementPrefix, '_Panel')" />
 		<xsl:variable name="fileName" select="concat($testPath, '/', helper:replaceAll($appFolderPath, '.', '/'), '/view/', $elementName, '.js' )"/>
-		
-		<!-- add panel declaration to app.js -->
-		<redirect:write file="{$rootFilePath}" append="true">
-					{
-						xtype:'<xsl:value-of select="$elementName"/>'
-					}
-		</redirect:write>
 		
 		<!-- generate panel -->
 		<redirect:write file="{$fileName}">
@@ -129,15 +90,6 @@
 					<xsl:with-param name="methodName" 	  select="@name" />
 					<xsl:with-param name="interfaceName"  select="$interfaceName" />
 				</xsl:call-template>
-		</redirect:write>
-		
-		<!-- finish generate app.js -->
-		<redirect:write	file="{$rootFilePath}" append="true">
-					]
-				});
-			}
-		});
-	});
 		</redirect:write>
 		
 		
