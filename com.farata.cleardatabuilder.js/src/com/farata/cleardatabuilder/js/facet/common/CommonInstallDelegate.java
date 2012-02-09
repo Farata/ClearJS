@@ -5,6 +5,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -58,14 +59,15 @@ public class CommonInstallDelegate implements IDelegate {
 				if ("com.farata.cleardatabuilder.js.facet.common".equals(evt.getProjectFacet().getId())) {
 					try {
 						FacetedProjectFramework.removeListener(this);
-						final Properties props = new Properties();
-						fillHibernateProps(props, project, monitor);
 						final String prjName = project.getName();
 						Job job = new Job("Installing " + prjName) {
 
 							@Override
 							protected IStatus run(
 									IProgressMonitor iprogressmonitor) {
+								final Properties props = new Properties();
+								fillHibernateProps(props, project, monitor);
+
 								Installer.install(props, prjName,
 										sampleInstallConfig == null ? true
 												: false, null);
@@ -91,7 +93,7 @@ public class CommonInstallDelegate implements IDelegate {
 			setDefaultProps(props);
 
 			Properties properties = new Properties();
-			JpaProject jpaProject = JptJpaCorePlugin.getJpaProject(project);
+			JpaProject jpaProject = waitForJpaProject(project, 1000);
 			if (jpaProject == null) {
 				return;
 			}
@@ -180,6 +182,29 @@ public class CommonInstallDelegate implements IDelegate {
 				}
 			}
 		}
+	}
+
+	public static JpaProject waitForJpaProject(IProject project, long timeout) {
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (CoreException e1) {
+			e1.printStackTrace();
+		}
+		JpaProject jpaProject = JptJpaCorePlugin.getJpaProject(project);
+		long time = 0;
+		while (jpaProject == null) {
+			if (time>timeout) {
+				break;
+			}
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+			}
+			time += 100;
+			//JptCorePlugin.rebuildJpaProject(project);
+			jpaProject = JptJpaCorePlugin.getJpaProject(project);
+		}
+		return jpaProject;
 	}
 
 }

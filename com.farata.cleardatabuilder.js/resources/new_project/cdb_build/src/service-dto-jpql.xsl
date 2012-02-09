@@ -60,7 +60,7 @@ public class <xsl:value-of select="$dtoName"/>  implements Serializable, IUID{
 		if (uid == null) {
 			<xsl:choose>
 			<xsl:when test="count($keyPropertyNames/element) > 0">uid = "" + <xsl:for-each select="$keyPropertyNames"><xsl:value-of select="element/@value"/><xsl:if test="not(position()=last())">+"|"</xsl:if></xsl:for-each>;</xsl:when>
-			<xsl:otherwise>uid = UUIDUtils.createUUID(false);</xsl:otherwise>
+			<xsl:otherwise>uid = flex.messaging.util.UUIDUtils.createUUID(false);</xsl:otherwise>
 		</xsl:choose>
 		}
 		return uid;
