@@ -22,7 +22,6 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 import com.farata.dto2extjs.annotations.JSClass;
-import com.farata.dto2extjs.annotations.JSClassKind;
 import com.farata.dto2extjs.annotations.JSIgnore;
 import com.farata.dto2extjs.annotations.JSManyToOne;
 import com.farata.dto2extjs.annotations.JSOneToMany;
@@ -39,6 +38,7 @@ import com.sun.mirror.declaration.TypeDeclaration;
 import com.sun.mirror.type.DeclaredType;
 import com.sun.mirror.type.EnumType;
 import com.sun.mirror.type.InterfaceType;
+import com.sun.mirror.type.MirroredTypeException;
 import com.sun.mirror.util.SimpleDeclarationVisitor;
 
 abstract public class JSTypeDeclarationReflector extends XMLFilterImpl {
@@ -126,18 +126,12 @@ abstract public class JSTypeDeclarationReflector extends XMLFilterImpl {
 					attrs.addAttribute("", "final", "final", "NMTOKEN", "true");
 				
 				
-				final JSClassKind jsClassKind = _types.resolveTypeOf(type);
-				final String kind = jsClassKind.name().toLowerCase();
-				
-				final JSClass jsClass = type.getAnnotation(JSClass.class);
-				String asClass = jsClass.value();
-				if (null == asClass || asClass.length() == 0)
-					asClass = type.getQualifiedName();
+				final IJSType jsType = _types.getJSType(type);
 				
 				attrs.addAttribute("", "name", "name", "NMTOKEN", 
-					asClass );
+					jsType.id() );
 				attrs.addAttribute("", "kind", "kind", "NMTOKEN", 
-					kind);
+					jsType.classKind().name().toLowerCase() );
 				
 				final TypeDeclarationKind declarationKind = getTypeKind();
 				final String typeQName = NS_DTO2JS + ':' + declarationKind.id();
@@ -332,29 +326,48 @@ abstract public class JSTypeDeclarationReflector extends XMLFilterImpl {
 		
 		protected void _processPropertyDeclaration(	final String propertyName,
 				final Declaration origin) throws SAXException {
+			
 			JSOneToMany oneToManyAnnotation = origin.getAnnotation(JSOneToMany.class);
 			if (oneToManyAnnotation != null) {
-				AttributesImpl propertyAttrs = new AttributesImpl();
-				String propertyQName = NS_DTO2JS + ':' + "OneToMany";
-				String collectionType = oneToManyAnnotation.collectionType();
-				propertyAttrs.addAttribute("", "dataCollectionClass", "collectionType", "NMTOKEN", collectionType);
+				final AttributesImpl propertyAttrs = new AttributesImpl();
+				final String propertyQName = NS_DTO2JS + ':' + "OneToMany";
+				
+				IJSType collectionType;
+				try {
+					final Class<? extends Collection<?>> collectionClass = oneToManyAnnotation.collectionType();
+					collectionType = _types.getJSType(collectionClass);
+				} catch (final MirroredTypeException ex) {
+					collectionType = _types.getJSType(ex.getTypeMirror(), origin.getPosition());
+				}
+				
+				propertyAttrs.addAttribute("", "dataCollectionClass", "collectionType", "NMTOKEN", collectionType.id());
+				
 				String keys = oneToManyAnnotation.fillArguments().replaceAll("\\s", "");
 				propertyAttrs.addAttribute("", "fillArguments", "fillArguments", "NMTOKEN", keys);
+				
 				JSOneToMany.SyncType sync = oneToManyAnnotation.sync();
 				propertyAttrs.addAttribute("", "sync", "sync", "NMTOKEN", sync.toString());
+				
 				int ranking = oneToManyAnnotation.ranking();
 				propertyAttrs.addAttribute("", "ranking", "ranking", "NMTOKEN", ""+ranking);
 				
 				startElement(URI_DTO2JS, "OneToMany", propertyQName, propertyAttrs);
 				endElement(URI_DTO2JS, "OneToMany", propertyQName);
 			}
+			
 			JSManyToOne manyToOneAnnotation = origin.getAnnotation(JSManyToOne.class);
 			if (manyToOneAnnotation != null) {
-				AttributesImpl propertyAttrs = new AttributesImpl();
-				String propertyQName = NS_DTO2JS + ':' + "ManyToOne";
-				String parent = manyToOneAnnotation.parent();
-				if (parent != null) {
-					propertyAttrs.addAttribute("", "parent", "parent", "NMTOKEN", parent);
+				final AttributesImpl propertyAttrs = new AttributesImpl();
+				final String propertyQName = NS_DTO2JS + ':' + "ManyToOne";
+				IJSType parentType;
+				try {
+					final Class<?> parentClass = manyToOneAnnotation.parent();
+					parentType = _types.getJSType(parentClass);
+				} catch (final MirroredTypeException ex) {
+					parentType = _types.getJSType(ex.getTypeMirror(), origin.getPosition());
+				}
+				if (parentType != null) {
+					propertyAttrs.addAttribute("", "parent", "parent", "NMTOKEN", parentType.id());
 				}
 				startElement(URI_DTO2JS, "ManyToOne", propertyQName, propertyAttrs);
 				endElement(URI_DTO2JS, "ManyToOne", propertyQName);

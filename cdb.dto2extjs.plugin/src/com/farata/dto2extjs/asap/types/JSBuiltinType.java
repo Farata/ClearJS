@@ -12,16 +12,28 @@ package com.farata.dto2extjs.asap.types;
 import com.farata.dto2extjs.annotations.JSClassKind;
 
 public enum JSBuiltinType implements IJSType {
-	Void {
-		@Override public String id() { return "void"; }
+	AUTO {
+		@Override public String id() { return "Ext.data.Types.AUTO"; }
 	},
-	Int {
-		@Override public String id() { return "int"; }
+	BOOLEAN {
+		@Override public String id() { return "Ext.data.Types.BOOLEAN"; }
+	},
+	STRING {
+		@Override public String id() { return "Ext.data.Types.STRING"; }
+	},
+	INTEGER {
+		@Override public String id() { return "Ext.data.Types.INTEGER"; }
+	},
+	FLOAT {
+		@Override public String id() { return "Ext.data.Types.FLOAT"; }
 	}, 
-	UInt {
-		@Override public String id() { return "uint"; }
+	NUMBER {
+		@Override public String id() { return "Ext.data.Types.NUMBER"; }
 	},
-	XML, Object, Number, String, Boolean, Date;
+	DATE {
+		@Override public String id() { return "Ext.data.Types.DATE"; }
+	};
+	/*XML, Object,*/
 	public String id() { return name(); }
 	public JSClassKind classKind() { return null; }
 	public boolean isContainer() { return false; }

@@ -5,6 +5,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Collection;
 
 /**
  * Is used to generate JavaScript code for remote lazy load of the collection property; can also be used to
@@ -146,8 +147,10 @@ private function pendindItemFunction(index:int, ipe:ItemPendingError):Object {
 @Target( { ElementType.METHOD, ElementType.FIELD })
 public @interface JSOneToMany {
 	public enum SyncType { BATCH, HIERARCHY }
-	public String collectionType() default "";
+	public Class<? extends Collection<?>> collectionType() default defaultCollection.class;
 	public String fillArguments() default "";
 	public SyncType sync() default SyncType.BATCH;
 	public int ranking() default 0;
+
+	abstract public static class defaultCollection implements Collection<Object> {}
 }

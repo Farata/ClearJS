@@ -134,7 +134,6 @@ public class JSTypeReflector {
 		}
 	}
 	
-	
 	public static AnnotationMirror getJSClassAnnotationMirror(final TypeDeclaration type) {
 		return JSTypeReflector.getAnnotationMirror(type, JSClass.class.getName());
 	}	
@@ -165,6 +164,16 @@ public class JSTypeReflector {
 		return annotationMirror.getPosition();
 	}
 	
+	public IJSType getJSType(final Class<?> type) {
+		System.out.println(type);
+		final TypeDeclaration t= _environment.getTypeDeclaration(type.getName()); 
+		return getJSType(t);
+	}
+	
+	public IJSType getJSType(final TypeDeclaration type) {
+		return getJSType(_types.getDeclaredType(type), type.getPosition());
+	}
+	
 	public IJSType getJSType(final TypeMirror type, final SourcePosition pos) 
 		throws InvalidJavaTypeException {
 		return getJSType(type, pos, false);
@@ -177,23 +186,24 @@ public class JSTypeReflector {
 			final PrimitiveType pType = (PrimitiveType)type;
 			switch ( pType.getKind() ) {
 				case BOOLEAN: 
-					return JSBuiltinType.Boolean;
+					return JSBuiltinType.BOOLEAN;
 				case BYTE: 
 				case SHORT:
 				case INT:
-					return JSBuiltinType.Int;
-				case LONG:
+					return JSBuiltinType.INTEGER;
 				case FLOAT:
+					return JSBuiltinType.FLOAT;
+				case LONG:
+					return JSBuiltinType.NUMBER;
 				case DOUBLE:
-					return _numberAsString ? JSBuiltinType.String
-						: JSBuiltinType.Number;
+					return _numberAsString ? JSBuiltinType.STRING : JSBuiltinType.NUMBER;
 				case CHAR:
-					return JSBuiltinType.String;
+					return JSBuiltinType.STRING;
 				default:
 					throw new UnsupportedOperationException("Unknown Java primitive type: " + pType.getKind());
 			}
 		} else if ( type instanceof VoidType ) {
-			return JSBuiltinType.Void;
+			return JSBuiltinType.AUTO;
 		} else if ( type instanceof ReferenceType ) {
 			if ( type instanceof ArrayType ) {
 				final ArrayType aType = (ArrayType)type;
@@ -214,7 +224,7 @@ public class JSTypeReflector {
 					
 					final String qName = tdComponentType.getQualifiedName();
 					if ( "java.lang.Character".equals(qName) )
-						return JSBuiltinType.String;
+						return JSBuiltinType.STRING;
 					else if ( "java.lang.Byte".equals(qName) )
 						return FLASH_BYTE_ARRAY;
 				}
@@ -238,20 +248,20 @@ public class JSTypeReflector {
 				
 				final String qName = cDeclaration.getQualifiedName();
 				if ( "java.lang.Object".equals(qName) )
-					return JSBuiltinType.Object;
+					return JSBuiltinType.AUTO;
 				if ( "java.lang.String".equals( qName ) )
-					return JSBuiltinType.String;
+					return JSBuiltinType.STRING;
 				else if ( "java.lang.Boolean".equals(qName) )
-					return JSBuiltinType.Boolean;
+					return JSBuiltinType.BOOLEAN;
 				else if ( knownNumberWrappers().contains(qName) )
-					return _numberAsString ? JSBuiltinType.String
-							: JSBuiltinType.Number;
+					return _numberAsString ? JSBuiltinType.STRING
+							: JSBuiltinType.NUMBER;
 				else if ( isSubtypeOf(dType, "java.util.Date", false) )
-					return JSBuiltinType.Date;
+					return JSBuiltinType.DATE;
 				else if ( isSubtypeOf(dType, "java.util.Calendar", false) )
-					return JSBuiltinType.Date;
+					return JSBuiltinType.DATE;
 				else if ( isSubtypeOf(dType, "java.util.Map", true))
-					return JSBuiltinType.Object;
+					return JSBuiltinType.AUTO;
 
 				else if ( isSubtypeOf(dType, "java.util.Collection", true)) {
 					final String jsCollectionClassName;
@@ -272,10 +282,10 @@ public class JSTypeReflector {
 				}
 		
 				else if ( isSubtypeOf(dType, "java.lang.Number", false) )
-					return _numberAsString ? JSBuiltinType.String
-							: JSBuiltinType.Number;
+					return _numberAsString ? JSBuiltinType.STRING
+							: JSBuiltinType.NUMBER;
 				else if ( isSubtypeOf(dType, "org.w3c.dom.Document", true ) )
-					return JSBuiltinType.XML;
+					return JSBuiltinType.STRING;
 				
 				final JSClass jsClass = cDeclaration.getAnnotation(JSClass.class);
 				if (null == jsClass) {
@@ -287,7 +297,7 @@ public class JSTypeReflector {
 					if ( cDeclaration instanceof EnumDeclaration && 
 						 resolveTypeOf(cDeclaration) == JSClassKind.STRING_CONSTANTS
 					   )
-						return JSBuiltinType.String; 
+						return JSBuiltinType.STRING; 
 					else
 						return new JSCustomType(cDeclaration, resolveTypeOf(cDeclaration) );
 				}
