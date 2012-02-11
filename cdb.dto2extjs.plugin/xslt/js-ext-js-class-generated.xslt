@@ -38,6 +38,16 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 <xsl:apply-templates select="$relationPropertiesM1" mode="relationPropertyM1"/>
 	],
 	</xsl:if>
+	requires: [
+		<xsl:if test="dto2extjs:property[starts-with(@type, 'Ext.data.Types.')]">'Ext.data.Types',</xsl:if>
+		<xsl:key name="distinct-custom-types" match="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.'))]" 
+			use="@type"/>
+		<xsl:for-each select="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.'))]">
+			<xsl:if test="generate-id() = generate-id(key('distinct-custom-types', @type))">
+      		'<xsl:value-of select="@type"/>'<xsl:if test="last() != position()">,</xsl:if>
+      		</xsl:if>
+		</xsl:for-each>
+	]
 }
 	</xsl:template>		
 
@@ -73,9 +83,9 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
   
 		{
 			model: '<xsl:value-of select="$contentType"/>',
-			name:'<xsl:value-of select="u:XsltUtils.getterFor(@name)"/>', 
-			foreignKey:'userId',
-			autoLoad:true,
+			name: '<xsl:value-of select="u:XsltUtils.getterFor(@name)"/>', 
+			foreignKey: 'userId',
+			autoLoad: true,
 			storeClassName:'<xsl:value-of select="$dataCollectionClass"/>'
 		},
 		<!--   		
@@ -132,7 +142,7 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
   <xsl:template match="dto2extjs:property" mode="scalarProperty"><xsl:text>
 </xsl:text>
 		{
-			name: <xsl:value-of select="@name"/>,
+			name: '<xsl:value-of select="@name"/>',
 			type: <xsl:value-of select="@type"/>,
 			useNull: true
 		},
