@@ -1283,17 +1283,17 @@ public class AnnotationsHelper {
 		return genTypeName;
 	}
 	
-	public static String createCollectionName(String dtoName) {
-		String collectionName = dtoName.replaceAll("(DTO)$", "");
-		collectionName = collectionName + "Collection";
+	public static String createStoreName(String dtoName) {
+		String storeName = dtoName.replaceAll("(DTO)$", "");
+		storeName = storeName;
 		//System.out.println(collectionName);
-		return collectionName;
+		return storeName;
 	}
 
-	public static String createCollectionPackageName(String dtoPackageName) {
-		String packageName = "collections";
+	public static String createStorePackageName(String dtoPackageName) {
+		String packageName = "store";
 		if (dtoPackageName.indexOf('.') != -1) {
-			packageName = dtoPackageName.replaceAll("\\.[^.]*$", ".collections");
+			packageName = dtoPackageName.replaceAll("\\.[^.]*$", ".store");
 		}
 		//System.out.println(packageName);
 		return packageName;
