@@ -11,6 +11,10 @@
 				<exclude name="**/*.svn" />
 			</fileset>
 		</copy>
+		<ant antfile="../com.farata.cleardatabuilder.js.helper/build.xml" dir="../com.farata.cleardatabuilder.js.helper" />
+		<copy todir="../com.farata.cleardatabuilder.js/resources/new_project/WebContent/WEB-INF/lib">
+			<fileset dir="../com.farata.cleardatabuilder.js.helper/dist" />
+		</copy>
 
 		<!--ant antfile="../cdb.dto2fx.annotations/build.xml" dir="../cdb.dto2fx.annotations" />
 		<copy todir="../com.farata.cleardatabuilder/resources/FlexProjectTemplate/WebContent/WEB-INF/lib">
