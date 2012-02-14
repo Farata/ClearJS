@@ -20,7 +20,7 @@
 		<xsl:variable name="relationPropertiesM1" select="dto2extjs:property[not(@abstract = 'true') and (dto2extjs:ManyToOne)]"/>
 Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 	extend: '<xsl:choose>
-	<xsl:when test="$superclass"><xsl:value-of select="$superclass"/></xsl:when>
+	<xsl:when test="$superclass"><xsl:value-of select="$superclass/@name"/></xsl:when>
 		<xsl:otherwise>Ext.data.Model</xsl:otherwise>
 	</xsl:choose>',
 	<xsl:if test="$scalarProperties">
@@ -40,12 +40,12 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 	</xsl:if>
 	requires: [
 		<xsl:if test="dto2extjs:property[starts-with(@type, 'Ext.data.Types.')]">'Ext.data.Types',</xsl:if>
-		<xsl:key name="distinct-custom-types" match="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.'))]" 
-			use="@type"/>
-		<xsl:for-each select="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.'))]">
-			<xsl:if test="generate-id() = generate-id(key('distinct-custom-types', @type))">
-      		'<xsl:value-of select="@type"/>'<xsl:if test="last() != position()">,</xsl:if>
-      		</xsl:if>
+		<xsl:key name="distinct-custom-types" match="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.'))]/@type | dto2extjs:property/@contentType" 
+			use="."/>
+		<xsl:for-each select="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.'))]/@type | dto2extjs:property/@contentType">
+			<!--xsl:if test="generate-id() = generate-id(key('distinct-custom-types', .))"-->
+      		'<xsl:value-of select="."/>'<xsl:if test="last() != position()">,</xsl:if>
+      		<!--/xsl:if-->
 		</xsl:for-each>
 	]
 }
@@ -53,10 +53,10 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 
 	<xsl:template match="dto2extjs:property" mode="relationPropertyM1">
 		{
-			model: '<xsl:value-of select="dto2extjs:ManyToOne/@parent"/>',  
+			model: '<xsl:value-of select="@type"/>',  
 			getterName:'<xsl:value-of select="u:XsltUtils.getterFor(@name)"/>', 
 			setterName:'<xsl:value-of select="u:XsltUtils.setterFor(@name)"/>',
-			foreignKey:'userId'
+			foreignKey:'<xsl:value-of select="dto2extjs:ManyToOne/@foreignKey"/>'
 		},
 	</xsl:template>
 
@@ -84,7 +84,7 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 		{
 			model: '<xsl:value-of select="$contentType"/>',
 			name: '<xsl:value-of select="u:XsltUtils.getterFor(@name)"/>', 
-			foreignKey: 'userId',
+			foreignKey:'<xsl:value-of select="dto2extjs:OneToMany/@foreignKey"/>',
 			autoLoad: true,
 			storeClassName:'<xsl:value-of select="$dataCollectionClass"/>'
 		},

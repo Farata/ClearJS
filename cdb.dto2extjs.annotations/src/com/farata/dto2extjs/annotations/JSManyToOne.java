@@ -68,6 +68,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target( { ElementType.METHOD, ElementType.FIELD })
 public @interface JSManyToOne {
-	public abstract Class<?> parent();
-	public abstract String property();
+	public abstract String foreignKey();
 }

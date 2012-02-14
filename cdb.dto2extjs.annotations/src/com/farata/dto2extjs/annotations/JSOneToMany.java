@@ -147,10 +147,9 @@ private function pendindItemFunction(index:int, ipe:ItemPendingError):Object {
 @Target( { ElementType.METHOD, ElementType.FIELD })
 public @interface JSOneToMany {
 	public enum SyncType { BATCH, HIERARCHY }
-	public Class<? extends Collection<?>> collectionType() default defaultCollection.class;
+	public String collectionType() default "";
 	public String fillArguments() default "";
 	public SyncType sync() default SyncType.BATCH;
 	public int ranking() default 0;
-
-	abstract public static class defaultCollection implements Collection<Object> {}
+	public String foreignKey();
 }

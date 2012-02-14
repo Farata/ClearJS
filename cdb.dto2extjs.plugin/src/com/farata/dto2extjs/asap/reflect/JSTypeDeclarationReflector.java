@@ -38,7 +38,6 @@ import com.sun.mirror.declaration.TypeDeclaration;
 import com.sun.mirror.type.DeclaredType;
 import com.sun.mirror.type.EnumType;
 import com.sun.mirror.type.InterfaceType;
-import com.sun.mirror.type.MirroredTypeException;
 import com.sun.mirror.util.SimpleDeclarationVisitor;
 
 abstract public class JSTypeDeclarationReflector extends XMLFilterImpl {
@@ -332,24 +331,21 @@ abstract public class JSTypeDeclarationReflector extends XMLFilterImpl {
 				final AttributesImpl propertyAttrs = new AttributesImpl();
 				final String propertyQName = NS_DTO2JS + ':' + "OneToMany";
 				
-				IJSType collectionType;
-				try {
-					final Class<? extends Collection<?>> collectionClass = oneToManyAnnotation.collectionType();
-					collectionType = _types.getJSType(collectionClass);
-				} catch (final MirroredTypeException ex) {
-					collectionType = _types.getJSType(ex.getTypeMirror(), origin.getPosition());
-				}
+				final String collectionType = oneToManyAnnotation.collectionType();
+				propertyAttrs.addAttribute("", "dataCollectionClass", "collectionType", "NMTOKEN", 
+						collectionType == null || collectionType.length() == 0 ? "unspecifiedCollectionType" : collectionType);
 				
-				propertyAttrs.addAttribute("", "dataCollectionClass", "collectionType", "NMTOKEN", collectionType.id());
-				
-				String keys = oneToManyAnnotation.fillArguments().replaceAll("\\s", "");
+				final String keys = oneToManyAnnotation.fillArguments().replaceAll("\\s", "");
 				propertyAttrs.addAttribute("", "fillArguments", "fillArguments", "NMTOKEN", keys);
 				
-				JSOneToMany.SyncType sync = oneToManyAnnotation.sync();
+				final JSOneToMany.SyncType sync = oneToManyAnnotation.sync();
 				propertyAttrs.addAttribute("", "sync", "sync", "NMTOKEN", sync.toString());
 				
-				int ranking = oneToManyAnnotation.ranking();
+				final int ranking = oneToManyAnnotation.ranking();
 				propertyAttrs.addAttribute("", "ranking", "ranking", "NMTOKEN", ""+ranking);
+				
+				final String foreignKey = oneToManyAnnotation.foreignKey();
+				propertyAttrs.addAttribute("", "foreignKey", "foreignKey", "NMTOKEN", foreignKey);
 				
 				startElement(URI_DTO2JS, "OneToMany", propertyQName, propertyAttrs);
 				endElement(URI_DTO2JS, "OneToMany", propertyQName);
@@ -359,6 +355,7 @@ abstract public class JSTypeDeclarationReflector extends XMLFilterImpl {
 			if (manyToOneAnnotation != null) {
 				final AttributesImpl propertyAttrs = new AttributesImpl();
 				final String propertyQName = NS_DTO2JS + ':' + "ManyToOne";
+				/*
 				IJSType parentType;
 				try {
 					final Class<?> parentClass = manyToOneAnnotation.parent();
@@ -369,6 +366,10 @@ abstract public class JSTypeDeclarationReflector extends XMLFilterImpl {
 				if (parentType != null) {
 					propertyAttrs.addAttribute("", "parent", "parent", "NMTOKEN", parentType.id());
 				}
+				*/
+				final String foreignKey = manyToOneAnnotation.foreignKey();
+				propertyAttrs.addAttribute("", "foreignKey", "foreignKey", "NMTOKEN", foreignKey);
+				
 				startElement(URI_DTO2JS, "ManyToOne", propertyQName, propertyAttrs);
 				endElement(URI_DTO2JS, "ManyToOne", propertyQName);
 			}
