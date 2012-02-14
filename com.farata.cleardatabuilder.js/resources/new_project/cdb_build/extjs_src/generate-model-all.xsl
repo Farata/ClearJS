@@ -2,9 +2,8 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xalan="http://xml.apache.org/xslt"
 	xmlns:helper="xalan://com.farata.cdb.annotations.helper.AnnotationsHelper"
-    xmlns:redirect="org.apache.xalan.lib.Redirect"
-    extension-element-prefixes="redirect"
-	exclude-result-prefixes="xalan redirect">
+	xmlns:redirect="org.apache.xalan.lib.Redirect"
+	extension-element-prefixes="redirect" exclude-result-prefixes="xalan redirect">
 
 	<xsl:output omit-xml-declaration="yes" method="text" />
 
@@ -30,8 +29,7 @@
 					<xsl:variable name="typeParameter"
 						select="helper:getTypeParameter($returnType)" />
 					<xsl:choose>
-						<xsl:when
-							test="$typeParameter and $typeParameter != '?'">
+						<xsl:when test="$typeParameter and $typeParameter != '?'">
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:variable name="fullDtoName"
@@ -42,10 +40,8 @@
 								<xsl:when test="$isEntity or not($fullDtoName)"></xsl:when>
 								<xsl:otherwise>
 									<xsl:apply-templates select="/" mode="output">
-										<xsl:with-param name="outputFolder" 
-											select="$outputFolder"/>
-										<xsl:with-param name="force" 
-											select="$force"/>
+										<xsl:with-param name="outputFolder" select="$outputFolder" />
+										<xsl:with-param name="force" select="$force" />
 										<xsl:with-param name="dtoName"
 											select="concat('_', helper:getTypeName($fullDtoName))" />
 										<xsl:with-param name="subclassDtoName"
@@ -78,20 +74,14 @@
 		<xsl:variable name="fullDtoName" select="concat($rootPackage, '/', $dtoName)" />
 		<xsl:variable name="fileName"
 			select="concat($outputFolder, '/', helper:replaceAll($fullDtoName, '.', '/'), '.js')" />
-		<xsl:variable name="interfaceFileName"
-			select="concat($outputFolder, '/', helper:replaceAll($interfaceName, '.', '/'), '.js')" />
-		<xsl:variable name="cmp"
-			select="helper:compareLastModified($fileName, $interfaceFileName)" />
-		<xsl:if test="$cmp != 1 or $force='true'">
-			<redirect:write file="{$fileName}">
-				<xsl:call-template name="generate-model.xsl">
-					<xsl:with-param name="dtoName" select="$dtoName" />
-					<xsl:with-param name="rootPackage" select="$rootPackage" />
-					<xsl:with-param name="interfaceName" select="$interfaceName" />
-					<xsl:with-param name="methodName" select="$methodName" />
-				</xsl:call-template>
-			</redirect:write>
-		</xsl:if>
+		<redirect:write file="{$fileName}">
+			<xsl:call-template name="generate-model.xsl">
+				<xsl:with-param name="dtoName" select="$dtoName" />
+				<xsl:with-param name="rootPackage" select="$rootPackage" />
+				<xsl:with-param name="interfaceName" select="$interfaceName" />
+				<xsl:with-param name="methodName" select="$methodName" />
+			</xsl:call-template>
+		</redirect:write>
 		<xsl:variable name="subclassFullDtoName"
 			select="concat($subclassRootPackage, '/', $subclassDtoName)" />
 		<xsl:variable name="subclassFileName"

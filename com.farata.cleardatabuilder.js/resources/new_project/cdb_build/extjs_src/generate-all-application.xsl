@@ -15,9 +15,8 @@
 	<xsl:include href="generate-appjs-viewdeclaration.xsl" />
 	<xsl:include href="generate-controller.xsl" />
 	<xsl:include href="generate-grid.xsl" />
-	<xsl:include href="generate-store.xsl" />
-	<xsl:include href="generate-extended-store.xsl" />
 	<xsl:include href="generate-service.xsl" />
+	<xsl:include href="generate-store-all.xsl" />
 	<xsl:include href="generate-model-all.xsl" />
 
 
@@ -102,51 +101,12 @@
 				</xsl:call-template>
 			</redirect:write>
 
-
-			<!-- generate stores -->
-
-			<xsl:variable name="elementName"
-				select="concat($elementPrefix, '_Generated_Store.js')" />
-			<xsl:variable name="generatedFileName"
-				select="concat($testPath, '/', helper:replaceAll($appFolderPath, '.', '/'), '/store/_generated/', $elementName )" />
-			<xsl:variable name="fileName"
-				select="concat($testPath, '/', helper:replaceAll($appFolderPath, '.', '/'), '/store/', $elementPrefix, '_Store.js')" />
-
-
+			<!-- generate services -->
 			<xsl:variable name="create" select="concat(@name,'_insertItems')" />
 			<xsl:variable name="read" select="@name" />
 			<xsl:variable name="update" select="concat(@name,'_updateItems')" />
 			<xsl:variable name="destroy" select="concat(@name,'_deleteItems')" />
 
-
-
-			<redirect:write file="{$generatedFileName}">
-				<xsl:call-template name="generate-store.xsl">
-					<xsl:with-param name="serviceName" select="$serviceName" />
-					<xsl:with-param name="appName" select="$appName" />
-					<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />
-					<xsl:with-param name="methodName" select="@name" />
-					<xsl:with-param name="interfaceName" select="$interfaceName" />
-
-					<xsl:with-param name="create" select="$create" />
-					<xsl:with-param name="read" select="$read" />
-					<xsl:with-param name="update" select="$update" />
-					<xsl:with-param name="destroy" select="$destroy" />
-
-				</xsl:call-template>
-			</redirect:write>
-
-			<xsl:if test="not(helper:fileExists($fileName))">
-				<redirect:write file="{$fileName}">
-					<xsl:call-template name="generate-extended-store.xsl">
-						<xsl:with-param name="serviceName" select="$serviceName" />
-						<xsl:with-param name="appName" select="$appName" />
-						<xsl:with-param name="methodName" select="@name" />
-					</xsl:call-template>
-				</redirect:write>
-			</xsl:if>
-
-			<!-- generate services -->
 
 			<xsl:variable name="sName"
 				select="concat($testPath, '/', helper:replaceAll($appFolderPath, '.', '/'), '/service/', $serviceName, '.js')" />
@@ -173,6 +133,15 @@
 			<xsl:with-param name="outputFolder" select="$modelPath" />
 			<xsl:with-param name="force" select="string('true')" />
 		</xsl:call-template>
+		
+		<xsl:variable name="storePath" select="concat($jsOutputFolder, '/app/store/')" />
+		<xsl:call-template name="generate-store-all.xsl">
+			<xsl:with-param name="appName" select="$appName" />
+			<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />
+			<xsl:with-param name="outputFolder" select="$storePath" />
+			
+		</xsl:call-template>
+		
 
 	</xsl:template>
 
