@@ -29,12 +29,13 @@ public class JSAnnotationProcessorOptions {
 	
 	final private AnnotationProcessorEnvironment _env;
 	
-	private File        _output;  
-	private boolean     _reconcile = false;
-	private boolean     _dumpMetadata = false;
-	private boolean     _numberAsString = false;
-	private JSClassKind _defaultClassKind = JSClassKind.DEFAULT;
-	private JSClassKind _defaultEnumKind  = JSClassKind.STRING_CONSTANTS;
+	private File                  _output;  
+	private boolean               _reconcile = false;
+	private boolean               _dumpMetadata = false;
+	private boolean               _numberAsString = false;
+	private JSClassKind           _defaultClassKind = JSClassKind.DEFAULT;
+	private JSClassKind           _defaultEnumKind  = JSClassKind.STRING_CONSTANTS;
+	private IClassNameTransformer _classNameTransformer = IClassNameTransformer.NOP;
 	
 	public JSAnnotationProcessorOptions(final AnnotationProcessorEnvironment env) {
 		_env = env;
@@ -168,6 +169,11 @@ public class JSAnnotationProcessorOptions {
 				isValid = false;
 			}			
 		}
+		
+		final String classNameTransformer = options.get(CLASS_NAME_TRANSFORMER);
+		if (null != classNameTransformer && classNameTransformer.trim().length() > 0) {
+			_classNameTransformer = new PatternClassNameTransformer(classNameTransformer);
+		}
 
 		return isValid;
 	}
@@ -178,6 +184,7 @@ public class JSAnnotationProcessorOptions {
 	public boolean numberAsString() { return _numberAsString; }
 	public JSClassKind defaultClassKind() { return _defaultClassKind; }
 	public JSClassKind defaultEnumKind() { return _defaultEnumKind; }
+	public IClassNameTransformer classNameTransformer() { return _classNameTransformer; }
 	
 	private static Map<String,String> antFix(final Map<String,String> options) {
 		final Map<String, String> result = new HashMap<String, String>( options.size() );
@@ -216,6 +223,9 @@ public class JSAnnotationProcessorOptions {
 
 	final public static String NUMBER_AS_STRING
 		= "-Acom.faratasystems.dto2extjs.number-as-string";
+	
+	final public static String CLASS_NAME_TRANSFORMER
+	= "-Acom.faratasystems.dto2extjs.class-name-transformer";
 
 	final public static Collection<String> SUPPORTED_OPTIONS 
 		= Arrays.asList(
@@ -223,6 +233,7 @@ public class JSAnnotationProcessorOptions {
 			RECONCILE_PARAM, 
 			DEFAULT_CLASS_KIND_PARAM, DEFAULT_ENUM_KIND_PARAM, 
 			NUMBER_AS_STRING,
+			CLASS_NAME_TRANSFORMER,
 			MDDUMP_PARAM
 		);	
 }

@@ -17,6 +17,8 @@ import java.util.Arrays;
 
 import com.farata.dto2extjs.annotations.JSClass;
 import com.farata.dto2extjs.annotations.JSClassKind;
+import com.farata.dto2extjs.asap.IClassNameTransformer;
+import com.farata.dto2extjs.asap.JSAnnotationProcessorOptions;
 
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 
@@ -47,14 +49,15 @@ public class JSTypeReflector {
 	final private IWorkset                       _workset;
 	final private Types                          _types;
 	final private boolean                        _numberAsString;
-	
-	public JSTypeReflector(final AnnotationProcessorEnvironment environment, final IWorkset workset, final JSClassKind defaultClassKind, final JSClassKind defaultEnumKind, final boolean numberAsString) {
-		_environment      = environment;
-		_workset          = workset;
-		_defaultClassKind = defaultClassKind;
-		_defaultEnumKind  = defaultEnumKind;
-		_types            = environment.getTypeUtils();
-		_numberAsString   = numberAsString;
+	final private IClassNameTransformer          _classNameTransformer;                        
+	public JSTypeReflector(final AnnotationProcessorEnvironment environment, final IWorkset workset, final JSAnnotationProcessorOptions options) {
+		_environment          = environment;
+		_workset              = workset;
+		_defaultClassKind     = options.defaultClassKind();
+		_defaultEnumKind      = options.defaultEnumKind();
+		_types                = environment.getTypeUtils();
+		_numberAsString       = options.numberAsString();
+		_classNameTransformer = options.classNameTransformer();
 	}
 	
 	public AnnotationProcessorEnvironment environment() { return _environment; }
@@ -296,10 +299,11 @@ public class JSTypeReflector {
 					_workset.enlist( cDeclaration );
 					if ( cDeclaration instanceof EnumDeclaration && 
 						 resolveTypeOf(cDeclaration) == JSClassKind.STRING_CONSTANTS
-					   )
+					   ) {
 						return JSBuiltinType.STRING; 
-					else
-						return new JSCustomType(cDeclaration, resolveTypeOf(cDeclaration) );
+					} else {
+						return new JSCustomType(cDeclaration, _classNameTransformer, resolveTypeOf(cDeclaration) );
+					}
 				}
 			}
 		}

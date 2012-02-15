@@ -68,10 +68,7 @@ public class JSAnnotationProcessor implements AnnotationProcessor {
 			if ( decl instanceof TypeDeclaration ) typeDeclarations.add( (TypeDeclaration)decl );
 
 		final Workset workset = new Workset(_environment, typeDeclarations);
-		final JSTypeReflector _typeReflector = new JSTypeReflector(
-			_environment, workset, 
-			_options.defaultClassKind(), _options.defaultEnumKind(), _options.numberAsString()
-		);
+		final JSTypeReflector _typeReflector = new JSTypeReflector(_environment, workset, _options); 
 	
 		for (TypeDeclaration declaration = workset.next(); null != declaration; declaration = workset.next() ) {
 			

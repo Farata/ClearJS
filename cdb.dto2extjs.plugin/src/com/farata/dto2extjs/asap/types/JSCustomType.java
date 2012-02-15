@@ -11,6 +11,7 @@ package com.farata.dto2extjs.asap.types;
 
 import com.farata.dto2extjs.annotations.JSClass;
 import com.farata.dto2extjs.annotations.JSClassKind;
+import com.farata.dto2extjs.asap.IClassNameTransformer;
 
 import com.sun.mirror.declaration.EnumDeclaration;
 import com.sun.mirror.declaration.TypeDeclaration;
@@ -32,15 +33,18 @@ public class JSCustomType implements IJSType {
 		_contentType = contentType;
 	}
 	
-	public JSCustomType(final TypeDeclaration declaration, final JSClassKind resolvedClassKind) {
-		this(declaration, resolvedClassKind, null);
+	public JSCustomType(final TypeDeclaration declaration, final IClassNameTransformer classNameTransformer, final JSClassKind resolvedClassKind) {
+		this(declaration, classNameTransformer, resolvedClassKind, null);
 	}
 
-	public JSCustomType(final TypeDeclaration declaration, final JSClassKind resolvedClassKind, final IJSType contentType) {
+	public JSCustomType(final TypeDeclaration declaration, final IClassNameTransformer classNameTransformer, final JSClassKind resolvedClassKind, final IJSType contentType) {
 		final JSClass def = declaration.getAnnotation(JSClass.class);
 		String qname = def.value();
-		if (null == qname || qname.length() == 0)
+		if (null == qname || qname.length() == 0) {
 			qname = declaration.getQualifiedName();
+		} else {
+			qname = classNameTransformer.transform(qname);
+		}
 		
 		_id          = qname;
 		_classKind   = resolvedClassKind;
