@@ -7,12 +7,12 @@
 	<xsl:output omit-xml-declaration="yes" method="text"/>	
 	
 	<xsl:template match="/" name="generate-store-subclass.xsl">
-		<xsl:param name="serviceName"/>
+		<xsl:param name="storeName"/>
 		<xsl:param name="appName" />
-		<xsl:param name="methodName" />
+		<xsl:param name="rootPackage" />
 	
-Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Store',{
-	extend: '<xsl:value-of select="$appName"/>.store._generated.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Generated_Store'
+<xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$storeName"/>',{
+	extend: '<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$rootPackage"/>.generated._<xsl:value-of select="$storeName"/>'
 });
 	</xsl:template>
 </xsl:stylesheet>

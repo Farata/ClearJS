@@ -27,7 +27,7 @@
 		<xsl:variable name="destroy"
 			select="concat($fillMethodName,'_deleteItems')" />
 		
-Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$storeName"/>',{
+<xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$storeName"/>',{
 
 	extend: 'Clear.data.DirectStore',
 	requires  : ['Ext.direct.Manager','<xsl:value-of select="$appName"/>.model.<xsl:value-of select="helper:getTypeName($transferType)"/>','Ext.window.MessageBox'],

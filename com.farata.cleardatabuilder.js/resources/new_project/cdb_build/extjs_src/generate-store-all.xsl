@@ -115,10 +115,14 @@
 			select="concat($rootPackage, '.', $storeName)" />
 		<xsl:variable name="subclassFileName"
 			select="concat($outputFolder, '/', helper:replaceAll($subclassFullStoreName, '.', '/'), '.js')" />
-		<!-- xsl:if test="not(helper:fileExists($subclassFileName))"> <redirect:write 
-			file="{$subclassFileName}"> <xsl:call-template name="generate-store-subclass.xsl"> 
-			<xsl:with-param name="rootPackage" select="$rootPackage" /> <xsl:with-param 
-			name="collectionName" select="$collectionName" /> </xsl:call-template> </redirect:write> 
-			</xsl:if -->
+		<xsl:if test="not(helper:fileExists($subclassFileName))">
+			<redirect:write file="{$subclassFileName}">
+				<xsl:call-template name="generate-store-subclass.xsl">
+					<xsl:with-param name="rootPackage" select="$rootPackage" />
+					<xsl:with-param name="storeName" select="$storeName" />
+					<xsl:with-param name="appName" select="$appName" />
+				</xsl:call-template>
+			</redirect:write>
+		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>
