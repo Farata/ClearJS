@@ -2,6 +2,7 @@
 <xsl:stylesheet 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:dto2extjs="http://dto2extjs.faratasystems.com/"
+  xmlns:exsl="http://exslt.org/common"
   xmlns:u="xalan://com.farata.dto2extjs.asap"
   version="1.1" 
 >
@@ -39,13 +40,24 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 	],
 	</xsl:if>
 	requires: [
-		<xsl:if test="dto2extjs:property[starts-with(@type, 'Ext.data.Types.')]">'Ext.data.Types',</xsl:if>
-		<xsl:key name="distinct-custom-types" match="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.'))]/@type | dto2extjs:property/@contentType" 
-			use="."/>
-		<xsl:for-each select="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.'))]/@type | dto2extjs:property/@contentType">
-			<!--xsl:if test="generate-id() = generate-id(key('distinct-custom-types', .))"-->
-      		'<xsl:value-of select="."/>'<xsl:if test="last() != position()">,</xsl:if>
-      		<!--/xsl:if-->
+		<xsl:key name="distinct-custom-types" match="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.')) or @contentType]" 
+			use="@contentType | @type"/>
+		<xsl:variable name="required-types">
+			<xsl:if test="dto2extjs:property[starts-with(@type, 'Ext.data.Types.')]"><t>Ext.data.Types</t></xsl:if>
+			<xsl:for-each select="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.')) or @contentType]">
+				<xsl:if test="generate-id() = generate-id(key('distinct-custom-types', @contentType | @type))">
+				<xsl:variable name="v">
+					<xsl:choose>
+						<xsl:when test="@contentType"><xsl:value-of select="@contentType"/></xsl:when>
+						<xsl:otherwise><xsl:value-of select="@type"/></xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+	      		<t><xsl:value-of select="$v"/></t>
+	      		</xsl:if>
+			</xsl:for-each>
+		</xsl:variable>
+		<xsl:for-each select="exsl:node-set($required-types)/t">
+		'<xsl:value-of select="."/>'<xsl:if test="last() != position()">,</xsl:if>
 		</xsl:for-each>
 	]
 }
@@ -56,7 +68,8 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 			model: '<xsl:value-of select="@type"/>',  
 			getterName:'<xsl:value-of select="u:XsltUtils.getterFor(@name)"/>', 
 			setterName:'<xsl:value-of select="u:XsltUtils.setterFor(@name)"/>',
-			foreignKey:'<xsl:value-of select="dto2extjs:ManyToOne/@foreignKey"/>'
+			foreignKey:'<xsl:value-of select="dto2extjs:ManyToOne/@foreignKey"/>',
+			primaryKey:'id'
 		},
 	</xsl:template>
 
@@ -85,6 +98,7 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 			model: '<xsl:value-of select="$contentType"/>',
 			name: '<xsl:value-of select="u:XsltUtils.getterFor(@name)"/>', 
 			foreignKey:'<xsl:value-of select="dto2extjs:OneToMany/@foreignKey"/>',
+			primaryKey:'id',
 			autoLoad: true,
 			storeClassName:'<xsl:value-of select="$dataCollectionClass"/>'
 		},
