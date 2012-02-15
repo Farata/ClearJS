@@ -12,6 +12,8 @@
 		<xsl:param name="rootPackage" />
 		<xsl:param name="interfaceName" />
 		<xsl:param name="methodName" />
+		<xsl:param name="appName" />
+		
 		<xsl:variable name="methodNode"
 			select="annotated-types/annotated-type[@name=$interfaceName]/methods/method[@name=$methodName]" />
 		<xsl:variable name="jpqlMethodNode"
@@ -28,6 +30,7 @@
 					<xsl:with-param name="rootPackage" select="$rootPackage" />
 					<xsl:with-param name="interfaceName" select="$interfaceName" />
 					<xsl:with-param name="methodName" select="$methodName" />
+					<xsl:with-param name="appName" select="$appName" />
 				</xsl:call-template>
 			</xsl:when>
 		</xsl:choose>

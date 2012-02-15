@@ -9,9 +9,10 @@
 	<xsl:template match="/" name="generate-model-subclass.xsl">
 		<xsl:param name="dtoName"/>
 		<xsl:param name="rootPackage"/>
+		<xsl:param name="appName" />
 
-<xsl:text/>Ext.define('app.model.<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$dtoName"/>',{
-	extend: 'app.model.<xsl:value-of select="$rootPackage"/>.gen._<xsl:value-of select="$dtoName"/>'
+<xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.model.<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$dtoName"/>',{
+	extend: '<xsl:value-of select="$appName"/>.model.<xsl:value-of select="$rootPackage"/>.gen._<xsl:value-of select="$dtoName"/>'
 });
 	</xsl:template>
 </xsl:stylesheet>

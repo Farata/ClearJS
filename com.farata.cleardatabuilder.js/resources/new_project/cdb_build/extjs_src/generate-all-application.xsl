@@ -131,6 +131,7 @@
 		<xsl:variable name="modelPath" select="concat($jsOutputFolder, '/app/model/')" />
 		<xsl:call-template name="generate-model-all.xsl">
 			<xsl:with-param name="outputFolder" select="$modelPath" />
+			<xsl:with-param name="appName" select="$appName" />
 			<xsl:with-param name="force" select="string('true')" />
 		</xsl:call-template>
 		
@@ -139,7 +140,6 @@
 			<xsl:with-param name="appName" select="$appName" />
 			<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />
 			<xsl:with-param name="outputFolder" select="$storePath" />
-			
 		</xsl:call-template>
 		
 

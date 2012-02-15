@@ -12,6 +12,7 @@
 
 	<xsl:template name="generate-model-all.xsl">
 		<xsl:param name="outputFolder" />
+		<xsl:param name="appName" select="$appName" />
 		<xsl:param name="force" />
 
 		<xsl:value-of select="helper:clearDTOMappings()" />
@@ -52,6 +53,7 @@
 											select="helper:getPackageName($fullDtoName)" />
 										<xsl:with-param name="interfaceName" select="$interfaceName" />
 										<xsl:with-param name="methodName" select="@name" />
+										<xsl:with-param name="appName" select="$appName" />
 									</xsl:apply-templates>
 								</xsl:otherwise>
 							</xsl:choose>
@@ -80,6 +82,7 @@
 				<xsl:with-param name="rootPackage" select="$rootPackage" />
 				<xsl:with-param name="interfaceName" select="$interfaceName" />
 				<xsl:with-param name="methodName" select="$methodName" />
+				<xsl:with-param name="appName" select="$appName" />
 			</xsl:call-template>
 		</redirect:write>
 		<xsl:variable name="subclassFullDtoName"
@@ -91,6 +94,7 @@
 				<xsl:call-template name="generate-model-subclass.xsl">
 					<xsl:with-param name="dtoName" select="$subclassDtoName" />
 					<xsl:with-param name="rootPackage" select="$subclassRootPackage" />
+					<xsl:with-param name="appName" select="$appName" />
 				</xsl:call-template>
 			</redirect:write>
 		</xsl:if>
