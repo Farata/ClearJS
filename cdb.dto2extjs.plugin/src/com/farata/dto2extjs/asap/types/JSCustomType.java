@@ -41,9 +41,7 @@ public class JSCustomType implements IJSType {
 		final JSClass def = declaration.getAnnotation(JSClass.class);
 		String qname = def.value();
 		if (null == qname || qname.length() == 0) {
-			qname = classNameTransformer.transform(qname);
-		} else {
-			qname = declaration.getQualifiedName();
+			qname = classNameTransformer.transform(declaration.getQualifiedName());
 		}
 		
 		_id          = qname;
