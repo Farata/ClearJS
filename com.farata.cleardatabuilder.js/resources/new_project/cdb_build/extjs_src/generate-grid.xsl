@@ -7,55 +7,59 @@
 	<xsl:output omit-xml-declaration="yes" method="text"/>	
 	
 	<xsl:template match="/" name="generate-grid.xsl">
-		<xsl:param name="serviceName"/>
+		<xsl:param name="storeName"/>
 		<xsl:param name="appName" />
-		<xsl:param name="methodName" />
-		<xsl:param name="interfaceName" />
+		<xsl:param name="dtoName" />
+		
+		<xsl:variable name="fields" select="helper:getBeanProperties($dtoName)" />
 	
-	Ext.define('<xsl:value-of select="$appName"/>.view.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Panel',{
+<xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.view.GridTest',{
 
-		extend: 'Ext.grid.Panel',
-		store:	'<xsl:value-of select="$appName" />.store.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Store',
-		alias:	'widget.<xsl:value-of select="$serviceName"/>_<xsl:value-of select="$methodName"/>_Panel',
+	extend: 'Ext.grid.Panel',
+	store:	'<xsl:value-of select="$appName" />.store.<xsl:value-of select="$storeName"/>',
+	alias:	'widget.GridTest',
 		
-		columns:	[
-		<xsl:for-each select="//method/query/types">
-			{ 
-				<xsl:variable name="vartype" select="type/@name" />
-				
-				header:'<xsl:value-of select="type/@alias" />', 
-				dataIndex: '<xsl:value-of select="type/@alias" />',
-				flex:1
-				
-				<xsl:if test="contains($vartype, 'String')" >,editor:{xtype:'textfield'} </xsl:if>
-			},
-		</xsl:for-each>
-			
-			
-		],
+	columns : [
+	<xsl:for-each select="$fields/property">
+<xsl:text/>{ 
+			header:'<xsl:value-of select="@name" />', 
+			dataIndex: '<xsl:value-of select="@name" />',
+			flex:1<xsl:text/>
+			<xsl:if test="@type='java.lang.String'" >
+			,editor:{xtype:'textfield'} 
+			</xsl:if>
+<xsl:text/>
+	}<xsl:if test="not(last() = position())">,
+	</xsl:if>
+	</xsl:for-each>
+<xsl:text/>],
 		
-		tbar : 		[ 
-	         {
-	        	 	xtype : 'button',
-        	 		text : 'Load'
-	         },
-	         {
-	     			xtype : 'button',
-	     			text : 'Add'
-	     	 },
-	         {
-	     		 	xtype : 'button',
-	     			text : 'Delete'
-	     	 },
-	     	 {
-	     		 	xtype : 'button',
-	     		 	text : 'Save'
-	     	 }
-     	],
+	tbar : [ 
+	{
+		xtype : 'button',
+		text : 'Load'
+	}, 
+	{
+		xtype : 'button',
+		text : 'Add'
+	}, 
+	{
+		xtype : 'button',
+		text : 'Delete'
+	}, 
+	{
+		xtype : 'button',
+		text : 'Save'
+	} 
+	],
+
+	plugins : [ 
+	{
+		ptype : 'cellediting'
+	} 
+	]
 		
-		plugins:[{ptype:	'cellediting'}]
-		
-	});
+});
 	</xsl:template>
 	
 	

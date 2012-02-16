@@ -14,10 +14,10 @@
 	<xsl:include href="generate-app_js.xsl" />
 	<xsl:include href="generate-appjs-viewdeclaration.xsl" />
 	<xsl:include href="generate-controller.xsl" />
-	<xsl:include href="generate-grid.xsl" />
 	<xsl:include href="generate-service.xsl" />
 	<xsl:include href="generate-store-all.xsl" />
 	<xsl:include href="generate-model-all.xsl" />
+	<xsl:include href="generate-test-all.xsl" />
 
 
 	<xsl:template match="/|/">
@@ -92,14 +92,14 @@
 				select="concat($testPath, '/', helper:replaceAll($appFolderPath, '.', '/'), '/view/', $elementName, '.js' )" />
 
 			<!-- generate panel -->
-			<redirect:write file="{$fileName}">
+			<!-- redirect:write file="{$fileName}">
 				<xsl:call-template name="generate-grid.xsl">
 					<xsl:with-param name="serviceName" select="$serviceName" />
 					<xsl:with-param name="appName" select="$appName" />
 					<xsl:with-param name="methodName" select="@name" />
 					<xsl:with-param name="interfaceName" select="$interfaceName" />
 				</xsl:call-template>
-			</redirect:write>
+			</redirect:write -->
 
 			<!-- generate services -->
 			<xsl:variable name="create" select="concat(@name,'_insertItems')" />
@@ -142,6 +142,13 @@
 			<xsl:with-param name="outputFolder" select="$storePath" />
 		</xsl:call-template>
 		
+
+		<xsl:variable name="testPath" select="concat($jsOutputFolder, '/test/')" />
+		<xsl:call-template name="generate-test-all.xsl">
+			<xsl:with-param name="appName" select="$appName" />
+			<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />
+			<xsl:with-param name="outputFolder" select="$testPath" />
+		</xsl:call-template>
 
 	</xsl:template>
 
