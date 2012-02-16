@@ -2,6 +2,7 @@
 <xsl:stylesheet 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:dto2extjs="http://dto2extjs.faratasystems.com/"
+  exclude-result-prefixes="xsl dto2extjs"
   version="1.1" 
 >
 	<xsl:template match="/dto2extjs:class" mode="custom-file">

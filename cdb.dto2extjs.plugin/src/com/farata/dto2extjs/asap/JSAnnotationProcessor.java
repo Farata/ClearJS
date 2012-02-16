@@ -122,11 +122,13 @@ public class JSAnnotationProcessor implements AnnotationProcessor {
 					
 				}
 				
+				final Source source = new SAXSource(reflector, noInput());
+				final Result result = noResult();
+				XsltUtils.pushPackagePathResolver(_options.packagePathTransformer());
 				try {
-					final Source source = new SAXSource(reflector, noInput());
-					final Result result = noResult();
 					serializer.transform(source, result);
 				} finally {
+					XsltUtils.popPackagePathResolver();
 				}
 			} catch (final TransformerException ex) {
 				ex.printStackTrace();				

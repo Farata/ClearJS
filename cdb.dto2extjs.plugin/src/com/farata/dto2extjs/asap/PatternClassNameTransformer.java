@@ -3,7 +3,7 @@ package com.farata.dto2extjs.asap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PatternClassNameTransformer implements IClassNameTransformer {
+public class PatternClassNameTransformer implements INameTransformer {
 	final private Pattern pattern;
 	final private String replacement;
 	
@@ -15,11 +15,11 @@ public class PatternClassNameTransformer implements IClassNameTransformer {
 			if (patternText.length() > 0) {
 				pattern = Pattern.compile(patternText);
 			} else {
-				pattern = Pattern.compile("^(.*)$");
+				pattern = IDENTITY_PATTERN;
 			}
 		} else {
 			replacement = arguments + ".$1";
-			pattern = Pattern.compile("^(.*)$");
+			pattern = IDENTITY_PATTERN;
 		}
 	}
 	
@@ -37,5 +37,7 @@ public class PatternClassNameTransformer implements IClassNameTransformer {
 		}
 	}
 	
-	final public String SEPARATOR = "<<";
+	
+	final public static String SEPARATOR = "<<";
+	final public static Pattern IDENTITY_PATTERN = Pattern.compile("^(.*)$");
 }

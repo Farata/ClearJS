@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 import com.farata.dto2extjs.annotations.JSClass;
 import com.farata.dto2extjs.annotations.JSClassKind;
-import com.farata.dto2extjs.asap.IClassNameTransformer;
+import com.farata.dto2extjs.asap.INameTransformer;
 import com.farata.dto2extjs.asap.JSAnnotationProcessorOptions;
 
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
@@ -49,7 +49,7 @@ public class JSTypeReflector {
 	final private IWorkset                       _workset;
 	final private Types                          _types;
 	final private boolean                        _numberAsString;
-	final private IClassNameTransformer          _classNameTransformer;                        
+	final private INameTransformer          _classNameTransformer;                        
 	public JSTypeReflector(final AnnotationProcessorEnvironment environment, final IWorkset workset, final JSAnnotationProcessorOptions options) {
 		_environment          = environment;
 		_workset              = workset;

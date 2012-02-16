@@ -2,7 +2,8 @@
 <xsl:stylesheet 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:dto2extjs="http://dto2extjs.faratasystems.com/"
-  exclude-result-prefixes="dto2extjs xsl"  
+  xmlns:u="xalan://com.farata.dto2extjs.asap"
+  exclude-result-prefixes="dto2extjs xsl u"  
   version="1.1" 
 >
   <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"
@@ -45,7 +46,7 @@
     <xsl:variable name="path">
       <xsl:choose>
         <xsl:when test="$packageName">
-          <xsl:value-of select="concat($base, '/', translate($packageName, '.', '/'))"/>
+          <xsl:value-of select="concat($base, '/', translate(u:XsltUtils.resolvePackagePath($packageName), '.', '/'))"/>
         </xsl:when>    
         <xsl:otherwise>
          <xsl:value-of select="$base"/>
@@ -90,7 +91,7 @@
     
     <xsl:if test="$metadata-dump = 'yes'">
 	    <xsl:variable name="metadata_file">
-	      <xsl:value-of select="concat($path, '/', $className, '.xml')"/>
+	      <xsl:value-of select="concat(u:XsltUtils.resolvePackagePath($path), '/', $className, '.xml')"/>
 	    </xsl:variable>
 		<xsl:call-template name="write.chunk">
 			<xsl:with-param name="filename" select="$metadata_file"/>

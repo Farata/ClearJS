@@ -331,21 +331,21 @@ abstract public class JSTypeDeclarationReflector extends XMLFilterImpl {
 				final AttributesImpl propertyAttrs = new AttributesImpl();
 				final String propertyQName = NS_DTO2JS + ':' + "OneToMany";
 				
-				final String collectionType = oneToManyAnnotation.collectionType();
-				propertyAttrs.addAttribute("", "dataCollectionClass", "collectionType", "NMTOKEN", 
-						collectionType == null || collectionType.length() == 0 ? "unspecifiedCollectionType" : collectionType);
-				
-				final String keys = oneToManyAnnotation.fillArguments().replaceAll("\\s", "");
-				propertyAttrs.addAttribute("", "fillArguments", "fillArguments", "NMTOKEN", keys);
-				
+				final String storeType = oneToManyAnnotation.storeType();
+				propertyAttrs.addAttribute("", "storeType", "storeType", "NMTOKEN", 
+						storeType == null || storeType.length() == 0 ? "unspecifiedStoreType" : storeType);
+
+				final String primaryKey = oneToManyAnnotation.primaryKey();
+				propertyAttrs.addAttribute("", "primaryKey", "primaryKey", "NMTOKEN", primaryKey);
+
+				final String foreignKey = oneToManyAnnotation.foreignKey();
+				propertyAttrs.addAttribute("", "foreignKey", "foreignKey", "NMTOKEN", foreignKey);
+
 				final JSOneToMany.SyncType sync = oneToManyAnnotation.sync();
 				propertyAttrs.addAttribute("", "sync", "sync", "NMTOKEN", sync.toString());
 				
 				final int ranking = oneToManyAnnotation.ranking();
 				propertyAttrs.addAttribute("", "ranking", "ranking", "NMTOKEN", ""+ranking);
-				
-				final String foreignKey = oneToManyAnnotation.foreignKey();
-				propertyAttrs.addAttribute("", "foreignKey", "foreignKey", "NMTOKEN", foreignKey);
 				
 				startElement(URI_DTO2JS, "OneToMany", propertyQName, propertyAttrs);
 				endElement(URI_DTO2JS, "OneToMany", propertyQName);
@@ -367,6 +367,9 @@ abstract public class JSTypeDeclarationReflector extends XMLFilterImpl {
 					propertyAttrs.addAttribute("", "parent", "parent", "NMTOKEN", parentType.id());
 				}
 				*/
+				final String primaryKey = manyToOneAnnotation.primaryKey();
+				propertyAttrs.addAttribute("", "primaryKey", "primaryKey", "NMTOKEN", primaryKey);
+
 				final String foreignKey = manyToOneAnnotation.foreignKey();
 				propertyAttrs.addAttribute("", "foreignKey", "foreignKey", "NMTOKEN", foreignKey);
 				

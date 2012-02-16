@@ -1,9 +1,9 @@
 package com.farata.dto2extjs.asap;
 
-public interface IClassNameTransformer {
+public interface INameTransformer {
 	public String transform(String originalName);
 	
-	final public static IClassNameTransformer NOP = new IClassNameTransformer() {
+	final public static INameTransformer NOP = new INameTransformer() {
 		public String transform(final String originalName) {
 			return originalName;
 		}
