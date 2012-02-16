@@ -91,7 +91,7 @@
     
     <xsl:if test="$metadata-dump = 'yes'">
 	    <xsl:variable name="metadata_file">
-	      <xsl:value-of select="concat(u:XsltUtils.resolvePackagePath($path), '/', $className, '.xml')"/>
+	      <xsl:value-of select="concat($path, '/', $className, '.xml')"/>
 	    </xsl:variable>
 		<xsl:call-template name="write.chunk">
 			<xsl:with-param name="filename" select="$metadata_file"/>
