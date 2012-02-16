@@ -2,9 +2,12 @@ package com.farata.hibernate_test.service;
 
 import java.util.List;
 
+import javax.annotation.Generated;
+
 import com.farata.hibernate_test.entity.Company;
 import com.farata.hibernate_test.entity.CompanyAssociate;
 import clear.cdb.annotations.CX_GenerateDataCollection;
+import clear.cdb.annotations.CX_GenerateMXMLSample;
 import clear.cdb.annotations.CX_JPQLMethod;
 import clear.cdb.annotations.CX_Service;
 import clear.cdb.annotations.CX_TransferInfo;
@@ -12,6 +15,7 @@ import clear.cdb.annotations.CX_UpdateInfo;
 
 @CX_Service
 public interface ICompanyService {
+	@CX_GenerateMXMLSample
 	@CX_GenerateDataCollection
 	@CX_JPQLMethod(
 			query="SELECT c FROM Company c",
@@ -20,6 +24,7 @@ public interface ICompanyService {
 	)
 	List<?> getCompanies();
 
+	@CX_GenerateMXMLSample
 	@CX_GenerateDataCollection
 	@CX_JPQLMethod(
 			query="SELECT a.id, a.companyId, a.associate FROM CompanyAssociate a WHERE a.companyId=:companyId",
