@@ -334,6 +334,14 @@ abstract public class JSTypeDeclarationReflector extends XMLFilterImpl {
 				final String storeType = oneToManyAnnotation.storeType();
 				propertyAttrs.addAttribute("", "storeType", "storeType", "NMTOKEN",  storeType);
 
+				final boolean autoLoad = oneToManyAnnotation.autoLoad();
+				propertyAttrs.addAttribute("", "autoLoad", "autoLoad", "NMTOKEN",  autoLoad?"true":"false");
+
+				final String getter = oneToManyAnnotation.getter();
+				propertyAttrs.addAttribute("", "getter", "getter", "NMTOKEN",  getter);
+
+
+				
 				final String primaryKey = oneToManyAnnotation.primaryKey();
 				propertyAttrs.addAttribute("", "primaryKey", "primaryKey", "NMTOKEN", primaryKey);
 
