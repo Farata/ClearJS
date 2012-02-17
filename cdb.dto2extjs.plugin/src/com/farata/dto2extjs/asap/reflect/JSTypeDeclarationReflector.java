@@ -332,8 +332,7 @@ abstract public class JSTypeDeclarationReflector extends XMLFilterImpl {
 				final String propertyQName = NS_DTO2JS + ':' + "OneToMany";
 				
 				final String storeType = oneToManyAnnotation.storeType();
-				propertyAttrs.addAttribute("", "storeType", "storeType", "NMTOKEN", 
-						storeType == null || storeType.length() == 0 ? "unspecifiedStoreType" : storeType);
+				propertyAttrs.addAttribute("", "storeType", "storeType", "NMTOKEN",  storeType);
 
 				final String primaryKey = oneToManyAnnotation.primaryKey();
 				propertyAttrs.addAttribute("", "primaryKey", "primaryKey", "NMTOKEN", primaryKey);

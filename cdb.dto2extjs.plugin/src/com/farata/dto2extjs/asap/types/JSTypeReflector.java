@@ -268,8 +268,8 @@ public class JSTypeReflector {
 					return JSBuiltinType.AUTO;
 
 				else if ( isSubtypeOf(dType, "java.util.Collection", true)) 
-					return JSBuiltinType.AUTO;
-				/*{
+					//return JSBuiltinType.AUTO;
+				{
 					final String jsCollectionClassName;
 					if ( isSubtypeOf(dType, "java.util.List", true) )
 						jsCollectionClassName = "mx.collections.ArrayCollection";
@@ -285,7 +285,7 @@ public class JSTypeReflector {
 					} else {
 						return new JSCustomType(jsCollectionClassName);
 					}
-				}*/
+				}
 		
 				else if ( isSubtypeOf(dType, "java.lang.Number", false) )
 					return _numberAsString ? JSBuiltinType.STRING
