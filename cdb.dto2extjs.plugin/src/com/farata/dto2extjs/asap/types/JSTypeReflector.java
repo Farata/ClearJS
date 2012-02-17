@@ -232,7 +232,8 @@ public class JSTypeReflector {
 						return FLASH_BYTE_ARRAY;
 				}
 					
-				return new IJSType() {
+				return JSBuiltinType.AUTO
+				/*new IJSType() {
 					public String id() { return "Array"; }
 					public JSClassKind classKind() { return null; }
 					public boolean isContainer() { return true; }
@@ -240,7 +241,7 @@ public class JSTypeReflector {
 					public IJSType contentType() { 
 						return getJSType(componentType, pos, tolerateUnknown);
 					}
-				};
+				}*/;
 			} else if ( type instanceof DeclaredType ) {
 				final DeclaredType dType = (DeclaredType)type;
 				final TypeDeclaration cDeclaration = dType.getDeclaration(); 
@@ -266,7 +267,9 @@ public class JSTypeReflector {
 				else if ( isSubtypeOf(dType, "java.util.Map", true))
 					return JSBuiltinType.AUTO;
 
-				else if ( isSubtypeOf(dType, "java.util.Collection", true)) {
+				else if ( isSubtypeOf(dType, "java.util.Collection", true)) 
+					return JSBuiltinType.AUTO;
+				/*{
 					final String jsCollectionClassName;
 					if ( isSubtypeOf(dType, "java.util.List", true) )
 						jsCollectionClassName = "mx.collections.ArrayCollection";
@@ -282,7 +285,7 @@ public class JSTypeReflector {
 					} else {
 						return new JSCustomType(jsCollectionClassName);
 					}
-				}
+				}*/
 		
 				else if ( isSubtypeOf(dType, "java.lang.Number", false) )
 					return _numberAsString ? JSBuiltinType.STRING
