@@ -18,35 +18,51 @@ import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.RetentionPolicy;
 
-
 /**
- * Is used to restrain or eliminate the property in the JavaScript counterpart of the Java class annotated with &#64;JSClass.
- * <p>When a property is implemented as a public variable, the annotation <code>&#64;JSIgnore</code> is applied to the very public variable.
- * If a getter and, optionally, setter is present, the annotation must be applied to the getter or setter.
+ * Is used to prevent translation of the Java property into an Ext JS model field; relevant only for
+ * the Java class annotated with <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/java/ext/com/farata/dto2extjs/annotations/JSClass.html">&#64;JSClass</a>&#64;JSClass.
+ * <p>When <code>&#64;JSIgnore</p> is applied to the variable or to the getter it will eliminate the corresponding field
+ * property completely. If it is applied to the setter, the corresponding field will be implemented as <i>read-only</i>.
  * </p>
- * <p>When <code>&#64;JSIgnore</p> is applied to the variable or to the getter it will eliminate the corresponding JavaScript
- * property completely. If it is applied to the setter, the corresponding JavaScript property will be generated <i>read-only</i>.
- * The later might be useful for annotating interfaces. 
+ * <p>If a property is implemented as Java setter/getter pair the annotation should be placed on the getter even
+ * if the backing variable is public (see example below)</p>
  * </p>
- * <p>Here is an example of the Java DTO interface that marks &#64;JSIgnore-s all setters:
+ * <p>Here is an example of the Java DTO interface that &#64;JSIgnore-s all setters:
  * * <pre>
  * package com.farata.test.dto;
  * import com.farata.dto2extjs.annotations.JSClass;
  * import com.farata.dto2extjs.annotations.JSIgnore;
  * &#64;JSClass(kind=JSClassKind.EXT_JS)
- * public interface IEmployee {
- * 		public String getFirstName( );
- * 		&#64;JSIgnore
- * 		public void setFirstName(String firstName);
- *
- * 		public String getLastName();
- * 		&#64;JSIgnore
- * 		public void setLastName(String lastName);
- * 	
- * 		public Double getSalary();
- * 		&#64;JSIgnore
- * 		public void setSalary(Double salary);
- * }
+package clear.dto;
+
+import java.util.Date;
+import java.util.List;
+
+
+import com.farata.dto2extjs.annotations.JSClass;
+import com.farata.dto2extjs.annotations.JSIgnore;
+import com.farata.dto2extjs.annotations.JSOneToMany;
+
+&#64;JSClass
+public class UserDTO {
+	public String id;
+	&#64;JSIgnore
+	public Double salary;
+
+	private Date dob;
+	&#64;JSIgnore
+	public Date getDob() {
+		return dob;
+	}
+	public void setDob(Date value) {
+		dob = value;
+	}
+
+	@JSOneToMany(storeType="helpdesk.Tickets", foreignKey="userId")
+	public List<TicketDTO> tickets;
+	
+}
+
  * </pre>
  * As always with ClearDataBuilder code generation, there will be two output files, and the re-generated one - 
  * <code>com.farata.test.dto.generated._IEmployee</code> - will look the following way:

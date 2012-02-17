@@ -150,7 +150,7 @@ public @interface JSOneToMany {
 	public String primaryKey() default "id";
 	public String foreignKey();
 	public String getMethod() default "";
-	public String storeType();
+	public String storeType() default "";
 	public SyncType sync() default SyncType.BATCH;
 	public int ranking() default 0;
 }
