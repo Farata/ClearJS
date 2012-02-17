@@ -267,9 +267,7 @@ public class JSTypeReflector {
 				else if ( isSubtypeOf(dType, "java.util.Map", true))
 					return JSBuiltinType.AUTO;
 
-				else if ( isSubtypeOf(dType, "java.util.Collection", true)) 
-					//return JSBuiltinType.AUTO;
-				{
+				else if ( isSubtypeOf(dType, "java.util.Collection", true)) {
 					final String jsCollectionClassName;
 					if ( isSubtypeOf(dType, "java.util.List", true) )
 						jsCollectionClassName = "mx.collections.ArrayCollection";
