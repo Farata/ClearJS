@@ -19,8 +19,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Is used to prevent translation of the Java property into an Ext JS model field; relevant only for
- * the Java class annotated with <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/java/ext/com/farata/dto2extjs/annotations/JSClass.html">&#64;JSClass</a>&#64;JSClass.
+ * Is preventing translation of the Java property into a corresponding Ext JS model field.
+ * Should be used only on a property of the class annotated with <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/java/extjs/com/farata/dto2extjs/annotations/JSClass.html">&#64;JSClass</a>.
  * <p>When <code>&#64;JSIgnore</p> is applied to the variable or to the getter it will eliminate the corresponding field
  * property completely. If it is applied to the setter, the corresponding field will be implemented as <i>read-only</i>.
  * </p>
