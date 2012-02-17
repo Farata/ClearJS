@@ -194,10 +194,7 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
     <xsl:otherwise>collections</xsl:otherwise>
   </xsl:choose>
 </xsl:template> 
-AM.model.clear.Ticket
 
-AM.model.collections.TicketCollection
-AM.store.clear.TicketStore
 <xsl:template name="unqualifyClassName">
   <xsl:param name="string" />
   <xsl:param name="delimiter" select="'.'" />
