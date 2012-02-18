@@ -151,7 +151,7 @@ Ext.define('AM.model.clear.dto.generated._UserDTO', {
  </pre>
   </p>
  * <p>
- * Generated models carries a field for every Java public variable or getter/setter pair which
+ * Each generated model carries a field for every Java public variable or getter/setter pair which
  * has not been excluded by <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/java/extjs/com/farata/dto2extjs/annotations/JSIgnore.html">&#64;JSIgnore</a>
  * annotation.
  * </p>
