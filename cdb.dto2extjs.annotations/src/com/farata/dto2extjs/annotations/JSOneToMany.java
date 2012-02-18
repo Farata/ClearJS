@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 /**
  * Is supplying metadata for retrieving the data associated to a model via <a href="http://docs.sencha.com/ext-js/4-0/#!/api/Ext.data.HasManyAssociation">HasMany association</a>.
  * Should be used only on a collection type property of the class marked as <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/java/ext/com/farata/dto2extjs/annotations/JSClass.html">&#64;JSClass</a>
+ * Requires use of ClearComponents for ExtJS, see below.
  * <p>
  *  <table class="innertable">
  *   <tr>
@@ -35,8 +36,10 @@ import java.lang.annotation.Target;
  *   <tr>
  *   	<td><code>storeType</code></td><td>String</td><td>Optional</td>
  *   	<td>Fully qualified name of the store class to populate with the associated data. Default value is
- *   derived from the name of the collection base type (see below) 
- *   	</td>
+ *   derived from the name of the model class for store records, i.e. the default expected name of the
+ *   store carrying <code>AM.model.smart.User</code> records is <code>AM.store.smart.UserStore</code>.
+ *   Developer must ensure that the corresponding store class exists. See example below.
+ *      </td>
  *   </tr>
  *   <tr>
  *   	<td><code>autoLoad</code></td><td>Boolean</td><td>Optional</td>
@@ -55,7 +58,16 @@ import java.lang.annotation.Target;
  *   	</td>
  *   </tr>
  *  </table>
- *  </p>  
+ *  </p> 
+ *  <p><b>Downloading and Using Clear Components for Ext JS </b>
+ *  To take full advantage of &#64;JSOneToMany you need to download Clear Components for ExtJS and use then
+ *  in your application. Below is the SVN repo of Clear Components for Ext JS: 
+ *  <li>http://cleartoolkit.svn.sourceforge.net/viewvc/cleartoolkit/HTML5/ExtJS/4/ClearJS/</li>
+ *  
+ *  To see how you should plug-in Clear Components fpr Ext JS to the Ext JS MVC application: 
+ *  <li>http://cleartoolkit.svn.sourceforge.net/viewvc/cleartoolkit/HTML5/ExtJS/4/ClearJS/examples/index.html</li>
+ *  <li>http://cleartoolkit.svn.sourceforge.net/viewvc/cleartoolkit/HTML5/ExtJS/4/ClearJS/examples/app.js</li>
+ *  </p> 
  */ 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
