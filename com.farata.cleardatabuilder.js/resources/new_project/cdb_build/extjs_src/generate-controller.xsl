@@ -62,7 +62,7 @@
 	
 	onDelete: function(){
 		var store = this.getStore('<xsl:value-of select="$appName" />.store.<xsl:value-of select="$storeName"/>');
-		var deletingRecord = Ext.ComponentQuery.query('TestGrid')[0].getSelectionModel().getSelection()[0];
+		var deletingRecord = Ext.ComponentQuery.query('GridTest')[0].getSelectionModel().getSelection()[0];
 		store.remove(deletingRecord);
 	},
 	
