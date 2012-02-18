@@ -22,12 +22,12 @@
 	columns : [
 	<xsl:for-each select="$fields/property">
 <xsl:text/>{ 
-			header:'<xsl:value-of select="@name" />', 
-			dataIndex: '<xsl:value-of select="@name" />',
-			flex:1<xsl:text/>
-			<xsl:if test="@type='java.lang.String'" >
-			,editor:{xtype:'textfield'} 
-			</xsl:if>
+		header:'<xsl:value-of select="@name" />', 
+		dataIndex: '<xsl:value-of select="@name" />',
+		flex:1<xsl:text/>
+		<xsl:if test="@type='java.lang.String'" >
+		,editor:{xtype:'textfield'} 
+		</xsl:if>
 <xsl:text/>
 	}<xsl:if test="not(last() = position())">,
 	</xsl:if>
