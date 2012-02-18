@@ -11,9 +11,7 @@
 	<xsl:param name="appName" />
 	<xsl:param name="remoteActionNamespace" />
 
-	<xsl:include href="generate-app_js.xsl" />
 	<xsl:include href="generate-appjs-viewdeclaration.xsl" />
-	<xsl:include href="generate-controller.xsl" />
 	<xsl:include href="generate-service.xsl" />
 	<xsl:include href="generate-store-all.xsl" />
 	<xsl:include href="generate-model-all.xsl" />
@@ -75,16 +73,6 @@
 				select="concat($elementPrefix, '_Controller')" />
 			<xsl:variable name="fileName"
 				select="concat($testPath, helper:replaceAll($appFolderPath, '.', '/'), '/controller/',  $elementName, '.js')" />
-
-			<!-- generate controller -->
-			<redirect:write file="{$fileName}">
-				<xsl:call-template name="generate-controller.xsl">
-					<xsl:with-param name="serviceName" select="$serviceName" />
-					<xsl:with-param name="appName" select="$appName" />
-					<xsl:with-param name="methodName" select="@name" />
-					<xsl:with-param name="interfaceName" select="$interfaceName" />
-				</xsl:call-template>
-			</redirect:write>
 
 			<!-- start generate panels -->
 			<xsl:variable name="elementName" select="concat($elementPrefix, '_Panel')" />

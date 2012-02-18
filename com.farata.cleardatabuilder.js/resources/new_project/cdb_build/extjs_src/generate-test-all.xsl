@@ -8,6 +8,8 @@
 	<xsl:output omit-xml-declaration="yes" method="text" />
 
 	<xsl:include href="generate-grid.xsl" />
+	<xsl:include href="generate-controller.xsl" />
+	<xsl:include href="generate-app.xsl" />
 
 	<xsl:template name="generate-test-all.xsl">
 		<xsl:param name="appName" />
@@ -76,10 +78,30 @@
 		<xsl:param name="appName" />
 		<xsl:param name="outputFolder" />
 
-		<xsl:variable name="fileName"
-			select="concat($outputFolder, '/', helper:replaceAll($interfaceName, '.', '/'), '/', $methodName, '/GridTest.js')" />
-		<redirect:write file="{$fileName}">
+		<xsl:variable name="gridFileName"
+			select="concat($outputFolder, '/', helper:replaceAll($interfaceName, '.', '/'), '/', $methodName, '/view/GridTest.js')" />
+		<redirect:write file="{$gridFileName}">
 			<xsl:call-template name="generate-grid.xsl">
+				<xsl:with-param name="appName" select="$appName" />
+				<xsl:with-param name="dtoName" select="$dtoName" />
+				<xsl:with-param name="storeName" select="$storeName" />
+			</xsl:call-template>
+		</redirect:write>
+		
+		<xsl:variable name="controllerFileName"
+			select="concat($outputFolder, '/', helper:replaceAll($interfaceName, '.', '/'), '/', $methodName, '/controller/ControllerTest.js')" />
+		<redirect:write file="{$controllerFileName}">
+			<xsl:call-template name="generate-controller.xsl">
+				<xsl:with-param name="appName" select="$appName" />
+				<xsl:with-param name="dtoName" select="$dtoName" />
+				<xsl:with-param name="storeName" select="$storeName" />
+			</xsl:call-template>
+		</redirect:write>
+		
+		<xsl:variable name="appFileName"
+			select="concat($outputFolder, '/', helper:replaceAll($interfaceName, '.', '/'), '/', $methodName, '/AppTest.js')" />
+		<redirect:write file="{$appFileName}">
+			<xsl:call-template name="generate-app.xsl">
 				<xsl:with-param name="appName" select="$appName" />
 				<xsl:with-param name="dtoName" select="$dtoName" />
 				<xsl:with-param name="storeName" select="$storeName" />

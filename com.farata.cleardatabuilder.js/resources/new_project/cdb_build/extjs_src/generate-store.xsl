@@ -16,7 +16,7 @@
 		<xsl:param name="remoteActionNamespace" />
 		<xsl:param name="serviceName" />
 
-		<xsl:variable name="transferType"
+		<xsl:variable name="dtoName"
 			select="helper:getMethodTransferType($interfaceName, $fillMethodName)" />
 
 		<xsl:variable name="create"
@@ -30,8 +30,8 @@
 <xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$storeName"/>',{
 
 	extend: 'Clear.data.DirectStore',
-	requires  : ['Ext.direct.Manager','<xsl:value-of select="$appName"/>.model.<xsl:value-of select="helper:getTypeName($transferType)"/>','Ext.window.MessageBox'],
-	model:'<xsl:value-of select="$appName"/>.model.<xsl:value-of select="helper:getTypeName($transferType)"/>',
+	requires  : ['Ext.direct.Manager','<xsl:value-of select="$appName"/>.model.<xsl:value-of select="$dtoName"/>','Ext.window.MessageBox'],
+	model:'<xsl:value-of select="$appName"/>.model.<xsl:value-of select="$dtoName"/>',
 		
 	api: {
 		create:<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$create)"/>,
