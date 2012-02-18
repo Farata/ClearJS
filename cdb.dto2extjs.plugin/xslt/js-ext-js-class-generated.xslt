@@ -79,6 +79,13 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 	  		<xsl:with-param name="by" select="''"/>
 	  	</xsl:call-template>
 	  </xsl:variable>
+
+	  <xsl:variable name="getter">
+	  		<xsl:choose>
+	  			<xsl:when test="not(dto2extjs:OneToMany/@getter='')"><xsl:value-of select="dto2extjs:OneToMany/@getter"/></xsl:when>
+	  			<xsl:otherwise><xsl:value-of select="u:XsltUtils.getterFor(@name)"/></xsl:otherwise>
+	  		</xsl:choose>
+	  </xsl:variable>
 	  	
 	  <xsl:variable name="storeType">
 	  		<xsl:choose>
@@ -94,10 +101,7 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 	<xsl:if test="position() &gt; 1"><xsl:text>,
 	</xsl:text></xsl:if>		{
 			model: '<xsl:value-of select="$contentType"/>',
-			name: '<xsl:choose>
-	  			<xsl:when test="not(dto2extjs:OneToMany/@getter='')"><xsl:value-of select="dto2extjs:OneToMany/@getter"/></xsl:when>
-	  			<xsl:otherwise><xsl:value-of select="u:XsltUtils.getterFor(@name)"/></xsl:otherwise>
-	  		</xsl:choose>', 
+			name: '<xsl:value-of select="$getter"/>', 
 			primaryKey:'<xsl:value-of select="dto2extjs:OneToMany/@primaryKey"/>',
 			foreignKey:'<xsl:value-of select="dto2extjs:OneToMany/@foreignKey"/>',
 			autoLoad: '<xsl:value-of select="dto2extjs:OneToMany/@autoLoad"/>',
