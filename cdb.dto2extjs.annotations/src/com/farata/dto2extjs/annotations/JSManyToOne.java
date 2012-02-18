@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 /**
  * Is used to maintain link between the auto-incremented properties of the parent and their "foreign key" copy in the children
- * records.
+ * records. THIS DOC IS WORK IN PROGRESS
  * <p>
  *  <table class="innertable">
  *   <tr>
