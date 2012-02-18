@@ -38,7 +38,8 @@ import java.lang.annotation.Target;
  *   	<td>Fully qualified name of the store class to populate with the associated data. Default value is
  *   derived from the name of the model class for store records, i.e. the default expected name of the
  *   store carrying <code>AM.model.smart.User</code> records is <code>AM.store.smart.UserStore</code>.
- *   Developer must ensure that the corresponding store class exists. See example below.
+ *   Developer must ensure that the corresponding store class exists. It is recommended that an instance
+ *   of <code>Clear.data.DirectStore</code> is used (see below).
  *      </td>
  *   </tr>
  *   <tr>
@@ -59,14 +60,25 @@ import java.lang.annotation.Target;
  *   </tr>
  *  </table>
  *  </p> 
- *  <p><b>Downloading and Using Clear Components for Ext JS </b>
- *  To take full advantage of &#64;JSOneToMany you need to download Clear Components for ExtJS and use then
- *  in your application. Below is the SVN repo of Clear Components for Ext JS: 
- *  <li>http://cleartoolkit.svn.sourceforge.net/viewvc/cleartoolkit/HTML5/ExtJS/4/ClearJS/</li>
+ *  <p><b>Downloading and Using Clear Components for Ext JS </b><br>
  *  
- *  To see how you should plug-in Clear Components fpr Ext JS to the Ext JS MVC application: 
- *  <li>http://cleartoolkit.svn.sourceforge.net/viewvc/cleartoolkit/HTML5/ExtJS/4/ClearJS/examples/index.html</li>
- *  <li>http://cleartoolkit.svn.sourceforge.net/viewvc/cleartoolkit/HTML5/ExtJS/4/ClearJS/examples/app.js</li>
+ *  To take full advantage of &#64;JSOneToMany you need to use Clear Components for ExtJS. Below is the SVN repo of Clear Components for Ext JS: 
+ *  <li><a href="http://cleartoolkit.svn.sourceforge.net/viewvc/cleartoolkit/HTML5/ExtJS/4/ClearJS/">http://cleartoolkit.svn.sourceforge.net/viewvc/cleartoolkit/HTML5/ExtJS/4/ClearJS/</a></li>
+ *  
+ *  <p>
+ *  To plug in Clear Components for Ext JS to your Ext JS MVC application copy the contents of ClearJS/src into the web root
+ *  of your application and make sure that the main application script starts similar to the following:
+ <PRE>// app.js 
+ Ext.Loader.setConfig({
+	disableCaching: false,
+	enabled: true,
+	paths  : {
+		MyApp: 'app', Clear:'clear'
+	}
+});
+	
+Ext.require('Clear.patch.ExtJSPatch');
+</PRE>
  *  </p> 
  */ 
 @Documented
