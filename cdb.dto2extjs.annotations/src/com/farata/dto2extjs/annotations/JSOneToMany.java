@@ -76,8 +76,11 @@ import java.lang.annotation.Target;
  *  </p> 
  *  <p> The following example developer provided both both <code>storeType</code> and <code>storeConfig</code>.
  *  As a result all relevant settings of <code>TicketStore</core> or it's ancestors will be overriden
- *  by the corresponding values of <code>storeConfig</code>:
- *  
+ *  by the corresponding values of <code>storeConfig</code>. To access the associated store developer would
+ *  use  the default getter - <code>user.getTickets()</code>. By default <code>autoLoad</code> is <code>true</code>
+ *  so first call to <code>user.getTickets()</code> returns the reference to the store <b>and, in parallel,</b> start
+ *  the load:  
+ *
 <PRE>package clear.dto;
 
 import java.util.List;
@@ -105,6 +108,14 @@ public class UserDTO {
 }
 </PRE>
  *  </p>
+ * <p><b>Downloading and Using DTO2ExtJS Annotation Processor in Eclipse Plugin</b><br>
+ *  
+ *  Copy into your eclipse/plugins folder the jar downloaded from
+ *  http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.asap_4.6.0.jar and
+
+ *  Copy into WebContent/lib folder of your Dynamic Web Project annotations jar downloaded from
+ *  http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.annotations.jar
+ * </p>
  *  <p><b>Downloading and Using Clear Components for Ext JS </b><br>
  *  
  *  To take full advantage of &#64;JSOneToMany you need to use <a href="http://www.cleartoolkit.com/dokuwiki/doku.php?id=clearwiki:40.clear_components_ext">Clear Components for ExtJS</a>.
