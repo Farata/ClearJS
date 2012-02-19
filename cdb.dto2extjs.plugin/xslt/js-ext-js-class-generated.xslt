@@ -98,6 +98,8 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 	  		</xsl:choose>
 	  </xsl:variable>
   
+  	  <xsl:variable name="storeConfig"><xsl:value-of select="dto2extjs:OneToMany/@storeConfig"/></xsl:variable>
+  	  
 	<xsl:if test="position() &gt; 1"><xsl:text>,
 	</xsl:text></xsl:if>		{
 			model: '<xsl:value-of select="$contentType"/>',
@@ -105,7 +107,8 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 			primaryKey:'<xsl:value-of select="dto2extjs:OneToMany/@primaryKey"/>',
 			foreignKey:'<xsl:value-of select="dto2extjs:OneToMany/@foreignKey"/>',
 			autoLoad: '<xsl:value-of select="dto2extjs:OneToMany/@autoLoad"/>',
-			storeClassName:'<xsl:value-of select="$storeType"/>'
+			storeType:'<xsl:value-of select="$storeType"/>'<xsl:if test="not($storeConfig='')">,
+			storeConfig:'<xsl:value-of select="$storeConfig"/>'</xsl:if>
 		}</xsl:template>	
 
 	<xsl:template match="dto2extjs:property" mode="scalarProperty">
