@@ -83,7 +83,37 @@ Ext.define('AM.model.clear.generated._User', {
 }
 </pre>
  * </p>
- */ 
+ * <p><b>Downloading and Using DTO2ExtJS Annotation Processor in Eclipse Plugin</b></p>
+ *  <p>
+ *  <li>Copy into your <code>eclipse/plugins folder the jar downloaded from
+ *  <a href="http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.asap_4.6.0.jar">http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.asap_4.6.0.jar</a></li>
+ *  <li>Copy into <code>WebContent/lib</code> folder of your Dynamic Web Project annotations jar downloaded from
+ *  <a href="http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.annotations.jar">http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.annotations.jar</a></li>
+ * </p>
+ *  <p><b>Downloading and Using Clear Components for Ext JS </b></p>
+ *  <p>
+ *  To take full advantage of &#64;JSOneToMany you need to use <a href="http://www.cleartoolkit.com/dokuwiki/doku.php?id=clearwiki:40.clear_components_ext">Clear Components for ExtJS</a>.
+ *  In this case you get:
+ *  <li> automatic injection of reference to the parent record to all "many" associated records on load;</li>
+ *  <li> automatic batching of associated changes during <a href="http://docs.sencha.com/ext-js/4-0/#!/api/Ext.data.AbstractStore-method-sync">sync()</a>
+ *  of the parent store, i.e. "deep sync".</li>
+ *  </p>
+ *  <p>
+ *  To plug in Clear Components for Ext JS to your Ext JS MVC application copy the contents of ClearJS/src into the web root
+ *  of your application and make sure that the main application script starts similar to the following:
+ <PRE>// app.js 
+ Ext.Loader.setConfig({
+	disableCaching: false,
+	enabled: true,
+	paths  : {
+		MyApp: 'app', Clear:'clear'
+	}
+});
+	
+Ext.require('Clear.patch.ExtJSPatch');
+</PRE>
+ *  </p> 
+  */ 
 @Documented
 
 @Retention(RetentionPolicy.RUNTIME)

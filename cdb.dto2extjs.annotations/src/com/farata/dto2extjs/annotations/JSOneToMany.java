@@ -108,16 +108,15 @@ public class UserDTO {
 }
 </PRE>
  *  </p>
- * <p><b>Downloading and Using DTO2ExtJS Annotation Processor in Eclipse Plugin</b><br>
- *  
- *  Copy into your eclipse/plugins folder the jar downloaded from
- *  http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.asap_4.6.0.jar and
-
- *  Copy into WebContent/lib folder of your Dynamic Web Project annotations jar downloaded from
- *  http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.annotations.jar
+ * <p><b>Downloading and Using DTO2ExtJS Annotation Processor in Eclipse Plugin</b></p>
+ *  <p>
+ *  <li>Copy into your <code>eclipse/plugins folder the jar downloaded from
+ *  <a href="http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.asap_4.6.0.jar">http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.asap_4.6.0.jar</a></li>
+ *  <li>Copy into <code>WebContent/lib</code> folder of your Dynamic Web Project annotations jar downloaded from
+ *  <a href="http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.annotations.jar">http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.annotations.jar</a></li>
  * </p>
- *  <p><b>Downloading and Using Clear Components for Ext JS </b><br>
- *  
+ *  <p><b>Downloading and Using Clear Components for Ext JS </b></p>
+ *  <p>
  *  To take full advantage of &#64;JSOneToMany you need to use <a href="http://www.cleartoolkit.com/dokuwiki/doku.php?id=clearwiki:40.clear_components_ext">Clear Components for ExtJS</a>.
  *  In this case you get:
  *  <li> automatic injection of reference to the parent record to all "many" associated records on load;</li>
