@@ -36,10 +36,10 @@ import java.lang.annotation.RetentionPolicy;
  *   </tr>
  *   <tr>
  *   	<td><code>ignoreSuperClasses</code></td><td>Class<?>[]</td><td>Optional</td>
- *   	<td>Array of classes and  interfaces in the Java inheritance chain that should be exempted from
- *   translation into corresponding Ext JS models. By design every ancestor or interface implemented by a &#64;JSClass class must also
- *   be annotated as &#64;JSClass or exempt via <code>ignoreSuperClasses</code>. Current version expects that developer
- *   will ignore all interfaces. In the future versions interfaces will be added as mixins.
+ *   	<td>Array of classes and  interfaces in the Java inheritance chain that should be exempt from
+ *   translation. By design every ancestor class and every interface implemented by a class annotated as &#64;JSClass must in turn
+ *   be annotated as &#64;JSClass unless it is exempt via <code>ignoreSuperClasses</code>. Current version expects that developer
+ *   will exempt all interfaces. In the future interfaces will be added as mixins.
  *      </td> 
  *   </tr>
  *  </table>
