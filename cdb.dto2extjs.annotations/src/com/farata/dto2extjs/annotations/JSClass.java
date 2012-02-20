@@ -43,35 +43,7 @@ import java.lang.annotation.RetentionPolicy;
  *      </td> 
  *   </tr>
  *  </table>
- *  <p><b>Placement of the Generated Models</b>
- *  </p>
- *  <p>Location of the generated models depends on two APT parameters: 
- *  <li><code>-Acom.faratasystems.dto2extjs.output</code> determines the root folder to place generated classes into. Expects path: absolute or relative to
- *  Eclipse workspace, such as <code>c:/dev/MyProject/web</code> or <code>MyProject/WebContent</code></li>
-The <li><code>-Acom.faratasystems.dto2extjs.package-path-transformer</code> determines mapping between application namespace and root subfolder. If you
-assign AM:app the classes will be create in the WebContent/app and they will belong to <code>AM</code> namespace, starting with <code>Ext.define("AM...</code></li>
-</p>
- *  <p><b>Class Names of the Generated Models</b>
- *  </p>
- *  <p>Fully qualified name of the generated model is determined in two steps:
- *  <li>Unless you specify a JavaScript classname as the value or <code>&#64;JSClass</code> it is taken verbatim from the Java source.</li>
- *  <li>Value of the annotation parameter <code>-Acom.faratasystems.dto2extjs.class-name-transformer</code>
- *  is used to transform it further:
- *  <table class="innertable" width="100%">
- *   <tr>
- *   	<th>Setting</th><th>Java Class Name</th><th>Model Name</th>
- *   </tr>
- *   <tr>
- *   	<td><code>AM.model</code></td><td>clear.dto.UserDTO</td><td>AM.model.clear.dto.UserDTO</td>
- *   </tr>
- *   <tr>
- *   	<td><code>AM.model.$1$3<<^com.farata.((\w+\.)*)dto.(\w+)DTO$</code></td><td><code>com.farata.clear.dto.UserDTO</code></td><td><code>AM.model.clear.User</code></td>
- *   </tr>
- *  </table>
- *  </li>
- *  </p>
-* <p>To inspect/modify APT parameters in Eclipse go to <i>Project Properties->Java Compiler->Annotation Processing->Processor Options</i>.  
- * </p>
+ * 
   *  <p><b>Two Generated Classes per One Source</b>
  *  </p>
 <p>
@@ -161,6 +133,38 @@ Ext.define('AM.model.clear.dto.generated._UserDTO', {
  *  <a href="http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.asap_4.6.0.jar">http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.asap_4.6.0.jar</a></li>
  *  <li>Copy into <code>WebContent/lib</code> folder of your Dynamic Web Project annotations jar downloaded from
  *  <a href="http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.annotations.jar">http://www.cleartoolkit.com/downloads/plugins/extjs/dto2extjs/com.farata.dto2extjs.annotations.jar</a></li>
+ *  <li>Use APT parameters to control placement and naming of the generated models as described below in in sections 
+<b>Placement of the Generated Models</b> and <b>Class Names of the Generated Models</b>.
+ *  </li>
+ * </p>
+ *  <p><b>Placement of the Generated Models</b>
+ *  </p>
+ *  <p>Location of the generated models depends on two APT parameters: 
+ *  <li><code>-Acom.faratasystems.dto2extjs.output</code> determines the root folder to place generated classes into. Expects path: absolute or relative to
+ *  Eclipse workspace, such as <code>c:/dev/MyProject/web</code> or <code>MyProject/WebContent</code></li>
+The <li><code>-Acom.faratasystems.dto2extjs.package-path-transformer</code> determines mapping between application namespace and root subfolder. If you
+assign AM:app the classes will be created in the <code>WebContent/app</code> and they will belong to <code>AM</code> namespace, starting with <code>Ext.define("AM...</code></li>
+</p>
+ *  <p><b>Class Names of the Generated Models</b>
+ *  </p>
+ *  <p>Fully qualified name of the generated model is determined in two steps:
+ *  <li>Unless you specify a JavaScript classname as the value or <code>&#64;JSClass</code> it is taken verbatim from the Java source.</li>
+ *  <li>Value of the annotation parameter <code>-Acom.faratasystems.dto2extjs.class-name-transformer</code>
+ *  is used to transform it further:
+ *  <table class="innertable" width="100%">
+ *   <tr>
+ *   	<th>Setting</th><th>Java Class Name</th><th>Model Name</th>
+ *   </tr>
+ *   <tr>
+ *   	<td><code>AM.model</code></td><td>clear.dto.UserDTO</td><td>AM.model.clear.dto.UserDTO</td>
+ *   </tr>
+ *   <tr>
+ *   	<td><code>AM.model.$1$3<<^com.farata.((\w+\.)*)dto.(\w+)DTO$</code></td><td><code>com.farata.clear.dto.UserDTO</code></td><td><code>AM.model.clear.User</code></td>
+ *   </tr>
+ *  </table>
+ *  </li>
+ *  </p>
+* <p>To inspect/modify APT parameters in Eclipse go to <i>Project Properties->Java Compiler->Annotation Processing->Processor Options</i>.  
  * </p>
  *  <p><b>Downloading and Using Clear Components for Ext JS </b></p>
  *  <p>
