@@ -18,13 +18,13 @@
 
 	<xsl:template match="/|/">
 
-		<xsl:variable name="modelPath"
+		<!-- xsl:variable name="modelPath"
 			select="concat($jsOutputFolder, '/app/model/')" />
 		<xsl:call-template name="generate-model-all.xsl">
 			<xsl:with-param name="outputFolder" select="$modelPath" />
 			<xsl:with-param name="appName" select="$appName" />
 			<xsl:with-param name="force" select="string('true')" />
-		</xsl:call-template>
+		</xsl:call-template -->
 
 		<xsl:variable name="storePath"
 			select="concat($jsOutputFolder, '/app/store/')" />

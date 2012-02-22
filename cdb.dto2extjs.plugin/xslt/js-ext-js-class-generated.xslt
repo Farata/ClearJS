@@ -57,7 +57,7 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 <xsl:apply-templates select="$relationPropertiesM1" mode="relationPropertyM1"/>
 	]
 	</xsl:if>
-}
+});
 	</xsl:template>		
 
 	<xsl:template match="dto2extjs:property" mode="relationPropertyM1">

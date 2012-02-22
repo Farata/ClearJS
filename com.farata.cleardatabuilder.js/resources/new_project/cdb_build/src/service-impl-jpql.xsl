@@ -395,7 +395,7 @@
 				if (item!=null) {
 					<xsl:variable name="beanProperties" select="helper:getBeanProperties($transferType)"/>
 					<xsl:for-each select="$beanProperties/property">
-						<xsl:variable name="fxManyToOne" select="helper:getBeanPropertyAnnotation($transferType, @name, 'com.farata.dto2fx.annotations.FXManyToOne')"/>
+						<xsl:variable name="fxManyToOne" select="helper:getBeanPropertyAnnotation($transferType, @name, 'com.farata.dto2extjs.annotations.JSManyToOne')"/>
 						<xsl:variable name="propType" select="@type"/>
 						<xsl:if test="$fxManyToOne">
 							<xsl:variable name="fxManyToOneParent" select="$fxManyToOne/method[@name='parent']/@value"/>

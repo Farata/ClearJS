@@ -22,7 +22,7 @@
 			</xsl:call-template>
 		</xsl:variable>        
 
-Ext.define('<xsl:value-of select="$thisClass"/>, {
+Ext.define('<xsl:value-of select="$thisClass"/>', {
 	extend: '<xsl:value-of select="$generatedSuperclass"/>'
 });
 	</xsl:template>

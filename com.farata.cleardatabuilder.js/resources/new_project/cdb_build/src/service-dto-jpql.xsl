@@ -39,7 +39,7 @@
 		</xsl:variable>
 		
 		<xsl:variable name="keyPropertyNames" select="helper:split($updateEntityIdPropNames, ',')"/>
-
+import com.farata.dto2extjs.annotations.*;
 
 import clear.cdb.utils.SessionFactoryUtils;
 import clear.data.IUID;
@@ -49,7 +49,7 @@ import java.util.*;
 
 import org.hibernate.Session;
 
-
+@JSClass(kind=JSClassKind.EXT_JS, ignoreSuperclasses = { IUID.class })
 public class <xsl:value-of select="$dtoName"/>  implements Serializable, IUID{
 
 	private static final long serialVersionUID = 1L;

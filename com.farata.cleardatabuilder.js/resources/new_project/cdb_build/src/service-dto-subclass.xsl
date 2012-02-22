@@ -12,9 +12,9 @@
 	
 package <xsl:value-of select="$rootPackage"/>;
 
-import com.farata.dto2fx.annotations.*;
+import com.farata.dto2extjs.annotations.*;
 
-@FXClass(kind=FXClassKind.REMOTE)
+@JSClass(kind=JSClassKind.EXT_JS)
 public class <xsl:value-of select="$dtoName"/>  extends <xsl:value-of select="$rootPackage"/>.gen._<xsl:value-of select="$dtoName"/>{
 }		
 	</xsl:template>

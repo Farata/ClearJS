@@ -28,7 +28,7 @@
 			</xsl:for-each>
 		</xsl:variable>
 		<xsl:variable name="keyPropertyNames" select="helper:split($mappedEntityIdPropNames, ',')"/>
-import com.farata.dto2fx.annotations.*;
+import com.farata.dto2extjs.annotations.*;
 
 import clear.cdb.utils.SessionFactoryUtils;
 import clear.data.IUID;
@@ -39,13 +39,13 @@ import java.util.*;
 
 import org.hibernate.Session;
 
-@FXClass(kind=FXClassKind.REMOTE, ignoreSuperclasses = { IUID.class })
+@JSClass(kind=JSClassKind.EXT_JS, ignoreSuperclasses = { IUID.class })
 public class <xsl:value-of select="$dtoName"/>  implements Serializable, IUID{
 
 	private static final long serialVersionUID = 1L;
 	
 	private String uid;
-	@FXIgnore
+	@JSIgnore
 	public String getUid() {
 		if (uid == null) {
 			<xsl:choose>
@@ -68,7 +68,7 @@ public class <xsl:value-of select="$dtoName"/>  implements Serializable, IUID{
 		<xsl:variable name="propType" select="@type"/>
 		<xsl:choose>
 			<xsl:when test="$oneToMany/exists">
-	@FXOneToMany
+	@JSOneToMany
 			</xsl:when>
 			<xsl:when test="$manyToOne/method[@name = 'targetEntity']">
 				<xsl:variable name="refDtoProps" select="helper:getBeanProperties($propType)"/>
@@ -81,7 +81,7 @@ public class <xsl:value-of select="$dtoName"/>  implements Serializable, IUID{
 						</xsl:if>
 					</xsl:for-each>
 				</xsl:variable>
-	@FXManyToOne(parent = "<xsl:value-of select="helper:entityToGenDTO(@type)"/>", property = "<xsl:value-of select="helper:entityToGenDTO($keyColumn)"/>")			
+	@JSManyToOne(parent = "<xsl:value-of select="helper:entityToGenDTO(@type)"/>", property = "<xsl:value-of select="helper:entityToGenDTO($keyColumn)"/>")			
 			</xsl:when>
 		</xsl:choose>
 	public <xsl:value-of select="helper:replaceEntitiesWithGenDTOs(@type)"/> get<xsl:value-of select="helper:capitalizeString(@name)"/>() {
