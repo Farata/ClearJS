@@ -16,10 +16,10 @@
 			<fileset dir="../com.farata.cleardatabuilder.js.helper/dist" />
 		</copy>
 
-		<!--ant antfile="../cdb.dto2fx.annotations/build.xml" dir="../cdb.dto2fx.annotations" />
-		<copy todir="../com.farata.cleardatabuilder/resources/FlexProjectTemplate/WebContent/WEB-INF/lib">
-			<fileset file="../cdb.dto2fx.annotations/export/lib/com.farata.dto2fx.annotations.jar" />
-		</copy -->
+		<ant antfile="../cdb.dto2extjs.annotations/build.xml" dir="../cdb.dto2extjs.annotations" />
+		<copy todir="../com.farata.cleardatabuilder.js/resources/new_project/WebContent/WEB-INF/lib">
+			<fileset file="../cdb.dto2extjs.annotations/export/lib/com.farata.dto2extjs.annotations.jar" />
+		</copy>
 
 		<ant antfile="../clear.rumtime.js/build.xml" dir="../clear.rumtime.js" />
 		<copy todir="../com.farata.cleardatabuilder.js/resources/new_project/WebContent/WEB-INF/lib">
