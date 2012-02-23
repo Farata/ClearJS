@@ -38,11 +38,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import clear.cdb.annotations.CX_FillChildrenMethod;
-import clear.cdb.annotations.CX_GetMethod;
-import clear.cdb.annotations.CX_JPQLMethod;
-import clear.cdb.annotations.CX_UpdateInfo;
-import clear.cdb.annotations.DEFAULT;
+import clear.cdb.js.annotations.CX_JSFillChildrenMethod;
+import clear.cdb.js.annotations.CX_JSGetMethod;
+import clear.cdb.js.annotations.CX_JSJPQLMethod;
+import clear.cdb.js.annotations.CX_UpdateInfo;
+import clear.cdb.js.annotations.DEFAULT;
 
 public class AnnotationsHelper {
 
@@ -304,7 +304,7 @@ public class AnnotationsHelper {
 		}
 
 		//Check transferType annotation
-		CX_GetMethod getMethod = method.getAnnotation(CX_GetMethod.class);
+		CX_JSGetMethod getMethod = method.getAnnotation(CX_JSGetMethod.class);
 		if (getMethod != null) {
 			transferType = getMethod.transferInfo().type();
 			if (transferType != null && transferType.length()>0 && !transferType.equals("?")) {
@@ -314,7 +314,7 @@ public class AnnotationsHelper {
 			}
 		}
 
-		CX_FillChildrenMethod fillChildrenMethod = method.getAnnotation(CX_FillChildrenMethod.class);
+		CX_JSFillChildrenMethod fillChildrenMethod = method.getAnnotation(CX_JSFillChildrenMethod.class);
 		if (fillChildrenMethod != null) {
 			transferType = fillChildrenMethod.transferInfo().type();
 			if (transferType != null && transferType.length()>0 && !transferType.equals("?")) {
@@ -336,7 +336,7 @@ public class AnnotationsHelper {
 			}
 		}
 
-		CX_JPQLMethod jpqlMethod = method.getAnnotation(CX_JPQLMethod.class);
+		CX_JSJPQLMethod jpqlMethod = method.getAnnotation(CX_JSJPQLMethod.class);
 		if (jpqlMethod != null) {
 			transferType = jpqlMethod.transferInfo().type();
 			if (transferType != null && transferType.length()>0 && !transferType.equals("?")) {

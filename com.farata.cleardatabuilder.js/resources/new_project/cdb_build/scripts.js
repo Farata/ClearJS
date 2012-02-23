@@ -85,7 +85,7 @@ function generateServices() {
 	var entityNamesArray = entityNames.split(",");
 	for (entity in entityNamesArray) {
 		if (annotationsHelper.typeAnnotatedWith(entityNamesArray[entity],
-				"clear.cdb.annotations.CX_Service")) {
+				"clear.cdb.js.annotations.CX_JSService")) {
 			var packageName = annotationsHelper
 					.getPackageName(entityNamesArray[entity]);
 			var typeName = annotationsHelper
@@ -144,7 +144,7 @@ function getServices() {
 	var entityNamesArray = entityNames.split(",");
 	for (entity in entityNamesArray) {
 		if (annotationsHelper.typeAnnotatedWith(entityNamesArray[entity],
-				"clear.cdb.annotations.CX_Service")) {
+				"clear.cdb.js.annotations.CX_JSService")) {
 			var packageName = annotationsHelper
 					.getPackageName(entityNamesArray[entity]);
 			var typeName = annotationsHelper
@@ -182,7 +182,7 @@ function generateServicesSubclasses() {
 	var entityNamesArray = entityNames.split(",");
 	for (entity in entityNamesArray) {
 		if (annotationsHelper.typeAnnotatedWith(entityNamesArray[entity],
-				"clear.cdb.annotations.CX_Service")) {
+				"clear.cdb.js.annotations.CX_JSService")) {
 			var packageName = annotationsHelper
 					.getPackageName(entityNamesArray[entity]);
 			var typeName = annotationsHelper
@@ -237,7 +237,7 @@ function getServicesSubclasses() {
 	var entityNamesArray = entityNames.split(",");
 	for (entity in entityNamesArray) {
 		if (annotationsHelper.typeAnnotatedWith(entityNamesArray[entity],
-				"clear.cdb.annotations.CX_Service")) {
+				"clear.cdb.js.annotations.CX_JSService")) {
 			var packageName = annotationsHelper
 					.getPackageName(entityNamesArray[entity]);
 			var typeName = annotationsHelper
@@ -261,7 +261,7 @@ function generateFlexServices() {
 	var entityNamesArray = entityNames.split(",");
 	for (entity in entityNamesArray) {
 		if (annotationsHelper.typeAnnotatedWith(entityNamesArray[entity],
-				"clear.cdb.annotations.CX_Service")) {
+				"clear.cdb.js.annotations.CX_JSService")) {
 			var packageName = annotationsHelper
 					.getPackageName(entityNamesArray[entity]);
 			var typeName = annotationsHelper
@@ -317,7 +317,7 @@ function generateFlexServicesSubclasses() {
 	var entityNamesArray = entityNames.split(",");
 	for (entity in entityNamesArray) {
 		if (annotationsHelper.typeAnnotatedWith(entityNamesArray[entity],
-				"clear.cdb.annotations.CX_Service")) {
+				"clear.cdb.js.annotations.CX_JSService")) {
 			var packageName = annotationsHelper
 					.getPackageName(entityNamesArray[entity]);
 			var typeName = annotationsHelper
@@ -368,7 +368,7 @@ function generateRemotingConfig() {
 	var hasCDBDestinations = false;
 	for (entity in entityNamesArray) {
 		if (annotationsHelper.typeAnnotatedWith(entityNamesArray[entity],
-				"clear.cdb.annotations.CX_Service")) {
+				"clear.cdb.js.annotations.CX_JSService")) {
 			var fileName = projectRoot
 					+ "/WebContent/WEB-INF/flex/remoting-config.xml";
 			var interfaceFileName = String(entityNamesArray[entity]).replace(
@@ -410,7 +410,7 @@ function generateMessagingConfig() {
 	var hasCDBDestinations = false;
 	for (entity in entityNamesArray) {
 		if (annotationsHelper.typeAnnotatedWith(entityNamesArray[entity],
-				"clear.cdb.annotations.CX_Service")) {
+				"clear.cdb.js.annotations.CX_JSService")) {
 			var fileName = projectRoot
 					+ "/WebContent/WEB-INF/flex/messaging-config.xml";
 			var interfaceFileName = String(entityNamesArray[entity]).replace(
@@ -458,7 +458,7 @@ function getServicesDTOs() {
 	var annotationNamesArray = annotationNamesString.split(",");
 	var entityNamesArray = entityNames.split(",");
 	for (entity in entityNamesArray) {
-		if (String(annotationNamesArray[entity]) ==	"clear.cdb.annotations.CX_Service") {
+		if (String(annotationNamesArray[entity]) ==	"clear.cdb.js.annotations.CX_JSService") {
 			methods = annotationsHelper
 					.getClassMethods(entityNamesArray[entity]);
 			for (method in methods) {
@@ -531,7 +531,7 @@ function getServicesDTOSubclasses() {
 	var entityNamesArray = entityNames.split(",");
 	for (entity in entityNamesArray) {
 		if (annotationsHelper.typeAnnotatedWith(entityNamesArray[entity],
-				"clear.cdb.annotations.CX_Service")) {
+				"clear.cdb.js.annotations.CX_JSService")) {
 			methods = annotationsHelper
 					.getClassMethods(entityNamesArray[entity]);
 			for (method in methods) {
@@ -597,18 +597,18 @@ function generateMXMLSamples() {
 	var entityNamesArray = entityNames.split(",");
 	for (entity in entityNamesArray) {
 		if (annotationsHelper.typeAnnotatedWith(entityNamesArray[entity],
-				"clear.cdb.annotations.CX_Service")) {
+				"clear.cdb.js.annotations.CX_JSService")) {
 			methods = annotationsHelper
 					.getClassMethods(entityNamesArray[entity]);
 			for (method in methods) {
 				var generateMXMLSample = annotationsHelper.methodAnnotatedWith(
 						entityNamesArray[entity], "" + annotationsHelper.getMethodNameByMethod(methods[method]),
-						"clear.cdb.annotations.CX_GenerateMXMLSample");
+						"clear.cdb.js.annotations.CX_JSGenerateSample");
 				if (generateMXMLSample) {
 					var fullDtoName = annotationsHelper
 							.getMethodAnnotationValue(entityNamesArray[entity],
 									"" + annotationsHelper.getMethodNameByMethod(methods[method]),
-									"clear.cdb.annotations.CX_JPQLMethod",
+									"clear.cdb.js.annotations.CX_JSJPQLMethod",
 									"transferType");
 					fullDtoName = String(fullDtoName);
 					var subDto = false;
@@ -674,7 +674,7 @@ function generateMXMLSamples() {
 								.getMethodAnnotationValue(
 										fullInterfaceName,
 										"" + annotationsHelper.getMethodNameByMethod(methods[method]),
-										'clear.cdb.annotations.CX_GenerateMXMLSample',
+										'clear.cdb.js.annotations.CX_JSGenerateSample',
 										'defaultFillArguments');
 
 						fillParamsParam = xslt.createParam();
@@ -718,7 +718,7 @@ function generateCollections() {
 	for (entity in entityNamesArray) {
 
 		if (annotationsHelper.typeAnnotatedWith(entityNamesArray[entity],
-				"clear.cdb.annotations.CX_Service")) {
+				"clear.cdb.js.annotations.CX_JSService")) {
 
 			var interfacePackageName = annotationsHelper
 					.getPackageName(entityNamesArray[entity]);
@@ -731,7 +731,7 @@ function generateCollections() {
 				var generateDataCollection = annotationsHelper
 						.methodAnnotatedWith(entityNamesArray[entity], ""
 								+ annotationsHelper.getMethodNameByMethod(methods[method]),
-								"clear.cdb.annotations.CX_GenerateDataCollection");
+								"clear.cdb.js.annotations.CX_JSGenerateStore");
 
 				if (generateDataCollection) {
 
@@ -739,7 +739,7 @@ function generateCollections() {
 							.getMethodAnnotationValue(
 									entityNamesArray[entity],
 									"" + annotationsHelper.getMethodNameByMethod(methods[method]),
-									"clear.cdb.annotations.CX_GenerateDataCollection",
+									"clear.cdb.js.annotations.CX_JSGenerateStore",
 									"collectionType");
 					var packageName = "";
 					if (("" != collectionName) && !isEmpty(collectionName)) {

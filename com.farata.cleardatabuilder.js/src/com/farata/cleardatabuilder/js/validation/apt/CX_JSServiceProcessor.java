@@ -3,10 +3,10 @@ package com.farata.cleardatabuilder.js.validation.apt;
 import com.sun.mirror.apt.AnnotationProcessor;
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 
-public class CX_GenerateMXMLSampleProcessor implements AnnotationProcessor {
+public class CX_JSServiceProcessor implements AnnotationProcessor{
 
 	private AnnotationProcessorEnvironment	_env;
-	CX_GenerateMXMLSampleProcessor(AnnotationProcessorEnvironment	_env){
+	CX_JSServiceProcessor(AnnotationProcessorEnvironment	_env){
 		this._env = _env;
 	}
 	@Override

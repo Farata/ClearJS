@@ -1,7 +1,7 @@
 <annotated-types>
 	<annotated-type name="com.farata.hibernate_test.service.ICompanyService">
 		<annotations>
-			<annotation name="clear.cdb.annotations.CX_Service">
+			<annotation name="clear.cdb.js.annotations.CX_JSService">
 				<exists/>
 			</annotation>
 		</annotations>
@@ -10,10 +10,10 @@
 				<parameters>
 				</parameters>
 				<annotations>
-					<annotation name="clear.cdb.annotations.CX_GenerateDataCollection">
+					<annotation name="clear.cdb.js.annotations.CX_JSGenerateStore">
 						<exists/>
 					</annotation>
-					<annotation name="clear.cdb.annotations.CX_JPQLMethod">
+					<annotation name="clear.cdb.js.annotations.CX_JSJPQLMethod">
 						<exists/>
 						<method name="query" value="SELECT c.company as company , c.id as id  FROM Company c">
 							<query>
@@ -27,7 +27,7 @@
 						</method>
 						<method name="transferInfo">
 							<value>
-								<annotation name="clear.cdb.annotations.CX_TransferInfo">
+								<annotation name="clear.cdb.js.annotations.CX_TransferInfo">
 									<exists/>
 									<method name="type" value="com.farata.hibernate_test.dto.CompanyDTO"/>
 								</annotation>
@@ -35,7 +35,7 @@
 						</method>
 						<method name="updateInfo">
 							<value>
-								<annotation name="clear.cdb.annotations.CX_UpdateInfo">
+								<annotation name="clear.cdb.js.annotations.CX_UpdateInfo">
 									<exists/>
 									<method name="updateEntity" value="com.farata.hibernate_test.entity.Company"/>
 									<method name="keyPropertyNames" value="id"/>
@@ -52,10 +52,10 @@
 					<parameter name="companyId" type="java.lang.Integer" order="0"/>
 				</parameters>
 				<annotations>
-					<annotation name="clear.cdb.annotations.CX_GenerateDataCollection">
+					<annotation name="clear.cdb.js.annotations.CX_JSGenerateStore">
 						<exists/>
 					</annotation>
-					<annotation name="clear.cdb.annotations.CX_JPQLMethod">
+					<annotation name="clear.cdb.js.annotations.CX_JSJPQLMethod">
 						<exists/>
 						<method name="query" value="SELECT a.id, a.companyId, a.associate FROM CompanyAssociate a WHERE a.companyId=:companyId">
 							<query>
@@ -71,7 +71,7 @@
 						</method>
 						<method name="transferInfo">
 							<value>
-								<annotation name="clear.cdb.annotations.CX_TransferInfo">
+								<annotation name="clear.cdb.js.annotations.CX_TransferInfo">
 									<exists/>
 									<method name="type" value="com.farata.hibernate_test.dto.AssociateDTO"/>
 								</annotation>
@@ -79,7 +79,7 @@
 						</method>
 						<method name="updateInfo">
 							<value>
-								<annotation name="clear.cdb.annotations.CX_UpdateInfo">
+								<annotation name="clear.cdb.js.annotations.CX_UpdateInfo">
 									<exists/>
 									<method name="updateEntity" value="com.farata.hibernate_test.entity.CompanyAssociate"/>
 									<method name="keyPropertyNames" value="id"/>
@@ -95,7 +95,7 @@
 	</annotated-type>
 	<annotated-type name="com.farata.java_test.service.IAssociateService">
 		<annotations>
-			<annotation name="clear.cdb.annotations.CX_Service">
+			<annotation name="clear.cdb.js.annotations.CX_JSService">
 				<exists/>
 			</annotation>
 		</annotations>
@@ -105,11 +105,11 @@
 					<parameter name="companyId" type="java.lang.Long" order="0"/>
 				</parameters>
 				<annotations>
-					<annotation name="clear.cdb.annotations.CX_GenerateDataCollection">
+					<annotation name="clear.cdb.js.annotations.CX_JSGenerateStore">
 						<exists/>
 						<method name="collectionType" value="com.farata.java_test.collections.AssociateCollection"/>
 					</annotation>
-					<annotation name="clear.cdb.annotations.CX_FillMethod">
+					<annotation name="clear.cdb.js.annotations.CX_JSFillMethod">
 						<exists/>
 						<method name="autoSyncEnabled" value="true"/>
 					</annotation>
@@ -119,7 +119,7 @@
 	</annotated-type>
 	<annotated-type name="com.farata.java_test.service.ICompanyService">
 		<annotations>
-			<annotation name="clear.cdb.annotations.CX_Service">
+			<annotation name="clear.cdb.js.annotations.CX_JSService">
 				<exists/>
 			</annotation>
 		</annotations>
@@ -128,10 +128,10 @@
 				<parameters>
 				</parameters>
 				<annotations>
-					<annotation name="clear.cdb.annotations.CX_GenerateDataCollection">
+					<annotation name="clear.cdb.js.annotations.CX_JSGenerateStore">
 						<exists/>
 					</annotation>
-					<annotation name="clear.cdb.annotations.CX_FillMethod">
+					<annotation name="clear.cdb.js.annotations.CX_JSFillMethod">
 						<exists/>
 						<method name="autoSyncEnabled" value="true"/>
 					</annotation>

@@ -12,8 +12,8 @@
 		<xsl:param name="springEnabled"/>
 	@DirectMethod	
 	public <xsl:value-of select="$methodNode/@to-string"/> {
-		<xsl:variable name="jpqlMethodNode" select="$methodNode/annotations/annotation[@name='clear.cdb.annotations.CX_JPQLMethod']"/>
-		<xsl:variable name="updateInfo" select="$methodNode/annotations/annotation[@name='clear.cdb.annotations.CX_UpdateInfo'] | $jpqlMethodNode/method[@name='updateInfo']/value/annotation"/>
+		<xsl:variable name="jpqlMethodNode" select="$methodNode/annotations/annotation[@name='clear.cdb.js.annotations.CX_JSJPQLMethod']"/>
+		<xsl:variable name="updateInfo" select="$methodNode/annotations/annotation[@name='clear.cdb.js.annotations.CX_UpdateInfo'] | $jpqlMethodNode/method[@name='updateInfo']/value/annotation"/>
 		<xsl:variable name="updateEntity" select="helper:replaceAll($updateInfo/method[@name='updateEntity']/@value, 'class ', '')"/>
 		<xsl:variable name="hqlQuery" select="$jpqlMethodNode/method[@name='query']/@value"/>
 		<xsl:variable name="query" select="$hqlQuery"/>

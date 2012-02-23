@@ -18,11 +18,11 @@
 		<xsl:for-each select="annotated-types/annotated-type">
 			<xsl:variable name="interfaceName" select="@name" />
 			<xsl:variable name="cxService"
-				select="annotations/annotation[@name='clear.cdb.annotations.CX_Service']" />
+				select="annotations/annotation[@name='clear.cdb.js.annotations.CX_JSService']" />
 			<xsl:if test="$cxService">
 				<xsl:for-each select="methods/method">
 					<xsl:variable name="generateStore"
-						select="annotations/annotation[@name='clear.cdb.annotations.CX_GenerateDataCollection']" />
+						select="annotations/annotation[@name='clear.cdb.js.annotations.CX_JSGenerateStore']" />
 					<xsl:if test="$generateStore">
 						<xsl:variable name="storeType"
 							select="$generateStore/method[@name='collectionType']/@value" />
@@ -51,11 +51,11 @@
 								select="helper:getPackageName($fullStoreName)" />
 							<xsl:variable name="autoSyncEnabled">
 								<xsl:variable name="jpqlMethodNode"
-									select="annotations/annotation[@name='clear.cdb.annotations.CX_JPQLMethod']" />
+									select="annotations/annotation[@name='clear.cdb.js.annotations.CX_JSJPQLMethod']" />
 								<xsl:variable name="javaFillMethodNode"
-									select="annotations/annotation[@name='clear.cdb.annotations.CX_FillMethod']" />
+									select="annotations/annotation[@name='clear.cdb.js.annotations.CX_JSFillMethod']" />
 								<xsl:variable name="updateInfo"
-									select="annotations/annotation[@name='clear.cdb.annotations.CX_UpdateInfo'] | $jpqlMethodNode/method[@name='updateInfo']/value/annotation" />
+									select="annotations/annotation[@name='clear.cdb.js.annotations.CX_UpdateInfo'] | $jpqlMethodNode/method[@name='updateInfo']/value/annotation" />
 								<xsl:value-of
 									select="boolean($updateInfo/method[@name='autoSyncEnabled']/@value = 'true') or boolean($javaFillMethodNode/method[@name='autoSyncEnabled']/@value = 'true')" />
 							</xsl:variable>

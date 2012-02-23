@@ -1,4 +1,4 @@
-package clear.cdb.annotations;
+package clear.cdb.js.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -31,12 +31,12 @@ import java.lang.annotation.Target;
  * <br>
  * In it's complete form, i.e. <code>transferInfo=&#64;CX_TransferInfo(type="foo.dto.BarDTO", mappedBy="foo.entity.BarEntity")</code>
  * it defines a project-level mapping from entity to a newly created DTO. <br>You should use <code>mappedBy</code> only once for a DTO per project, be that in a <code>&#64;CXJPQLMethod</code>- or 
- * <code>&#64;CX_GetMethod</code>-based annotation to avoid conflicting re-mappings. Elsewhere use a shorter form :
+ * <code>&#64;CX_JSGetMethod</code>-based annotation to avoid conflicting re-mappings. Elsewhere use a shorter form :
  * <pre> 
  *   transferInfo=&#64;CX_TransferInfo(type="foo.dto.BarDTO")
  * </pre> 
 
- * Dynamic generation of the DTO in the context of code>&#64;CX_JPQLMethod</code> is based on the properties of the 
+ * Dynamic generation of the DTO in the context of code>&#64;CX_JSJPQLMethod</code> is based on the properties of the 
  * result set. When flag <code>generate</code> is set to false generation is omitted, this allows to
  * avoid conflicting redefinition of the DTO across the project. NOTE: NOT IMPLEMENTED YET
 *  </td>
@@ -81,7 +81,7 @@ import java.lang.annotation.Target;
  *  Example 1: <b>"Read-only" scenario with <code>fill</code> method returning entities</b>. The  generated service class will implement the <code>getCompanies</code> returning <code>List&lt;com.farata.test.entity.Company&gt;</code>. 
  *  Since there is no <code>updateInfo</code> the class will not have methods to sync the database with the changes originated from the client: 
  * <pre>
- * 	&#64;CX_JPQLMethod(
+ * 	&#64;CX_JSJPQLMethod(
  * 		query="SELECT c FROM Company c WHERE c.countryCode=:countryCode"
  * 	)
  * 	List&lt;com.farata.test.entity.Company&gt; getCompanies(String countryCode);
@@ -93,7 +93,7 @@ import java.lang.annotation.Target;
  *  Since there is no <code>updateInfo</code> the class will not contain methods to serve client's request to sync the database with the changes 
  *  originated from the client: 
  * <pre>
- * 	&#64;CX_JPQLMethod(
+ * 	&#64;CX_JSJPQLMethod(
  * 		query="SELECT c FROM Company c"
  * 	)
  * 	List&lt;?&gt; getCompanies();
@@ -106,7 +106,7 @@ import java.lang.annotation.Target;
  *  to <code>CompanyAssociate</code> will be automatically replaced with <code>CompanyAssociateDTO</code>. Since <code>updateInfo</code> is provided, CDB will generate Java methods that enable
  *  Flex UI to invoke <code>sync</code> method of the DataCollection:
  * <pre>
- * 	&#64;CX_JPQLMethod(
+ * 	&#64;CX_JSJPQLMethod(
  * 		query="SELECT a.id, a.associateName, a.company.id as companyId FROM CompanyAssociate a",
  * 		transferInfo=&#64;CX_TransferInfo(type="com.farata.test.dto.CompanyAssociateDTO", mappedBy=CompanyAssociate.class),
  * 		updateInfo=&#64;CX_UpdateInfo(updateEntity=CompanyAssociate.class)
@@ -119,7 +119,7 @@ import java.lang.annotation.Target;
  *  objects of <code>CompanyAssociateDTO</code> type that, according to <code>generate=false</code> is expected to be generated somewhere
  *  else in the project. 
  * <pre>
- * 	&#64;CX_JPQLMethod(
+ * 	&#64;CX_JSJPQLMethod(
  * 		query="SELECT a.id, a.associateName, a.company.id as companyId FROM CompanyAssociate a",
  * 		transferInfo=&#64;CX_TransferInfo(type="com.farata.test.dto.CompanyAssociateDTO", generate=false)
  * 	)
@@ -128,7 +128,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface CX_JPQLMethod {
+public @interface CX_JSJPQLMethod {
 	String query();
 	CX_TransferInfo transferInfo() default @CX_TransferInfo(type="");
 	CX_UpdateInfo updateInfo() default @CX_UpdateInfo(updateEntity=DEFAULT.class);

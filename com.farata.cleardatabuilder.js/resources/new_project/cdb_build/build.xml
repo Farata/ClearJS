@@ -117,7 +117,7 @@
 				var typeNames = typeNamesString.split(",");
 				for (annotationName in annotationNames) {
 					if (annotationNames[annotationName] != null && annotationNames[annotationName] != "") {
-						if (annotationNames[annotationName] == "clear.cdb.annotations.CX_Service") {
+						if (annotationNames[annotationName] == "clear.cdb.js.annotations.CX_JSService") {
 							includes += String(typeNames[annotationName]).replace(/\./g, '/') + ".java,";
 						}
 					}

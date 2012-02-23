@@ -12,13 +12,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import clear.cdb.annotations.CX_FillChildrenMethod;
-import clear.cdb.annotations.CX_GetMethod;
-import clear.cdb.annotations.CX_JPQLMethod;
-import clear.cdb.annotations.CX_Service;
-import clear.cdb.annotations.CX_TransferInfo;
-import clear.cdb.annotations.CX_UpdateInfo;
-import clear.cdb.annotations.DEFAULT;
+import clear.cdb.js.annotations.CX_JSFillChildrenMethod;
+import clear.cdb.js.annotations.CX_JSGetMethod;
+import clear.cdb.js.annotations.CX_JSJPQLMethod;
+import clear.cdb.js.annotations.CX_JSService;
+import clear.cdb.js.annotations.CX_TransferInfo;
+import clear.cdb.js.annotations.CX_UpdateInfo;
+import clear.cdb.js.annotations.DEFAULT;
 
 import com.farata.cdb.annotations.helper.AnnotationsHelper;
 import com.farata.cdb.annotations.helper.HQLHelper;
@@ -52,8 +52,8 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 		processResult.append("<annotated-types>\n");
 		HashMap<String, String> dtoToEntityMappings = new HashMap<String, String>();
 		for (TypeDeclaration specifiedTypeDeclaration : specifiedTypeDeclarations) {
-			CX_Service serv = specifiedTypeDeclaration
-					.getAnnotation(CX_Service.class);
+			CX_JSService serv = specifiedTypeDeclaration
+					.getAnnotation(CX_JSService.class);
 			try {
 				if (serv != null) {
 					processTypeDeclaration(specifiedTypeDeclaration,
@@ -107,8 +107,8 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 		Collection<? extends MethodDeclaration> methods = typeDeclaration
 				.getMethods();
 		for (MethodDeclaration method : methods) {
-			CX_JPQLMethod jpqlMethod = method
-					.getAnnotation(CX_JPQLMethod.class);
+			CX_JSJPQLMethod jpqlMethod = method
+					.getAnnotation(CX_JSJPQLMethod.class);
 			Class<?> entity = null;
 			if (jpqlMethod != null) {
 				// Get from transferInfo
@@ -122,8 +122,8 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 					}
 				}
 			} else {
-				CX_GetMethod getMethod = method
-						.getAnnotation(CX_GetMethod.class);
+				CX_JSGetMethod getMethod = method
+						.getAnnotation(CX_JSGetMethod.class);
 				if (getMethod != null) {
 					CX_TransferInfo transferInfo = getMethod.transferInfo();
 					try {
@@ -135,8 +135,8 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 						}
 					}
 				} else {
-					CX_FillChildrenMethod fillChildrenMethod = method
-							.getAnnotation(CX_FillChildrenMethod.class);
+					CX_JSFillChildrenMethod fillChildrenMethod = method
+							.getAnnotation(CX_JSFillChildrenMethod.class);
 					if (fillChildrenMethod != null) {
 						CX_TransferInfo transferInfo = fillChildrenMethod
 								.transferInfo();
@@ -216,8 +216,8 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 		}
 
 		// Check transferType annotation
-		CX_JPQLMethod jpqlMethod = methodDeclaration
-				.getAnnotation(CX_JPQLMethod.class);
+		CX_JSJPQLMethod jpqlMethod = methodDeclaration
+				.getAnnotation(CX_JSJPQLMethod.class);
 		if (jpqlMethod != null) {
 			transferType = jpqlMethod.transferInfo().type();
 			if (transferType != null && transferType.length() > 0
@@ -232,8 +232,8 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 //			}
 		}
 
-		CX_GetMethod getMethod = methodDeclaration
-				.getAnnotation(CX_GetMethod.class);
+		CX_JSGetMethod getMethod = methodDeclaration
+				.getAnnotation(CX_JSGetMethod.class);
 		if (getMethod != null) {
 			transferType = getMethod.transferInfo().type();
 			if (transferType != null && transferType.length() > 0
@@ -242,8 +242,8 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 			}
 		}
 
-		CX_FillChildrenMethod fillChildrenMethod = methodDeclaration
-				.getAnnotation(CX_FillChildrenMethod.class);
+		CX_JSFillChildrenMethod fillChildrenMethod = methodDeclaration
+				.getAnnotation(CX_JSFillChildrenMethod.class);
 		if (fillChildrenMethod != null) {
 			transferType = fillChildrenMethod.transferInfo().type();
 			if (transferType != null && transferType.length() > 0

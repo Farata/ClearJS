@@ -12,7 +12,7 @@
 		<xsl:param name="methodNode"/>
 		<xsl:param name="springEnabled"/>
 
-		<xsl:variable name="getMethod" select="helper:getMethodAnnotation($interfaceName, $methodNode/@name, 'clear.cdb.annotations.CX_GetMethod')"/>
+		<xsl:variable name="getMethod" select="helper:getMethodAnnotation($interfaceName, $methodNode/@name, 'clear.cdb.js.annotations.CX_JSGetMethod')"/>
 		<xsl:variable name="sync" select="boolean($getMethod/method[@name='sync']/@value = 'true')"/>
 		<xsl:variable name="transferType" select="helper:getMethodTransferType($interfaceName, $methodNode/@name)"/>
 		<xsl:variable name="mappedEntity">

@@ -1,4 +1,4 @@
-package clear.cdb.annotations;
+package clear.cdb.js.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface CX_Service {
+public @interface CX_JSService {
 
 }

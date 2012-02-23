@@ -6,27 +6,27 @@ import javax.annotation.Generated;
 
 import com.farata.hibernate_test.entity.Company;
 import com.farata.hibernate_test.entity.CompanyAssociate;
-import clear.cdb.annotations.CX_GenerateDataCollection;
-import clear.cdb.annotations.CX_GenerateMXMLSample;
-import clear.cdb.annotations.CX_JPQLMethod;
-import clear.cdb.annotations.CX_Service;
-import clear.cdb.annotations.CX_TransferInfo;
-import clear.cdb.annotations.CX_UpdateInfo;
+import clear.cdb.js.annotations.CX_JSGenerateStore;
+import clear.cdb.js.annotations.CX_JSGenerateSample;
+import clear.cdb.js.annotations.CX_JSJPQLMethod;
+import clear.cdb.js.annotations.CX_JSService;
+import clear.cdb.js.annotations.CX_TransferInfo;
+import clear.cdb.js.annotations.CX_UpdateInfo;
 
-@CX_Service
+@CX_JSService
 public interface ICompanyService {
-	@CX_GenerateMXMLSample
-	@CX_GenerateDataCollection
-	@CX_JPQLMethod(
+	@CX_JSGenerateSample
+	@CX_JSGenerateStore
+	@CX_JSJPQLMethod(
 			query="SELECT c FROM Company c",
 			transferInfo=@CX_TransferInfo(type="com.farata.hibernate_test.dto.CompanyDTO"),
 			updateInfo=@CX_UpdateInfo(updateEntity=Company.class, keyPropertyNames="id", updatablePropertyNames="company", autoSyncEnabled=true)
 	)
 	List<?> getCompanies();
 
-	@CX_GenerateMXMLSample
-	@CX_GenerateDataCollection
-	@CX_JPQLMethod(
+	@CX_JSGenerateSample
+	@CX_JSGenerateStore
+	@CX_JSJPQLMethod(
 			query="SELECT a.id, a.companyId, a.associate FROM CompanyAssociate a WHERE a.companyId=:companyId",
 			transferInfo=@CX_TransferInfo(type="com.farata.hibernate_test.dto.AssociateDTO"),
 			updateInfo=@CX_UpdateInfo(updateEntity=CompanyAssociate.class, keyPropertyNames="id", updatablePropertyNames="companyId,associate", autoSyncEnabled=true)

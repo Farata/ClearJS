@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 
 import org.eclipse.jdt.apt.core.util.EclipseMessager;
 
-import clear.cdb.annotations.CX_JPQLMethod;
+import clear.cdb.js.annotations.CX_JSJPQLMethod;
 
 import com.farata.cleardatabuilder.js.validation.IValidationConstants;
 import com.sun.mirror.apt.AnnotationProcessor;
@@ -23,14 +23,14 @@ import com.sun.mirror.declaration.MethodDeclaration;
 import com.sun.mirror.type.TypeMirror;
 import com.sun.mirror.util.SourcePosition;
 
-public class CX_JPQLMethodProcessor implements AnnotationProcessor,
+public class CX_JSJPQLMethodProcessor implements AnnotationProcessor,
 		IValidationConstants {
 
 	private static final String CLASS_OF_THE_COLLECTION_ELEMENTS_IS_NOT_SPECIFIED_AND_TRANSFER_INFO_PARAMETER_IS_MISSING = "Class of the collection elements is not specified and transferInfo parameter is missing";
 	private static final String TYPE_ATTRIBUTE_SHOULD_BE_NOT_EMPTY = "'type' attribute should be not empty";
 	private AnnotationProcessorEnvironment _env;
 
-	CX_JPQLMethodProcessor(AnnotationProcessorEnvironment _env) {
+	CX_JSJPQLMethodProcessor(AnnotationProcessorEnvironment _env) {
 		this._env = _env;
 	}
 
@@ -40,7 +40,7 @@ public class CX_JPQLMethodProcessor implements AnnotationProcessor,
 
 		// obtain the declaration of the annotation we want to process
 		AnnotationTypeDeclaration annoDecl = (AnnotationTypeDeclaration) _env
-				.getTypeDeclaration(CX_JPQLMethod.class.getName());
+				.getTypeDeclaration(CX_JSJPQLMethod.class.getName());
 
 		// get the annotated types
 		Collection<Declaration> annotatedTypes = _env
@@ -51,16 +51,16 @@ public class CX_JPQLMethodProcessor implements AnnotationProcessor,
 
 			// for each annotation found, get a map of element name/value pairs
 			for (AnnotationMirror mirror : mirrors) {
-				if (!"CX_JPQLMethod".equals(mirror.getAnnotationType()
+				if (!"CX_JSJPQLMethod".equals(mirror.getAnnotationType()
 						.getDeclaration().getSimpleName())) {
 					continue;
 				}
 				MethodDeclaration methodDeclaration = (MethodDeclaration) decl;
-				CX_JPQLMethodProcessor.checkReturnType(mirror,
+				CX_JSJPQLMethodProcessor.checkReturnType(mirror,
 						methodDeclaration, messager);
-				CX_JPQLMethodProcessor.checkTransferInfo(mirror,
+				CX_JSJPQLMethodProcessor.checkTransferInfo(mirror,
 						methodDeclaration, true, messager);
-				CX_JPQLMethodProcessor.checkUpdateInfo(mirror,
+				CX_JSJPQLMethodProcessor.checkUpdateInfo(mirror,
 						methodDeclaration, messager);
 
 			}

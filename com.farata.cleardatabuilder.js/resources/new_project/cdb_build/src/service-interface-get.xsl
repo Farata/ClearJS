@@ -9,7 +9,7 @@
 	<xsl:template match="/|/|/" name="service-interface-get.xsl">
 		<xsl:param name="interfaceName"/>
 		<xsl:param name="methodNode"/>
-		<xsl:variable name="getMethod" select="helper:getMethodAnnotation($interfaceName, $methodNode/@name, 'clear.cdb.annotations.CX_GetMethod')"/>
+		<xsl:variable name="getMethod" select="helper:getMethodAnnotation($interfaceName, $methodNode/@name, 'clear.cdb.js.annotations.CX_JSGetMethod')"/>
 		<xsl:variable name="sync" select="boolean($getMethod/method[@name='sync']/@value = 'true')"/>
 		<xsl:variable name="transferType" select="helper:getMethodTransferType($interfaceName, $methodNode/@name)"/>
 		<xsl:if test="$sync">

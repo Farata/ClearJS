@@ -1,4 +1,4 @@
-package clear.cdb.annotations;
+package clear.cdb.js.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -26,10 +26,10 @@ import java.lang.annotation.Target;
   </table>
 </p>  
  * <p>
- * Annotation <code>&#64;CX_FillMethod</code> allows to plug-in an existing Java class into Flex/Java data synchronization,
+ * Annotation <code>&#64;CX_JSFillMethod</code> allows to plug-in an existing Java class into Flex/Java data synchronization,
  * based on Adobe LCDS <code>ChangeObject</code> interface and 
  * <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/flex/4/clear/collections/DataCollection.html">DataCollection</a>.
- * The method annotated by <code>&#64;CX_FillMethod</code> will be designated as a <code>fillMethod</code> of the <code>DataCollection</code>.
+ * The method annotated by <code>&#64;CX_JSFillMethod</code> will be designated as a <code>fillMethod</code> of the <code>DataCollection</code>.
  * Therefore it should return a collection of tuples, aka - data transfer objects(DTO) to be marhsalled to DataCollection during the
  * remote method invocation. When annotation parameter <code>sync</code> is <code>true</code>, code generation script 
  * creates additional four methods:
@@ -55,7 +55,7 @@ import java.lang.annotation.Target;
  *  <b>Example</b>: The following method belongs to a class <code>com.farata.test.service.ICompanyService</code> and is annotated with
  *  (default) <code>sync=true</code> and <code>autoSyncEnabled=true</code>:
  * <pre>
- * 	&#64;CX_FillMethod(autoSyncEnabled=true)
+ * 	&#64;CX_JSFillMethod(autoSyncEnabled=true)
  * 	List&lt;com.farata.java_test.dto.CompanyDTO&gt; getCompanies();
  *	</pre>
  * <p>
@@ -84,7 +84,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface CX_FillMethod {
+public @interface CX_JSFillMethod {
 	boolean sync() default true;
 	boolean autoSyncEnabled() default false;
 }

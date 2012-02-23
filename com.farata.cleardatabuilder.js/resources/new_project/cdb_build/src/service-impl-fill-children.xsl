@@ -12,7 +12,7 @@
 		<xsl:param name="methodNode"/>
 		<xsl:param name="springEnabled"/>
 		
-		<xsl:variable name="fillChildrenMethod" select="helper:getMethodAnnotation($interfaceName, $methodNode/@name, 'clear.cdb.annotations.CX_FillChildrenMethod')"/>
+		<xsl:variable name="fillChildrenMethod" select="helper:getMethodAnnotation($interfaceName, $methodNode/@name, 'clear.cdb.js.annotations.CX_JSFillChildrenMethod')"/>
 		<xsl:variable name="parentEntity" select="$fillChildrenMethod/method[@name='parent']/@value"/>
 		<xsl:variable name="parentEntityProperty" select="$fillChildrenMethod/method[@name='property']/@value"/>
 		<xsl:variable name="childType" select="helper:getTypeParameter(helper:getBeanPropertyType($parentEntity, $parentEntityProperty))"/>		

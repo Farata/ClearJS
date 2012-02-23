@@ -5,15 +5,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-import clear.cdb.annotations.CX_FillChildrenMethod;
-import clear.cdb.annotations.CX_FillMethod;
-import clear.cdb.annotations.CX_GenerateDataCollection;
-import clear.cdb.annotations.CX_GenerateMXMLSample;
-import clear.cdb.annotations.CX_GetMethod;
-import clear.cdb.annotations.CX_JPQLMethod;
-import clear.cdb.annotations.CX_Service;
-import clear.cdb.annotations.CX_TransferInfo;
-import clear.cdb.annotations.CX_UpdateInfo;
+import clear.cdb.js.annotations.CX_JSFillChildrenMethod;
+import clear.cdb.js.annotations.CX_JSFillMethod;
+import clear.cdb.js.annotations.CX_JSGenerateStore;
+import clear.cdb.js.annotations.CX_JSGenerateSample;
+import clear.cdb.js.annotations.CX_JSGetMethod;
+import clear.cdb.js.annotations.CX_JSJPQLMethod;
+import clear.cdb.js.annotations.CX_JSService;
+import clear.cdb.js.annotations.CX_TransferInfo;
+import clear.cdb.js.annotations.CX_UpdateInfo;
 
 import com.sun.mirror.apt.AnnotationProcessor;
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
@@ -40,13 +40,13 @@ public class CDBAnnotationProcessorFactory implements
 	private static ArrayList<String> annotations = new ArrayList<String>();
 
 	{
-		annotations.add(CX_FillChildrenMethod.class.getName());
-		annotations.add(CX_FillMethod.class.getName());
-		annotations.add(CX_GenerateDataCollection.class.getName());
-		annotations.add(CX_GenerateMXMLSample.class.getName());
-		annotations.add(CX_GetMethod.class.getName());
-		annotations.add(CX_JPQLMethod.class.getName());
-		annotations.add(CX_Service.class.getName());
+		annotations.add(CX_JSFillChildrenMethod.class.getName());
+		annotations.add(CX_JSFillMethod.class.getName());
+		annotations.add(CX_JSGenerateStore.class.getName());
+		annotations.add(CX_JSGenerateSample.class.getName());
+		annotations.add(CX_JSGetMethod.class.getName());
+		annotations.add(CX_JSJPQLMethod.class.getName());
+		annotations.add(CX_JSService.class.getName());
 		annotations.add(CX_TransferInfo.class.getName());
 		annotations.add(CX_UpdateInfo.class.getName());
 	}

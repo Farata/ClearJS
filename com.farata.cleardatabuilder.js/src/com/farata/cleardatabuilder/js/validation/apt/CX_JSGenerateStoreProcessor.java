@@ -3,10 +3,10 @@ package com.farata.cleardatabuilder.js.validation.apt;
 import com.sun.mirror.apt.AnnotationProcessor;
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 
-public class CX_ServiceProcessor implements AnnotationProcessor{
+public class CX_JSGenerateStoreProcessor implements AnnotationProcessor{
 
 	private AnnotationProcessorEnvironment	_env;
-	CX_ServiceProcessor(AnnotationProcessorEnvironment	_env){
+	CX_JSGenerateStoreProcessor(AnnotationProcessorEnvironment	_env){
 		this._env = _env;
 	}
 	@Override

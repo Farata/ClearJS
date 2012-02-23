@@ -13,9 +13,9 @@
 	<xsl:param name="interfaceName"/>
 	<xsl:param name="methodName"/>package <xsl:value-of select="$rootPackage"/>;
 		<xsl:variable name="methodNode" select="annotated-types/annotated-type[@name=$interfaceName]/methods/method[@name=$methodName]"/>
-		<xsl:variable name="jpqlMethodNode" select="$methodNode/annotations/annotation[@name='clear.cdb.annotations.CX_JPQLMethod']"/>
+		<xsl:variable name="jpqlMethodNode" select="$methodNode/annotations/annotation[@name='clear.cdb.js.annotations.CX_JSJPQLMethod']"/>
 		<xsl:variable name="types" select="$jpqlMethodNode/method[@name='query']/query"/>
-		<xsl:variable name="updateInfo" select="$methodNode/annotations/annotation[@name='clear.cdb.annotations.CX_UpdateInfo'] | $jpqlMethodNode/method[@name='updateInfo']/value/annotation"/>
+		<xsl:variable name="updateInfo" select="$methodNode/annotations/annotation[@name='clear.cdb.js.annotations.CX_UpdateInfo'] | $jpqlMethodNode/method[@name='updateInfo']/value/annotation"/>
 		<xsl:variable name="updateEntity" select="helper:replaceAll($updateInfo/method[@name='updateEntity']/@value, 'class ', '')"/>
 		<xsl:variable name="annotatedType" select="annotated-types/annotated-type[@name=$interfaceName][1]"/>
 		

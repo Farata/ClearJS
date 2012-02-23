@@ -30,15 +30,15 @@
 				</xsl:variable>
 				<xsl:for-each select="methods/method">
 					<xsl:variable name="jpqlMethodNode"
-						select="annotations/annotation[@name='clear.cdb.annotations.CX_JPQLMethod']" />
+						select="annotations/annotation[@name='clear.cdb.js.annotations.CX_JSJPQLMethod']" />
 					<xsl:variable name="updateInfo"
-						select="annotations/annotation[@name='clear.cdb.annotations.CX_UpdateInfo'] | $jpqlMethodNode/method[@name='updateInfo']/value/annotation" />
+						select="annotations/annotation[@name='clear.cdb.js.annotations.CX_UpdateInfo'] | $jpqlMethodNode/method[@name='updateInfo']/value/annotation" />
 
 					<xsl:variable name="autoSyncEnabled"
 						select="boolean($updateInfo/method[@name='autoSyncEnabled']/@value = 'true')" />
 
 					<xsl:variable name="javaFillMethod"
-						select="helper:getMethodAnnotation($interfaceName, @name, 'clear.cdb.annotations.CX_FillMethod')" />
+						select="helper:getMethodAnnotation($interfaceName, @name, 'clear.cdb.js.annotations.CX_JSFillMethod')" />
 					<xsl:variable name="javaAutoSyncEnabled"
 						select="boolean($javaFillMethod/method[@name='autoSyncEnabled']/@value = 'true')" />
 

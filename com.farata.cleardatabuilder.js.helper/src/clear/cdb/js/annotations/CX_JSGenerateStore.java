@@ -1,4 +1,4 @@
-package clear.cdb.annotations;
+package clear.cdb.js.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  * <p>Transfer type gets determined in the following order:
  * <li>if return type of the annotated method (collection is assumed) is not raw and does not contain a wildcard then the base type of the collection becomes the
  * transfer type;</li>
- * <li>if the method is annotated with <code>&#64;CX_JPQLMethod</code> annotation with the <code>transferInfo</code> parameter, the <code>type</code> subparameter of
+ * <li>if the method is annotated with <code>&#64;CX_JSJPQLMethod</code> annotation with the <code>transferInfo</code> parameter, the <code>type</code> subparameter of
  * the <code>transferInfo</code> becomes the transfer type;</li>
  * <li>if none of the above conditions are met, transfer type remains unknown</li>
  * </p> 
@@ -28,8 +28,8 @@ import java.lang.annotation.Target;
  *  Example 1: When the transfer type is known, it is recommended to rely on default naming of the generated collection. Here, based on the 
  *  known transfer type - com.farata.test.entity.Company - code generator will create com.farata.test.collections.CompanyCollection:
  * <pre>
- * 	&#64;CX_GenerateDataCollection
- * 	&#64;CX_JPQLMethod(
+ * 	&#64;CX_JSGenerateStore
+ * 	&#64;CX_JSJPQLMethod(
  * 		query="SELECT c FROM Company c"
  * 	)
  * 	List&lt;com.farata.test.entity.Company&gt; getCompanies();
@@ -38,8 +38,8 @@ import java.lang.annotation.Target;
  * <p>
  * 	Example 2: When the transfer type is not known, <code>collectionType</code> has to be provided by the developer explicitly:
  *  <pre>
- * 	&#64;CX_GenerateDataCollection(collectionType="com.farata.collections.MyCompanyCollection")
- * 	&#64;CX_JPQLMethod(
+ * 	&#64;CX_JSGenerateStore(collectionType="com.farata.collections.MyCompanyCollection")
+ * 	&#64;CX_JSJPQLMethod(
  * 		query="SELECT c FROM Company c"
  * 	)
  * 	List&lt;?&gt; getCompanies();
@@ -48,7 +48,7 @@ import java.lang.annotation.Target;
  * <p>
  * 	Example 3: In relation with Example 2, <code>&#64;FXOneToMany</code> annotation of the <code>companyAssociates</code> property 
  * in the <code>com.farata.test.entity.Company</code> class has to explicitly specify the <code>collectionType</code> to match
- * that of the related <code>&#64;CX_GenerateDataCollection</code> annotation:
+ * that of the related <code>&#64;CX_JSGenerateStore</code> annotation:
  *  <pre>
  * 	&#64;FXOneToMany(fillArguments="id", collectionType="com.farata.collections.MyCompanyCollection")
  * 	public Set<CompanyAssociate> getCompanyAssociates() {
@@ -64,7 +64,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface CX_GenerateDataCollection {
+public @interface CX_JSGenerateStore {
 	/**
 	 * Fully qualified name of the DataCollection descendant, i.e. "com.farata.test.collections.CompanyCollection".
 	 * @return
