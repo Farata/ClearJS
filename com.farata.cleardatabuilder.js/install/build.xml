@@ -21,6 +21,7 @@
 		<replace file="${workspace.path}/${project.name}/.project" token="**{project_name}**" value="${project.name}" />
 		<replace file="${workspace.path}/${project.name}/cdb_build/build.properties" token="**{project.name}**" value="${project.name}" />
 		<replace file="${workspace.path}/${project.name}/WebContent/app.js" token="**{project.name}**" value="${project.name}" />
+		<replace file="${workspace.path}/${project.name}/.settings/org.eclipse.jdt.apt.core.prefs" token="**{app.name}**" value="${app.name}" />
 	</target>
 	
 	<target name="install-sample" if="is.sample">
