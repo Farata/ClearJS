@@ -15,8 +15,8 @@
 				</fileset>
 			</classpath>
 		</javac>
-		<jar destfile="dist/clear.rumtime.js.jar" basedir="dist" />
-		<jar destfile="dist/clear.rumtime.js.jar" basedir="src" update="true" />
+		<jar destfile="dist/clear.runtime.js.jar" basedir="dist" />
+		<jar destfile="dist/clear.runtime.js.jar" basedir="src" update="true" />
 	</target>
 
 </project>

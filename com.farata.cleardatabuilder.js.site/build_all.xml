@@ -21,9 +21,9 @@
 			<fileset file="../cdb.dto2extjs.annotations/export/lib/com.farata.dto2extjs.annotations.jar" />
 		</copy>
 
-		<ant antfile="../clear.rumtime.js/build.xml" dir="../clear.rumtime.js" />
+		<ant antfile="../clear.runtime.js/build.xml" dir="../clear.runtime.js" />
 		<copy todir="../com.farata.cleardatabuilder.js/resources/new_project/WebContent/WEB-INF/lib">
-			<fileset file="../clear.rumtime.js/dist/clear.rumtime.js.jar" />
+			<fileset file="../clear.runtime.js/dist/clear.runtime.js.jar" />
 		</copy>
 
 		<eclipse.refreshLocal resource="/" />

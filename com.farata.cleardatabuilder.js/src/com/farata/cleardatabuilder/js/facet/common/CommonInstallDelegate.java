@@ -18,8 +18,6 @@ import org.eclipse.jpt.jpa.core.JpaDataSource;
 import org.eclipse.jpt.jpa.core.JpaProject;
 import org.eclipse.jpt.jpa.core.JptJpaCorePlugin;
 import org.eclipse.jpt.jpa.db.ConnectionProfile;
-import org.eclipse.ui.progress.UIJob;
-import org.eclipse.ui.progress.WorkbenchJob;
 import org.eclipse.wst.common.project.facet.core.FacetedProjectFramework;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action.Type;
@@ -66,6 +64,8 @@ public class CommonInstallDelegate implements IDelegate {
 							protected IStatus run(
 									IProgressMonitor iprogressmonitor) {
 								final Properties props = new Properties();
+								props.setProperty("extjs.path", config.getExtJSPath().getAbsolutePath());
+								
 								fillHibernateProps(props, project, monitor);
 
 								Installer.install(props, prjName,
