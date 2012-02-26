@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CompaniesPanel.mxml -->
+<s:Panel title="Companies" 
+		 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" >
+    <fx:Metadata> 
+        [Event(name="companySelectionChange", type="com.farata.test.events.CompanyEvent")] 
+    </fx:Metadata> 
+	<s:layout>		<s:VerticalLayout horizontalAlign="center" />	</s:layout>
+	<mx:DataGrid id="dg" dataProvider="{companies}" editable="true"  change="onChange(dg.selectedItem as CompanyDTO)" height="100%" >
+		<mx:columns>
+			<mx:DataGridColumn dataField="id" headerText="Id" />
+			<mx:DataGridColumn dataField="companyName" headerText="Company Name" />
+		</mx:columns>
+	</mx:DataGrid>	
+	<s:controlBarContent>
+		<s:HGroup  verticalAlign="middle">			
+			<s:Button label="Remove" click="onRemove(dg.selectedIndex)" enabled="{dg.selectedIndex != -1}"/>
+			<s:Button label="Add" click="onAdd(Math.max(0,dg.selectedIndex+1)); "/>
+			<s:Label text="Deleted: {companies.deletedCount}"/>
+			<s:Label text="Modified: {companies.modifiedCount}"/>		
+		</s:HGroup>	
+	</s:controlBarContent>
+	<fx:Script>
+	<![CDATA[		import clear.utils.DataCollectionUtils;
+		
+		import com.farata.test.collections.CompanyCollection;
+		import com.farata.test.dto.CompanyDTO;
+		import com.farata.test.events.CompanyEvent;
+		
+	[Bindable] 	public var companies:CompanyCollection;
+	 
+	private function onAdd(position:int):void	{
+		var item:CompanyDTO = new CompanyDTO();	
+		// For the purpose of PK-FK linking in batch transaction 
+		// you should initialize new autoincrement values with "locally" 
+		// unique values: 0, -1, -2, etc. 		
+		item.id = DataCollectionUtils.getLocalIdentity(companies,"id"); 			
+		companies.addItemAt(item, position);
+		dg.selectedIndex = position;
+		onChange(item);
+	}	
+	private function onRemove(position:int):void {
+		companies.removeItemAt(position);
+	}
+	private function onChange(company:CompanyDTO):void {
+		var event:CompanyEvent = new CompanyEvent(CompanyEvent.COMPANY_SELECTION_CHANGE);
+		event.company = company;		dispatchEvent(event);		
+	}		]]>
+	</fx:Script>
+</s:Panel>

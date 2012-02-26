@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context privileged="true" antiResourceLocking="false"
+    antiJARLocking="false" reloadable="true">
+    <!-- JOTM -->
+    <Transaction factory="org.objectweb.jotm.UserTransactionFactory"
+        jotm.timeout="60" />
+    
+    <Resource name="jdbc/orcl" type="javax.sql.DataSource"
+        driverClassName="oracle.jdbc.OracleDriver" maxIdle="2" maxWait="5000"
+        url="jdbc:oracle:thin:@dev.myflex.org:1521:orcl" username="discussion"
+        password="discussion_app" maxActive="4" />
+    
+</Context>

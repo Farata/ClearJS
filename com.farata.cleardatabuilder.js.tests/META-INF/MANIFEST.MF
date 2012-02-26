@@ -1,0 +1,9 @@
+Export-Package: .,com.farata.cleardatabuilder.tests,org.apache.tools.ant
+Bundle-Name: Tests
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: com.farata.cleardatabuilder.tests
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Require-Bundle: org.apache.ant,
+ org.eclipse.core.runtime,
+ org.eclipse.swt
