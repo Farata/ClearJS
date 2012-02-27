@@ -69,7 +69,7 @@ public class <xsl:value-of select="$dtoName"/>  implements Serializable, IUID{
 		<xsl:variable name="propType" select="@type"/>
 		<xsl:choose>
 			<xsl:when test="$oneToMany/exists">
-	@JSOneToMany
+	@JSOneToMany(foreignKey = "<xsl:value-of select="@name"/>")
 			</xsl:when>
 			<xsl:when test="$manyToOne/method[@name = 'targetEntity']">
 				<xsl:variable name="refDtoProps" select="helper:getBeanProperties($propType)"/>
@@ -82,7 +82,7 @@ public class <xsl:value-of select="$dtoName"/>  implements Serializable, IUID{
 						</xsl:if>
 					</xsl:for-each>
 				</xsl:variable>
-	@JSManyToOne(parent = "<xsl:value-of select="helper:entityToGenDTO(@type)"/>", property = "<xsl:value-of select="helper:entityToGenDTO($keyColumn)"/>")			
+	@JSManyToOne(foreignKey = "<xsl:value-of select="@name"/>")			
 			</xsl:when>
 		</xsl:choose>
 	public <xsl:value-of select="helper:replaceEntitiesWithGenDTOs(@type)"/> get<xsl:value-of select="helper:capitalizeString(@name)"/>() {

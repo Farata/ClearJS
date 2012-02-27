@@ -1284,16 +1284,16 @@ public class AnnotationsHelper {
 	}
 	
 	public static String createStoreName(String dtoName) {
-		String storeName = dtoName.replaceAll("(DTO)$", "");
+		String storeName = dtoName.replaceAll("(DTO)$", "Store");
 		storeName = storeName;
 		//System.out.println(collectionName);
 		return storeName;
 	}
 
 	public static String createStorePackageName(String dtoPackageName) {
-		String packageName = "store";
+		String packageName = "";
 		if (dtoPackageName.indexOf('.') != -1) {
-			packageName = dtoPackageName.replaceAll("\\.[^.]*$", ".store");
+			packageName = dtoPackageName.replaceAll("\\.[^.]*$", "");
 		}
 		//System.out.println(packageName);
 		return packageName;

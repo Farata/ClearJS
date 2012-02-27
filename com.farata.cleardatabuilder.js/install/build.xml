@@ -12,7 +12,15 @@
 		</copy>
 		<mkdir dir="${workspace.path}/${project.name}/WebContent/extjs" />
 		<copy todir="${workspace.path}/${project.name}/WebContent/extjs" overwrite="true">
-			<fileset dir="${extjs.path}" />
+			<fileset dir="${extjs.path}">
+				<exclude name="build"/>
+				<exclude name="builds"/>
+				<exclude name="docs"/>
+				<exclude name="examples"/>
+				<exclude name="jsbuilder"/>
+				<exclude name="index.html"/>
+				<exclude name="release-notes.html"/>
+			</fileset>
 		</copy>
 		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{persistence.unit}**" value="${persistence.unit}" />
 		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{jta.data.source}**" value="${jta.data.source}" />
