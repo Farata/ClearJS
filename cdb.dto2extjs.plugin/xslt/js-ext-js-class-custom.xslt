@@ -13,16 +13,13 @@
 				<xsl:with-param name="className" select="$className"/>   
 				<xsl:with-param name="genPackage" select="$genPackage"/>   	
 			</xsl:call-template>
-    	</xsl:variable>
-    
+    	</xsl:variable>  
     	<xsl:variable name="interfaces">
 			<xsl:call-template name="class-implements-clause">
 				<xsl:with-param name="class" select="."/>
 				<xsl:with-param name="predefinedInterfaces"/>
 			</xsl:call-template>
-		</xsl:variable>        
-
-Ext.define('<xsl:value-of select="$thisClass"/>', {
+		</xsl:variable>Ext.define('<xsl:value-of select="$thisClass"/>', {
 	extend: '<xsl:value-of select="$generatedSuperclass"/>'
 });
 	</xsl:template>
