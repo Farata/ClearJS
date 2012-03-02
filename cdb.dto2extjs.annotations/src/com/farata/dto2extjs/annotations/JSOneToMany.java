@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
  *   	<td><code>storeType</code></td><td>String</td><td>Optional</td>
  *   	<td>Fully qualified class name of the store to populate with the associated data. Default value 
  *   corresponds to the model class of the stored records, i.e. the name of the
- *   store loaded with <code>AM.model.smart.User</code> is <code>AM.store.smart.UserStore</code>.
+ *   store loaded with <code>MyApp.model.smart.User</code> is <code>MyApp.store.smart.UserStore</code>.
  *   Developer should make sure that the store class exists and is a <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/extjs/4/clear/data/DirectStore.html">Clear.data.DirectStore</a>; one way to do it is by using JSGenerateStore annotation.
  *   <p>ATTENTION! In the absence of <a href="http://www.cleartoolkit.com/dokuwiki/doku.php?id=clearwiki:40.clear_components_ext">Clear Components for ExtJS</a>
  *   (see below) this parameter has no effect, because out-of-the box <a href="http://docs.sencha.com/ext-js/4-0/#!/api/Ext.data.HasManyAssociation">HasManyAssociation</a>
@@ -94,7 +94,7 @@ public class UserDTO {
 	
 	&#64;JSOneToMany(
 			foreignKey="userId",
-			storeType="AM.store.clear.TicketStore",
+			storeType="MyApp.store.clear.TicketStore",
 			storeConfig="{"+        	
 	         	"paramOrder:['0'],"+   
 	        	"api: {"+
