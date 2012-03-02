@@ -182,7 +182,7 @@ assign AM:app the classes will be created in the <code>WebContent/app</code> and
  *  <p>
  *  To plug in Clear Components for Ext JS to your Ext JS MVC application copy the contents of ClearJS/src into the web root
  *  of your application and make sure that the main application script starts similar to the following:
- <PRE>// app.js 
+ <PRE>// app.js
  Ext.Loader.setConfig({
 	disableCaching: false,
 	enabled: true,
@@ -191,7 +191,14 @@ assign AM:app the classes will be created in the <code>WebContent/app</code> and
 	}
 });
 	
-Ext.require('Clear.patch.ExtJSPatch');
+Ext.application({
+    name: 'MyApp',
+    requires: ['Clear.override.ExtJSOverrider'],
+    controllers: [
+      .  .  .
+    ],
+    autoCreateViewport: true
+});
 </PRE>
  *  </p>    
  */ 
