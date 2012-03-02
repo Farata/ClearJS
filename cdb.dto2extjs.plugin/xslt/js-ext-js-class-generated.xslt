@@ -31,7 +31,7 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 			use="@contentType | @type"/>
 		<xsl:variable name="required-types">
 			<xsl:if test="dto2extjs:property[starts-with(@type, 'Ext.data.Types.')]"><t>Ext.data.Types</t></xsl:if>
-			<xsl:for-each select="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.')) or @contentType]">
+			<xsl:for-each select="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.')) and not(dto2extjs:ManyToOne) or @contentType]">
 				<xsl:if test="generate-id() = generate-id(key('distinct-custom-types', @contentType | @type))">
 				<xsl:variable name="v">
 					<xsl:choose>
@@ -142,9 +142,17 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 		<xsl:otherwise><xsl:value-of select="@contentType"/></xsl:otherwise>
 	</xsl:choose>
 	 </xsl:variable>
+	 
+	 <xsl:variable name="strippedOfDTO">
+     <xsl:call-template name="replace-once">
+  		<xsl:with-param name="text" select="$unsuffixedType"/>
+  		<xsl:with-param name="replace" select="'.dto.'"/>
+  		<xsl:with-param name="by" select="'.'"/>
+  	</xsl:call-template>
+	 </xsl:variable>
  
   	<xsl:call-template name="replace-once">
-  		<xsl:with-param name="text" select="$unsuffixedType"/>
+  		<xsl:with-param name="text" select="$strippedOfDTO"/>
   		<xsl:with-param name="replace" select="'.model.'"/>
   		<xsl:with-param name="by" select="'.store.'"/>
   	</xsl:call-template>Store</xsl:template>   	
@@ -159,6 +167,7 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
     	<xsl:when test="substring($contentClassName,string-length($contentClassName) - 2,3)='DTO'"><xsl:value-of select="substring($contentClassName,1,string-length($contentClassName) - 3)"/></xsl:when>
 		<xsl:otherwise><xsl:value-of select="$contentClassName"/></xsl:otherwise>
 	</xsl:choose>Collection</xsl:template>  
+ 
  <xsl:template name="replace-once">
     <xsl:param name="text" />
     <xsl:param name="replace" />
