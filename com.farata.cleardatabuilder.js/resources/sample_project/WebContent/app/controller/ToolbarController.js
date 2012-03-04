@@ -14,12 +14,12 @@ Ext.define('**{app.name}**.controller.ToolbarController', {
     },
 	
     fill: function() {
-        var store = this.getClearSamplesCompanyStore();
+    	var store = this.getStore('**{app.name}**.store.com.farata.hibernate_test.CompanyStore');
         store.load( /*{ params: { 0: 'First', 1: 'Second' }}*/);
     },
 
     sync: function() {
-        var store = this.getClearSamplesCompanyStore();
+    	var store = this.getStore('**{app.name}**.store.com.farata.hibernate_test.CompanyStore');
     	store.sync();
     }
 });
