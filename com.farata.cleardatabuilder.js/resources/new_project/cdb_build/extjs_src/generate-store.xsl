@@ -30,7 +30,7 @@
 <xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$storeName"/>',{
 
 	extend: 'Clear.data.DirectStore',
-	requires  : ['Ext.direct.Manager','<xsl:value-of select="$appName"/>.model.<xsl:value-of select="$dtoName"/>','Ext.window.MessageBox'],
+	requires  : ['Ext.direct.Manager','<xsl:value-of select="$appName"/>.model.<xsl:value-of select="$dtoName"/>'],
 	model:'<xsl:value-of select="$appName"/>.model.<xsl:value-of select="$dtoName"/>',
 		
 	api: {
@@ -38,24 +38,8 @@
 		read : <xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$read)"/>,
 		update:<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$update)"/>,
 		destroy:<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$destroy)"/>
-    },
-	
-	autoLoad: true,
+    }
 
-		listeners: {
-	
-		beforeload: function(store, operation) {
-						console.log("beforeload");
-		},
-		load: function(store, records, successful, error){
-			if (successful) {
-				Ext.MessageBox.alert( "Information", Ext.String.format("Loaded {0} records",records.length));
-			} else {
-				Ext.MessageBox.alert( error.message, Ext.String.format("{0}::{1} failed: {2}", error.action, error.method, error.where));
-
-			}
-		}
-	}
 });
 	</xsl:template>
 </xsl:stylesheet>
