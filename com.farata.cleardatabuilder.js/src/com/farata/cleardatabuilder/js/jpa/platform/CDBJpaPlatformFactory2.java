@@ -28,6 +28,4 @@ public class CDBJpaPlatformFactory2 extends Generic2_0JpaPlatformFactory {
 		return new org.eclipse.jpt.jpa.core.internal.GenericJpaPlatformFactory.SimpleVersion(
 				JpaFacet.VERSION_2_0.getVersionString());
 	}
-
-	
 }
