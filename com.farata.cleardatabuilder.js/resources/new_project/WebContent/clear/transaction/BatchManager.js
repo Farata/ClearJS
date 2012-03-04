@@ -237,7 +237,7 @@ Ext.define('Clear.transaction.BatchManager', {
 			}
 		}
 		
-		Clear.direct.action.BatchGateway.execute(batch, batchGatewayCallback);
+		Clear.action.BatchGateway.execute(batch, batchGatewayCallback);
 	},
 	
 	/*
