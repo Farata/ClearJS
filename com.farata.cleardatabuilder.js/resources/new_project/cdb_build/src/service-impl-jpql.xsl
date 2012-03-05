@@ -396,10 +396,21 @@
 					<xsl:variable name="beanProperties" select="helper:getBeanProperties($transferType)"/>
 					<xsl:for-each select="$beanProperties/property">
 						<xsl:variable name="fxManyToOne" select="helper:getBeanPropertyAnnotation($transferType, @name, 'com.farata.dto2extjs.annotations.JSManyToOne')"/>
+<xsl:message><xsl:value-of select="$transferType"/></xsl:message>						
 						<xsl:variable name="propType" select="@type"/>
-						<xsl:if test="$fxManyToOne">
-							<xsl:variable name="fxManyToOneParent" select="$fxManyToOne/method[@name='parent']/@value"/>
-							<xsl:variable name="fxManyToOneProperty" select="$fxManyToOne/method[@name='property']/@value"/>
+						<xsl:if test="$fxManyToOne/exists">
+							<xsl:variable name="fxManyToOneParent" select="$propType"/>
+							<xsl:variable name="fxManyToOneProperty">
+								<xsl:variable name="__prop" select="$fxManyToOne/method[@name='primaryKey']/@value"/>
+								<xsl:choose>
+									<xsl:when test="$__prop">
+										<xsl:value-of select="$__prop"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="'id'"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:variable>
 							<xsl:if test="$fxManyToOneParent">
 								<xsl:variable name="mappedEntity" select="helper:getTypeAnnotation($propType, 'javax.persistence.Entity')"/>
 							<xsl:choose>
@@ -412,8 +423,9 @@
 					}
 								</xsl:when>
 								<xsl:otherwise>
-					Object parentValue<xsl:value-of select="position()"/> = PropertyRack.getEntity("<xsl:value-of select="helper:replaceAll($fxManyToOneParent, '.gen._', '.')"/>", "<xsl:value-of select="$fxManyToOneProperty"/>", item.<xsl:value-of select="@readMethod"/>());
-					item.<xsl:value-of select="@writeMethod"/>((<xsl:value-of select="@type"/>)parentValue<xsl:value-of select="position()"/>);									
+									<xsl:variable name="foreignKey" select="$fxManyToOne/method[@name='foreignKey']/@value"/>
+					Object parentValue<xsl:value-of select="position()"/> = PropertyRack.getEntity("<xsl:value-of select="helper:replaceAll($fxManyToOneParent, '.gen._', '.')"/>", "<xsl:value-of select="$fxManyToOneProperty"/>", item.get<xsl:value-of select="helper:capitalizeString($foreignKey)"/>());
+					item.set<xsl:value-of select="helper:capitalizeString($foreignKey)"/>((<xsl:value-of select="helper:getBeanPropertyType(@type, $fxManyToOneProperty)"/>)parentValue<xsl:value-of select="position()"/>);									
 								</xsl:otherwise>
 							</xsl:choose>
 							</xsl:if>
