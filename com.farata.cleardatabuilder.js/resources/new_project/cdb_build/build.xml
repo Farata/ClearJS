@@ -62,7 +62,7 @@
 			]]>
 		</script>
 		<mkdir dir="${project-root}/build/classes" />
-		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" />
+		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" includeantruntime="false"/>
 	</target>
 
 	<target name="findAnnotations">
@@ -87,7 +87,9 @@
 			compile="false"
 			factory="com.farata.cdb.annotations.processor.CDBFullAnnotationProcessor"
 			srcdir="${project-root}/src"
-			sourcepath="${project-root}/src">
+			sourcepath="${project-root}/src"
+			includeantruntime="false"
+			>
 			<option name="com.faratasystems.cdb.annotations.file" value="annotated.xml"/>
 			<option name="com.faratasystems.cdb.configuration.file" value="${cfg-xml}"/>
 			<include name="**/*.java"/>
@@ -126,7 +128,7 @@
 			project.setProperty("entities.include", includes);
 			]]>
 		</script>
-		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" />
+		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" includeantruntime="false"/>
 	</target>
 
 	<target name="generateDTOs">
@@ -153,7 +155,7 @@
 				project.setProperty("entities.include", includes == ""? "none":includes);
 			]]>
 		</script>
-		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" failonerror="false" />
+		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" failonerror="false" includeantruntime="false"/>
 	</target>
 
 	<target name="generateServices">
@@ -180,7 +182,7 @@
 			project.setProperty("entities.include", includes == ""? "none":includes);
 			]]>
 		</script>
-		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" />
+		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" includeantruntime="false"/>
 	</target>
 
 	<target name="generateDNJSettings-xml">
