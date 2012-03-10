@@ -25,7 +25,6 @@ import javax.xml.transform.sax.SAXSource;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.XMLFilterImpl;
 
