@@ -22,6 +22,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.sax.SAXSource;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.XMLFilterImpl;
 
@@ -139,6 +143,11 @@ public class JSAnnotationProcessor implements AnnotationProcessor {
 				ex.printStackTrace();
 				messager.printError( ex.getLocalizedMessage() );				
 			}
+		}
+		try {
+			final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			root.refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (Throwable e) {
 		}
 	}
 	
