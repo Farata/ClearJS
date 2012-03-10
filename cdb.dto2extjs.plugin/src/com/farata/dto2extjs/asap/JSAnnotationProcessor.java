@@ -10,6 +10,7 @@
 package com.farata.dto2extjs.asap;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,9 +23,13 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.sax.SAXSource;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.XMLFilterImpl;
 
@@ -130,6 +135,7 @@ public class JSAnnotationProcessor implements AnnotationProcessor {
 				XsltUtils.pushPackagePathResolver(_options.packagePathTransformer());
 				try {
 					serializer.transform(source, result);
+					refresh(_options.output());
 				} finally {
 					XsltUtils.popPackagePathResolver();
 				}
@@ -143,9 +149,14 @@ public class JSAnnotationProcessor implements AnnotationProcessor {
 				messager.printError( ex.getLocalizedMessage() );				
 			}
 		}
+	}
+
+	private void refresh(File file) {
 		try {
-			final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-			root.refreshLocal(IResource.DEPTH_INFINITE, null);
+			IWorkspace workspace= ResourcesPlugin.getWorkspace();    
+			IPath location= Path.fromOSString(file.getAbsolutePath()); 
+			IFile ifile= workspace.getRoot().getFileForLocation(location);
+			ifile.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (Throwable e) {
 		}
 	}
