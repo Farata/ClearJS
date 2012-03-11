@@ -2,6 +2,7 @@ package com.farata.cdb.annotations.helper;
 
 import java.beans.PropertyDescriptor;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
@@ -51,7 +53,7 @@ public class AnnotationsHelper {
 
 	public AnnotationsHelper() {
 	}
-	
+
 	public static boolean isPrimitiveType(String typeName) {
 		for (String s : PRIMITIVE_TYPES) {
 			if (s.equals(typeName)) {
@@ -95,8 +97,9 @@ public class AnnotationsHelper {
 		return method.getName();
 	}
 
-	public static boolean methodAnnotatedWith(String typeName, String methodName,
-			String annotationName) throws ClassNotFoundException {
+	public static boolean methodAnnotatedWith(String typeName,
+			String methodName, String annotationName)
+			throws ClassNotFoundException {
 		try {
 			Class<?> clazz = AnnotationsHelper.class.getClassLoader()
 					.loadClass(typeName);
@@ -222,8 +225,8 @@ public class AnnotationsHelper {
 					out.append(indent + "\t</method>\n");
 				} else {
 					out.append(indent + "\t<method name=\""
-							+ annotationMethod.getName() + "\" value=\"" + objectToString(res)
-							+ "\"/>\n");
+							+ annotationMethod.getName() + "\" value=\""
+							+ objectToString(res) + "\"/>\n");
 				}
 			}
 		}
@@ -288,42 +291,47 @@ public class AnnotationsHelper {
 		String s = type.toString();
 		return s;
 	}
-	
-	public static String getMethodTransferType(String typeName, String methodName)
-			throws ClassNotFoundException {
+
+	public static String getMethodTransferType(String typeName,
+			String methodName) throws ClassNotFoundException {
 		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(
 				typeName);
 		Method method = findMethodByName(clazz, methodName);
-		
-		//Check return type parameter 
+
+		// Check return type parameter
 		Type type = method.getGenericReturnType();
 		String s = type.toString();
 		String transferType = getTypeParameter(s);
-		if (transferType != null && transferType.length()>0 && !transferType.equals("?")) {
+		if (transferType != null && transferType.length() > 0
+				&& !transferType.equals("?")) {
 			return transferType;
 		}
 
-		//Check transferType annotation
+		// Check transferType annotation
 		CX_JSGetMethod getMethod = method.getAnnotation(CX_JSGetMethod.class);
 		if (getMethod != null) {
 			transferType = getMethod.transferInfo().type();
-			if (transferType != null && transferType.length()>0 && !transferType.equals("?")) {
+			if (transferType != null && transferType.length() > 0
+					&& !transferType.equals("?")) {
 				return transferType;
 			} else {
 				return s.replace("class ", "");
 			}
 		}
 
-		CX_JSFillChildrenMethod fillChildrenMethod = method.getAnnotation(CX_JSFillChildrenMethod.class);
+		CX_JSFillChildrenMethod fillChildrenMethod = method
+				.getAnnotation(CX_JSFillChildrenMethod.class);
 		if (fillChildrenMethod != null) {
 			transferType = fillChildrenMethod.transferInfo().type();
-			if (transferType != null && transferType.length()>0 && !transferType.equals("?")) {
+			if (transferType != null && transferType.length() > 0
+					&& !transferType.equals("?")) {
 				return transferType;
 			} else {
 				Class<?> parent = fillChildrenMethod.parent();
 				String property = fillChildrenMethod.property();
 				try {
-					String entityType = getBeanPropertyType(parent.getCanonicalName(), property);
+					String entityType = getBeanPropertyType(
+							parent.getCanonicalName(), property);
 					entityType = getTypeParameter(entityType);
 					transferType = getDTOByEntity(entityType);
 					if (transferType == null) {
@@ -336,38 +344,43 @@ public class AnnotationsHelper {
 			}
 		}
 
-		CX_JSJPQLMethod jpqlMethod = method.getAnnotation(CX_JSJPQLMethod.class);
+		CX_JSJPQLMethod jpqlMethod = method
+				.getAnnotation(CX_JSJPQLMethod.class);
 		if (jpqlMethod != null) {
 			transferType = jpqlMethod.transferInfo().type();
-			if (transferType != null && transferType.length()>0 && !transferType.equals("?")) {
+			if (transferType != null && transferType.length() > 0
+					&& !transferType.equals("?")) {
 				return transferType;
 			}
-			
-//			transferType = jpqlMethod.transferType();
-//			if (transferType != null && transferType.length()>0 && !transferType.equals("?")) {
-//				return transferType;
-//			}
-			
-			//Check updateEntity annotation
+
+			// transferType = jpqlMethod.transferType();
+			// if (transferType != null && transferType.length()>0 &&
+			// !transferType.equals("?")) {
+			// return transferType;
+			// }
+
+			// Check updateEntity annotation
 			CX_UpdateInfo uiAnnotation = jpqlMethod.updateInfo();
 			if (uiAnnotation != null) {
 				Class<?> updateEntity = uiAnnotation.updateEntity();
 				if (updateEntity != null && !updateEntity.equals(DEFAULT.class)) {
 					transferType = updateEntity.getCanonicalName();
-					if (transferType != null && transferType.length()>0 && !transferType.equals("?")) {
+					if (transferType != null && transferType.length() > 0
+							&& !transferType.equals("?")) {
 						return transferType;
 					}
 				}
-			}			
+			}
 		}
 
-		//Check updateEntity annotation
+		// Check updateEntity annotation
 		CX_UpdateInfo uiAnnotation = method.getAnnotation(CX_UpdateInfo.class);
 		if (uiAnnotation != null) {
 			Class<?> updateEntity = uiAnnotation.updateEntity();
 			if (updateEntity != null) {
 				transferType = updateEntity.getCanonicalName();
-				if (transferType != null && transferType.length()>0 && !transferType.equals("?")) {
+				if (transferType != null && transferType.length() > 0
+						&& !transferType.equals("?")) {
 					return transferType;
 				}
 			}
@@ -405,7 +418,9 @@ public class AnnotationsHelper {
 		return typeName;
 	}
 
-	private static Annotation getPropertyAnnotation(Class<?> clazz, PropertyDescriptor descriptor, Class<? extends Annotation> annotationClazz){
+	private static Annotation getPropertyAnnotation(Class<?> clazz,
+			PropertyDescriptor descriptor,
+			Class<? extends Annotation> annotationClazz) {
 		Annotation annotation = null;
 		try {
 			Field field = clazz.getDeclaredField(descriptor.getName());
@@ -428,7 +443,8 @@ public class AnnotationsHelper {
 
 	}
 
-	public static Node getEntityIdBeanProperty(String typeName) throws Exception {
+	public static Node getEntityIdBeanProperty(String typeName)
+			throws Exception {
 		try {
 			Class<?> clazz = AnnotationsHelper.class.getClassLoader()
 					.loadClass(typeName);
@@ -441,9 +457,11 @@ public class AnnotationsHelper {
 						|| descriptor.getWriteMethod() == null) {
 					continue;
 				}
-				Annotation idAnnotation = getPropertyAnnotation(clazz, descriptor, javax.persistence.Id.class);
+				Annotation idAnnotation = getPropertyAnnotation(clazz,
+						descriptor, javax.persistence.Id.class);
 				if (idAnnotation == null) {
-					idAnnotation = getPropertyAnnotation(clazz, descriptor, javax.persistence.EmbeddedId.class);
+					idAnnotation = getPropertyAnnotation(clazz, descriptor,
+							javax.persistence.EmbeddedId.class);
 				}
 				if (idAnnotation == null) {
 					continue;
@@ -483,8 +501,10 @@ public class AnnotationsHelper {
 					.getPropertyDescriptors(clazz);
 			String out = "<properties>\n";
 			for (PropertyDescriptor descriptor : descriptors) {
-				Node versionNode = getBeanPropertyAnnotation(typeName, descriptor.getName(), "javax.persistence.Version");
-				if (versionNode.getOwnerDocument().getElementsByTagName("exists").getLength() == 0) {
+				Node versionNode = getBeanPropertyAnnotation(typeName,
+						descriptor.getName(), "javax.persistence.Version");
+				if (versionNode.getOwnerDocument()
+						.getElementsByTagName("exists").getLength() == 0) {
 					continue;
 				}
 				String propertyType = "";
@@ -543,7 +563,7 @@ public class AnnotationsHelper {
 					continue;
 				}
 				Type type = descriptor.getReadMethod().getGenericReturnType();
-				//Type type = descriptor.getPropertyType();
+				// Type type = descriptor.getPropertyType();
 				if (type instanceof ParameterizedType) {
 					ParameterizedType partype = (ParameterizedType) type;
 					Type rawType = partype.getRawType();
@@ -625,8 +645,8 @@ public class AnnotationsHelper {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static String getBeanPropertyType(String typeName,
-			String propertyId) throws Exception {
+	public static String getBeanPropertyType(String typeName, String propertyId)
+			throws Exception {
 		try {
 			Class<?> clazz = AnnotationsHelper.class.getClassLoader()
 					.loadClass(typeName);
@@ -648,8 +668,9 @@ public class AnnotationsHelper {
 							|| descriptor.getWriteMethod() == null) {
 						continue;
 					}
-					Type type = descriptor.getReadMethod().getGenericReturnType();
-					//Type type = descriptor.getPropertyType();
+					Type type = descriptor.getReadMethod()
+							.getGenericReturnType();
+					// Type type = descriptor.getPropertyType();
 					if (type instanceof ParameterizedType) {
 						ParameterizedType partype = (ParameterizedType) type;
 						Type rawType = partype.getRawType();
@@ -661,7 +682,7 @@ public class AnnotationsHelper {
 						propertyType += "&gt;";
 					} else {
 						propertyType = getTypeName((Class<?>) type);
-					}					
+					}
 					return propertyType;
 				}
 			}
@@ -674,7 +695,7 @@ public class AnnotationsHelper {
 
 	public static Node buildDocumentElement(String string)
 			throws ParserConfigurationException, SAXException, IOException {
-		//System.out.println(string);
+		// System.out.println(string);
 		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder();
 		StringReader reader = new StringReader(string);
@@ -746,7 +767,8 @@ public class AnnotationsHelper {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static String getHQLReturnTypes(String query, String indent) throws Exception {
+	public static String getHQLReturnTypes(String query, String indent)
+			throws Exception {
 		try {
 			String[] parsedAliases = getSelectQueryAliases(query);
 			QueryTranslatorImpl trans = (QueryTranslatorImpl) HQLHelper
@@ -760,14 +782,15 @@ public class AnnotationsHelper {
 				try {
 					Integer.valueOf(alias);
 					alias = "property" + alias;
-					if (Pattern.matches("[a-zA-Z$_][a-zA-Z$_0-9]*", parsedAliases[i])) {
+					if (Pattern.matches("[a-zA-Z$_][a-zA-Z$_0-9]*",
+							parsedAliases[i])) {
 						alias = parsedAliases[i];
 					}
 				} catch (Throwable e) {
 				}
 				out += indent + "\t\t<type name=\""
-						+ getTypeName(types[i].getReturnedClass()) + "\" alias=\""
-						+ alias + "\" />\n";
+						+ getTypeName(types[i].getReturnedClass())
+						+ "\" alias=\"" + alias + "\" />\n";
 			}
 			out += indent + "\t</types>\n";
 			out += indent + "\t<parameters>\n";
@@ -841,15 +864,16 @@ public class AnnotationsHelper {
 											.getAnnotation(Transient.class);
 									if (transientAnnotation == null) {
 										String readMethodName = item
-												.getAttributes().getNamedItem(
-														"readMethod")
+												.getAttributes()
+												.getNamedItem("readMethod")
 												.getNodeValue();
 										String writeMethodName = item
-												.getAttributes().getNamedItem(
-														"writeMethod")
+												.getAttributes()
+												.getNamedItem("writeMethod")
 												.getNodeValue();
 
-										Method[] methods = clazz.getDeclaredMethods();
+										Method[] methods = clazz
+												.getDeclaredMethods();
 										for (Method m : methods) {
 											if (m.getName().equals(
 													readMethodName)
@@ -865,7 +889,8 @@ public class AnnotationsHelper {
 									}
 								} catch (Throwable e) {
 								}
-								s += alias + "." + propertyName + " as " + propertyName + " , ";
+								s += alias + "." + propertyName + " as "
+										+ propertyName + " , ";
 							}
 						}
 						s = s.substring(0, s.length() - 2) + " ";
@@ -898,7 +923,7 @@ public class AnnotationsHelper {
 	public static String javaType2FlexType(String string) {
 		int beginIndex = string.indexOf("<");
 		int endIndex = string.lastIndexOf(">");
-		if (beginIndex>=0 && endIndex>=0) {
+		if (beginIndex >= 0 && endIndex >= 0) {
 			String toReplace = string.substring(beginIndex, endIndex + 1);
 			string = string.replace(toReplace, "");
 		}
@@ -986,17 +1011,15 @@ public class AnnotationsHelper {
 		}
 
 		Type genRetType = method.getGenericReturnType();
-		sb
-				.append(((genRetType instanceof Class<?>) ? getTypeName((Class<?>) genRetType)
-						: genRetType.toString())
-						+ " ");
+		sb.append(((genRetType instanceof Class<?>) ? getTypeName((Class<?>) genRetType)
+				: genRetType.toString())
+				+ " ");
 
 		sb.append(method.getName() + "(");
 		Type[] params = method.getGenericParameterTypes();
 		for (int j = 0; j < params.length; j++) {
-			sb
-					.append((params[j] instanceof Class<?>) ? getTypeName((Class<?>) params[j])
-							: (params[j].toString()));
+			sb.append((params[j] instanceof Class<?>) ? getTypeName((Class<?>) params[j])
+					: (params[j].toString()));
 			String pName = "arg" + j;
 			sb.append(" ").append(pName);
 			if (j < (params.length - 1))
@@ -1007,10 +1030,8 @@ public class AnnotationsHelper {
 		if (exceptions.length > 0) {
 			sb.append(" throws ");
 			for (int k = 0; k < exceptions.length; k++) {
-				sb
-						.append((exceptions[k] instanceof Class<?>) ? ((Class<?>) exceptions[k])
-								.getName()
-								: exceptions[k].toString());
+				sb.append((exceptions[k] instanceof Class<?>) ? ((Class<?>) exceptions[k])
+						.getName() : exceptions[k].toString());
 				if (k < (exceptions.length - 1))
 					sb.append(",");
 			}
@@ -1102,11 +1123,13 @@ public class AnnotationsHelper {
 		String[] cols = extractColumns(queryString);
 		return getAttributeFieldNames(cols);
 	}
-	
-	public static void createSessionFactory(String configurationFile) throws FileNotFoundException, ParserConfigurationException, SAXException, IOException {
+
+	public static void createSessionFactory(String configurationFile)
+			throws FileNotFoundException, ParserConfigurationException,
+			SAXException, IOException {
 		HQLHelper.createSessionFactory(configurationFile);
 	}
-	
+
 	public static HashMap<String, String> getEntityToDTOMappings() {
 		return entityToDTOMappings;
 	}
@@ -1127,15 +1150,16 @@ public class AnnotationsHelper {
 
 	private static HashMap<String, String> entityToDTOMappings = new HashMap<String, String>();
 	private static HashMap<String, String> dtoToEntityMappings = new HashMap<String, String>();
-	
+	private static Properties aptProps;
+
 	public static String getEntityByDTO(String dtoName) {
 		return dtoToEntityMappings.get(dtoName);
 	}
-	
+
 	public static String getDTOByEntity(String entityName) {
 		return entityToDTOMappings.get(entityName);
 	}
-	
+
 	public static String entityToGenDTO(String entityName) {
 		String dtoName = getDTOByEntity(entityName);
 		if (dtoName == null) {
@@ -1144,17 +1168,17 @@ public class AnnotationsHelper {
 			return dtoToGenDTO(dtoName);
 		}
 	}
-	
+
 	public static String replaceEntitiesWithGenDTOs(String string) {
 		Set<String> keySet = entityToDTOMappings.keySet();
 		List<String> ac = new ArrayList<String>(keySet);
 		Collections.sort(ac, new EntityNamesComparator());
-		for (String key : ac){
+		for (String key : ac) {
 			string = replaceAllEntities(string, key, entityToGenDTO(key));
 		}
 		return string;
 	}
-	
+
 	private static String replaceAllEntities(String string, String key,
 			String replacement) {
 		string = "<" + string + ">";
@@ -1185,7 +1209,7 @@ public class AnnotationsHelper {
 		dtoName = dtoName.replace(".$", ".");
 		return dtoName;
 	}
-	
+
 	public static String genDTOtoEntity(String dtoName) {
 		dtoName = genDTOtoDTO(dtoName);
 		return getEntityByDTO(dtoName);
@@ -1196,27 +1220,29 @@ public class AnnotationsHelper {
 				dtoName.length());
 		return dtoName.replace('.' + dtoShortName, ".$" + dtoShortName);
 	}
-	
+
 	public static String removeDuplicateTokens(String in, String delimiter) {
-		  String out = "";
-		
-		  StringTokenizer st = new StringTokenizer(in, delimiter);
-		  HashSet<String>  set = new HashSet<String>();
-	      while(st.hasMoreTokens()){
+		String out = "";
+
+		StringTokenizer st = new StringTokenizer(in, delimiter);
+		HashSet<String> set = new HashSet<String>();
+		while (st.hasMoreTokens()) {
 			set.add(st.nextToken());
-	      }
-	      
-	      for (String uniqueToken : set) {	    	  
-	    	  if (!("").equals(out)) out = out  + delimiter;
-	    	  out = out + uniqueToken;
-	      }
-	      return out;	
+		}
+
+		for (String uniqueToken : set) {
+			if (!("").equals(out))
+				out = out + delimiter;
+			out = out + uniqueToken;
+		}
+		return out;
 	}
-	
+
 	public static String createSubServiceName(String serviceName) {
 		String genTypeName = serviceName;
 		if (serviceName.indexOf(".") != -1) {
-			genTypeName = serviceName.substring(serviceName.lastIndexOf(".") + 1);
+			genTypeName = serviceName
+					.substring(serviceName.lastIndexOf(".") + 1);
 		}
 		if (genTypeName.substring(0, 1).equals("I")) {
 			genTypeName = genTypeName.substring(1);
@@ -1224,7 +1250,8 @@ public class AnnotationsHelper {
 			genTypeName = genTypeName + "Impl";
 		}
 		if (serviceName.indexOf(".") != -1) {
-			genTypeName = serviceName.substring(0, serviceName.lastIndexOf(".") + 1) + genTypeName;
+			genTypeName = serviceName.substring(0,
+					serviceName.lastIndexOf(".") + 1) + genTypeName;
 		}
 		return genTypeName;
 	}
@@ -1242,11 +1269,11 @@ public class AnnotationsHelper {
 	public static long currentTimeMillis() {
 		return System.currentTimeMillis();
 	}
-	
+
 	public static void traceTime() {
 		System.out.println(currentTimeMillis());
 	}
-	
+
 	public static int compareLastModified(String fileName1, String fileName2) {
 		File file1 = new File(fileName1);
 		File file2 = new File(fileName2);
@@ -1267,12 +1294,12 @@ public class AnnotationsHelper {
 			return -1;
 		}
 	}
-	
+
 	public static boolean fileExists(String fileName) {
 		File file = new File(fileName);
 		return file.exists();
 	}
-	
+
 	public static String createGenServiceName(String serviceName) {
 		String genTypeName = serviceName;
 		if (genTypeName.substring(0, 1).equals("I")) {
@@ -1282,11 +1309,11 @@ public class AnnotationsHelper {
 		}
 		return genTypeName;
 	}
-	
-	public static String createStoreName(String dtoName) {
+
+/*	public static String createStoreName(String dtoName) {
 		String storeName = dtoName.replaceAll("(DTO)$", "Store");
 		storeName = storeName;
-		//System.out.println(collectionName);
+		// System.out.println(collectionName);
 		return storeName;
 	}
 
@@ -1295,7 +1322,111 @@ public class AnnotationsHelper {
 		if (dtoPackageName.indexOf('.') != -1) {
 			packageName = dtoPackageName.replaceAll("\\.[^.]*$", "");
 		}
-		//System.out.println(packageName);
+		// System.out.println(packageName);
 		return packageName;
+	}
+*/
+	public static String getStorePath(String fullDTOName) {
+		String fullName = getStoreNameFull(fullDTOName);
+		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
+
+		String pkgTrans = aptProps
+				.getProperty("org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.store.package-path-transformer");
+		PatternPackageNameTransformer patternPackageNameTransformer = new PatternPackageNameTransformer(
+				pkgTrans);
+		pkg = patternPackageNameTransformer.transform(pkg);
+		
+		return pkg.replace('.', '/');
+	}
+
+	public static String getStorePackage(String fullDTOName) {
+		fullDTOName = getStoreNameFull(fullDTOName);
+		return fullDTOName.substring(0, fullDTOName.lastIndexOf('.'));
+	}
+
+	public static String getStoreNameShort(String fullDTOName) {
+		fullDTOName = getStoreNameFull(fullDTOName);
+		return fullDTOName.substring(fullDTOName.lastIndexOf('.') + 1);
+	}
+
+	public static String getStoreNameFull(String fullDTOName) {
+		initAPTProperties();
+
+		String cnTrans = aptProps
+				.getProperty("org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.store.class-name-transformer");
+		PatternClassNameTransformer patternClassNameTransformer = new PatternClassNameTransformer(
+				cnTrans);
+
+		String fullName = patternClassNameTransformer.transform(fullDTOName);
+		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
+
+		String name = fullName.substring(fullName.lastIndexOf('.') + 1);
+		
+		return pkg + '.' + name;
+	}
+
+	public static String getStoreNameFullGen(String fullDTOName) {
+		fullDTOName = getStoreNameFull(fullDTOName);
+		String name = fullDTOName.substring(fullDTOName.lastIndexOf('.') + 1);
+		String pkg = fullDTOName.substring(0, fullDTOName.lastIndexOf('.'));
+		return pkg + ".generated._" + name;
+	}
+
+	public static String getModelPath(String fullDTOName) {
+		String fullName = getModelNameFull(fullDTOName);
+		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
+
+		String pkgTrans = aptProps
+				.getProperty("org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.package-path-transformer");
+		PatternPackageNameTransformer patternPackageNameTransformer = new PatternPackageNameTransformer(
+				pkgTrans);
+		pkg = patternPackageNameTransformer.transform(pkg);
+		
+		return pkg.replace('.', '/');
+	}
+
+	public static String getModelPackage(String fullDTOName) {
+		fullDTOName = getModelNameFull(fullDTOName);
+		return fullDTOName.substring(0, fullDTOName.lastIndexOf('.'));
+	}
+
+	public static String getModelNameShort(String fullDTOName) {
+		fullDTOName = getModelNameFull(fullDTOName);
+		return fullDTOName.substring(fullDTOName.lastIndexOf('.') + 1);
+	}
+
+	public static String getModelNameFull(String fullDTOName) {
+		initAPTProperties();
+
+		String cnTrans = aptProps
+				.getProperty("org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.class-name-transformer");
+		PatternClassNameTransformer patternClassNameTransformer = new PatternClassNameTransformer(
+				cnTrans);
+
+		String fullName = patternClassNameTransformer.transform(fullDTOName);
+		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
+
+		String name = fullName.substring(fullName.lastIndexOf('.') + 1);
+		
+		return pkg + '.' + name;
+	}
+
+	public static String getModelNameFullGen(String fullDTOName) {
+		fullDTOName = getModelNameFull(fullDTOName);
+		String name = fullDTOName.substring(fullDTOName.lastIndexOf('.') + 1);
+		String pkg = fullDTOName.substring(0, fullDTOName.lastIndexOf('.'));
+		return pkg + ".generated._" + name;
+	}
+
+	private static void initAPTProperties() {
+		if (aptProps == null) {
+			aptProps = new Properties();
+			try {
+				aptProps.load(new FileInputStream(
+						"../.settings/org.eclipse.jdt.apt.core.prefs"));
+			} catch (Throwable th) {
+			}
+			System.err.println(aptProps);
+		}
 	}
 }

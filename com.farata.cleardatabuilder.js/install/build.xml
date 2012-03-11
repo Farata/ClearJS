@@ -51,6 +51,7 @@
 		<replace file="${workspace.path}/${project.name}/WebContent/app/controller/AssociateListController.js" token="**{app.name}**" value="${app.name}" />
 		<replace file="${workspace.path}/${project.name}/WebContent/app/controller/CompanyListController.js" token="**{app.name}**" value="${app.name}" />
 		<replace file="${workspace.path}/${project.name}/WebContent/app/controller/ToolbarController.js" token="**{app.name}**" value="${app.name}" />
+		<replace file="${workspace.path}/${project.name}/.settings/org.eclipse.jdt.apt.core.prefs" token="**{app.name}**" value="${app.name}" />
 	</target>
 
 </project>

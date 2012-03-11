@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="tests"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.core.resources_3.3.1.R33x_v20080205.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.equinox.common_3.3.0.v20070426.jar"/>
@@ -62,5 +63,6 @@
 	<classpathentry kind="lib" path="/com.farata.lib.js/base/xalan.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.js/base/xapool.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.js/base/yuicompressor-2.4.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

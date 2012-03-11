@@ -15,6 +15,8 @@
 		<xsl:param name="remoteActionNamespace" />
 		<xsl:param name="outputFolder" />
 
+		<xsl:variable name="tttt" select="helper:getStorePath('')"/>
+		
 		<xsl:for-each select="annotated-types/annotated-type">
 			<xsl:variable name="interfaceName" select="@name" />
 			<xsl:variable name="cxService"
@@ -35,11 +37,7 @@
 									<xsl:variable name="fullDtoName"
 										select="helper:getMethodTransferType($interfaceName, @name)" />
 									<xsl:if test="$fullDtoName">
-										<xsl:variable name="typeName"
-											select="helper:createStoreName(helper:getTypeName($fullDtoName))" />
-										<xsl:variable name="packageName"
-											select="helper:createStorePackageName(helper:getPackageName($fullDtoName))" />
-										<xsl:value-of select="concat($packageName, '.', $typeName)" />
+										<xsl:value-of select="helper:getStoreNameFull($fullDtoName)" />
 									</xsl:if>
 								</xsl:otherwise>
 							</xsl:choose>
