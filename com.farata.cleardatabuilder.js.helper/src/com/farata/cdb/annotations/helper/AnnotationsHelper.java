@@ -1328,8 +1328,12 @@ public class AnnotationsHelper {
 */
 	public static String getStorePath(String fullDTOName) {
 		String fullName = getStoreNameFull(fullDTOName);
-		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
+		return getStorePathByStoreName(fullName);
+	}
 
+	public static String getStorePathByStoreName(String fullName) {
+		initAPTProperties();
+		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
 		String pkgTrans = aptProps
 				.getProperty("org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.store.package-path-transformer");
 		PatternPackageNameTransformer patternPackageNameTransformer = new PatternPackageNameTransformer(
@@ -1374,8 +1378,12 @@ public class AnnotationsHelper {
 
 	public static String getModelPath(String fullDTOName) {
 		String fullName = getModelNameFull(fullDTOName);
-		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
+		return getModelPathByModelName(fullName);
+	}
 
+	public static String getModelPathByModelName(String fullName) {
+		initAPTProperties();
+		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
 		String pkgTrans = aptProps
 				.getProperty("org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.package-path-transformer");
 		PatternPackageNameTransformer patternPackageNameTransformer = new PatternPackageNameTransformer(
@@ -1384,7 +1392,7 @@ public class AnnotationsHelper {
 		
 		return pkg.replace('.', '/');
 	}
-
+	
 	public static String getModelPackage(String fullDTOName) {
 		fullDTOName = getModelNameFull(fullDTOName);
 		return fullDTOName.substring(0, fullDTOName.lastIndexOf('.'));
