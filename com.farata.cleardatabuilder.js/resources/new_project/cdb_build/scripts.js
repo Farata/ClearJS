@@ -692,7 +692,7 @@ function generateMXMLSamples() {
 						parentDtoNameParam = xslt.createParam();
 						parentDtoNameParam.setName("parentDtoName");
 						parentDtoNameParam.setExpression(subDto ? packageName
-								+ ".gen._" + dtoName : packageName + "."
+								+ ".$" + dtoName : packageName + "."
 								+ dtoName);
 
 						interfaceNameParam = xslt.createParam();

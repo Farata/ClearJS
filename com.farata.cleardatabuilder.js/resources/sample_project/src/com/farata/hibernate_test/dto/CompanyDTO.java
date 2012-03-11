@@ -5,7 +5,7 @@ import java.util.List;
 import com.farata.dto2extjs.annotations.*;
 
 @JSClass(kind=JSClassKind.EXT_JS)
-public class CompanyDTO extends com.farata.hibernate_test.dto.gen._CompanyDTO {
+public class CompanyDTO extends com.farata.hibernate_test.dto.$CompanyDTO {
 	
 	private List<AssociateDTO> companyAssociates;
 

@@ -314,7 +314,7 @@
 							<xsl:choose>
 								<xsl:when test="helper:genDTOtoEntity($propType) or $mappedEntity/exists">
 					if (item.<xsl:value-of select="@readMethod"/>() != null) {
-						Object parentValue<xsl:value-of select="position()"/> = PropertyRack.getEntity("<xsl:value-of select="helper:replaceAll($fxManyToOneParent, '.gen._', '.')"/>", "<xsl:value-of select="$fxManyToOneProperty"/>", item.<xsl:value-of select="@readMethod"/>().get<xsl:value-of select="helper:capitalizeString($fxManyToOneProperty)"/>());
+						Object parentValue<xsl:value-of select="position()"/> = PropertyRack.getEntity("<xsl:value-of select="helper:replaceAll($fxManyToOneParent, '.$', '.')"/>", "<xsl:value-of select="$fxManyToOneProperty"/>", item.<xsl:value-of select="@readMethod"/>().get<xsl:value-of select="helper:capitalizeString($fxManyToOneProperty)"/>());
 						<xsl:value-of select="$fxManyToOneParent"/> parentDTO<xsl:value-of select="position()"/> = new <xsl:value-of select="$fxManyToOneParent"/>();
 						<xsl:variable name="refProps" select="helper:getBeanProperties($fxManyToOneParent)"/>
 						<xsl:variable name="refPropType" select="$refProps/property[@name=$fxManyToOneProperty]/@type"/>
@@ -324,7 +324,7 @@
 					}
 								</xsl:when>
 								<xsl:otherwise>
-					Object parentValue<xsl:value-of select="position()"/> = PropertyRack.getEntity("<xsl:value-of select="helper:replaceAll($fxManyToOneParent, '.gen._', '.')"/>", "<xsl:value-of select="$fxManyToOneProperty"/>", item.<xsl:value-of select="@readMethod"/>());
+					Object parentValue<xsl:value-of select="position()"/> = PropertyRack.getEntity("<xsl:value-of select="helper:replaceAll($fxManyToOneParent, '.$', '.')"/>", "<xsl:value-of select="$fxManyToOneProperty"/>", item.<xsl:value-of select="@readMethod"/>());
 					item.<xsl:value-of select="@writeMethod"/>((<xsl:value-of select="@type"/>)parentValue<xsl:value-of select="position()"/>);									
 								</xsl:otherwise>
 							</xsl:choose>

@@ -12,7 +12,7 @@
 		<xsl:param name="appName" />
 
 <xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.model.<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$dtoName"/>',{
-	extend: '<xsl:value-of select="$appName"/>.model.<xsl:value-of select="$rootPackage"/>.gen._<xsl:value-of select="$dtoName"/>'
+	extend: '<xsl:value-of select="$appName"/>.model.<xsl:value-of select="$rootPackage"/>.$<xsl:value-of select="$dtoName"/>'
 });
 	</xsl:template>
 </xsl:stylesheet>

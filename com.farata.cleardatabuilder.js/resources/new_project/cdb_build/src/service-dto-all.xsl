@@ -43,11 +43,11 @@
 								<xsl:otherwise>
 									<xsl:apply-templates select="/" mode="output">
 										<xsl:with-param name="dtoName"
-											select="concat('_', helper:getTypeName($fullDtoName))" />
+											select="concat('$', helper:getTypeName($fullDtoName))" />
 										<xsl:with-param name="subclassDtoName"
 											select="helper:getTypeName($fullDtoName)" />
 										<xsl:with-param name="rootPackage"
-											select="concat(helper:getPackageName($fullDtoName), '.', 'gen')" />
+											select="helper:getPackageName($fullDtoName)" />
 										<xsl:with-param name="subclassRootPackage"
 											select="helper:getPackageName($fullDtoName)" />
 										<xsl:with-param name="interfaceName" select="$interfaceName" />

@@ -1182,7 +1182,7 @@ public class AnnotationsHelper {
 	}
 
 	public static String genDTOtoDTO(String dtoName) {
-		dtoName = dtoName.replace(".gen._", ".");
+		dtoName = dtoName.replace(".$", ".");
 		return dtoName;
 	}
 	
@@ -1194,7 +1194,7 @@ public class AnnotationsHelper {
 	public static String dtoToGenDTO(String dtoName) {
 		String dtoShortName = dtoName.substring(dtoName.lastIndexOf('.') + 1,
 				dtoName.length());
-		return dtoName.replace('.' + dtoShortName, ".gen._" + dtoShortName);
+		return dtoName.replace('.' + dtoShortName, ".$" + dtoShortName);
 	}
 	
 	public static String removeDuplicateTokens(String in, String delimiter) {
