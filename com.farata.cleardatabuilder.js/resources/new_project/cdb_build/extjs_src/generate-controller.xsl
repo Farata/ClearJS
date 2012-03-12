@@ -13,7 +13,7 @@
 <xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.controller.ControllerTest',{
 
 	extend: 'Ext.app.Controller',
-	stores:	['<xsl:value-of select="$appName" />.store.<xsl:value-of select="$storeName"/>'],
+	stores:	['<xsl:value-of select="$storeName"/>'],
 	views: ['<xsl:value-of select="$appName"/>.view.GridTest'],
 		
 	init: function(){
@@ -38,15 +38,15 @@
 	},
 		
 	onLoad:	function(){
-		this.getStore('<xsl:value-of select="$appName" />.store.<xsl:value-of select="$storeName"/>').load();
+		this.getStore('<xsl:value-of select="$storeName"/>').load();
 	},
 
 	onAdd: function()	{
-		var store = this.getStore('<xsl:value-of select="$appName" />.store.<xsl:value-of select="$storeName"/>'),
+		var store = this.getStore('<xsl:value-of select="$storeName"/>'),
 		edit = Ext.ComponentQuery.query('GridTest')[0].plugins[0];
 		
 		store.sort('id', 'asc');
-		rec = Ext.create('<xsl:value-of select="$appName" />.model.<xsl:value-of select="$dtoName"/>',{
+		rec = Ext.create('<xsl:value-of select="helper:getModelNameFull($dtoName)"/>',{
 			id:	store.last().getId()+1,
 	        c: 'new_company'
 		});
@@ -61,13 +61,13 @@
 	},
 	
 	onDelete: function(){
-		var store = this.getStore('<xsl:value-of select="$appName" />.store.<xsl:value-of select="$storeName"/>');
+		var store = this.getStore('<xsl:value-of select="$storeName"/>');
 		var deletingRecord = Ext.ComponentQuery.query('GridTest')[0].getSelectionModel().getSelection()[0];
 		store.remove(deletingRecord);
 	},
 	
 	onSave:	function(){
-		this.getStore('<xsl:value-of select="$appName" />.store.<xsl:value-of select="$storeName"/>').sync();
+		this.getStore('<xsl:value-of select="$storeName"/>').sync();
 	}
 		
 });

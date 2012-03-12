@@ -16,7 +16,7 @@
 <xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.view.GridTest',{
 
 	extend: 'Ext.grid.Panel',
-	store:	'<xsl:value-of select="$appName" />.store.<xsl:value-of select="$storeName"/>',
+	store:	'<xsl:value-of select="$storeName"/>',
 	alias:	'widget.GridTest',
 		
 	columns : [
