@@ -1,6 +1,6 @@
 Ext.define('**{app.name}**.controller.CompanyListController', {
     extend: 'Ext.app.Controller',
-    stores: ['**{app.name}**.store.com.farata.hibernate_test.CompanyStore'],
+    stores: ['**{app.name}**.store.hibernate_test.CompanyStore'],
     refs: [{
        ref: 'companyPanel',
        selector: 'companylist'
@@ -23,7 +23,7 @@ Ext.define('**{app.name}**.controller.CompanyListController', {
 
     insertCompany: function() {
         var me = this,
-            store = this.getStore('**{app.name}**.store.com.farata.hibernate_test.CompanyStore'),
+            store = this.getStore('**{app.name}**.store.hibernate_test.CompanyStore'),
             company = store.createModel({
         	  companyName: "New Company"
             });
@@ -35,7 +35,7 @@ Ext.define('**{app.name}**.controller.CompanyListController', {
     },
 
     deleteCompanies: function() {
-        var store = this.getStore('**{app.name}**.store.com.farata.hibernate_test.CompanyStore'),
+        var store = this.getStore('**{app.name}**.store.hibernate_test.CompanyStore'),
             panel = this.getCompanyPanel(),
             view = panel.getView(),
             selectionModel = view.getSelectionModel(),

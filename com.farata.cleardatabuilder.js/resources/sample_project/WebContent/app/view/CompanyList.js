@@ -4,7 +4,7 @@ Ext.define('**{app.name}**.view.CompanyList', {
     requires: ['Ext.grid.plugin.CellEditing'],
 
     title: 'Companies',
-    store: '**{app.name}**.store.com.farata.hibernate_test.CompanyStore',
+    store: '**{app.name}**.store.hibernate_test.CompanyStore',
     minWidth: 400,
     minHeight:140,
     plugins: [{
@@ -62,7 +62,7 @@ Ext.define('**{app.name}**.view.CompanyList', {
             /**
              * @event companySelectionChange
              * Fires after selection of the company has been changed.
-             * @param {**{app.name}**.com.farata.clear.samples.CompanyModel} selectedCompany
+             * @param {**{app.name}**.store.hibernate_test.CompanyModel} selectedCompany
              */
             companySelectionChange: true
         });
@@ -82,7 +82,7 @@ Ext.define('**{app.name}**.view.CompanyList', {
     bindComponents: function () {
         var view = this.getView(),
             selectionModel = view.getSelectionModel(),
-            btnDelete = this.down('#btn_delete'); // or button[action=delete] or this.getComponent('btn_delete')
+            btnDelete = this.down('#btn_delete');
 
         selectionModel.on('selectionchange', function(selectionModel, selectedRecords) {
             if (selectionModel.hasSelection()) {

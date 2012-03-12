@@ -27,11 +27,11 @@
 		<xsl:variable name="destroy"
 			select="concat($fillMethodName,'_deleteItems')" />
 		
-<xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$storeName"/>',{
+<xsl:text/>Ext.define('<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$storeName"/>',{
 
 	extend: 'Clear.data.DirectStore',
-	requires  : ['Ext.direct.Manager','<xsl:value-of select="$appName"/>.model.<xsl:value-of select="$dtoName"/>'],
-	model:'<xsl:value-of select="$appName"/>.model.<xsl:value-of select="$dtoName"/>',
+	requires  : ['Ext.direct.Manager','<xsl:value-of select="helper:getModelNameFull($dtoName)"/>'],
+	model:'<xsl:value-of select="helper:getModelNameFull($dtoName)"/>',
 		
 	api: {
 		create:<xsl:value-of select="concat($remoteActionNamespace,'.',$serviceName,'.',$create)"/>,

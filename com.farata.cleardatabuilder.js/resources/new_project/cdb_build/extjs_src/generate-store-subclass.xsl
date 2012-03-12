@@ -11,8 +11,8 @@
 		<xsl:param name="appName" />
 		<xsl:param name="rootPackage" />
 	
-<xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$storeName"/>',{
-	extend: '<xsl:value-of select="$appName"/>.store.<xsl:value-of select="$rootPackage"/>.generated._<xsl:value-of select="$storeName"/>'
+<xsl:text/>Ext.define('<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$storeName"/>',{
+	extend: '<xsl:value-of select="$rootPackage"/>.generated._<xsl:value-of select="$storeName"/>'
 });
 	</xsl:template>
 </xsl:stylesheet>

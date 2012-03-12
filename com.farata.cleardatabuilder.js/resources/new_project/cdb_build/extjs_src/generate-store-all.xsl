@@ -15,8 +15,6 @@
 		<xsl:param name="remoteActionNamespace" />
 		<xsl:param name="outputFolder" />
 
-		<xsl:variable name="tttt" select="helper:getStorePath('')"/>
-		
 		<xsl:for-each select="annotated-types/annotated-type">
 			<xsl:variable name="interfaceName" select="@name" />
 			<xsl:variable name="cxService"
@@ -90,11 +88,10 @@
 		<xsl:param name="remoteActionNamespace" />
 		<xsl:param name="serviceName" />
 		<xsl:param name="outputFolder" />
-
-		<xsl:variable name="genFullStoreName"
-			select="concat($rootPackage, '.generated._', $storeName)" />
+		<xsl:variable name="fullStoreName"
+			select="concat($rootPackage, '.', $storeName)" />
 		<xsl:variable name="genFileName"
-			select="concat($outputFolder, '/', helper:replaceAll($genFullStoreName, '.', '/'), '.js')" />
+			select="concat($outputFolder, '/', helper:getStorePathByStoreName($fullStoreName), '/generated/_', $storeName, '.js')" />
 		<redirect:write file="{$genFileName}">
 			<xsl:call-template name="generate-store.xsl">
 				<xsl:with-param name="rootPackage"
@@ -109,10 +106,8 @@
 			</xsl:call-template>
 		</redirect:write>
 
-		<xsl:variable name="subclassFullStoreName"
-			select="concat($rootPackage, '.', $storeName)" />
 		<xsl:variable name="subclassFileName"
-			select="concat($outputFolder, '/', helper:replaceAll($subclassFullStoreName, '.', '/'), '.js')" />
+			select="concat($outputFolder, '/', helper:getStorePathByStoreName($fullStoreName), '/', $storeName, '.js')" />
 		<xsl:if test="not(helper:fileExists($subclassFileName))">
 			<redirect:write file="{$subclassFileName}">
 				<xsl:call-template name="generate-store-subclass.xsl">

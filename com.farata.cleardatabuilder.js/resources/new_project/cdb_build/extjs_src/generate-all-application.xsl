@@ -27,7 +27,7 @@
 		</xsl:call-template -->
 
 		<xsl:variable name="storePath"
-			select="concat($jsOutputFolder, '/app/store/')" />
+			select="concat($jsOutputFolder, '')" />
 		<xsl:call-template name="generate-store-all.xsl">
 			<xsl:with-param name="appName" select="$appName" />
 			<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />

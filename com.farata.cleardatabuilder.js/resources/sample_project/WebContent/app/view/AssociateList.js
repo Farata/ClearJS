@@ -3,7 +3,7 @@ Ext.define('**{app.name}**.view.AssociateList', {
     alias: 'widget.associatelist',
 
     title: 'Associates',
-    store: '**{app.name}**.store.com.farata.hibernate_test.AssociateStore',
+    store: '**{app.name}**.store.hibernate_test.AssociateStore',
     disabled: true,
     forceFit: true,
     minWidth: 400,

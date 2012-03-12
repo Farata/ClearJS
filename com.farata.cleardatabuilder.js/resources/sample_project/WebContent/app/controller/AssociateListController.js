@@ -1,6 +1,6 @@
 Ext.define('**{app.name}**.controller.AssociateListController', {
     extend: 'Ext.app.Controller',
-    stores: ['**{app.name}**.store.com.farata.hibernate_test.AssociateStore'],
+    stores: ['**{app.name}**.store.hibernate_test.AssociateStore'],
     refs: [{
        ref: 'associatePanel',
        selector: 'associatelist'
@@ -33,7 +33,7 @@ Ext.define('**{app.name}**.controller.AssociateListController', {
     		
     		if (selectedCompany === null) {
     			panel.disable();
-    			associateStore = null; //this.getClearSamplesCompanyAssociateStore(); //????
+    			associateStore = null;
     		} else {
     			panel.enable();
     			associateStore = selectedCompany.getAssociates();

@@ -1434,7 +1434,7 @@ public class AnnotationsHelper {
 						"../.settings/org.eclipse.jdt.apt.core.prefs"));
 			} catch (Throwable th) {
 			}
-			System.err.println(aptProps);
+//			System.err.println(aptProps);
 		}
 	}
 }
