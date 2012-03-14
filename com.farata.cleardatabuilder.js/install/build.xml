@@ -32,10 +32,11 @@
 		<replace file="${workspace.path}/${project.name}/WebContent/META-INF/context.xml" token="**{dataSourcePassword}**" value="${dataSourcePassword}" />
 		<replace file="${workspace.path}/${project.name}/.externalToolBuilders/CDB_ANT.launch" token="**{project_name}**" value="${project.name}" />
 		<replace file="${workspace.path}/${project.name}/.project" token="**{project_name}**" value="${project.name}" />
-		<replace file="${workspace.path}/${project.name}/cdb_build/build.properties" token="**{project.name}**" value="${project.name}" />
-		<replace file="${workspace.path}/${project.name}/WebContent/app.js" token="**{app.name}**" value="${app.name}" />
+		<replace file="${workspace.path}/${project.name}/cdb_build/build.properties" token="**{app.name}**" value="${app.name}" />
 		<replace file="${workspace.path}/${project.name}/.settings/org.eclipse.jdt.apt.core.prefs" token="**{app.name}**" value="${app.name}" />
 		<replace file="${workspace.path}/${project.name}/WebContent/WEB-INF/web.xml" token="**{app.name}**" value="${app.name}" />
+		<replace file="${workspace.path}/${project.name}/WebContent/app.js" token="**{app.name}**" value="${app.name}" />
+		<replace dir="${workspace.path}/${project.name}/WebContent/app" token="**{app.name}**" value="${app.name}" />
 	</target>
 
 	<target name="install-sample" if="is.sample">
@@ -44,14 +45,8 @@
 			<fileset dir="../resources/sample_project" />
 		</copy>
 		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{persistence.unit}**" value="${persistence.unit}" />
-		<replace file="${workspace.path}/${project.name}/WebContent/app/view/AssociateList.js" token="**{app.name}**" value="${app.name}" />
-		<replace file="${workspace.path}/${project.name}/WebContent/app/view/CompanyList.js" token="**{app.name}**" value="${app.name}" />
-		<replace file="${workspace.path}/${project.name}/WebContent/app/view/Viewport.js" token="**{app.name}**" value="${app.name}" />
-		<replace file="${workspace.path}/${project.name}/WebContent/app.js" token="**{app.name}**" value="${app.name}" />
-		<replace file="${workspace.path}/${project.name}/WebContent/app/controller/AssociateListController.js" token="**{app.name}**" value="${app.name}" />
-		<replace file="${workspace.path}/${project.name}/WebContent/app/controller/CompanyListController.js" token="**{app.name}**" value="${app.name}" />
-		<replace file="${workspace.path}/${project.name}/WebContent/app/controller/ToolbarController.js" token="**{app.name}**" value="${app.name}" />
 		<replace file="${workspace.path}/${project.name}/.settings/org.eclipse.jdt.apt.core.prefs" token="**{app.name}**" value="${app.name}" />
+		<replace dir="${workspace.path}/${project.name}/WebContent/app" token="**{app.name}**" value="${app.name}" />
 	</target>
 
 </project>
