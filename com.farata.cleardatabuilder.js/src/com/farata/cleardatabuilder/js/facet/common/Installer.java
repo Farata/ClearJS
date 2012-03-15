@@ -5,21 +5,27 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 import org.eclipse.ant.core.AntRunner;
+import org.eclipse.ant.launching.IAntLaunchConstants;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunch;
+import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.debug.core.ILaunchManager;
 
 import com.farata.cleardatabuilder.js.Activator;
 import com.farata.cleardatabuilder.js.util.Commons;
 
 public class Installer {
 
-	public static boolean install(Properties properties, final String projectName, boolean isNew,
-			IProgressMonitor monitor) {
-		final AntRunner ant = new AntRunner();
+	public static boolean install(Properties properties,
+			final String projectName, boolean isNew, IProgressMonitor monitor) {
+		//final AntRunner ant = new AntRunner();
 		File buildFile;
 		File buildPropsFile;
 		try {
@@ -27,7 +33,7 @@ public class Installer {
 					.getBundle(), "install/build.xml");
 			buildPropsFile = Commons.getBundleEntry(Activator.getDefault()
 					.getBundle(), "install/build.properties");
-			ant.setBuildFileLocation(buildFile.getAbsolutePath());
+			//ant.setBuildFileLocation(buildFile.getAbsolutePath());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return true;
@@ -38,7 +44,7 @@ public class Installer {
 		properties.setProperty("workspace.path", workspacePath);
 		properties.setProperty("app.name", projectName.trim());
 		properties.setProperty("project.name", projectName.trim());
-		
+
 		if (isNew) {
 			properties.setProperty("is.new", "true");
 		} else {
@@ -51,10 +57,30 @@ public class Installer {
 			e.printStackTrace();
 		}
 
-		ant.addUserProperties(properties);
+		//ant.addUserProperties(properties);
 
 		try {
-			ant.run();
+
+			properties.store(new FileOutputStream(buildPropsFile), "");
+
+			ILaunchManager launchManager = DebugPlugin.getDefault()
+					.getLaunchManager();
+			ILaunchConfigurationType lcType = launchManager
+					.getLaunchConfigurationType(IAntLaunchConstants.ID_ANT_LAUNCH_CONFIGURATION_TYPE);
+
+			String name = launchManager
+					.generateLaunchConfigurationName("Run Ant");
+			ILaunchConfigurationWorkingCopy wc = lcType.newInstance(null, name);
+			wc.setAttribute(ILaunchManager.ATTR_PRIVATE, true);
+			wc.setAttribute("org.eclipse.ui.externaltools.ATTR_LOCATION",
+					buildFile.getAbsolutePath());
+
+			ILaunch res = wc.launch(ILaunchManager.RUN_MODE, monitor);
+			while (!res.isTerminated()) {
+				Thread.sleep(100);
+			}
+			
+
 			IProject prj = root.getProject(projectName.trim());
 			prj.open(monitor);
 			prj.refreshLocal(IResource.DEPTH_INFINITE, monitor);
@@ -66,5 +92,4 @@ public class Installer {
 		return true;
 
 	}
-
 }
