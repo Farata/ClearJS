@@ -13,13 +13,7 @@ Ext.syncRequire('**{app.name}**.init.InitDirect');
 Ext.application({
     name: '**{app.name}**',
     requires: [
-        'Clear.override.ExtJSOverrider',
-        '**{app.name}**.override.ExtJSOverrider'
-    ],
-    controllers: [
-      'ToolbarController',
-      'CompanyListController',
-      'AssociateController'
+        'Clear.override.ExtJSOverrider'
     ],
     autoCreateViewport: true
 });
