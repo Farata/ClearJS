@@ -1,6 +1,6 @@
 <project name="project" default="main">
 	<target name="main" depends="clean">
-		<javac classpath="${cp}" srcdir="src" optimize="false" debug="true" destdir="build" />
+		<javac classpath="${cp}" srcdir="src" optimize="false" debug="true" destdir="build" includeantruntime="false"/>
 		<mkdir dir="export/lib"/>
 		<jar destfile="export/lib/com.farata.dto2extjs.annotations.jar">
 			<fileset dir="build" />
