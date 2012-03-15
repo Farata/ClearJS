@@ -4,7 +4,7 @@
 	<target name="default" >
 		<delete dir="dist" failonerror="no"/>
 		<mkdir dir="dist"/>
-		<javac srcdir="src" destdir="dist" debug="on" debuglevel="lines,vars,source" deprecation="deprecation" optimize="optimize"
+		<javac srcdir="src" destdir="dist" debug="on" debuglevel="lines,vars,source" deprecation="deprecation" optimize="optimize" includeantruntime="false"
     			       source="1.6" target="1.6">
 			<classpath>
 				<fileset dir="../com.farata.lib.js/base">
