@@ -237,7 +237,7 @@ Ext.define('Clear.transaction.BatchManager', {
 			}
 		}
 		
-		Clear.action.BatchGateway.execute(batch, batchGatewayCallback);
+		Clear.direct.action.BatchGateway.execute(batch, batchGatewayCallback);
 	},
 	
 	/*
@@ -382,27 +382,15 @@ Ext.define('Clear.transaction.BatchManager', {
 					var associatedStore;
 					if (association.type=="hasMany") {
 						associatedStore = item[association.storeName];
-						//			childRanking =  item.childRanking; // that was array for all associations					
-						me.registerWithChildren({
-							'store': associatedStore, 
-							'priority': registration.priority * 100 //+ childRanking[i] 
-						});
+						if (associatedStore) {							
+							//			childRanking =  item.childRanking; // that was array for all associations					
+							me.registerWithChildren({
+								'store': associatedStore, 
+								'priority': registration.priority * 100 //+ childRanking[i] 
+							});
+						}
 					}				
 				}
-					/*
-				associations.each(function(association, index, length) {
-					var associatedStore;
-					if (association.type=="hasMany") {
-						associatedStore = item[association.storeName];
-			//			childRanking =  item.childRanking; // that was array for all associations					
-						me.registerWithChildren({
-							'store': associatedStore, 
-							'priority': registration.priority * 100 //+ childRanking[i] 
-						});
-					}
-					return true;
-				});
-					 */
 			}
 		});
 		
@@ -417,24 +405,14 @@ Ext.define('Clear.transaction.BatchManager', {
 				var associatedStore;
 				if (association.type=="hasMany") {
 					associatedStore = item[association.storeName];
-					me.registerWithChildren({
-						'store': associatedStore, 
-						'priority': registration.priority + 1 
-					});
+					if (associatedStore) {						
+						me.registerWithChildren({
+							'store': associatedStore, 
+							'priority': registration.priority + 1 
+						});
+					}
 				}
-			}	
-			/*
-			associations.each(function(association, index, length) {
-				var associatedStore;
-				if (association.type=="hasMany") {
-					associatedStore = item[association.storeName];
-					me.registerWithChildren({
-						'store': associatedStore, 
-						'priority': registration.priority + 1 
-					});
-				}
-			}, this);	
-			*/			
+			}				
 		}, this);
 	//}		
     }
