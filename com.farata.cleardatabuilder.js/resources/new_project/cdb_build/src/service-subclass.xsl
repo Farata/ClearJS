@@ -17,7 +17,6 @@ package <xsl:value-of select="$rootPackage"/>;
 import <xsl:value-of select="$rootPackage"/>.generated.*;
 
 @org.springframework.stereotype.Service("<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$subServiceName"/>")
-@org.springframework.flex.remoting.RemotingDestination("<xsl:value-of select="$interfaceName"/>")
 public class <xsl:value-of select="$subServiceName"/> extends <xsl:value-of select="$superServiceName"/> {
 	private org.springframework.orm.hibernate3.HibernateTemplate hibernateTemplate;
 		
