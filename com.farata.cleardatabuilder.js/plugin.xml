@@ -131,7 +131,7 @@
 	<extension point="org.eclipse.jdt.apt.core.annotationProcessorFactory">
 		<factories enableDefault="true">
 			<factory
-				class="com.farata.cleardatabuilder.validation.apt.CDBAnnotationProcessorFactory" />
+				class="com.farata.cleardatabuilder.js.validation.apt.CDBAnnotationProcessorFactory" />
 		</factories>
 	</extension>
 	<extension point="org.eclipse.jdt.ui.quickFixProcessors">
