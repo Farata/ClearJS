@@ -11,14 +11,10 @@
 	<xsl:param name="package" />
 	
 	<xsl:template match="/">
-		&lt;init-param&gt;
-			&lt;param-name&gt;<xsl:value-of select="$apis"/>.classes&lt;/param-name&gt;
-			&lt;param-value&gt;<xsl:value-of select="$package"/>.BatchGateway<xsl:for-each select="annotated-types/annotated-type">
+		<xsl:for-each select="annotated-types/annotated-type">
 				<xsl:variable name="interfaceName" select="@name" /><xsl:variable name="packageName" select="helper:getPackageName($interfaceName)" />
-				<xsl:variable name="typeName" select="helper:getTypeName($interfaceName)" />
-			,<xsl:value-of select="helper:createSubServiceName($interfaceName)" />
-	</xsl:for-each>
-			&lt;/param-value&gt;
-		&lt;/init-param&gt;
+<xsl:value-of select="helper:createSubServiceName($interfaceName)" /><xsl:if test="not(last() = position())">,
+</xsl:if>
+		</xsl:for-each>
 	</xsl:template>
 </xsl:stylesheet>

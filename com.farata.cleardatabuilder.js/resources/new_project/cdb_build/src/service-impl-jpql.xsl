@@ -40,7 +40,7 @@
 				}
 				
 				@Override
-				@SuppressWarnings({ "unchecked" })
+				@SuppressWarnings({ "rawtypes" })
 				public List transformList(List list) {
 					return list;
 				}
@@ -141,14 +141,14 @@
 				}
 				
 				@Override
-				@SuppressWarnings({ "unchecked" })
+				@SuppressWarnings({ "rawtypes" })
 				public List transformList(List list) {
 					return list;
 				}
 			});
 			</xsl:if>
 			query = <xsl:value-of select="$methodNode/@name"/>_preExecQuery(query<xsl:if test="count($methodNode/parameters/parameter)>0">, <xsl:for-each select="$methodNode/parameters/parameter"><xsl:value-of select="@name"/><xsl:if test="not(last() = position())">, </xsl:if></xsl:for-each></xsl:if>);
-			@SuppressWarnings({ "unchecked" })
+			@SuppressWarnings({ "rawtypes" })
 			List result = query.list();
 			UserTransactionManager.commitUserTransaction();
 			return result;
@@ -163,17 +163,6 @@
 	}
 	
 	public Query <xsl:value-of select="$methodNode/@name"/>_preExecQuery(Query query<xsl:if test="count($methodNode/parameters/parameter)>0">, <xsl:for-each select="$methodNode/parameters/parameter"><xsl:value-of select="concat(@type,' ')"/><xsl:value-of select="@name"/><xsl:if test="not(last() = position())">, </xsl:if></xsl:for-each></xsl:if>) {
-		Message message = ThreadLocals.getMessage();
-		if (message != null) {
-			Object start = message.getHeader("start");
-			Object length = message.getHeader("length");
-			if (start != null) {
-				query.setFirstResult((Integer) start);
-			}
-			if (length != null) {
-				query.setMaxResults((Integer) length);
-			}
-		}
 		return query;
 	}
 		<xsl:if test="$updateEntity">
@@ -236,6 +225,7 @@
  		return items;
  	}
 
+	@SuppressWarnings("unchecked")
 	@DirectMethod
 	public List&lt;ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_deleteItems(List&lt;ChangeObject&gt; items) throws Exception {
  		List&lt;ChangeObject&gt; list = null;
@@ -274,20 +264,7 @@
 						</xsl:when>
 						</xsl:choose>
 					} catch (Exception e) {
-						DataMessage cause = new DataMessage();
-	                	Map&lt;String, String&gt; identity = new HashMap&lt;String, String&gt;();
-						<xsl:for-each select="$keyPropertyNames/element">
-						identity.put("<xsl:value-of select="@value"/>", item.get<xsl:value-of select="helper:capitalizeString(@value)"/>() + "");
-						</xsl:for-each>
-	                	cause.setIdentity(identity);
-	                    cause.setOperation(DataMessage.DELETE_OPERATION);                       	
-	                    cause.setBody(new Object[]{null,item, null});
-	                    cause.setDestination("<xsl:value-of select="$interfaceName"/>");
-	                    cause.setHeader("method", "<xsl:value-of select="$methodNode/@name"/>");
-
-	                	DataSyncException dse =  new DataSyncException(co);
-	                	dse.setConflictCause(cause); 
-	                    throw dse;
+	                    throw e;
 					}
 				}
 				list.add(co);
@@ -296,6 +273,7 @@
 		return list;
 	} 	
 	
+	@SuppressWarnings("unchecked")
 	@DirectMethod
 	public List&lt;ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_updateItems(List&lt;ChangeObject&gt; items) throws Exception {
  		List&lt;ChangeObject&gt; list = null;
@@ -377,8 +355,7 @@
 		return list;	
 	} 
 	
-	
-	
+	@SuppressWarnings("unchecked")
 	@DirectMethod
 	public List&lt;ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_insertItems(List&lt;ChangeObject&gt; items) throws Exception {
  		List&lt;ChangeObject&gt; list = null;

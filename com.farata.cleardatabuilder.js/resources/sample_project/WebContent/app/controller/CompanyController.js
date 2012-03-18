@@ -1,4 +1,4 @@
-Ext.define('**{app.name}**.controller.CompanyListController', {
+Ext.define('**{app.name}**.controller.CompanyController', {
     extend: 'Ext.app.Controller',
     stores: ['**{app.name}**.store.hibernate_test.CompanyStore'],
     refs: [{

@@ -1,4 +1,4 @@
-Ext.define('**{app.name}**.controller.AssociateListController', {
+Ext.define('**{app.name}**.controller.AssociateController', {
     extend: 'Ext.app.Controller',
     stores: ['**{app.name}**.store.hibernate_test.AssociateStore'],
     refs: [{

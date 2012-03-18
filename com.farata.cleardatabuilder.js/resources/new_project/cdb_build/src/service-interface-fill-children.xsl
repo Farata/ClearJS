@@ -9,13 +9,13 @@
 	<xsl:template match="/|/|/" name="service-interface-fill-children.xsl">
 		<xsl:param name="interfaceName"/>
 		<xsl:param name="methodNode"/>
-	java.util.List&lt;flex.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_sync(java.util.List&lt;flex.data.ChangeObject&gt; items) throws Throwable;
+	java.util.List&lt;clear.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_sync(java.util.List&lt;clear.data.ChangeObject&gt; items) throws Throwable;
 
-	java.util.List&lt;flex.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_deleteItems(java.util.List&lt;flex.data.ChangeObject&gt; items) throws Exception;
+	java.util.List&lt;clear.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_deleteItems(java.util.List&lt;clear.data.ChangeObject&gt; items) throws Exception;
 
-	java.util.List&lt;flex.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_updateItems(java.util.List&lt;flex.data.ChangeObject&gt; items) throws Exception;
+	java.util.List&lt;clear.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_updateItems(java.util.List&lt;clear.data.ChangeObject&gt; items) throws Exception;
 
-	java.util.List&lt;flex.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_insertItems(java.util.List&lt;flex.data.ChangeObject&gt; items) throws Exception;
+	java.util.List&lt;clear.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_insertItems(java.util.List&lt;clear.data.ChangeObject&gt; items) throws Exception;
 		
 	void <xsl:value-of select="$methodNode/@name"/>_beforeDelete(org.hibernate.Session session, Object entity);
 

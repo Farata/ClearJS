@@ -30,7 +30,7 @@
 <xsl:text/>Ext.define('<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$storeName"/>',{
 
 	extend: 'Clear.data.DirectStore',
-	requires  : ['Ext.direct.Manager','<xsl:value-of select="helper:getModelNameFull($dtoName)"/>'],
+	requires  : ['<xsl:value-of select="helper:getModelNameFull($dtoName)"/>'],
 	model:'<xsl:value-of select="helper:getModelNameFull($dtoName)"/>',
 		
 	api: {

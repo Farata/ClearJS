@@ -47,6 +47,7 @@
 		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{persistence.unit}**" value="${persistence.unit}" />
 		<replace file="${workspace.path}/${project.name}/.settings/org.eclipse.jdt.apt.core.prefs" token="**{app.name}**" value="${app.name}" />
 		<replace dir="${workspace.path}/${project.name}/WebContent/app" token="**{app.name}**" value="${app.name}" />
+		<replace file="${workspace.path}/${project.name}/WebContent/app.js" token="**{app.name}**" value="${app.name}" />
 	</target>
 
 </project>

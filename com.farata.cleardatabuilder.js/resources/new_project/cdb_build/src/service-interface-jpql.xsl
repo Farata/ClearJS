@@ -15,13 +15,13 @@
 		<xsl:variable name="updateEntity" select="helper:replaceAll($updateInfo/method[@name='updateEntity']/@value, 'class ', '')"/>
 	org.hibernate.Query <xsl:value-of select="$methodNode/@name"/>_preExecQuery(org.hibernate.Query query<xsl:if test="count($methodNode/parameters/parameter)>0">, <xsl:for-each select="$methodNode/parameters/parameter"><xsl:value-of select="concat(@type,' ')"/><xsl:value-of select="@name"/><xsl:if test="not(last() = position())">, </xsl:if></xsl:for-each></xsl:if>);
 		<xsl:if test="$updateEntity">
-	java.util.List&lt;flex.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_sync(java.util.List&lt;flex.data.ChangeObject&gt; items) throws Throwable;
+	java.util.List&lt;clear.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_sync(java.util.List&lt;clear.data.ChangeObject&gt; items) throws Throwable;
 
-	java.util.List&lt;flex.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_deleteItems(java.util.List&lt;flex.data.ChangeObject&gt; items) throws Exception;
+	java.util.List&lt;clear.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_deleteItems(java.util.List&lt;clear.data.ChangeObject&gt; items) throws Exception;
 
-	java.util.List&lt;flex.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_updateItems(java.util.List&lt;flex.data.ChangeObject&gt; items) throws Exception;
+	java.util.List&lt;clear.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_updateItems(java.util.List&lt;clear.data.ChangeObject&gt; items) throws Exception;
 
-	java.util.List&lt;flex.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_insertItems(java.util.List&lt;flex.data.ChangeObject&gt; items) throws Exception;
+	java.util.List&lt;clear.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_insertItems(java.util.List&lt;clear.data.ChangeObject&gt; items) throws Exception;
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>
