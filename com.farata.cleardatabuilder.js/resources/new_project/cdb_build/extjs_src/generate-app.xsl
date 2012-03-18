@@ -14,39 +14,33 @@
 	disableCaching: false,
 	enabled: true,
 	paths: {
-		<xsl:value-of select="$appName"/>: 'app', Clear:'clear'
+		<xsl:value-of select="$appName"/>: 'app', 
+		Clear: 'clear'
 	}
 });
 
-Ext.require(
-	['Ext.direct.Manager'],
+Ext.syncRequire('<xsl:value-of select="$appName"/>.init.InitDirect');
 
-	function() {
-		var providerConfig = Clear.direct.REMOTING_API;
-		providerConfig.enableBuffer = 0;
-		var provider = Ext.Direct.addProvider( providerConfig);
-		Djn.RemoteCallSupport.addCallValidation(provider);
-		Djn.RemoteCallSupport.validateCalls = true;
-
-		Ext.application({
-			name:'<xsl:value-of select="$appName" />',
-			appFolder: 'app',
-			controllers: ['ControllerTest'],
-
-			launch:function() {
-				Ext.create('Ext.container.Viewport', {
-					items:
-					[
-						{
-							xtype: 'GridTest'
-						}
-					]
-				});
-			}
-		});
-	}
-);
-		
+// Launch the application 
+Ext.application({
+    name: '<xsl:value-of select="$appName"/>',
+    requires: [
+        'Clear.override.ExtJSOverrider'
+    ],
+    controllers: [
+         'ControllerTest'
+    ],
+    launch:function() {
+         Ext.create('Ext.container.Viewport', {
+			items:
+				[
+					{
+						xtype: 'GridTest'
+					}
+				]
+         });
+    }
+});
 	</xsl:template>
 	
 </xsl:stylesheet>
