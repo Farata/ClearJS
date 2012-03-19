@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -15,13 +14,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jdt.apt.core.util.AptConfig;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.jdt.internal.ui.viewsupport.FilteredElementTreeSelectionDialog;
 import org.eclipse.jdt.internal.ui.wizards.TypedElementSelectionValidator;
 import org.eclipse.jface.preference.PreferencePage;
@@ -34,7 +29,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -50,7 +44,7 @@ public class ClearPreferences extends PreferencePage implements
 		IWorkbenchPropertyPage {
 
 	private Label label = null;
-	private Text flexLocation = null;
+	private Text extjsLocation = null;
 	private Button button = null;
 	private IProject project;
 	private IPath currentLocation;
@@ -81,13 +75,13 @@ public class ClearPreferences extends PreferencePage implements
 		group.setLayout(gridLayout);
 		
 		label = new Label(group, SWT.NONE);
-		label.setText("ActionScript DTO:");
+		label.setText("ExtJS Nodel:");
 
-		flexLocation = new Text(group, SWT.BORDER);
-		flexLocation.setText(pathToString(currentLocation));
-		flexLocation.setEditable(false);
-		flexLocation.setLayoutData(gridData);
-		flexLocation.addModifyListener(new ModifyListener() {
+		extjsLocation = new Text(group, SWT.BORDER);
+		extjsLocation.setText(pathToString(currentLocation));
+		extjsLocation.setEditable(false);
+		extjsLocation.setLayoutData(gridData);
+		extjsLocation.addModifyListener(new ModifyListener() {
 			
 			@Override
 			public void modifyText(ModifyEvent e) {
@@ -106,7 +100,7 @@ public class ClearPreferences extends PreferencePage implements
 								.getShell(), currentLocation);
 						if (selectedPath != null) {
 							String text = pathToString(selectedPath);
-							flexLocation.setText(text);
+							extjsLocation.setText(text);
 						}
 					}
 				});
@@ -116,7 +110,7 @@ public class ClearPreferences extends PreferencePage implements
 	private IPath getCurrentLocation() {
 		IJavaProject jproject = JavaCore.create(project);
 		String sPath = AptConfig.getProcessorOptions(jproject).get(
-				"-Acom.faratasystems.dto2fx.output");
+				"-Acom.faratasystems.dto2extjs.output");
 		return stringToPath(sPath);
 	}
 
@@ -155,7 +149,7 @@ public class ClearPreferences extends PreferencePage implements
 		dialog.setHelpAvailable(false);
 		dialog.setValidator(validator);
 		dialog.setTitle("Select folder");
-		dialog.setMessage("Folder for the generated ActionScript DTO:");
+		dialog.setMessage("Folder for the generated ExtJS Model:");
 		dialog.setInput(root);
 		dialog.setComparator(new ResourceComparator(1));
 		dialog.setInitialSelection(focus);
@@ -175,12 +169,12 @@ public class ClearPreferences extends PreferencePage implements
 	}
 
 	public boolean performOk() {
-		String location = flexLocation.getText();
+		String location = extjsLocation.getText();
 		if (location != null && location.length() > 0) {
 			try {
 				if (!location.equals(pathToString(getCurrentLocation()))) {
-					storeFlexDTOsLocation(location);
-					storeFlexServicesLocation(location);
+					storeExtJSModelLocation(location);
+					storeExtJSStoreLocation(location);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -194,17 +188,17 @@ public class ClearPreferences extends PreferencePage implements
 
 	protected void performDefaults() {
 		super.performDefaults();
-		currentLocation = new Path(project.getName() + "/flex_src");
-		flexLocation.setText(pathToString(currentLocation));
+		currentLocation = new Path(project.getName() + "/WebContent");
+		extjsLocation.setText(pathToString(currentLocation));
 	}
 
-	private void storeFlexDTOsLocation(String location) throws CoreException {
+	private void storeExtJSModelLocation(String location) throws CoreException {
 		IJavaProject jproject = JavaCore.create(project);
 		AptConfig.addProcessorOption(jproject,
-				"-Acom.faratasystems.dto2fx.output", location);
+				"-Acom.faratasystems.dto2extjs.output", location);
 	}
 
-	private void storeFlexServicesLocation(String location) throws IOException,
+	private void storeExtJSStoreLocation(String location) throws IOException,
 			CoreException {
 		IFile propFile = project.getFolder("cdb_build").getFile(
 				"build.properties");
@@ -213,7 +207,7 @@ public class ClearPreferences extends PreferencePage implements
 		Properties props = new Properties();
 		props.load(fis);
 		fis.close();
-		props.setProperty("flex-output-folder", "${project-root}/../"
+		props.setProperty("extjs-output-folder", "${project-root}/../"
 				+ location);
 		FileOutputStream fos = new FileOutputStream(propFile.getLocation()
 				.toFile());
