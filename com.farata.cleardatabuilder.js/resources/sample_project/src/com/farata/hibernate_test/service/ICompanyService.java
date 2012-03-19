@@ -20,16 +20,16 @@ public interface ICompanyService {
 	@CX_JSJPQLMethod(
 			query="SELECT c FROM Company c",
 			transferInfo=@CX_TransferInfo(type="com.farata.hibernate_test.dto.CompanyDTO"),
-			updateInfo=@CX_UpdateInfo(updateEntity=Company.class, keyPropertyNames="id", updatablePropertyNames="company", autoSyncEnabled=true)
+			updateInfo=@CX_UpdateInfo(updateEntity=Company.class, keyPropertyNames="id", updatablePropertyNames="companyName", autoSyncEnabled=true)
 	)
 	List<?> getCompanies();
 
 	@CX_JSGenerateSample
 	@CX_JSGenerateStore
 	@CX_JSJPQLMethod(
-			query="SELECT a.id, a.companyId, a.associate FROM CompanyAssociate a WHERE a.companyId=:companyId",
+			query="SELECT a.id, a.companyId, a.associateName FROM CompanyAssociate a WHERE a.companyId=:companyId",
 			transferInfo=@CX_TransferInfo(type="com.farata.hibernate_test.dto.AssociateDTO"),
-			updateInfo=@CX_UpdateInfo(updateEntity=CompanyAssociate.class, keyPropertyNames="id", updatablePropertyNames="companyId,associate", autoSyncEnabled=true)
+			updateInfo=@CX_UpdateInfo(updateEntity=CompanyAssociate.class, keyPropertyNames="id", updatablePropertyNames="companyId,associateName", autoSyncEnabled=true)
 	)
 	List<?> getAssociates(Integer companyId);
 }

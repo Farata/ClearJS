@@ -17,7 +17,8 @@ public class Company implements Serializable {
 	@GeneratedValue
 	private int id;
 
-	private String company;
+	@Column(name="company")
+	private String companyName;
 
     public Company() {
     }
@@ -30,12 +31,12 @@ public class Company implements Serializable {
 		this.id = id;
 	}
 
-	public String getCompany() {
-		return this.company;
+	public String getCompanyName() {
+		return this.companyName;
 	}
 
-	public void setCompany(String company) {
-		this.company = company;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 }

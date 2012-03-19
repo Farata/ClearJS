@@ -17,7 +17,8 @@ public class CompanyAssociate implements Serializable {
 	@GeneratedValue
 	private int id;
 
-	private String associate;
+	@Column(name="associate")
+	private String associateName;
 
 	@Column(name="company_id")
 	private int companyId;
@@ -33,12 +34,12 @@ public class CompanyAssociate implements Serializable {
 		this.id = id;
 	}
 
-	public String getAssociate() {
-		return this.associate;
+	public String getAssociateName() {
+		return this.associateName;
 	}
 
-	public void setAssociate(String associate) {
-		this.associate = associate;
+	public void setAssociateName(String associateName) {
+		this.associateName = associateName;
 	}
 
 	public int getCompanyId() {
