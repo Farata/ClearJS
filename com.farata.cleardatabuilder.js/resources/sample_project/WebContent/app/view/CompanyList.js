@@ -43,7 +43,7 @@ Ext.define('**{app.name}**.view.CompanyList', {
         flex: 1
     }, {
         header: 'Company Name',
-        dataIndex: 'company',
+        dataIndex: 'companyName',
         flex: 1,
         editor: {
             xtype: 'textfield',

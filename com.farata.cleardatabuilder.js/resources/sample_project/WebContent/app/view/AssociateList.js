@@ -47,7 +47,7 @@ Ext.define('**{app.name}**.view.AssociateList', {
         dataIndex: 'companyId'
     }, {
         header: 'Associate Name',
-        dataIndex: 'associate',
+        dataIndex: 'associateName',
         editor: 'textfield'
     }],
 
