@@ -14,8 +14,11 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 
+
+//import flex.data.messages.DataMessage;
+
 @SuppressWarnings("unchecked")
-public class ChangeObject implements Serializable {
+public class ChangeObject<T> implements Serializable {
 	
 	/**
 	 * 
@@ -26,7 +29,7 @@ public class ChangeObject implements Serializable {
 		
 	}
 
-	public ChangeObject(Object newObject, Object oldObject ) {
+	public ChangeObject(T newObject, T oldObject ) {
 		if ( newObject == null && oldObject == null) return;
 		if ( newObject == null && oldObject != null) {
 			state = 2;
@@ -40,20 +43,20 @@ public class ChangeObject implements Serializable {
 	public void addChangedPropertyName(String propertyName) {
 		if(!isUpdate()&&!isCreate()) throw new IllegalArgumentException("addChangedPropertyName applicable to update and create statuses only");
 		// Allow identity changes from doCreate() methods, when initial changedNames is null
-		if(changedNames == null)  changedNames=new String[]{};
+		if(changedPropertyNames == null)  changedPropertyNames=new String[]{};
         	
-        for(int i = 0; i < changedNames.length; i++) {
-           if(changedNames[i].equals(propertyName)) return;
+        for(int i = 0; i < changedPropertyNames.length; i++) {
+           if(changedPropertyNames[i].equals(propertyName)) return;
         }    
 
-        String tempChangedNames[] = new String[changedNames.length + 1];
-        for(int i = 0; i < changedNames.length; i++) {
-            tempChangedNames[i] = changedNames[i];
+        String tempChangedNames[] = new String[changedPropertyNames.length + 1];
+        for(int i = 0; i < changedPropertyNames.length; i++) {
+            tempChangedNames[i] = changedPropertyNames[i];
         }    
 
-        tempChangedNames[changedNames.length] = propertyName;
-        changedNames = tempChangedNames;
-        changedValues = null; //getChangedValue will update the map
+        tempChangedNames[changedPropertyNames.length] = propertyName;
+        changedPropertyNames = tempChangedNames;
+        changedPropertyValues = null; //getChangedValue will update the map
 	}
 	
 	public void conflict(Object arg0) {
@@ -76,53 +79,53 @@ public class ChangeObject implements Serializable {
 	}
 	
 	public String[] getChangedPropertyNames() {
-		// TODO Auto-generated method stub
-		if(changedNames == null) {
-			if ((newVersion != null) && (previousVersion!=null)){
+		return changedPropertyNames;
+
+		// TODO offer default changedNames computation??
+		/*
+		if(changedPropertyNames == null) {
+		if ((newVersion != null) && (previousVersion!=null)){
 				if (newVersion instanceof ChangeSupport) {
 					changedNames = ((ChangeSupport)newVersion).getChangedPropertyNames(previousVersion);
 				}
-				// TODO offer default changedNames computation??
 			}
 		}
 		return changedNames;
+		*/
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public Map getChangedValues()
     {
     	if ((newVersion==null) || (previousVersion==null)) return null;
-        if(changedValues == null)
+    	String [] changedNames = getChangedPropertyNames();
+        
+        changedPropertyValues = new HashMap();
+        for(int i = 0; i < changedNames.length; i++)
         {
-            if(changedNames == null)
-            	changedNames = getChangedPropertyNames();
-
-            changedValues = new HashMap();
-            for(int i = 0; i < changedNames.length; i++)
-            {
-                String field = changedNames[i];
-                changedValues.put(field, getNewValue(field));
-            }
-
-        }
-        return Collections.unmodifiableMap(changedValues);
+            String field = changedNames[i];
+            changedPropertyValues.put(field, getNewValue(field));
+        }      
+        return Collections.unmodifiableMap(changedPropertyValues);
     }
 	
     public String getError() {
     	return error;
     }
-    
+   
 	public Object getObjectId() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public Object getNewValue( String propertyName) {
 		Object propertyValue = null;
-		if (newVersion instanceof ChangeSupport) {
-			if (newMap == null)
-        		newMap = ((ChangeSupport)newVersion).getProperties();
-			propertyValue = newMap.get( propertyName);
-		} else {
+//		if (newVersion instanceof ChangeSupport) {
+//			if (newMap == null)
+ //       		newMap = ((ChangeSupport)newVersion).getProperties();
+//			propertyValue = newMap.get( propertyName);
+//		} else {
 			Class cls = newVersion.getClass();
 			try {
 			    Field field = cls.getField(propertyName);
@@ -130,17 +133,18 @@ public class ChangeObject implements Serializable {
 			} catch (Exception e) {
 				new RuntimeException("Unknown property '" + propertyName +"' for object of class " + cls.getName() );
 			}
-		}
+//		}
 		return propertyValue;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public Object getPreviousValue(String propertyName) {
 		Object propertyValue = null;
-		if (previousVersion instanceof ChangeSupport) {
-			if (previousMap == null)
-				previousMap = ((ChangeSupport)previousVersion).getProperties();
-			propertyValue = previousMap.get( propertyName);
-		} else {
+//		if (previousVersion instanceof ChangeSupport) {
+//			if (previousMap == null)
+//				previousMap = ((ChangeSupport)previousVersion).getProperties();
+//			propertyValue = previousMap.get( propertyName);
+//		} else {
 			Class cls = previousVersion.getClass();
 			try {
 			    Field field = cls.getField(propertyName);
@@ -148,7 +152,7 @@ public class ChangeObject implements Serializable {
 			} catch (Exception e) {
 				new RuntimeException("Unknown property '" + propertyName +"' for object of class " + cls.getName() );				
 			}
-		}
+//		}
 		return propertyValue;	
 	}
 	
@@ -167,8 +171,8 @@ public class ChangeObject implements Serializable {
 
     public void setChangedPropertyNames(String [] columns)
     {
-    	changedNames = columns;
-    	changedValues = null;
+    	changedPropertyNames = (columns!=null)?columns:new String[]{};
+    	changedPropertyValues = null;
     }
 	
     public String error ="";
@@ -176,21 +180,21 @@ public class ChangeObject implements Serializable {
     	error = s;
     }
     
-	public Object getNewVersion() {
+	public T getNewVersion() {
         return newVersion;
     }
 
-	public Object newVersion = null;
-	public void setNewVersion(Object obj) {
+	public T newVersion = null;
+	public void setNewVersion(T obj) {
 	    newVersion = obj; 
-        changedValues = null;
+        changedPropertyValues = null;
 	}
 	
-	public Object previousVersion = null;
-	public Object getPreviousVersion() {
+	public T previousVersion = null;
+	public T getPreviousVersion() {
 		return previousVersion;
 	}
-	public void setPreviousVersion(Object obj) {
+	public void setPreviousVersion(T obj) {
 	    previousVersion = obj;
 	}
 	
@@ -201,12 +205,19 @@ public class ChangeObject implements Serializable {
 	public void setState(int s) {
 		state = s;
 	}
+	public String id;
+	public String getId() {
+		return id;
+	}
+	public void setId(String newValue) {
+		id = newValue;
+	}
 	
-	
+	public final String __type__="changeObject";
 //---------------------- E X T E N S I O N S--------------------------
    
-	protected Map newMap = null;
-	protected Map previousMap = null;
-	protected String[] changedNames = null;
-	protected Map changedValues = null;
+
+	private String[] changedPropertyNames = new String[] {};
+	@SuppressWarnings({ "rawtypes" })
+	transient private Map changedPropertyValues = null;
 }
