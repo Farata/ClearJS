@@ -31,7 +31,7 @@ import org.hibernate.Session;
 import org.hibernate.transform.*;
 
 import clear.transaction.*;
-import clear.transaction.identity.PropertyRack;
+import clear.transaction.identity.IdentityRack;
 import clear.cdb.utils.SessionFactoryUtils;
 import clear.data.ChangeObject;
 
