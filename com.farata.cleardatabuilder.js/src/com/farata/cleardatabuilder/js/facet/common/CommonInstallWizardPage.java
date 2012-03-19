@@ -30,7 +30,7 @@ public class CommonInstallWizardPage extends AbstractFacetWizardPage {
 		setControl(c);
 		setTitle("Clear Data Builder JS Facet");
 		setDescription("Configure Clear Data Builder JS settings.");
-		setPageComplete(true);
+		setPageComplete(false);
 	}
 
 	public CommonInstallConfig getConfig() {
