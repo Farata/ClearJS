@@ -3,23 +3,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class IdentityRack  {
-	private static ThreadLocal<Map<String, Long >> s_tlsIdentityMap = new ThreadLocal<Map<String,Long>>(){
-		@Override
-        protected Map<String, Long> initialValue() {
-            return new HashMap<String, Long>();
-        }
+	private static ThreadLocal<Map<String, Object>>	s_tlsEntityMap	= new ThreadLocal<Map<String, Object>>() {
+		protected synchronized Map<String, Object> initialValue() {
+			return new HashMap<String, Object>();
+		}
 	};
-		
-	public static long getIdentity(String domain, long tempIdentity)	{
-		Map<String, Long> map = s_tlsIdentityMap.get();
-		String key = domain + "_" + tempIdentity;
-		Long identity = (Long)map.get(key);		
-		return ((identity==null)?tempIdentity:identity.longValue());
-}
-	public static void setIdentity(String domain, long tempIdentity, long identity )	{
-		String key = domain + "_" + tempIdentity;
-		Map<String, Long> map = s_tlsIdentityMap.get();
-		map.put(key, new Long(identity));
+
+	public static Object getIdentity(	String domain,
+		String property,
+		Object oldValue) {
+		Map<String, Object> map = s_tlsEntityMap.get();
+		String key = domain + "_" + property + "_" + oldValue;
+		Object newValue = map.get(key);
+		return (newValue == null) ? oldValue : newValue;
+	}
+	
+	public static void setIdentity(	String domain,
+		String property,
+		Object oldValue,
+		Object newValue) {
+		String key = domain + "_" + property + "_" + oldValue;
+		Map<String, Object> map = s_tlsEntityMap.get();
+		map.put(key, newValue);
 	}
 
 }
