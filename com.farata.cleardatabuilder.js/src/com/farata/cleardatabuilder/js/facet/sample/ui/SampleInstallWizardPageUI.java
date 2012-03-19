@@ -2,13 +2,17 @@ package com.farata.cleardatabuilder.js.facet.sample.ui;
 
 import java.io.File;
 
+import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
@@ -19,11 +23,13 @@ import com.farata.cleardatabuilder.js.facet.sample.SampleInstallWizardPage;
 
 public class SampleInstallWizardPageUI {
 
-	private Composite				parent					= null; // @jve:decl-index=0:visual-constraint="46,23"
-	private Label					label					= null; // @jve:decl-index=0:
-	private Text					sampleDBInstallFolder	= null;
-	private Button					button					= null;
-	private SampleInstallWizardPage	installWizardPage;
+	private Composite parent = null; // @jve:decl-index=0:visual-constraint="46,23"
+	private Label dbLabel = null; // @jve:decl-index=0:
+	private Text sampleDBInstallFolder = null;
+	private Button button = null;
+	private SampleInstallWizardPage installWizardPage;
+	private Label sampleChoiceLabel;
+	private Combo sampleCombo;
 
 	/**
 	 * This method initializes parent
@@ -43,19 +49,51 @@ public class SampleInstallWizardPageUI {
 			parent.setSize(new Point(463, 288));
 		}
 		parent.setLayout(gridLayout);
-		label = new Label(parent, SWT.NONE);
-		label.setText("Install sample database to folder:");
+		sampleChoiceLabel = new Label(parent, SWT.NONE);
+		sampleChoiceLabel.setText("Install sample:");
+		sampleCombo = new Combo(parent, SWT.NONE);
+		sampleCombo.add("Hibernate sample");
+		sampleCombo.add("Plain Java sample");
+		sampleCombo.select(0);
+		sampleCombo.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent selectionevent) {
+				boolean hbn = sampleCombo.getSelectionIndex() == 0;
+				dbLabel.setEnabled(hbn);
+				sampleDBInstallFolder.setEnabled(hbn);
+				button.setEnabled(hbn);
+				installWizardPage.getConfig().setHibernateSample(hbn);
+				installWizardPage.setPageComplete(!hbn
+						|| installWizardPage
+								.validateInstallationFolder(new File(
+										sampleDBInstallFolder.getText())));
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent selectionevent) {
+			}
+		});
+
+		new Label(parent, SWT.NONE);
+
+		dbLabel = new Label(parent, SWT.NONE);
+		dbLabel.setText("Install sample database to folder:");
 		sampleDBInstallFolder = new Text(parent, SWT.BORDER);
 		sampleDBInstallFolder.setLayoutData(gridData);
 		sampleDBInstallFolder.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				boolean valid = installWizardPage.validateInstallationFolder(new File(sampleDBInstallFolder.getText()));
+				boolean valid = installWizardPage
+						.validateInstallationFolder(new File(
+								sampleDBInstallFolder.getText()));
 				installWizardPage.setPageComplete(valid);
 				if (valid) {
 					installWizardPage.setErrorMessage(null);
-					installWizardPage.getConfig().setSampleDBInstallFolder(new File(sampleDBInstallFolder.getText()));
+					installWizardPage.getConfig().setSampleDBInstallFolder(
+							new File(sampleDBInstallFolder.getText()));
 				} else {
-					installWizardPage.setErrorMessage("Installtion folder is not valid.");
+					installWizardPage
+							.setErrorMessage("Installtion folder is not valid.");
 				}
 			}
 		});

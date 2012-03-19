@@ -33,8 +33,12 @@ public class SampleInstallDelegate implements IDelegate{
 				(SampleInstallConfig) context, monitor);
 		
 		try {
-			unpackSampleDB(config.getSampleDBInstallFolder(), monitor);
-			createDBConnection(project, config.getSampleDBInstallFolder());
+			if (config.isHibernateSample()) {
+				unpackSampleDB(config.getSampleDBInstallFolder(), monitor);
+				createDBConnection(project, config.getSampleDBInstallFolder());
+			}
+			JptJpaCorePlugin.setJpaPlatformId(project, "generic");
+			JptJpaCorePlugin.setDiscoverAnnotatedClasses(project, false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -115,8 +119,6 @@ public class SampleInstallDelegate implements IDelegate{
 		
 			}
 		}catch(Throwable th) {}
-		JptJpaCorePlugin.setJpaPlatformId(project, "generic");
-		JptJpaCorePlugin.setDiscoverAnnotatedClasses(project, false);
 		JptJpaCorePlugin.setConnectionProfileName(project, "CDB-Sample");
 
 //		JpaProject jpaProject = CommonInstallDelegate.waitForJpaProject(project);

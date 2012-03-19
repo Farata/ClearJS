@@ -65,6 +65,11 @@ public class CommonInstallDelegate implements IDelegate {
 									IProgressMonitor iprogressmonitor) {
 								final Properties props = new Properties();
 								props.setProperty("extjs.path", config.getExtJSPath().getAbsolutePath());
+								if(sampleInstallConfig.isHibernateSample()) {
+									props.setProperty("is.hibernate.sample", "true");
+								} else {
+									props.setProperty("is.plain.java.sample", "true");
+								}
 								
 								fillHibernateProps(props, project, monitor);
 

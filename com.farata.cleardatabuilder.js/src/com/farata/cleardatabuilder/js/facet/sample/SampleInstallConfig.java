@@ -7,6 +7,11 @@ import org.eclipse.wst.common.project.facet.ui.IWizardContext;
 public class SampleInstallConfig {
 	private IWizardContext wizardContext;
 	private File sampleDBInstallFolder;
+	private boolean hibernateSample = true;
+
+	public boolean isHibernateSample() {
+		return hibernateSample;
+	}
 
 	public File getSampleDBInstallFolder() {
 		return sampleDBInstallFolder;
@@ -22,5 +27,9 @@ public class SampleInstallConfig {
 
 	public void setWizardContext(IWizardContext wizardContext) {
 		this.wizardContext = wizardContext;
+	}
+
+	public void setHibernateSample(boolean hibernateSample) {
+		this.hibernateSample = hibernateSample;	
 	}
 }
