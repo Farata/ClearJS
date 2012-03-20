@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="project" default="default">
 
-	<target name="default" >
+	<target name="default" depends="clean" >
 		<delete dir="dist" failonerror="no"/>
 		<mkdir dir="dist"/>
 		<javac srcdir="src" destdir="dist" debug="on" debuglevel="lines,vars,source" deprecation="deprecation" optimize="optimize" includeantruntime="false"
@@ -20,6 +20,11 @@
 		<copy todir="../clear-extjs-runtime-djn/lib">
 			<fileset file="dist/clear-extjs-runtime-core.jar" />
 		</copy>
+	</target>
+	<target name="clean">
+		<delete file="dist/clear-extjs-runtime-core.jar" />
+		<delete dir="dist" />
+		<mkdir dir="dist" />
 	</target>
 
 </project>
