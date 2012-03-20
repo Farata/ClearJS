@@ -17,6 +17,9 @@
 		</javac>
 		<jar destfile="dist/clear-extjs-runtime-core.jar" basedir="dist" />
 		<jar destfile="dist/clear-extjs-runtime-core.jar" basedir="src" update="true" />
+		<copy todir="../clear-extjs-runtime-djn/lib">
+			<fileset file="dist/clear-extjs-runtime-core.jar" />
+		</copy>
 	</target>
 
 </project>
