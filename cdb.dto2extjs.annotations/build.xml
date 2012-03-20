@@ -2,17 +2,18 @@
 	<target name="main" depends="clean">
 		<javac classpath="${cp}" srcdir="src" optimize="false" debug="true" destdir="build" includeantruntime="false"/>
 		<mkdir dir="export/lib"/>
-		<jar destfile="export/lib/com.farata.dto2extjs.annotations.jar">
+		<jar destfile="export/lib/clear-dto2extjs-annotations.jar">
 			<fileset dir="build" />
 			<fileset dir="src" />
 		</jar>
 		<copy todir="../cdb.dto2extjs.plugin/lib">
-			<fileset file="export/lib/com.farata.dto2extjs.annotations.jar" />
+			<fileset file="export/lib/clear-dto2extjs-annotations.jar" />
 		</copy>
 	</target>
 	<target name="clean">
-		<delete file="export/lib/com.farata.dto2extjs.annotations.jar" />
+		<delete file="export/lib/clear-dto2extjs-annotations.jar" />
 		<delete dir="build" />
 		<mkdir dir="build" />
 	</target>
+	<eclipse.refreshLocal resource="../cdb.dto2extjs.plugin" />
 </project>
