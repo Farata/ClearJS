@@ -47,7 +47,6 @@
 	<classpathentry kind="lib" path="/com.farata.lib.js/base/jta-1.1.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.js/base/jta-spec1_0_1.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.js/base/jts1_0.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/log4j-1.2.14.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.js/base/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.js/base/objectweb-datasource.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.js/base/ow_carol.jar"/>
