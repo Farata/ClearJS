@@ -21,11 +21,15 @@
 			<fileset file="../cdb.dto2extjs.annotations/export/lib/com.farata.dto2extjs.annotations.jar" />
 		</copy>
 
-		<ant antfile="../clear.runtime.js/build.xml" dir="../clear.runtime.js" />
+		<ant antfile="../clear-extjs-runtime-core/build.xml" dir="../clear-extjs-runtime-core" />
 		<copy todir="../com.farata.cleardatabuilder.js/resources/new_project/WebContent/WEB-INF/lib">
-			<fileset file="../clear.runtime.js/dist/clear.runtime.js.jar" />
+			<fileset file="../clear-extjs-runtime-core/dist/clear-extjs-runtime-core.jar" />
 		</copy>
 
+		<ant antfile="../clear-extjs-runtime-djn/build.xml" dir="../clear-extjs-runtime-djn" />
+		<copy todir="../com.farata.cleardatabuilder.js/resources/new_project/WebContent/WEB-INF/lib">
+			<fileset file="../clear-extjs-runtime-djn/dist/clear-extjs-runtime-djn.jar" />
+		</copy>
 		<eclipse.refreshLocal resource="/" />
 	</target>
 	<target name="clean">
