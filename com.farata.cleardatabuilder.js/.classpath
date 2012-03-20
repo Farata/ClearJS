@@ -9,6 +9,8 @@
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/aspectjweaver.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/cfgatewayadapter.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/cglib-nodep-2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/clear-dto2extjs-annotations.jar"/>
+	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/clear-extjs-annotations.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/clear-extjs-runtime-core.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/clear-extjs-runtime-djn.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/commons-beanutils-1.6.1.jar"/>
@@ -25,6 +27,9 @@
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/connector-1_5.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/directjngine.2.0-alpha1.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/dom4j-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/gson-2.1-javadoc.jar"/>
+	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/gson-2.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/gson-2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/hibernate3.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/howl.jar"/>
@@ -79,10 +84,6 @@
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/xalan.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/xapool.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/yuicompressor-2.4.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/clear-extjs-annotations.jar"/>
-	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/gson-2.1-javadoc.jar"/>
-	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/gson-2.1-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/gson-2.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>

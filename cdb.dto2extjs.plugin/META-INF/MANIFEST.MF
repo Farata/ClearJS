@@ -7,8 +7,9 @@ Bundle-Vendor: Farata Systems LLC
 Bundle-Localization: plugin
 Bundle-Singleton: true
 Bundle-ClassPath: .,
- lib/com.farata.dto2extjs.annotations.jar,
+ lib/clear-dto2extjs-annotations.jar,
  lib/serializer.jar,
+ lib/tools.jar,
  lib/xalan.jar
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.apt.core,
