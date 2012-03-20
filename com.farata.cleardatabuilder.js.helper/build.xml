@@ -7,7 +7,7 @@
 		</path>
 		<pathconvert property="cp" refid="build.class.path" />
 		<javac classpath="${cp}" srcdir="src" optimize="false" debug="true" destdir="build" includeantruntime="false"/>
-		<jar destfile="dist/clear.cdb.js.annotations.jar">
+		<jar destfile="dist/clear-extjs-annotations.jar">
 			<fileset dir="build" />
 			<fileset dir="src">
 				<include name="**/*.java" />
