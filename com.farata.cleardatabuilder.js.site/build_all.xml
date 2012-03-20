@@ -18,7 +18,7 @@
 
 		<ant antfile="../cdb.dto2extjs.annotations/build.xml" dir="../cdb.dto2extjs.annotations" />
 		<copy todir="../com.farata.cleardatabuilder.js/resources/new_project/WebContent/WEB-INF/lib">
-			<fileset file="../cdb.dto2extjs.annotations/export/lib/com.farata.dto2extjs.annotations.jar" />
+			<fileset file="../cdb.dto2extjs.annotations/export/lib/clear-dto2extjs-annotations.jar" />
 		</copy>
 
 		<ant antfile="../clear-extjs-runtime-core/build.xml" dir="../clear-extjs-runtime-core" />
