@@ -13,11 +13,14 @@
 		<mkdir dir="${workspace.path}/${project.name}/WebContent/extjs" />
 		<copy todir="${workspace.path}/${project.name}/WebContent/extjs" overwrite="true">
 			<fileset dir="${extjs.path}">
-				<exclude name="build" />
-				<exclude name="builds" />
-				<exclude name="docs" />
-				<exclude name="examples" />
-				<exclude name="jsbuilder" />
+				<exclude name="build/**"/>
+				<exclude name="builds/**"/>
+				<exclude name="compatibility/**"/>
+				<exclude name="docs/**"/>
+				<exclude name="examples/**"/>
+				<exclude name="jsbuilder/**"/>
+				<exclude name="WEB-INF/**"/>
+				<exclude name="welcome/**"/>
 				<exclude name="index.html" />
 				<exclude name="release-notes.html" />
 			</fileset>
