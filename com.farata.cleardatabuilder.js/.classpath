@@ -79,7 +79,7 @@
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/xalan.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/xapool.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/yuicompressor-2.4.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/clear.cdb.js.annotations.jar"/>
+	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/clear-extjs-annotations.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/gson-2.1-javadoc.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/gson-2.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/gson-2.1.jar"/>
