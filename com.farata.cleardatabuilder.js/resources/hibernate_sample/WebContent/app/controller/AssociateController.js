@@ -1,6 +1,6 @@
-Ext.define('uuoo.controller.AssociateController', {
+Ext.define('**{app.name}**.controller.AssociateController', {
     extend: 'Ext.app.Controller',
-    stores: ['uuoo.store.hibernate_test.AssociateStore'],
+    stores: ['**{app.name}**.store.hibernate_test.AssociateStore'],
     refs: [{
        ref: 'associatePanel',
        selector: 'associatelist'

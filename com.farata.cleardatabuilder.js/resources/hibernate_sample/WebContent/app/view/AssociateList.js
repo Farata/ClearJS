@@ -1,9 +1,9 @@
-Ext.define('uuoo.view.AssociateList', {
+Ext.define('**{app.name}**.view.AssociateList', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.associatelist',
 
     title: 'Associates',
-    store: 'uuoo.store.hibernate_test.AssociateStore',
+    store: '**{app.name}**.store.hibernate_test.AssociateStore',
     disabled: true,
     forceFit: true,
     minWidth: 400,

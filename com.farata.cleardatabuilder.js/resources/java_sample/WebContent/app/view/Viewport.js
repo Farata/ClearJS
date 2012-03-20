@@ -1,8 +1,8 @@
-Ext.define('uuoo.view.Viewport' ,{
+Ext.define('**{app.name}**.view.Viewport' ,{
     extend: 'Ext.container.Viewport', 
     requires: [
-        'uuoo.view.CompanyList',
-        'uuoo.view.AssociateList'
+        '**{app.name}**.view.CompanyList',
+        '**{app.name}**.view.AssociateList'
     ],
  
     layout: {

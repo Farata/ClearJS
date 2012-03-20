@@ -1,10 +1,10 @@
-Ext.define('uuoo.view.CompanyList', {
+Ext.define('**{app.name}**.view.CompanyList', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.companylist',
     requires: ['Ext.grid.plugin.CellEditing'],
 
     title: 'Companies',
-    store: 'uuoo.store.hibernate_test.CompanyStore',
+    store: '**{app.name}**.store.hibernate_test.CompanyStore',
     minWidth: 400,
     minHeight:140,
     plugins: [{
@@ -62,7 +62,7 @@ Ext.define('uuoo.view.CompanyList', {
             /**
              * @event companySelectionChange
              * Fires after selection of the company has been changed.
-             * @param {uuoo.store.hibernate_test.CompanyModel} selectedCompany
+             * @param {**{app.name}**.store.hibernate_test.CompanyModel} selectedCompany
              */
             companySelectionChange: true
         });

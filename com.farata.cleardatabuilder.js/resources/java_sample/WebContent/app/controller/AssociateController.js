@@ -1,6 +1,6 @@
-Ext.define('uuoo.controller.AssociateController', {
+Ext.define('**{app.name}**.controller.AssociateController', {
     extend: 'Ext.app.Controller',
-    stores: ['uuoo.store.java_test.AssociateStore'],
+    stores: ['**{app.name}**.store.java_test.AssociateStore'],
     refs: [{
        ref: 'associatePanel',
        selector: 'associatelist'

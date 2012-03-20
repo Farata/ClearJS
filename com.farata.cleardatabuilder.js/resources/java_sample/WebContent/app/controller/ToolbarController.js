@@ -1,6 +1,6 @@
-Ext.define('uuoo.controller.ToolbarController', {
+Ext.define('**{app.name}**.controller.ToolbarController', {
     extend: 'Ext.app.Controller',   
-    stores: ['uuoo.store.java_test.CompanyStore'],
+    stores: ['**{app.name}**.store.java_test.CompanyStore'],
     
     init: function() {
         this.control({
@@ -14,12 +14,12 @@ Ext.define('uuoo.controller.ToolbarController', {
     },
 	
     fill: function() {
-    	var store = this.getStore('uuoo.store.java_test.CompanyStore');
+    	var store = this.getStore('**{app.name}**.store.java_test.CompanyStore');
         store.load( /*{ params: { 0: 'First', 1: 'Second' }}*/);
     },
 
     sync: function() {
-    	var store = this.getStore('uuoo.store.java_test.CompanyStore');
+    	var store = this.getStore('**{app.name}**.store.java_test.CompanyStore');
     	store.sync();
     }
 });

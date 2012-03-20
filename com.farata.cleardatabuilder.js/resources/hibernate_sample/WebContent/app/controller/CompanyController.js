@@ -1,6 +1,6 @@
-Ext.define('uuoo.controller.CompanyController', {
+Ext.define('**{app.name}**.controller.CompanyController', {
     extend: 'Ext.app.Controller',
-    stores: ['uuoo.store.hibernate_test.CompanyStore'],
+    stores: ['**{app.name}**.store.hibernate_test.CompanyStore'],
     refs: [{
        ref: 'companyPanel',
        selector: 'companylist'
@@ -23,7 +23,7 @@ Ext.define('uuoo.controller.CompanyController', {
 
     insertCompany: function() {
         var me = this,
-            store = this.getStore('uuoo.store.hibernate_test.CompanyStore'),
+            store = this.getStore('**{app.name}**.store.hibernate_test.CompanyStore'),
             company = store.createModel({
         	  companyName: "New Company"
             });
@@ -35,7 +35,7 @@ Ext.define('uuoo.controller.CompanyController', {
     },
 
     deleteCompanies: function() {
-        var store = this.getStore('uuoo.store.hibernate_test.CompanyStore'),
+        var store = this.getStore('**{app.name}**.store.hibernate_test.CompanyStore'),
             panel = this.getCompanyPanel(),
             view = panel.getView(),
             selectionModel = view.getSelectionModel(),
