@@ -3,7 +3,7 @@ package com.farata.java_test.service;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import clear.transaction.identity.PropertyRack;
+import clear.transaction.identity.IdentityRack;
 import com.farata.java_test.data.DataEngine;
 import com.farata.java_test.dto.AssociateDTO;
 import com.farata.java_test.service.generated._AssociateService;
@@ -35,7 +35,7 @@ public class AssociateService extends _AssociateService {
 		System.out.println("doCreate method adding new object:");
 		System.out.println(dto);
 		
-		Long parentCompanyId = (Long)PropertyRack.getEntity("com.farata.test.dto.CompanyDTO", "id", dto.getCompanyId());
+		Long parentCompanyId = (Long)IdentityRack.getIdentity("com.farata.test.dto.CompanyDTO", "id", dto.getCompanyId());
 		dto.setCompanyId(parentCompanyId);
 
 		

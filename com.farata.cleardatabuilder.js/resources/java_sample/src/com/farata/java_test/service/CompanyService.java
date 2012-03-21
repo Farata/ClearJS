@@ -3,7 +3,7 @@ package com.farata.java_test.service;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import clear.transaction.identity.PropertyRack;
+import clear.transaction.identity.IdentityRack;
 import com.farata.java_test.data.DataEngine;
 import com.farata.java_test.dto.CompanyDTO;
 import com.farata.java_test.service.generated._CompanyService;
@@ -40,7 +40,7 @@ public class CompanyService extends _CompanyService {
 			dto.setId(dataEngine.getMaxCompanyId() + 1);	
 			changeObject.addChangedPropertyName("id");
 			
-			PropertyRack.setEntity("com.farata.test.dto.CompanyDTO", "id", oldId, dto.getId());		
+			IdentityRack.setIdentity("com.farata.test.dto.CompanyDTO", "id", oldId, dto.getId());		
 		}
 
 		dataEngine.getCompanyList().add(dto);

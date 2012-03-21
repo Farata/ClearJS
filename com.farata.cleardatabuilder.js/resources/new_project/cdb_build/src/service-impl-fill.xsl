@@ -14,10 +14,12 @@
 		<xsl:variable name="javaFillMethod" select="helper:getMethodAnnotation($interfaceName, $methodNode/@name, 'clear.cdb.js.annotations.CX_JSFillMethod')"/>
 		<xsl:variable name="javaAutoSyncEnabled" select="boolean($javaFillMethod/method[@name='autoSyncEnabled']/@value = 'true')"/>
 		<xsl:variable name="javaSync" select="boolean($javaFillMethod/method[@name='sync']/@value = 'true')"/>
+	@com.softwarementors.extjs.djn.config.annotations.DirectMethod
 	public <xsl:value-of select="$methodNode/@to-string"/> {
 		return null;
 	}
 		<xsl:if test="$javaSync">
+ 	@com.softwarementors.extjs.djn.config.annotations.DirectMethod
  	public List&lt;ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_sync(List&lt;ChangeObject&gt; items) throws Exception {
  		try {
 	 		UserTransactionManager.joinUserTransaction();
@@ -36,6 +38,7 @@
 		return items;
  	}
 
+	@com.softwarementors.extjs.djn.config.annotations.DirectMethod
 	public List&lt;ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_insertItems(List&lt;ChangeObject&gt; items) throws Exception {
         List&lt;ChangeObject&gt; list = new ArrayList&lt;ChangeObject&gt;();
         for (ChangeObject changeObject:items) {
@@ -47,6 +50,7 @@
 		return list;
 	} 	
 
+	@com.softwarementors.extjs.djn.config.annotations.DirectMethod
 	public List&lt;ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_updateItems(List&lt;ChangeObject&gt; items) throws Exception {
         List&lt;ChangeObject&gt; list = new ArrayList&lt;ChangeObject&gt;();
         for (ChangeObject changeObject:items) {
@@ -58,6 +62,7 @@
 		return list;
 	} 	
 
+	@com.softwarementors.extjs.djn.config.annotations.DirectMethod
 	public List&lt;ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_deleteItems(List&lt;ChangeObject&gt; items) throws Exception {
         List&lt;ChangeObject&gt; list = new ArrayList&lt;ChangeObject&gt;();
         for (ChangeObject changeObject:items) {
