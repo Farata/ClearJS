@@ -75,7 +75,7 @@
 		<xsl:param name="outputFolder" />
 
 		<xsl:variable name="gridFileName"
-			select="concat($outputFolder, '/', helper:replaceAll($interfaceName, '.', '/'), '/', $methodName, '/view/GridTest.js')" />
+			select="concat($outputFolder, '/', helper:replaceAll($interfaceName, '.', '/'), '/', $methodName, '/view/SampleGridPanel.js')" />
 		<redirect:write file="{$gridFileName}">
 			<xsl:call-template name="generate-grid.xsl">
 				<xsl:with-param name="appName" select="$appName" />
@@ -85,7 +85,7 @@
 		</redirect:write>
 		
 		<xsl:variable name="controllerFileName"
-			select="concat($outputFolder, '/', helper:replaceAll($interfaceName, '.', '/'), '/', $methodName, '/controller/ControllerTest.js')" />
+			select="concat($outputFolder, '/', helper:replaceAll($interfaceName, '.', '/'), '/', $methodName, '/controller/SampleController.js')" />
 		<redirect:write file="{$controllerFileName}">
 			<xsl:call-template name="generate-controller.xsl">
 				<xsl:with-param name="appName" select="$appName" />
@@ -95,7 +95,7 @@
 		</redirect:write>
 		
 		<xsl:variable name="appFileName"
-			select="concat($outputFolder, '/', helper:replaceAll($interfaceName, '.', '/'), '/', $methodName, '/AppTest.js')" />
+			select="concat($outputFolder, '/', helper:replaceAll($interfaceName, '.', '/'), '/', $methodName, '/sampleApp.js')" />
 		<redirect:write file="{$appFileName}">
 			<xsl:call-template name="generate-app.xsl">
 				<xsl:with-param name="appName" select="$appName" />

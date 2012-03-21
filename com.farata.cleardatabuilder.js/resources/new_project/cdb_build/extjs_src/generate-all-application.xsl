@@ -34,7 +34,7 @@
 			<xsl:with-param name="outputFolder" select="$storePath" />
 		</xsl:call-template>
 
-		<xsl:variable name="testPath" select="concat($jsOutputFolder, '/test/')" />
+		<xsl:variable name="testPath" select="concat($jsOutputFolder, '/samples/')" />
 		<xsl:call-template name="generate-test-all.xsl">
 			<xsl:with-param name="appName" select="$appName" />
 			<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />

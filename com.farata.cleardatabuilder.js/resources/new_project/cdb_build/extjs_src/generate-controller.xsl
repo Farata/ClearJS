@@ -10,64 +10,61 @@
 		<xsl:param name="appName" />
 		<xsl:param name="dtoName" />
 		
-<xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.controller.ControllerTest',{
-
+<xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.controller.SampleController',{
 	extend: 'Ext.app.Controller',
-	stores:	['<xsl:value-of select="$storeName"/>'],
-	views: ['<xsl:value-of select="$appName"/>.view.GridTest'],
+	stores:	['<xsl:value-of select="$storeName"/>'], 
+    refs: [{
+       ref: 'ThePanel',
+       selector: 'sampleGridPanel'
+    }],
 		
 	init: function(){
 
 		this.control({
-			'GridTest button[text=Load]':{
+			'sampleGridPanel button[text=Load]':{
 				click: this.onLoad
 			},
 				
-			'GridTest button[text=Add]':{
+			'sampleGridPanel button[text=Add]':{
 				click: this.onAdd
 			},
 				
-			'GridTest button[text=Delete]':{
+			'sampleGridPanel button[text=Delete]':{
 				click: this.onDelete
 			},
 				
-			'GridTest button[text=Save]':{
+			'sampleGridPanel button[text=Save]':{
 				click: this.onSave
 			}
 		});
 	},
 		
 	onLoad:	function(){
-		this.getStore('<xsl:value-of select="$storeName"/>').load();
+		var store = this.getStore('<xsl:value-of select="$storeName"/>');
+		store.load();
 	},
 
 	onAdd: function()	{
 		var store = this.getStore('<xsl:value-of select="$storeName"/>'),
-		edit = Ext.ComponentQuery.query('GridTest')[0].plugins[0];
-		
-		store.sort('id', 'asc');
-		rec = Ext.create('<xsl:value-of select="helper:getModelNameFull($dtoName)"/>',{
-			id:	store.last().getId()+1,
-	        c: 'new_company'
-		});
-		
-		edit.cancelEdit();
-		store.insert(store.count(), rec);
-		store.sync();
-		edit.startEditByPosition({
-		   	row:store.count()-1, column:1
-	    });
-	    	
+			record = store.createModel();
+			
+ 		record.setId(store.getLocalIdentity());
+        return store.add(company);	    	
 	},
 	
 	onDelete: function(){
-		var store = this.getStore('<xsl:value-of select="$storeName"/>');
-		var deletingRecord = Ext.ComponentQuery.query('GridTest')[0].getSelectionModel().getSelection()[0];
-		store.remove(deletingRecord);
+		var store = this.getStore('<xsl:value-of select="$storeName"/>'),
+			panel = this.getThePanel(),
+            view = panel.getView(),
+            selectionModel = view.getSelectionModel(),
+            selectedRecords = selectionModel.getSelection();
+        store.remove(selectedRecords);    
+		
 	},
 	
 	onSave:	function(){
-		this.getStore('<xsl:value-of select="$storeName"/>').sync();
+		var store = this.getStore('<xsl:value-of select="$storeName"/>');
+		store.sync();
 	}
 		
 });

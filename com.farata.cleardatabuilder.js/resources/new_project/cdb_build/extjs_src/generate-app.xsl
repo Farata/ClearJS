@@ -28,19 +28,17 @@ Ext.application({
         'Clear.override.ExtJSOverrider'
     ],
     controllers: [
-         'ControllerTest'
+         'SampleController'
     ],
     launch:function() {
          Ext.create('Ext.container.Viewport', {
-			items:
-				[
-					{
-						xtype: 'GridTest'
-					}
-				]
+			items: [
+				{
+					xtype: 'samplegridpanel'
+				}
+			]
          });
     }
 });
-	</xsl:template>
-	
+	</xsl:template>	
 </xsl:stylesheet>

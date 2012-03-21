@@ -13,15 +13,18 @@
 		
 		<xsl:variable name="fields" select="helper:getBeanProperties($dtoName)" />
 	
-<xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.view.GridTest',{
+<xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.view.SampleGridPanel',{
 
 	extend: 'Ext.grid.Panel',
 	store:	'<xsl:value-of select="$storeName"/>',
-	alias:	'widget.GridTest',
-		
+	alias:	'widget.samplegridpanel',
+	plugins : [ 
+		{ptype : 'cellediting'} 
+	],
+				
 	columns : [
 	<xsl:for-each select="$fields/property">
-<xsl:text/>{ 
+<xsl:text/>	{ 
 		header:'<xsl:value-of select="@name" />', 
 		dataIndex: '<xsl:value-of select="@name" />',
 		flex:1<xsl:text/>
@@ -29,36 +32,17 @@
 		,editor:{xtype:'textfield'} 
 		</xsl:if>
 <xsl:text/>
-	}<xsl:if test="not(last() = position())">,
+		}<xsl:if test="not(last() = position())">,
 	</xsl:if>
 	</xsl:for-each>
 <xsl:text/>],
 		
 	tbar : [ 
-	{
-		xtype : 'button',
-		text : 'Load'
-	}, 
-	{
-		xtype : 'button',
-		text : 'Add'
-	}, 
-	{
-		xtype : 'button',
-		text : 'Delete'
-	}, 
-	{
-		xtype : 'button',
-		text : 'Save'
-	} 
-	],
-
-	plugins : [ 
-	{
-		ptype : 'cellediting'
-	} 
+		{text : 'Load'}, 
+		{text : 'Add'}, 
+		{text : 'Delete'}, 
+		{text : 'Save'} 
 	]
-		
 });
 	</xsl:template>
 	
