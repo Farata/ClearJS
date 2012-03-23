@@ -50,7 +50,7 @@ public class SampleInstallWizardPageUI {
 		}
 		parent.setLayout(gridLayout);
 		sampleChoiceLabel = new Label(parent, SWT.NONE);
-		sampleChoiceLabel.setText("Install sample:");
+		sampleChoiceLabel.setText("Sample's Persistence Kind:");
 		sampleCombo = new Combo(parent, SWT.NONE);
 		sampleCombo.add("Hibernate sample");
 		sampleCombo.add("Plain Java sample");
@@ -80,21 +80,20 @@ public class SampleInstallWizardPageUI {
 		dbLabel = new Label(parent, SWT.NONE);
 		dbLabel.setText("Install sample database to folder:");
 		sampleDBInstallFolder = new Text(parent, SWT.BORDER);
+		String home = System.getProperty("user.home");
+		String os = System.getProperty("os.name").toLowerCase();
+		String defaultDBFolder="";
+		if (os.indexOf("win") >= 0) {
+			defaultDBFolder = home + "/Application Data/ClearDataBuilder/cleardb";
+		} else if (os.indexOf("mac") >= 0) {			
+			defaultDBFolder = home + "/Library/ApplicationSupport/ClearDataBuilder/companydb";
+		};
 		sampleDBInstallFolder.setLayoutData(gridData);
+		sampleDBInstallFolder.setText(defaultDBFolder);
+		validateDBInstallationFolder();
 		sampleDBInstallFolder.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				boolean valid = installWizardPage
-						.validateInstallationFolder(new File(
-								sampleDBInstallFolder.getText()));
-				installWizardPage.setPageComplete(valid);
-				if (valid) {
-					installWizardPage.setErrorMessage(null);
-					installWizardPage.getConfig().setSampleDBInstallFolder(
-							new File(sampleDBInstallFolder.getText()));
-				} else {
-					installWizardPage
-							.setErrorMessage("Installtion folder is not valid.");
-				}
+				validateDBInstallationFolder();
 			}
 		});
 		button = new Button(parent, SWT.NONE);
@@ -118,5 +117,20 @@ public class SampleInstallWizardPageUI {
 			SampleInstallWizardPage sampleInstallWizardPage, Composite parent) {
 		this.parent = parent;
 		this.installWizardPage = sampleInstallWizardPage;
+	}
+	
+	private void validateDBInstallationFolder() {
+		boolean valid = installWizardPage
+				.validateInstallationFolder(new File(
+						sampleDBInstallFolder.getText()));
+		installWizardPage.setPageComplete(valid);
+		if (valid) {
+			installWizardPage.setErrorMessage(null);
+			installWizardPage.getConfig().setSampleDBInstallFolder(
+					new File(sampleDBInstallFolder.getText()));
+		} else {
+			installWizardPage
+					.setErrorMessage("Installation folder is not valid.");
+		}
 	}
 }
