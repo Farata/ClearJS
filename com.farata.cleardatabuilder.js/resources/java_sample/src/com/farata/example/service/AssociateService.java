@@ -26,6 +26,7 @@ public class AssociateService extends _AssociateService {
 		return associateList;
 	}
 	
+	@Override
 	public void getAssociates_doCreate(ChangeObject changeObject) {		
 		
 		// This sample code illustrates how to extract data from the newly
@@ -53,6 +54,7 @@ public class AssociateService extends _AssociateService {
 
 	}
 
+	@Override
 	public void getAssociates_doUpdate(ChangeObject changeObject) {
 		// This sample code illustrates how to extract data from the updated
 		// object.
@@ -83,6 +85,7 @@ public class AssociateService extends _AssociateService {
 
 	}
 
+	@Override
 	public void getAssociates_doDelete(ChangeObject changeObject) {
 		// This sample code illustrates how to extract data from the deleted
 		// object.

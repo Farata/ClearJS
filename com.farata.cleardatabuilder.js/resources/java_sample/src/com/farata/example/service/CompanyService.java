@@ -16,6 +16,7 @@ public class CompanyService extends _CompanyService {
 	
 	DataEngine dataEngine = DataEngine.getInstance();
 	
+	@Override
 	public List<CompanyDTO> getCompanies() {
 		List<CompanyDTO> companyList = dataEngine.getCompanyList();
 		System.out.println("getCompanies method has returned " + companyList.size() + " CompanyDTO records");
@@ -25,6 +26,7 @@ public class CompanyService extends _CompanyService {
 	// This method, with arbitrary name, illustrates how to insert new data
 	//  marked as changeObject.isCreate() 
 	
+	@Override
 	public void getCompanies_doCreate(ChangeObject changeObject) {
 		CompanyDTO dto =  (CompanyDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), CompanyDTO.class);					
 
@@ -44,7 +46,7 @@ public class CompanyService extends _CompanyService {
 
 	// This method, with arbitrary name, illustrates how to update data marked 
 	//  as changeObject.isUpdate() utilizing array of changedPropertyNames
-	
+	@Override
 	public void getCompanies_doUpdate(ChangeObject changeObject) {
 		
 		System.out.println("doUpdate method executing");
@@ -72,7 +74,7 @@ public class CompanyService extends _CompanyService {
 
 	// This method, with arbitrary name, illustrates how to delete data marked 
 	//  as changeObject.isDelete().
-	
+	@Override
 	public void getCompanies_doDelete(ChangeObject changeObject) {
 
 		System.out.print("doDelete method ");
