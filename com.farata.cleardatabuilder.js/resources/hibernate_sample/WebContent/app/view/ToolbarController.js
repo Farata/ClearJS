@@ -15,7 +15,7 @@ Ext.define('**{app.name}**.controller.ToolbarController', {
 	
     fill: function() {
     	var store = this.getExampleCompanyStore();
-        store.load();
+        store.load( );
     },
 
     sync: function() {
