@@ -85,7 +85,7 @@ public class <xsl:value-of select="$serviceName"/> implements <xsl:value-of sele
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:for-each>
-	private Object deserializeObject(Map&lt;String, String&gt; map, Class&lt;?&gt; clazz){
+	protected Object deserializeObject(Map&lt;String, String&gt; map, Class&lt;?&gt; clazz){
 		Gson gson = new Gson();
 		String jsonItem = gson.toJson(map);
 		return gson.fromJson(jsonItem, clazz);

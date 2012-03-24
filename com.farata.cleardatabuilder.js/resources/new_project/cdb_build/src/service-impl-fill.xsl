@@ -14,63 +14,51 @@
 		<xsl:variable name="javaFillMethod" select="helper:getMethodAnnotation($interfaceName, $methodNode/@name, 'clear.cdb.js.annotations.CX_JSFillMethod')"/>
 		<xsl:variable name="javaAutoSyncEnabled" select="boolean($javaFillMethod/method[@name='autoSyncEnabled']/@value = 'true')"/>
 		<xsl:variable name="javaSync" select="boolean($javaFillMethod/method[@name='sync']/@value = 'true')"/>
-	@com.softwarementors.extjs.djn.config.annotations.DirectMethod
+	@DirectMethod
 	public <xsl:value-of select="$methodNode/@to-string"/> {
 		return null;
 	}
 		<xsl:if test="$javaSync">
- 	@com.softwarementors.extjs.djn.config.annotations.DirectMethod
- 	public List&lt;ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_sync(List&lt;ChangeObject&gt; items) throws Exception {
- 		try {
-	 		UserTransactionManager.joinUserTransaction();
-	 		<xsl:value-of select="$methodNode/@name"/>_deleteItems(items);
-	 		<xsl:value-of select="$methodNode/@name"/>_updateItems(items);
-	 		<xsl:value-of select="$methodNode/@name"/>_insertItems(items);
-	 		UserTransactionManager.commitUserTransaction();
-	 	} catch (Throwable e) {
-			try {
-				UserTransactionManager.rollbackUserTransaction();
-			} catch (Throwable th) {
-				throw new RuntimeException(th);
-			}
-			throw new RuntimeException(e);
-		}
-		return items;
- 	}
-
-	@com.softwarementors.extjs.djn.config.annotations.DirectMethod
+ 	@DirectMethod
 	public List&lt;ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_insertItems(List&lt;ChangeObject&gt; items) throws Exception {
         List&lt;ChangeObject&gt; list = new ArrayList&lt;ChangeObject&gt;();
-        for (ChangeObject changeObject:items) {
-            if(changeObject.isCreate()) {
-            	<xsl:value-of select="$methodNode/@name"/>_doCreate(changeObject);
-            	list.add(changeObject);
+    	Iterator&lt;ChangeObject&gt; iterator = items.iterator();
+		while (iterator.hasNext()) {
+			clear.data.ChangeObject co = (clear.data.ChangeObject)deserializeObject((Map&lt;String, String&gt;)iterator.next(),clear.data.ChangeObject.class);
+            if(co.isCreate()) {
+            	<xsl:value-of select="$methodNode/@name"/>_doCreate(co);
+            	list.add(co);
             }	       	
-        }
-		return list;
+        }					
+		return list;				
 	} 	
 
-	@com.softwarementors.extjs.djn.config.annotations.DirectMethod
+	@DirectMethod
 	public List&lt;ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_updateItems(List&lt;ChangeObject&gt; items) throws Exception {
         List&lt;ChangeObject&gt; list = new ArrayList&lt;ChangeObject&gt;();
-        for (ChangeObject changeObject:items) {
-            if(changeObject.isUpdate()) {
-            	<xsl:value-of select="$methodNode/@name"/>_doUpdate(changeObject);
-            	list.add(changeObject);
-            }	       	
-        }
-		return list;
+        
+    	Iterator&lt;ChangeObject&gt; iterator = items.iterator();
+		while (iterator.hasNext()) {
+			clear.data.ChangeObject co = (clear.data.ChangeObject)deserializeObject((Map&lt;String, String&gt;)iterator.next(),clear.data.ChangeObject.class);
+			if(co.isUpdate()) {
+				<xsl:value-of select="$methodNode/@name"/>_doUpdate(co);
+				list.add(co);
+			}	       	
+		}						
+		return list;		
 	} 	
 
-	@com.softwarementors.extjs.djn.config.annotations.DirectMethod
+	@DirectMethod
 	public List&lt;ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_deleteItems(List&lt;ChangeObject&gt; items) throws Exception {
-        List&lt;ChangeObject&gt; list = new ArrayList&lt;ChangeObject&gt;();
-        for (ChangeObject changeObject:items) {
-            if(changeObject.isDelete()) {
-            	<xsl:value-of select="$methodNode/@name"/>_doDelete(changeObject);
-            	list.add(changeObject);
+		List&lt;ChangeObject&gt; list = new ArrayList&lt;ChangeObject&gt;();
+		Iterator&lt;ChangeObject&gt; iterator = items.iterator();
+		while (iterator.hasNext()) {
+			clear.data.ChangeObject co = (clear.data.ChangeObject)deserializeObject((Map&lt;String, String&gt;)iterator.next(),clear.data.ChangeObject.class);
+			if (co.isDelete()) {
+            	<xsl:value-of select="$methodNode/@name"/>_doDelete(co);
+            	list.add(co);
             }	       	
-        }
+        }					
 		return list;
 	} 	
 

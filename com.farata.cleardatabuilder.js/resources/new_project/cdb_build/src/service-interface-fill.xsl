@@ -14,18 +14,11 @@
 		<xsl:variable name="javaAutoSyncEnabled" select="boolean($javaFillMethod/method[@name='autoSyncEnabled']/@value = 'true')"/>
 		<xsl:variable name="javaSync" select="boolean($javaFillMethod/method[@name='sync']/@value = 'true')"/>
 		<xsl:if test="$javaSync">
- 	java.util.List&lt;clear.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_sync(java.util.List&lt;clear.data.ChangeObject&gt; items) throws Exception;
-
 	java.util.List&lt;clear.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_insertItems(java.util.List&lt;clear.data.ChangeObject&gt; items) throws Exception;
-
 	java.util.List&lt;clear.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_updateItems(java.util.List&lt;clear.data.ChangeObject&gt; items) throws Exception;
-
 	java.util.List&lt;clear.data.ChangeObject&gt; <xsl:value-of select="$methodNode/@name"/>_deleteItems(java.util.List&lt;clear.data.ChangeObject&gt; items) throws Exception;
-
 	void <xsl:value-of select="$methodNode/@name"/>_doCreate(clear.data.ChangeObject changeObject);
-	
 	void <xsl:value-of select="$methodNode/@name"/>_doUpdate(clear.data.ChangeObject changeObject);
-
 	void <xsl:value-of select="$methodNode/@name"/>_doDelete(clear.data.ChangeObject changeObject);
 		</xsl:if>
 	</xsl:template>
