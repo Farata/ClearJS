@@ -56,7 +56,7 @@ import java.lang.annotation.Target;
  *  (default) <code>sync=true</code> and <code>autoSyncEnabled=true</code>:
  * <pre>
  * 	&#64;CX_JSFillMethod(autoSyncEnabled=true)
- * 	List&lt;com.farata.java_test.dto.CompanyDTO&gt; getCompanies();
+ * 	List&lt;com.farata.example.dto.CompanyDTO&gt; getCompanies();
  *	</pre>
  * <p>
  *  As a result of the first-time code generation there will be a new class  - <code>com.farata.test.service.CompanyService</code>
