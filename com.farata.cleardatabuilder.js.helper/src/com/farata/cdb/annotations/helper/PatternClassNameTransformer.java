@@ -46,8 +46,8 @@ public class PatternClassNameTransformer {
 	
 	
 	public static void main(String[] args) {
-		PatternClassNameTransformer tr = new PatternClassNameTransformer("uuii.model.$1$3Model<<^com.farata.hibernate_test.((\\w+\\.)*)dto.(\\S+)DTO$");
-		String res = tr.transform("com.farata.hibernate_test.dto.$AssociateDTO");
+		PatternClassNameTransformer tr = new PatternClassNameTransformer("uuii.model.$1$3Model<<^com.farata.example.((\\w+\\.)*)dto.(\\S+)DTO$");
+		String res = tr.transform("com.farata.example.dto.$AssociateDTO");
 		System.out.println(res);
 	}
 }
