@@ -15,8 +15,5 @@ Ext.application({
     requires: [
         'Clear.override.ExtJSOverrider'
     ],
-    controllers: [
-        'ApplicationController'
-    ]
     autoCreateViewport: true
 });
