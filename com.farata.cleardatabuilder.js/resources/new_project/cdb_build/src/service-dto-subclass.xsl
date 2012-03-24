@@ -14,7 +14,7 @@ package <xsl:value-of select="$rootPackage"/>;
 
 import com.farata.dto2extjs.annotations.*;
 
-@JSClass(kind=JSClassKind.EXT_JS)
+@JSClass
 public class <xsl:value-of select="$dtoName"/>  extends <xsl:value-of select="$rootPackage"/>.$<xsl:value-of select="$dtoName"/>{
 }		
 	</xsl:template>

@@ -31,34 +31,14 @@
 import com.farata.dto2extjs.annotations.*;
 
 import clear.cdb.utils.SessionFactoryUtils;
-import clear.data.IUID;
-import flex.messaging.util.UUIDUtils;
-
 import java.io.Serializable;
 import java.util.*;
-
 import org.hibernate.Session;
 
-@JSClass(kind=JSClassKind.EXT_JS, ignoreSuperclasses = { IUID.class })
-public class <xsl:value-of select="$dtoName"/>  implements Serializable, IUID{
+@JSClass
+public class <xsl:value-of select="$dtoName"/>  implements Serializable{
 
-	private static final long serialVersionUID = 1L;
-	
-	private String uid;
-	@JSIgnore
-	public String getUid() {
-		if (uid == null) {
-			<xsl:choose>
-			<xsl:when test="count($keyPropertyNames/element) > 0">uid = "" + <xsl:for-each select="$keyPropertyNames"><xsl:value-of select="element/@value"/><xsl:if test="not(position()=last())">+"|"</xsl:if></xsl:for-each>;</xsl:when>
-			<xsl:otherwise>uid = UUIDUtils.createUUID(false);</xsl:otherwise>
-		</xsl:choose>
-		}
-		return uid;
-	}
-
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
+	private static final long serialVersionUID = 1L;	
 	<xsl:variable name="mappedEntity" select="helper:genDTOtoEntity(concat($rootPackage, '.', $dtoName))"/>
 	<xsl:for-each select="$beanProperties/property">
 		<xsl:if test="not(@name='uid')">
