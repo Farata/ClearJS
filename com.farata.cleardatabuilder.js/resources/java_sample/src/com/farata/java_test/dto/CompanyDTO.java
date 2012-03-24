@@ -1,79 +1,33 @@
 package com.farata.java_test.dto;
+		
+
 
 import java.io.Serializable;
-
-import java.util.List;
-
-import clear.data.IUID;
+import java.util.*;
 
 import com.farata.dto2extjs.annotations.JSClass;
-import com.farata.dto2extjs.annotations.JSClassKind;
-import com.farata.dto2extjs.annotations.JSKeyColumn;
 import com.farata.dto2extjs.annotations.JSOneToMany;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
-@JSClass(kind=JSClassKind.EXT_JS, ignoreSuperclasses = { IUID.class })
-public class CompanyDTO implements Serializable, IUID {
 
+@JSClass
+public class CompanyDTO  implements Serializable, Cloneable{
 	private static final long serialVersionUID = 1L;
-
-	private String uid;
-	private Long id;
-	private String companyName;
-	private List<AssociateDTO> associates;
-
-	@Id
-	@GeneratedValue
-	@JSKeyColumn
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
-
+	
+	public java.lang.Integer id;
+	public java.lang.String companyName;
 	@JSOneToMany(foreignKey="companyId", getter="getAssociates")
-	public List<AssociateDTO> getAssociates() {
-		return associates;
+	public List<AssociateDTO> associates;
+	
+	
+	// Implementation of Cloneable is needed only for DataEngine mockup purposes.
+	// We avoided constructor with arguments, to keep the essential part of the 
+	// class cleaner.
+	public Object clone( ) throws CloneNotSupportedException {
+		CompanyDTO klon = new CompanyDTO();
+		klon.id = id;
+		klon.companyName = companyName;		
+		return klon;
 	}
-
-	public void setAssociates(List<AssociateDTO> associates) {
-		this.associates = associates;
-	}
-
-	/**
-	 * Obligatory implementation of IUID
-	 */
-	public String getUid() {
-		if (uid == null) {
-			uid = "" + id+"|";
-		}
-		return uid;
-	}
-
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
-
-	/*
-	 * Business domain properties
-	 */
-
-	/**
-	 * Optional, just to simplify debugging output
-	 */
-	public String toString() {
-		return "CompanyDTO{id:" + id + ",companyName:'" + companyName + "'}";
-	}
+					
 }

@@ -14,5 +14,5 @@ public interface IAssociateService {
 	@CX_JSGenerateSample
 	@CX_JSGenerateStore
 	@CX_JSFillMethod(autoSyncEnabled = true)
-	List<AssociateDTO> getAssociates(Long companyId);
+	List<AssociateDTO> getAssociates(Integer companyId);
 }

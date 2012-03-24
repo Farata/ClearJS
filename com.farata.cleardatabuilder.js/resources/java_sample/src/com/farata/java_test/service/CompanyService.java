@@ -2,6 +2,7 @@ package com.farata.java_test.service;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 import clear.transaction.identity.IdentityRack;
 import com.farata.java_test.data.DataEngine;
@@ -9,7 +10,6 @@ import com.farata.java_test.dto.CompanyDTO;
 import com.farata.java_test.service.generated._CompanyService;
 
 import clear.data.ChangeObject;
-
 
 public class CompanyService extends _CompanyService {
 	
@@ -25,34 +25,30 @@ public class CompanyService extends _CompanyService {
 	//  marked as changeObject.isCreate() 
 	
 	public void getCompanies_doCreate(ChangeObject changeObject) {
+		CompanyDTO dto =  (CompanyDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), CompanyDTO.class);					
 
-		CompanyDTO dto = (CompanyDTO) changeObject.getNewVersion();
-
-		System.out.println("doCreate method adding new object:");
-		System.out.println(dto);
+		System.out.println("doCreate method");
 		
-		//Check "autoincrement" field  - id  -and,  when null, set it to max+1
-		//Please note that Farata translator must be plugged in to AMF channel
-		// in order to guarantee ActionsScript NaN will come as "null", otherwise
-		// default BlazeDS/LCDS behavior would deliver it as 0:
-		if ((dto.getId() == null) || (dto.getId() <= 0)) {
-			Object oldId = dto.getId();
-			dto.setId(dataEngine.getMaxCompanyId() + 1);	
+		if ((dto.id == null) || (dto.id <= 0)) {
+			Object oldId = dto.id;
+			dto.id = dataEngine.getMaxCompanyId() + 1;	
 			changeObject.addChangedPropertyName("id");
 			
-			IdentityRack.setIdentity("com.farata.test.dto.CompanyDTO", "id", oldId, dto.getId());		
+			IdentityRack.setIdentity("com.farata.test.dto.CompanyDTO", "id", oldId, dto.id);		
 		}
 
 		dataEngine.getCompanyList().add(dto);
+		changeObject.setNewVersion(dto);
 	}
 
 	// This method, with arbitrary name, illustrates how to update data marked 
 	//  as changeObject.isUpdate() utilizing array of changedPropertyNames
 	
 	public void getCompanies_doUpdate(ChangeObject changeObject) {
+		
 		System.out.println("doUpdate method executing");
-		CompanyDTO newVersion = (CompanyDTO)changeObject.getNewVersion();
-		CompanyDTO previousVersion = (CompanyDTO)changeObject.getPreviousVersion();
+		CompanyDTO newVersion =  (CompanyDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), CompanyDTO.class);
+		CompanyDTO previousVersion =  (CompanyDTO)deserializeObject((Map<String, String>)changeObject.getPreviousVersion(), CompanyDTO.class);
 		
 		CompanyDTO originalDTO = dataEngine.findCompany(previousVersion);
 		if (originalDTO != null) {
@@ -80,7 +76,7 @@ public class CompanyService extends _CompanyService {
 
 		System.out.print("doDelete method ");
 		
-		CompanyDTO dto = (CompanyDTO) changeObject.getPreviousVersion();
+		CompanyDTO dto =  (CompanyDTO)deserializeObject((Map<String, String>)changeObject.getPreviousVersion(), CompanyDTO.class);
 		CompanyDTO removed = dataEngine.removeCompany(dto);
 		if (removed != null) {
 			System.out.println("removed: " + removed);

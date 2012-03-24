@@ -2,6 +2,7 @@ package com.farata.java_test.service;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 import clear.transaction.identity.IdentityRack;
 import com.farata.java_test.data.DataEngine;
@@ -15,7 +16,7 @@ public class AssociateService extends _AssociateService {
 	DataEngine dataEngine = DataEngine.getInstance();
 
 	@Override
-	public List<AssociateDTO> getAssociates(Long companyId) {
+	public List<AssociateDTO> getAssociates(Integer companyId) {
 		List<AssociateDTO> associateList = dataEngine
 				.getAssociateList(companyId);
 
@@ -24,35 +25,31 @@ public class AssociateService extends _AssociateService {
 		return associateList;
 	}
 	
-	@Override
-	public void getAssociates_doCreate(ChangeObject changeObject) {
+	public void getAssociates_doCreate(ChangeObject changeObject) {		
+		
 		// This sample code illustrates how to extract data from the newly
 		// created object.
 		// Please replace it with your own code.
 		
-		AssociateDTO dto = (AssociateDTO) changeObject.getNewVersion();
+		AssociateDTO dto =  (AssociateDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), AssociateDTO.class);			
 
-		System.out.println("doCreate method adding new object:");
-		System.out.println(dto);
+		System.out.println("doCreate method");
 		
-		Long parentCompanyId = (Long)IdentityRack.getIdentity("com.farata.test.dto.CompanyDTO", "id", dto.getCompanyId());
-		dto.setCompanyId(parentCompanyId);
+		Integer parentCompanyId = (Integer)IdentityRack.getIdentity("com.farata.test.dto.CompanyDTO", "id", dto.id);
+		dto.companyId = parentCompanyId;
 
 		
-		Long companyId = dto.getCompanyId();
+		Integer companyId = dto.companyId;
 		List<AssociateDTO> associateList = dataEngine.getAssociateList(companyId);
 		
-		//Check "autoincrement" field  - id  - and,  when null, set it to max+1
-		//Please note that Farata translator must be plugged in to AMF channel
-		// in order to guarantee ActionsScript NaN will come as "null", otherwise
-		// default BlazeDS/LCDS behavior would deliver it as 0:
-		
-		if ((dto.getId() == null) || (dto.getId() <= 0)) {
-			dto.setId(dataEngine.getMaxAssociateId() + 1);	
+		if ((dto.id == null) || (dto.id <= 0)) {
+			dto.id = dataEngine.getMaxCompanyAssociateId() + 1;	
 			changeObject.addChangedPropertyName("id");
 		}
 		
 		associateList.add(dto);
+		changeObject.setNewVersion(dto);
+
 	}
 
 	public void getAssociates_doUpdate(ChangeObject changeObject) {
@@ -60,10 +57,10 @@ public class AssociateService extends _AssociateService {
 		// object.
 		// Please replace it with your own code.
 
-		System.out.println("doUpdate method executing");
-		AssociateDTO newVersion = (AssociateDTO)changeObject.getNewVersion();
-		AssociateDTO previousVersion = (AssociateDTO)changeObject.getPreviousVersion();
-		
+		System.out.println("doUpdate method");
+		AssociateDTO newVersion =  (AssociateDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), AssociateDTO.class);
+		AssociateDTO previousVersion =  (AssociateDTO)deserializeObject((Map<String, String>)changeObject.getPreviousVersion(), AssociateDTO.class);
+
 		AssociateDTO originalDTO = dataEngine.findAssociate(previousVersion);
 		if (originalDTO != null) {
 
@@ -91,8 +88,7 @@ public class AssociateService extends _AssociateService {
 		// Please replace it with your own code.
 
 		System.out.print("doDelete method ");
-		
-		AssociateDTO dto = (AssociateDTO) changeObject.getPreviousVersion();
+		AssociateDTO dto =  (AssociateDTO)deserializeObject((Map<String, String>)changeObject.getPreviousVersion(), AssociateDTO.class);			
 		AssociateDTO removed = dataEngine.removeAssociate(dto);
 		if (removed != null) {
 			System.out.println("removed: " + removed);
