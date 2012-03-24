@@ -3,7 +3,7 @@ Ext.define('**{app.name}**.view.AssociateList', {
     alias: 'widget.associatelist',
 
     title: 'Associates',
-    store: '**{app.name}**.store.java_test.AssociateStore',
+    store: 'example.AssociateStore',
     disabled: true,
     forceFit: true,
     minWidth: 400,

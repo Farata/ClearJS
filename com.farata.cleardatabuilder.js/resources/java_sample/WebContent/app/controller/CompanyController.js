@@ -1,6 +1,6 @@
 Ext.define('**{app.name}**.controller.CompanyController', {
     extend: 'Ext.app.Controller',
-    stores: ['**{app.name}**.store.java_test.CompanyStore'],
+    stores: ['example.CompanyStore'],
     refs: [{
        ref: 'companyPanel',
        selector: 'companylist'
@@ -23,7 +23,7 @@ Ext.define('**{app.name}**.controller.CompanyController', {
 
     insertCompany: function() {
         var me = this,
-            store = this.getStore('**{app.name}**.store.java_test.CompanyStore'),
+            store = this.getExampleCompanyStore(),
             company = store.createModel({
         	  companyName: "New Company"
             });
@@ -35,7 +35,7 @@ Ext.define('**{app.name}**.controller.CompanyController', {
     },
 
     deleteCompanies: function() {
-        var store = this.getStore('**{app.name}**.store.java_test.CompanyStore'),
+        var store = this.getExampleCompanyStore(),
             panel = this.getCompanyPanel(),
             view = panel.getView(),
             selectionModel = view.getSelectionModel(),

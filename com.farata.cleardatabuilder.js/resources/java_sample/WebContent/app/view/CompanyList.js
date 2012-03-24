@@ -4,7 +4,7 @@ Ext.define('**{app.name}**.view.CompanyList', {
     requires: ['Ext.grid.plugin.CellEditing'],
 
     title: 'Companies',
-    store: '**{app.name}**.store.java_test.CompanyStore',
+    store: 'example.CompanyStore',
     minWidth: 400,
     minHeight:140,
     plugins: [{
@@ -62,7 +62,7 @@ Ext.define('**{app.name}**.view.CompanyList', {
             /**
              * @event companySelectionChange
              * Fires after selection of the company has been changed.
-             * @param {**{app.name}**.store.java_test.CompanyModel} selectedCompany
+             * @param {**{app.name}**.store.example.CompanyModel} selectedCompany
              */
             companySelectionChange: true
         });
