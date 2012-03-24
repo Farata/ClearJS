@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -80,22 +81,14 @@ public class SampleInstallWizardPageUI {
 		dbLabel = new Label(parent, SWT.NONE);
 		dbLabel.setText("Install sample database to folder:");
 		sampleDBInstallFolder = new Text(parent, SWT.BORDER);
-		String home = System.getProperty("user.home");
-		String os = System.getProperty("os.name").toLowerCase();
-		String defaultDBFolder="";
-		if (os.indexOf("win") >= 0) {
-			defaultDBFolder = home + "/Application Data/ClearDataBuilder/cleardb";
-		} else if (os.indexOf("mac") >= 0) {			
-			defaultDBFolder = home + "/Library/ApplicationSupport/ClearDataBuilder/companydb";
-		};
 		sampleDBInstallFolder.setLayoutData(gridData);
-		sampleDBInstallFolder.setText(defaultDBFolder);
-		validateDBInstallationFolder();
+
 		sampleDBInstallFolder.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				validateDBInstallationFolder();
 			}
 		});
+
 		button = new Button(parent, SWT.NONE);
 		button.setText("Browse...");
 		button.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
@@ -111,6 +104,16 @@ public class SampleInstallWizardPageUI {
 				}
 			}
 		});
+		
+		String home = System.getProperty("user.home");
+		String os = System.getProperty("os.name").toLowerCase();
+		String defaultDBFolder="";
+		if (os.indexOf("win") >= 0) {
+			defaultDBFolder = home + "/Application Data/ClearDataBuilder/cleardb";
+		} else if (os.indexOf("mac") >= 0) {			
+			defaultDBFolder = home + "/Library/ApplicationSupport/ClearDataBuilder/companydb";
+		};
+		sampleDBInstallFolder.setText(defaultDBFolder);
 	}
 
 	public SampleInstallWizardPageUI(
