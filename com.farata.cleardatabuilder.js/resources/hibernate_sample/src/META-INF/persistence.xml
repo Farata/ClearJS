@@ -2,8 +2,8 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="**{persistence.unit}**">
 		<jta-data-source>java:/comp/env/jdbc/companydb</jta-data-source>
-		<class>com.farata.hibernate_test.entity.Company</class>
-		<class>com.farata.hibernate_test.entity.CompanyAssociate</class>
+		<class>com.farata.example.entity.Company</class>
+		<class>com.farata.example.entity.CompanyAssociate</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
 		</properties>

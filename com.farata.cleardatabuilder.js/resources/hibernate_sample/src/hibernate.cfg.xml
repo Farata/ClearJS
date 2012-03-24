@@ -14,7 +14,7 @@
         <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
         <property name="show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
-        <mapping class="com.farata.hibernate_test.entity.Company"/>
-        <mapping class="com.farata.hibernate_test.entity.CompanyAssociate"/>
+        <mapping class="com.farata.example.entity.Company"/>
+        <mapping class="com.farata.example.entity.CompanyAssociate"/>
     </session-factory>
 </hibernate-configuration>
