@@ -1,0 +1,39 @@
+<project name="project" default="main">
+	<property file="build.properties" />
+	<target name="main" depends="clean">
+		<copy todir="../com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/lib">
+			<fileset dir="../com.farata.lib.extjs/spring3.1.0" >
+				<exclude name="**/*.svn" />
+			</fileset>
+		</copy>
+		<copy todir="../com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/lib">
+			<fileset dir="../com.farata.lib.extjs/base" >
+				<exclude name="**/*.svn" />
+			</fileset>
+		</copy>
+		<ant antfile="../com.farata.cleardatabuilder.extjs.helper/build.xml" dir="../com.farata.cleardatabuilder.extjs.helper" />
+		<copy todir="../com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/lib">
+			<fileset dir="../com.farata.cleardatabuilder.extjs.helper/dist" />
+		</copy>
+
+		<ant antfile="../cdb.dto2extjs.annotations/build.xml" dir="../cdb.dto2extjs.annotations" />
+		<copy todir="../com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/lib">
+			<fileset file="../cdb.dto2extjs.annotations/export/lib/clear-dto2extjs-annotations.jar" />
+		</copy>
+
+		<ant antfile="../clear-extjs-runtime-core/build.xml" dir="../clear-extjs-runtime-core" />
+		<copy todir="../com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/lib">
+			<fileset file="../clear-extjs-runtime-core/dist/clear-extjs-runtime-core.jar" />
+		</copy>
+
+		<ant antfile="../clear-extjs-runtime-djn/build.xml" dir="../clear-extjs-runtime-djn" />
+		<copy todir="../com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/lib">
+			<fileset file="../clear-extjs-runtime-djn/dist/clear-extjs-runtime-djn.jar" />
+		</copy>
+		<eclipse.refreshLocal resource="/" />
+	</target>
+	<target name="clean">
+		<delete dir="../com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/lib" />
+		<mkdir dir="../com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/lib" />
+	</target>
+</project>

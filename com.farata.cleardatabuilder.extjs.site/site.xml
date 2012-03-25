@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.farata.cleardatabuilder.extjs.feature_1.0.0.201203250716.jar" id="com.farata.cleardatabuilder.extjs.feature" version="1.0.0.201203250716">
+      <category name="Clear Data Builder JS 1.0"/>
+   </feature>
+   <category-def name="Clear Data Builder JS 1.0" label="Clear Data Builder JS 1.0">
+      <description>
+         Clear Data Builder JS 1.0
+      </description>
+   </category-def>
+</site>
