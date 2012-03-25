@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd" [
+  <!ENTITY remoteClasses SYSTEM "generated/djn-settings.inc">
+]>
+<web-app>
+  <servlet>
+    <servlet-name>ClearDjnServlet</servlet-name>
+    <!--
+    <servlet-class>com.softwarementors.extjs.djn.servlet.DirectJNgineServlet</servlet-class>
+    -->
+    <servlet-class>clear.djn.servlet.DirectJNgineServlet</servlet-class>
+    
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>true</param-value>
+    </init-param>   
+
+    <init-param>
+      <param-name>minify</param-name>
+      <param-value>true</param-value>
+    </init-param>
+
+ 
+    <init-param>
+      <param-name>createSourceFiles</param-name><param-value>true</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>providersUrl</param-name>
+      <param-value>djn/directprovider</param-value>
+    </init-param>
+<!-- 
+    <init-param>
+      <param-name>registryConfiguratorClass</param-name>
+      <param-value>com.softwarementors.extjs.djn.test.servlet.config.RegistryConfiguratorForTesting</param-value> 
+    </init-param>
+
+    <init-param>
+      <param-name>gsonBuilderConfiguratorClass</param-name>
+      <param-value>com.softwarementors.extjs.djn.test.config.GsonBuilderConfiguratorForTesting</param-value>
+    </init-param>
+
+ -->
+    <!--<init-param><param-name>contextPath</param-name><param-value>/</param-value></init-param>-->
+
+<!-- This is already the default 
+    <init-param>
+      <param-name>dispatcherClass</param-name>
+      <param-value>com.softwarementors.extjs.djn.servlet.ssm.SsmDispatcher</param-value>
+    </init-param>
+-->    
+
+<!-- This is already the default 
+    <init-param>
+      <param-name>jsonRequestProcessorThreadClass</param-name>
+      <param-value>com.softwarementors.extjs.djn.servlet.ssm.SsmJsonRequestProcessorThread</param-value>
+    </init-param>
+-->    
+
+    <init-param>
+      <param-name>batchRequestsMultithreadingEnabled</param-name><param-value>true</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>apis</param-name>
+      <param-value>clear,application</param-value>
+    </init-param>
+ 
+	<init-param>
+      <param-name>application.apiFile</param-name>
+      <param-value>app/direct/ServerConfig.js</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>application.apiNamespace</param-name>
+      <param-value>**{app.name}**.direct.config</param-value>
+    </init-param>
+    
+      <init-param>
+      <param-name>application.actionsNamespace</param-name>
+      <param-value>**{app.name}**.direct.action</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>application.classes</param-name>
+      <param-value>
+           &remoteClasses;
+      </param-value>
+    </init-param>
+    
+    
+    <init-param>
+      <param-name>clear.apiFile</param-name>
+      <param-value>clear/direct/ServerConfig.js</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>clear.apiNamespace</param-name>
+      <param-value>Clear.direct.config</param-value>
+    </init-param>
+    
+      <init-param>
+      <param-name>clear.actionsNamespace</param-name>
+      <param-value>Clear.direct.action</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>clear.classes</param-name>
+      <param-value>
+      clear.transaction.djn.BatchGateway
+      </param-value>
+    </init-param>
+
+    <load-on-startup>1</load-on-startup>
+  </servlet>  
+  
+  <servlet-mapping>
+    <servlet-name>ClearDjnServlet</servlet-name>
+    <url-pattern>/djn/directprovider/*</url-pattern>
+  </servlet-mapping>
+  
+  
+  <welcome-file-list>
+    <welcome-file>
+      index.html
+    </welcome-file>
+  </welcome-file-list>
+</web-app>

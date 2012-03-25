@@ -1,0 +1,98 @@
+<annotated-types>
+	<annotated-type name="com.farata.example.service.ICompanyService">
+		<annotations>
+			<annotation name="clear.cdb.extjs.annotations.CX_JSService">
+				<exists/>
+			</annotation>
+		</annotations>
+		<methods>
+			<method to-string="java.util.List&lt;?&gt; getCompanies()" name="getCompanies">
+				<parameters>
+				</parameters>
+				<annotations>
+					<annotation name="clear.cdb.extjs.annotations.CX_JSGenerateStore">
+						<exists/>
+					</annotation>
+					<annotation name="clear.cdb.extjs.annotations.CX_JSJPQLMethod">
+						<exists/>
+						<method name="query" value="SELECT c.company as company , c.id as id  FROM Company c">
+							<query>
+								<types>
+									<type name="java.lang.String" alias="company" />
+									<type name="java.lang.Integer" alias="id" />
+								</types>
+								<parameters>
+								</parameters>
+							</query>
+						</method>
+						<method name="transferInfo">
+							<value>
+								<annotation name="clear.cdb.extjs.annotations.CX_TransferInfo">
+									<exists/>
+									<method name="type" value="com.farata.example.dto.CompanyDTO"/>
+								</annotation>
+							</value>
+						</method>
+						<method name="updateInfo">
+							<value>
+								<annotation name="clear.cdb.extjs.annotations.CX_UpdateInfo">
+									<exists/>
+									<method name="updateEntity" value="com.farata.example.entity.Company"/>
+									<method name="keyPropertyNames" value="id"/>
+									<method name="updatablePropertyNames" value="company"/>
+									<method name="autoSyncEnabled" value="true"/>
+								</annotation>
+							</value>
+						</method>
+					</annotation>
+				</annotations>
+			</method>
+			<method to-string="java.util.List&lt;?&gt; getAssociates(java.lang.Integer companyId)" name="getAssociates">
+				<parameters>
+					<parameter name="companyId" type="java.lang.Integer" order="0"/>
+				</parameters>
+				<annotations>
+					<annotation name="clear.cdb.extjs.annotations.CX_JSGenerateStore">
+						<exists/>
+					</annotation>
+					<annotation name="clear.cdb.extjs.annotations.CX_JSJPQLMethod">
+						<exists/>
+						<method name="query" value="SELECT a.id, a.companyId, a.associate FROM CompanyAssociate a WHERE a.companyId=:companyId">
+							<query>
+								<types>
+									<type name="java.lang.Integer" alias="id" />
+									<type name="java.lang.Integer" alias="companyId" />
+									<type name="java.lang.String" alias="associate" />
+								</types>
+								<parameters>
+									<parameter name="companyId"/>
+								</parameters>
+							</query>
+						</method>
+						<method name="transferInfo">
+							<value>
+								<annotation name="clear.cdb.extjs.annotations.CX_TransferInfo">
+									<exists/>
+									<method name="type" value="com.farata.example.dto.AssociateDTO"/>
+								</annotation>
+							</value>
+						</method>
+						<method name="updateInfo">
+							<value>
+								<annotation name="clear.cdb.extjs.annotations.CX_UpdateInfo">
+									<exists/>
+									<method name="updateEntity" value="com.farata.example.entity.CompanyAssociate"/>
+									<method name="keyPropertyNames" value="id"/>
+									<method name="updatablePropertyNames" value="companyId,associate"/>
+									<method name="autoSyncEnabled" value="true"/>
+								</annotation>
+							</value>
+						</method>
+					</annotation>
+				</annotations>
+			</method>
+		</methods>
+	</annotated-type>
+	<dto-mappings>
+	</dto-mappings>
+</annotated-types>
