@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:service="com.farata.test.service.*">
+	<fx:Declarations>
+		<service:CompanyService id="companyService"/>		
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.farata.test.collections.CompanyCollection;
+			[Bindable]
+			public var companies:com.farata.test.collections.CompanyCollection;
+			
+			private function companies_fill():void {
+				companyService.getCompanies(resultHandler, resultHandler);
+			}
+			
+			private function resultHandler(evt:*, t:*):void {
+				trace(evt);
+			}
+		]]>
+	</fx:Script>
+	<s:Button click="companies.fill()" label="Fill"/>
+	<s:Button click="companies.sync(true)"
+			  enabled="{companies.commitRequired}" label="Commit"/>
+</s:HGroup>

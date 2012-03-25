@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><!-- CompanyAssociatesPanel.mxml --><s:Panel title="Company Associates" 		 xmlns:fx="http://ns.adobe.com/mxml/2009" 		 xmlns:s="library://ns.adobe.com/flex/spark" 		 xmlns:mx="library://ns.adobe.com/flex/mx" >
+	<mx:DataGrid id="dg" dataProvider="{companyAssociates}" editable="true" height="100%">
+		<mx:columns>
+			<mx:DataGridColumn dataField="id" headerText="Id" />
+			<mx:DataGridColumn dataField="company.id" headerText="Company Id" />
+			<mx:DataGridColumn dataField="associateName" headerText="Associate Name" />
+		</mx:columns>
+	</mx:DataGrid>
+	<s:controlBarContent>
+		<s:HGroup  verticalAlign="middle">			
+			<s:Button label="Remove" click="onRemove(dg.selectedIndex);" enabled="{dg.selectedIndex != -1}"/>
+			<s:Button label="Add" click="onAdd(Math.max(0,dg.selectedIndex + 1)); " enabled="{selectedCompany!=null}"/>
+			<s:Label text="Deleted: {companyAssociates.deletedCount}"/>
+			<s:Label text="Modified: {companyAssociates.modifiedCount}"/>		</s:HGroup>				</s:controlBarContent>
+	<fx:Script>		<![CDATA[			import clear.utils.DataCollectionUtils;
+			
+			import com.farata.test.collections.CompanyAssociateCollection;
+			import com.farata.test.dto.CompanyAssociateDTO;
+			import com.farata.test.dto.CompanyDTO;
+			
+	    [Bindable]private var companyAssociates:CompanyAssociateCollection ;		private var _selectedCompany:CompanyDTO;
+		[Bindable]
+		public function set selectedCompany(company:CompanyDTO):void {
+			_selectedCompany = company;
+			if (company != null) {
+				companyAssociates = company.companyAssociates as CompanyAssociateCollection;
+			} else 
+			 	companyAssociates = null; 
+		}
+		public function get selectedCompany():CompanyDTO {
+			return _selectedCompany;
+		}
+		private function onAdd(position:int):void	{
+			var item:CompanyAssociateDTO = new CompanyAssociateDTO();
+			// For the purpose of PK-FK linking in batch transaction 
+			// you should initialize new autoincrement values with "locally" 
+			// unique values: 0, -1, -2, etc. 
+			item.id = DataCollectionUtils.getLocalIdentity(companyAssociates,"id"); 	
+			item.company = selectedCompany;			
+			companyAssociates.addItemAt(item, position);
+			dg.selectedIndex = position;
+		}
+		private function onRemove(position:int):void {
+			companyAssociates.removeItemAt(position);//
+		}
+	]]>
+	</fx:Script>	
+</s:Panel>

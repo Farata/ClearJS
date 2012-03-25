@@ -1,0 +1,14 @@
+<project name="project" default="main">
+	<property file="build.properties" />
+	<target name="depends">
+		<echo message="${basedir}"/>
+		<delete  dir="../.tmp" failonerror="false"/>
+		<copydir dest="../.tmp" src="../scenarios/${scenario.folder}"/>
+		<copydir dest="../.tmp" src="../../com.farata.cleardatabuilder/resources/FlexProjectTemplate"/>
+		<copydir dest="../.tmp" src="../../com.farata.cleardatabuilder/resources/SpringProjectTemplate" forceoverwrite="true"/>
+		<copydir dest="../.tmp/WebContent/WEB-INF/lib" src="../../com.farata.lib/blazeds3.3"/>
+		<copydir dest="../.tmp/WebContent/WEB-INF/lib" src="../../com.farata.lib/spring3.1.0"/>
+	</target>
+	<target name="main" depends="depends">
+	</target>
+</project>
