@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+org.eclipse.jdt.apt.aptEnabled=true
+org.eclipse.jdt.apt.genSrcDir=WebContent
+org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdb.configuration.file=iioo/src/hibernate.cfg.xml
+org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdb.entities.classpath=iioo/build/classes
+org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.output=iioo/WebContent
+org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.package-path-transformer=iioo:app
+org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.class-name-transformer=iioo.model

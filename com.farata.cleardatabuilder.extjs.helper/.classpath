@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="tests"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.core.resources_3.3.1.R33x_v20080205.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.equinox.common_3.3.0.v20070426.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.core.jobs_3.3.1.R33x_v20070709.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.core.runtime_3.3.100.v20070530.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.osgi_3.3.2.R33x_v20080105.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/java5/tools.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/ant-contrib-0.6.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/antlr.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/aopalliance.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/asm.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/asm-attrs.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/aspectjrt.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/aspectjweaver.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/cfgatewayadapter.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/cglib-nodep-2.2.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-beanutils-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-codec-1.4.0.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-dbcp-1.2.2.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-fileupload-1.2.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-httpclient-3.0.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-io-1.4.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-pool-1.5.4.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/concurrent.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/connector-1_5.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/directjngine.2.0-alpha1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/gson-2.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/gson-2.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/gson-2.1-sources.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/hibernate3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/howl.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/hsqldb.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jargs-1.0.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/javassist-3.9.0.GA.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jotm.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jotm_iiop_stubs.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jotm_jrmp_stubs.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jta-spec1_0_1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jts1_0.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/objectweb-datasource.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/ow_carol.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/rhino-1.6R7.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/serializer.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/slf4j-api-1.6.0.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/slf4j-log4j12-1.6.0.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/spring-flex-core-1.5.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/xalan.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/xapool.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/yuicompressor-2.4.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
