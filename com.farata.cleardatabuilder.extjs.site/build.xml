@@ -6,7 +6,7 @@
 		<xmlproperty file="site.xml" collapseattributes="true"/>
 		<replace file="../com.farata.cleardatabuilder.extjs/resources/new_project/cdb_build/.version"	token="1.0.0.qualifier" value="${site.feature.version}"/>
 		<eclipse.refreshLocal resource="com.farata.cleardatabuilder.js"/>
-		<jar destfile="plugins/com.farata.cleardatabuilder.js_${site.feature.version}.jar" update="true">
+		<jar destfile="plugins/com.farata.cleardatabuilder.JS${site.feature.version}.jar" update="true">
 			<fileset dir="../com.farata.cleardatabuilder.js">
 				<include name="resources/new_project/cdb_build/.version"/>
 			</fileset>

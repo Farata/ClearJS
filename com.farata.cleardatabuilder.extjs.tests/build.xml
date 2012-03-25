@@ -2,13 +2,13 @@
 
 <project name="project" default="default">
 	<target name="default">
-		<replace dir="scenarios" token="CX_FillChildrenMethod" value="CX_JSFillChildrenMethod" />
-		<replace dir="scenarios" token="CX_FillMethod" value="CX_JSFillMethod" />
-		<replace dir="scenarios" token="CX_GenerateMXMLSample" value="CX_JSGenerateSample" />
-		<replace dir="scenarios" token="CX_GenerateDataCollection" value="CX_JSGenerateStore" />
-		<replace dir="scenarios" token="CX_GetMethod" value="CX_JSGetMethod" />
-		<replace dir="scenarios" token="CX_JPQLMethod" value="CX_JSJPQLMethod" />
-		<replace dir="scenarios" token="CX_Service" value="CX_JSService" />
+		<replace dir="scenarios" token="JSFillChildrenMethod" value="JSFillChildrenMethod" />
+		<replace dir="scenarios" token="JSFillMethod" value="JSFillMethod" />
+		<replace dir="scenarios" token="JSGenerateMXMLSample" value="JSGenerateSample" />
+		<replace dir="scenarios" token="JSGenerateDataCollection" value="JSGenerateStore" />
+		<replace dir="scenarios" token="JSGetMethod" value="JSGetMethod" />
+		<replace dir="scenarios" token="JSJPQLMethod" value="JSJPQLMethod" />
+		<replace dir="scenarios" token="JSService" value="JSService" />
 		<replace dir="scenarios" token="clear.cdb.annotations" value="clear.cdb.extjs.annotations" />
 		<!--replace dir="scenarios" token="" value="" /-->
 	</target>

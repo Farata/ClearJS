@@ -27,25 +27,25 @@ public interface <xsl:value-of select="$serviceName"/> extends <xsl:value-of sel
 		<xsl:for-each select="$methods/method">
 			<xsl:variable name="methodNode" select="current()"/>
 			<xsl:choose>
-				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSJPQLMethod']">
+				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.JSJPQLMethod']">
 					<xsl:call-template name="service-interface-jpql.xsl">
 						<xsl:with-param name="interfaceName" select="$interfaceName" />
 						<xsl:with-param name="methodNode" select="$methodNode" />
 					</xsl:call-template>
 				</xsl:when>
-				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSFillMethod']">
+				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.JSFillMethod']">
 					<xsl:call-template name="service-interface-fill.xsl">
 						<xsl:with-param name="interfaceName" select="$interfaceName" />
 						<xsl:with-param name="methodNode" select="$methodNode" />
 					</xsl:call-template>
 				</xsl:when>
-				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSGetMethod']">
+				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.JSGetMethod']">
 					<xsl:call-template name="service-interface-get.xsl">
 						<xsl:with-param name="interfaceName" select="$interfaceName" />
 						<xsl:with-param name="methodNode" select="$methodNode" />
 					</xsl:call-template>
 				</xsl:when>
-				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSFillChildrenMethod']">
+				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.JSFillChildrenMethod']">
 					<xsl:call-template name="service-interface-fill-children.xsl">
 						<xsl:with-param name="interfaceName" select="$interfaceName" />
 						<xsl:with-param name="methodNode" select="$methodNode" />

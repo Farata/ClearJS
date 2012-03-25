@@ -7,8 +7,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface CX_JSFillChildrenMethod {
-	CX_TransferInfo transferInfo() default @CX_TransferInfo(type="");
+public @interface JSFillChildrenMethod {
+	JSTransferInfo transferInfo() default @JSTransferInfo(type="");
 	Class<?> parent();
 	String property();
 }

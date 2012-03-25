@@ -4,15 +4,15 @@ import java.util.List;
 
 import com.farata.example.dto.AssociateDTO;
 
-import clear.cdb.extjs.annotations.CX_JSFillMethod;
-import clear.cdb.extjs.annotations.CX_JSGenerateSample;
-import clear.cdb.extjs.annotations.CX_JSGenerateStore;
-import clear.cdb.extjs.annotations.CX_JSService;
+import clear.cdb.extjs.annotations.JSFillMethod;
+import clear.cdb.extjs.annotations.JSGenerateSample;
+import clear.cdb.extjs.annotations.JSGenerateStore;
+import clear.cdb.extjs.annotations.JSService;
 
-@CX_JSService
+@JSService
 public interface IAssociateService {
-	@CX_JSGenerateSample
-	@CX_JSGenerateStore
-	@CX_JSFillMethod(autoSyncEnabled = true)
+	@JSGenerateSample
+	@JSGenerateStore
+	@JSFillMethod(autoSyncEnabled = true)
 	List<AssociateDTO> getAssociates(Integer companyId);
 }

@@ -6,28 +6,28 @@ import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 
 public class CDBAnnotationProcessor implements AnnotationProcessor {
 
-	private CX_JSFillChildrenMethodProcessor cxFillChildrenMethodProcessor;
-	private CX_JSFillMethodProcessor cxFillMethodProcessor;
-	private CX_JSGenerateStoreProcessor cxGenerateDataCollectionProcessor;
-	private CX_JSGenerateSampleProcessor cxGenerateMXMLSampleProcessor;
-	private CX_JSGetMethodProcessor cxGetMethodProcessor;
-	private CX_JSJPQLMethodProcessor cxJPQLMethodProcessor;
-	private CX_JSServiceProcessor cxServiceProcessor;
-	private CX_TransferInfoProcessor cxTransferInfoProcessor;
-	private CX_UpdateInfoProcessor cxUpdateInfoProcessor;
+	private JSFillChildrenMethodProcessor cxFillChildrenMethodProcessor;
+	private JSFillMethodProcessor cxFillMethodProcessor;
+	private JSGenerateStoreProcessor cxGenerateDataCollectionProcessor;
+	private JSGenerateSampleProcessor cxGenerateMXMLSampleProcessor;
+	private JSGetMethodProcessor cxGetMethodProcessor;
+	private JSJPQLMethodProcessor cxJPQLMethodProcessor;
+	private JSServiceProcessor cxServiceProcessor;
+	private JSTransferInfoProcessor cxTransferInfoProcessor;
+	private JSUpdateInfoProcessor cxUpdateInfoProcessor;
 	private CDBHQLAnnotationProcessor hqlAnnotationProcessor;
 
 	public CDBAnnotationProcessor(AnnotationProcessorEnvironment env) {
 		_env = env;
-		cxFillChildrenMethodProcessor = new CX_JSFillChildrenMethodProcessor(_env);
-		cxFillMethodProcessor = new CX_JSFillMethodProcessor(_env);
-		cxGenerateDataCollectionProcessor = new CX_JSGenerateStoreProcessor(_env);
-		cxGenerateMXMLSampleProcessor = new CX_JSGenerateSampleProcessor(_env);
-		cxGetMethodProcessor = new CX_JSGetMethodProcessor(_env);
-		cxJPQLMethodProcessor = new CX_JSJPQLMethodProcessor(_env);
-		cxServiceProcessor = new CX_JSServiceProcessor(_env);
-		cxTransferInfoProcessor = new CX_TransferInfoProcessor(_env);
-		cxUpdateInfoProcessor = new CX_UpdateInfoProcessor(_env);
+		cxFillChildrenMethodProcessor = new JSFillChildrenMethodProcessor(_env);
+		cxFillMethodProcessor = new JSFillMethodProcessor(_env);
+		cxGenerateDataCollectionProcessor = new JSGenerateStoreProcessor(_env);
+		cxGenerateMXMLSampleProcessor = new JSGenerateSampleProcessor(_env);
+		cxGetMethodProcessor = new JSGetMethodProcessor(_env);
+		cxJPQLMethodProcessor = new JSJPQLMethodProcessor(_env);
+		cxServiceProcessor = new JSServiceProcessor(_env);
+		cxTransferInfoProcessor = new JSTransferInfoProcessor(_env);
+		cxUpdateInfoProcessor = new JSUpdateInfoProcessor(_env);
 		hqlAnnotationProcessor = (CDBHQLAnnotationProcessor) new CDBHQLAnnotationProcessor().getProcessorFor(null, _env);
 	}
 

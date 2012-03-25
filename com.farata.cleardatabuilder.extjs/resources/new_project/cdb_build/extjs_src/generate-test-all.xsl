@@ -19,14 +19,14 @@
 		<xsl:for-each select="annotated-types/annotated-type">
 			<xsl:variable name="interfaceName" select="@name" />
 			<xsl:variable name="cxService"
-				select="annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSService']" />
+				select="annotations/annotation[@name='clear.cdb.extjs.annotations.JSService']" />
 			<xsl:if test="$cxService">
 				<xsl:for-each select="methods/method">
 					<xsl:variable name="generateViewSample"
-						select="helper:methodAnnotatedWith($interfaceName, @name, 'clear.cdb.extjs.annotations.CX_JSGenerateSample')" />
+						select="helper:methodAnnotatedWith($interfaceName, @name, 'clear.cdb.extjs.annotations.JSGenerateSample')" />
 					<xsl:if test="$generateViewSample">
 						<xsl:variable name="generateStore"
-							select="annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSGenerateStore']" />
+							select="annotations/annotation[@name='clear.cdb.extjs.annotations.JSGenerateStore']" />
 						<xsl:variable name="fullStoreName">
 							<xsl:if test="$generateStore">
 								<xsl:variable name="storeType"
@@ -48,7 +48,7 @@
 						<xsl:variable name="fullDtoName"
 							select="helper:getMethodTransferType($interfaceName, @name)" />
 						<xsl:variable name="fillParams"
-							select="helper:getMethodAnnotationValue($interfaceName, @name, 'clear.cdb.extjs.annotations.CX_JSGenerateSample','defaultFillArguments')" />
+							select="helper:getMethodAnnotationValue($interfaceName, @name, 'clear.cdb.extjs.annotations.JSGenerateSample','defaultFillArguments')" />
 						<xsl:if test="$fullDtoName">
 							<xsl:apply-templates select="/" mode="view-output">
 								<xsl:with-param name="interfaceName" select="$interfaceName" />

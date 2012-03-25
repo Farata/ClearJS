@@ -12,12 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import clear.cdb.extjs.annotations.CX_JSFillChildrenMethod;
-import clear.cdb.extjs.annotations.CX_JSGetMethod;
-import clear.cdb.extjs.annotations.CX_JSJPQLMethod;
-import clear.cdb.extjs.annotations.CX_JSService;
-import clear.cdb.extjs.annotations.CX_TransferInfo;
-import clear.cdb.extjs.annotations.CX_UpdateInfo;
+import clear.cdb.extjs.annotations.JSFillChildrenMethod;
+import clear.cdb.extjs.annotations.JSGetMethod;
+import clear.cdb.extjs.annotations.JSJPQLMethod;
+import clear.cdb.extjs.annotations.JSService;
+import clear.cdb.extjs.annotations.JSTransferInfo;
+import clear.cdb.extjs.annotations.JSUpdateInfo;
 import clear.cdb.extjs.annotations.DEFAULT;
 
 import com.farata.cdb.annotations.helper.AnnotationsHelper;
@@ -52,8 +52,8 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 		processResult.append("<annotated-types>\n");
 		HashMap<String, String> dtoToEntityMappings = new HashMap<String, String>();
 		for (TypeDeclaration specifiedTypeDeclaration : specifiedTypeDeclarations) {
-			CX_JSService serv = specifiedTypeDeclaration
-					.getAnnotation(CX_JSService.class);
+			JSService serv = specifiedTypeDeclaration
+					.getAnnotation(JSService.class);
 			try {
 				if (serv != null) {
 					processTypeDeclaration(specifiedTypeDeclaration,
@@ -107,12 +107,12 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 		Collection<? extends MethodDeclaration> methods = typeDeclaration
 				.getMethods();
 		for (MethodDeclaration method : methods) {
-			CX_JSJPQLMethod jpqlMethod = method
-					.getAnnotation(CX_JSJPQLMethod.class);
+			JSJPQLMethod jpqlMethod = method
+					.getAnnotation(JSJPQLMethod.class);
 			Class<?> entity = null;
 			if (jpqlMethod != null) {
 				// Get from transferInfo
-				CX_TransferInfo transferInfo = jpqlMethod.transferInfo();
+				JSTransferInfo transferInfo = jpqlMethod.transferInfo();
 				try {
 					transferInfo.mappedBy();
 				} catch (MirroredTypeException e) {
@@ -122,10 +122,10 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 					}
 				}
 			} else {
-				CX_JSGetMethod getMethod = method
-						.getAnnotation(CX_JSGetMethod.class);
+				JSGetMethod getMethod = method
+						.getAnnotation(JSGetMethod.class);
 				if (getMethod != null) {
-					CX_TransferInfo transferInfo = getMethod.transferInfo();
+					JSTransferInfo transferInfo = getMethod.transferInfo();
 					try {
 						transferInfo.mappedBy();
 					} catch (MirroredTypeException e) {
@@ -135,10 +135,10 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 						}
 					}
 				} else {
-					CX_JSFillChildrenMethod fillChildrenMethod = method
-							.getAnnotation(CX_JSFillChildrenMethod.class);
+					JSFillChildrenMethod fillChildrenMethod = method
+							.getAnnotation(JSFillChildrenMethod.class);
 					if (fillChildrenMethod != null) {
-						CX_TransferInfo transferInfo = fillChildrenMethod
+						JSTransferInfo transferInfo = fillChildrenMethod
 								.transferInfo();
 						try {
 							transferInfo.mappedBy();
@@ -216,8 +216,8 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 		}
 
 		// Check transferType annotation
-		CX_JSJPQLMethod jpqlMethod = methodDeclaration
-				.getAnnotation(CX_JSJPQLMethod.class);
+		JSJPQLMethod jpqlMethod = methodDeclaration
+				.getAnnotation(JSJPQLMethod.class);
 		if (jpqlMethod != null) {
 			transferType = jpqlMethod.transferInfo().type();
 			if (transferType != null && transferType.length() > 0
@@ -232,8 +232,8 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 //			}
 		}
 
-		CX_JSGetMethod getMethod = methodDeclaration
-				.getAnnotation(CX_JSGetMethod.class);
+		JSGetMethod getMethod = methodDeclaration
+				.getAnnotation(JSGetMethod.class);
 		if (getMethod != null) {
 			transferType = getMethod.transferInfo().type();
 			if (transferType != null && transferType.length() > 0
@@ -242,8 +242,8 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 			}
 		}
 
-		CX_JSFillChildrenMethod fillChildrenMethod = methodDeclaration
-				.getAnnotation(CX_JSFillChildrenMethod.class);
+		JSFillChildrenMethod fillChildrenMethod = methodDeclaration
+				.getAnnotation(JSFillChildrenMethod.class);
 		if (fillChildrenMethod != null) {
 			transferType = fillChildrenMethod.transferInfo().type();
 			if (transferType != null && transferType.length() > 0
@@ -253,8 +253,8 @@ public class CDBFullAnnotationProcessor implements AnnotationProcessor,
 		}
 
 		// Check updateEntity annotation
-		CX_UpdateInfo uiAnnotation = methodDeclaration
-				.getAnnotation(CX_UpdateInfo.class);
+		JSUpdateInfo uiAnnotation = methodDeclaration
+				.getAnnotation(JSUpdateInfo.class);
 		if (uiAnnotation != null) {
 			Class<?> updateEntity = null;
 			try {

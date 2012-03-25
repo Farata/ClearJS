@@ -1,24 +1,32 @@
 package com.farata.cleardatabuilder.extjs.validation.apt;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jdt.apt.core.util.EclipseMessager;
 
-import clear.cdb.extjs.annotations.CX_JSFillChildrenMethod;
-import clear.cdb.extjs.annotations.CX_JSFillMethod;
+import clear.cdb.extjs.annotations.JSFillChildrenMethod;
+import clear.cdb.extjs.annotations.JSJPQLMethod;
 
+import com.farata.cleardatabuilder.extjs.validation.IValidationConstants;
 import com.sun.mirror.apt.AnnotationProcessor;
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 import com.sun.mirror.declaration.AnnotationMirror;
 import com.sun.mirror.declaration.AnnotationTypeDeclaration;
+import com.sun.mirror.declaration.AnnotationTypeElementDeclaration;
+import com.sun.mirror.declaration.AnnotationValue;
 import com.sun.mirror.declaration.Declaration;
 import com.sun.mirror.declaration.MethodDeclaration;
+import com.sun.mirror.type.TypeMirror;
+import com.sun.mirror.util.SourcePosition;
 
-public class CX_JSFillMethodProcessor implements AnnotationProcessor {
+public class JSFillChildrenMethodProcessor implements AnnotationProcessor,
+		IValidationConstants {
 
 	private AnnotationProcessorEnvironment _env;
 
-	CX_JSFillMethodProcessor(AnnotationProcessorEnvironment _env) {
+	JSFillChildrenMethodProcessor(AnnotationProcessorEnvironment _env) {
 		this._env = _env;
 	}
 
@@ -28,7 +36,7 @@ public class CX_JSFillMethodProcessor implements AnnotationProcessor {
 
 		// obtain the declaration of the annotation we want to process
 		AnnotationTypeDeclaration annoDecl = (AnnotationTypeDeclaration) _env
-				.getTypeDeclaration(CX_JSFillMethod.class.getName());
+				.getTypeDeclaration(JSFillChildrenMethod.class.getName());
 
 		// get the annotated types
 		Collection<Declaration> annotatedTypes = _env
@@ -39,13 +47,15 @@ public class CX_JSFillMethodProcessor implements AnnotationProcessor {
 
 			// for each annotation found, get a map of element name/value pairs
 			for (AnnotationMirror mirror : mirrors) {
-				if (!"CX_JSFillMethod".equals(mirror.getAnnotationType()
-						.getDeclaration().getSimpleName())) {
+				if (!"JSFillChildrenMethod".equals(
+						mirror.getAnnotationType().getDeclaration()
+								.getSimpleName())) {
 					continue;
 				}
 				MethodDeclaration methodDeclaration = (MethodDeclaration) decl;
-				CX_JSJPQLMethodProcessor.checkReturnType(mirror,
-						methodDeclaration, messager);
+				JSJPQLMethodProcessor.checkReturnType(mirror, methodDeclaration, messager);
+				JSJPQLMethodProcessor.checkTransferInfo(mirror, methodDeclaration, true, messager);
+				JSJPQLMethodProcessor.checkIfAnnotationValueAttributeIsEntity(mirror, "parent", messager);
 			}
 		}
 	}

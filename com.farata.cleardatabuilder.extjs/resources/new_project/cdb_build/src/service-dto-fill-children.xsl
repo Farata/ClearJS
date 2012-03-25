@@ -13,7 +13,7 @@
 	<xsl:param name="interfaceName"/>
 	<xsl:param name="methodName"/>package <xsl:value-of select="$rootPackage"/>;
 		<xsl:variable name="methodNode" select="annotated-types/annotated-type[@name=$interfaceName]/methods/method[@name=$methodName]"/>
-		<xsl:variable name="getMethodNode" select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSFillChildrenMethod']"/>
+		<xsl:variable name="getMethodNode" select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.JSFillChildrenMethod']"/>
 		<xsl:variable name="annotatedType" select="annotated-types/annotated-type[@name=$interfaceName][1]"/>
 		<xsl:variable name="transferInfo" select="$getMethodNode/method[name='transferInfo']/value"/>
 		<xsl:variable name="mappedEntity" select="helper:genDTOtoEntity(concat($rootPackage, '.', $dtoName))"/>

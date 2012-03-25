@@ -1,7 +1,7 @@
 <annotated-types>
 	<annotated-type name="com.farata.example.service.IAssociateService">
 		<annotations>
-			<annotation name="clear.cdb.extjs.annotations.CX_JSService">
+			<annotation name="clear.cdb.extjs.annotations.JSService">
 				<exists/>
 			</annotation>
 		</annotations>
@@ -11,10 +11,10 @@
 					<parameter name="companyId" type="java.lang.Integer" order="0"/>
 				</parameters>
 				<annotations>
-					<annotation name="clear.cdb.extjs.annotations.CX_JSGenerateStore">
+					<annotation name="clear.cdb.extjs.annotations.JSGenerateStore">
 						<exists/>
 					</annotation>
-					<annotation name="clear.cdb.extjs.annotations.CX_JSFillMethod">
+					<annotation name="clear.cdb.extjs.annotations.JSFillMethod">
 						<exists/>
 						<method name="autoSyncEnabled" value="true"/>
 					</annotation>
@@ -24,7 +24,7 @@
 	</annotated-type>
 	<annotated-type name="com.farata.example.service.ICompanyService">
 		<annotations>
-			<annotation name="clear.cdb.extjs.annotations.CX_JSService">
+			<annotation name="clear.cdb.extjs.annotations.JSService">
 				<exists/>
 			</annotation>
 		</annotations>
@@ -33,10 +33,10 @@
 				<parameters>
 				</parameters>
 				<annotations>
-					<annotation name="clear.cdb.extjs.annotations.CX_JSGenerateStore">
+					<annotation name="clear.cdb.extjs.annotations.JSGenerateStore">
 						<exists/>
 					</annotation>
-					<annotation name="clear.cdb.extjs.annotations.CX_JSFillMethod">
+					<annotation name="clear.cdb.extjs.annotations.JSFillMethod">
 						<exists/>
 						<method name="autoSyncEnabled" value="true"/>
 					</annotation>

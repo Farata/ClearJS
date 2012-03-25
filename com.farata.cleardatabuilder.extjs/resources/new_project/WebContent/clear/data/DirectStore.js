@@ -192,7 +192,7 @@ Ext.define('Clear.data.DirectStore', {
 	        	batchManager.addStore(me, 0);
 	        	batchManager.createBatch();
 	        	batchManager.sendBatch();
-	            //cx_internal::saveState(act);
+	            //JSinternal::saveState(act);
 				//if (!autoSyncEnabled && !roundTripSync)
 				//	resetState();
 	        }        

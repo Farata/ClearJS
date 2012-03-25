@@ -18,34 +18,34 @@ import java.lang.annotation.Target;
   		method prefixed with ":"</td>
   	</tr>	
   	<tr>
-  		<td><code>transferInfo</code></td><td>&#64;CX_TransferInfo</td><td>Optional</td><td>Allows to narrow the base type of the return collection to the DTO class that is dynamically created
+  		<td><code>transferInfo</code></td><td>&#64;JSTransferInfo</td><td>Optional</td><td>Allows to narrow the base type of the return collection to the DTO class that is dynamically created
  * from the result set metadata. It is applicable when Java return type of the method is a collection based on 
  * a wildcard.
  * <br>
  * <br>
- *  Sub-annotation <code>&#64;CX_TransferInfo</code> has the following parameters:
+ *  Sub-annotation <code>&#64;JSTransferInfo</code> has the following parameters:
  * 		<li>type - String. Fully qualified class name of the dynamic return type;</li>
  * 		<li>mappedBy - Class. Entity type that will be globally narrowed down to this dynamic return type</li>
  * 		<li>generate - boolean (true). Flags to turn on generation of the dynamic DTO</li>
  * <br>
  * <br>
- * In it's complete form, i.e. <code>transferInfo=&#64;CX_TransferInfo(type="foo.dto.BarDTO", mappedBy="foo.entity.BarEntity")</code>
+ * In it's complete form, i.e. <code>transferInfo=&#64;JSTransferInfo(type="foo.dto.BarDTO", mappedBy="foo.entity.BarEntity")</code>
  * it defines a project-level mapping from entity to a newly created DTO. <br>You should use <code>mappedBy</code> only once for a DTO per project, be that in a <code>&#64;CXJPQLMethod</code>- or 
- * <code>&#64;CX_JSGetMethod</code>-based annotation to avoid conflicting re-mappings. Elsewhere use a shorter form :
+ * <code>&#64;JSGetMethod</code>-based annotation to avoid conflicting re-mappings. Elsewhere use a shorter form :
  * <pre> 
- *   transferInfo=&#64;CX_TransferInfo(type="foo.dto.BarDTO")
+ *   transferInfo=&#64;JSTransferInfo(type="foo.dto.BarDTO")
  * </pre> 
 
- * Dynamic generation of the DTO in the context of code>&#64;CX_JSJPQLMethod</code> is based on the properties of the 
+ * Dynamic generation of the DTO in the context of code>&#64;JSJPQLMethod</code> is based on the properties of the 
  * result set. When flag <code>generate</code> is set to false generation is omitted, this allows to
  * avoid conflicting redefinition of the DTO across the project. NOTE: NOT IMPLEMENTED YET
 *  </td>
   	</tr>	
   	<tr>
-  		<td><code>updateInfo</code></td><td>&#64;CX_UpdateInfo</td><td>Optional</td>
+  		<td><code>updateInfo</code></td><td>&#64;JSUpdateInfo</td><td>Optional</td>
   		<td>Causes generation of update/insert/delete/sync methods in the service code. 
   		<br>
-  		<br>Sub-annotation <code>&#64;CX_UpdateInfo</code> has the following parameters:
+  		<br>Sub-annotation <code>&#64;JSUpdateInfo</code> has the following parameters:
  * 		<li>updateEntity - Class. Entity class to use for update. If a query has more then one entity in it's FROM clause, only one entity can be updated;</li>
  * 		<li>keyPropertyNames - String. Optional, comma-separated list of properties used to identify original database records in the WHERE clause of the JPQL queries of the generated update/delete/insert 
  * methods. If omitted will default to the property annotated with <code>&#64;Id</code></li>
@@ -81,7 +81,7 @@ import java.lang.annotation.Target;
  *  Example 1: <b>"Read-only" scenario with <code>fill</code> method returning entities</b>. The  generated service class will implement the <code>getCompanies</code> returning <code>List&lt;com.farata.test.entity.Company&gt;</code>. 
  *  Since there is no <code>updateInfo</code> the class will not have methods to sync the database with the changes originated from the client: 
  * <pre>
- * 	&#64;CX_JSJPQLMethod(
+ * 	&#64;JSJPQLMethod(
  * 		query="SELECT c FROM Company c WHERE c.countryCode=:countryCode"
  * 	)
  * 	List&lt;com.farata.test.entity.Company&gt; getCompanies(String countryCode);
@@ -93,7 +93,7 @@ import java.lang.annotation.Target;
  *  Since there is no <code>updateInfo</code> the class will not contain methods to serve client's request to sync the database with the changes 
  *  originated from the client: 
  * <pre>
- * 	&#64;CX_JSJPQLMethod(
+ * 	&#64;JSJPQLMethod(
  * 		query="SELECT c FROM Company c"
  * 	)
  * 	List&lt;?&gt; getCompanies();
@@ -106,10 +106,10 @@ import java.lang.annotation.Target;
  *  to <code>CompanyAssociate</code> will be automatically replaced with <code>CompanyAssociateDTO</code>. Since <code>updateInfo</code> is provided, CDB will generate Java methods that enable
  *  Flex UI to invoke <code>sync</code> method of the DataCollection:
  * <pre>
- * 	&#64;CX_JSJPQLMethod(
+ * 	&#64;JSJPQLMethod(
  * 		query="SELECT a.id, a.associateName, a.company.id as companyId FROM CompanyAssociate a",
- * 		transferInfo=&#64;CX_TransferInfo(type="com.farata.test.dto.CompanyAssociateDTO", mappedBy=CompanyAssociate.class),
- * 		updateInfo=&#64;CX_UpdateInfo(updateEntity=CompanyAssociate.class)
+ * 		transferInfo=&#64;JSTransferInfo(type="com.farata.test.dto.CompanyAssociateDTO", mappedBy=CompanyAssociate.class),
+ * 		updateInfo=&#64;JSUpdateInfo(updateEntity=CompanyAssociate.class)
  * 	)
  * 	List&lt;?&gt; getAssociates();
  * </pre>
@@ -119,17 +119,17 @@ import java.lang.annotation.Target;
  *  objects of <code>CompanyAssociateDTO</code> type that, according to <code>generate=false</code> is expected to be generated somewhere
  *  else in the project. 
  * <pre>
- * 	&#64;CX_JSJPQLMethod(
+ * 	&#64;JSJPQLMethod(
  * 		query="SELECT a.id, a.associateName, a.company.id as companyId FROM CompanyAssociate a",
- * 		transferInfo=&#64;CX_TransferInfo(type="com.farata.test.dto.CompanyAssociateDTO", generate=false)
+ * 		transferInfo=&#64;JSTransferInfo(type="com.farata.test.dto.CompanyAssociateDTO", generate=false)
  * 	)
  * 	List&lt;?&gt; getAssociates();
  * </pre>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface CX_JSJPQLMethod {
+public @interface JSJPQLMethod {
 	String query();
-	CX_TransferInfo transferInfo() default @CX_TransferInfo(type="");
-	CX_UpdateInfo updateInfo() default @CX_UpdateInfo(updateEntity=DEFAULT.class);
+	JSTransferInfo transferInfo() default @JSTransferInfo(type="");
+	JSUpdateInfo updateInfo() default @JSUpdateInfo(updateEntity=DEFAULT.class);
 }

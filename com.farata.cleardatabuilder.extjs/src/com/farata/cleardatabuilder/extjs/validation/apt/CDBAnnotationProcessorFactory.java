@@ -5,15 +5,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-import clear.cdb.extjs.annotations.CX_JSFillChildrenMethod;
-import clear.cdb.extjs.annotations.CX_JSFillMethod;
-import clear.cdb.extjs.annotations.CX_JSGenerateStore;
-import clear.cdb.extjs.annotations.CX_JSGenerateSample;
-import clear.cdb.extjs.annotations.CX_JSGetMethod;
-import clear.cdb.extjs.annotations.CX_JSJPQLMethod;
-import clear.cdb.extjs.annotations.CX_JSService;
-import clear.cdb.extjs.annotations.CX_TransferInfo;
-import clear.cdb.extjs.annotations.CX_UpdateInfo;
+import clear.cdb.extjs.annotations.JSFillChildrenMethod;
+import clear.cdb.extjs.annotations.JSFillMethod;
+import clear.cdb.extjs.annotations.JSGenerateStore;
+import clear.cdb.extjs.annotations.JSGenerateSample;
+import clear.cdb.extjs.annotations.JSGetMethod;
+import clear.cdb.extjs.annotations.JSJPQLMethod;
+import clear.cdb.extjs.annotations.JSService;
+import clear.cdb.extjs.annotations.JSTransferInfo;
+import clear.cdb.extjs.annotations.JSUpdateInfo;
 
 import com.sun.mirror.apt.AnnotationProcessor;
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
@@ -40,14 +40,14 @@ public class CDBAnnotationProcessorFactory implements
 	private static ArrayList<String> annotations = new ArrayList<String>();
 
 	{
-		annotations.add(CX_JSFillChildrenMethod.class.getName());
-		annotations.add(CX_JSFillMethod.class.getName());
-		annotations.add(CX_JSGenerateStore.class.getName());
-		annotations.add(CX_JSGenerateSample.class.getName());
-		annotations.add(CX_JSGetMethod.class.getName());
-		annotations.add(CX_JSJPQLMethod.class.getName());
-		annotations.add(CX_JSService.class.getName());
-		annotations.add(CX_TransferInfo.class.getName());
-		annotations.add(CX_UpdateInfo.class.getName());
+		annotations.add(JSFillChildrenMethod.class.getName());
+		annotations.add(JSFillMethod.class.getName());
+		annotations.add(JSGenerateStore.class.getName());
+		annotations.add(JSGenerateSample.class.getName());
+		annotations.add(JSGetMethod.class.getName());
+		annotations.add(JSJPQLMethod.class.getName());
+		annotations.add(JSService.class.getName());
+		annotations.add(JSTransferInfo.class.getName());
+		annotations.add(JSUpdateInfo.class.getName());
 	}
 }

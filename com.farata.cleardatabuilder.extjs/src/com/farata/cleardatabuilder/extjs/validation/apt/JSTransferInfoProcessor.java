@@ -3,10 +3,10 @@ package com.farata.cleardatabuilder.extjs.validation.apt;
 import com.sun.mirror.apt.AnnotationProcessor;
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 
-public class CX_JSServiceProcessor implements AnnotationProcessor{
+public class JSTransferInfoProcessor implements AnnotationProcessor {
 
 	private AnnotationProcessorEnvironment	_env;
-	CX_JSServiceProcessor(AnnotationProcessorEnvironment	_env){
+	JSTransferInfoProcessor(AnnotationProcessorEnvironment	_env){
 		this._env = _env;
 	}
 	@Override

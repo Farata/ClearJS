@@ -6,40 +6,40 @@ import com.farata.demo.dto.CompanyAssociateDTO;
 import com.farata.demo.entity.Company;
 import com.farata.demo.entity.CompanyAssociate;
 
-import clear.cdb.extjs.annotations.CX_JSGenerateStore;
-import clear.cdb.extjs.annotations.CX_JSJPQLMethod;
-import clear.cdb.extjs.annotations.CX_JSService;
-import clear.cdb.extjs.annotations.CX_TransferInfo;
-import clear.cdb.extjs.annotations.CX_UpdateInfo;
+import clear.cdb.extjs.annotations.JSGenerateStore;
+import clear.cdb.extjs.annotations.JSJPQLMethod;
+import clear.cdb.extjs.annotations.JSService;
+import clear.cdb.extjs.annotations.JSTransferInfo;
+import clear.cdb.extjs.annotations.JSUpdateInfo;
 
-@CX_JSService
+@JSService
 public interface CompanyService {
 
-	@CX_JSJPQLMethod(query = "select c from Company c")
+	@JSJPQLMethod(query = "select c from Company c")
 	List<?> getCompaniesEmpty();
 
-	@CX_JSJPQLMethod(query = "select c from Company c", transferInfo = @CX_TransferInfo(type = "com.farata.demo.dto.CompanyDTO"))
+	@JSJPQLMethod(query = "select c from Company c", transferInfo = @JSTransferInfo(type = "com.farata.demo.dto.CompanyDTO"))
 	List<?> getCompaniesTransferInfoType(); 
 
-	@CX_JSJPQLMethod(query = "select c from Company c", transferInfo = @CX_TransferInfo(type = "com.farata.demo.dto.CompanyDTO", mappedBy = Company.class))
+	@JSJPQLMethod(query = "select c from Company c", transferInfo = @JSTransferInfo(type = "com.farata.demo.dto.CompanyDTO", mappedBy = Company.class))
 	List<?> getCompaniesTransferInfoTypeMappedBy();
 
-	@CX_JSJPQLMethod(query = "select c from Company c", transferInfo = @CX_TransferInfo(type = "com.farata.demo.dto.CompanyDTO", mappedBy = Company.class), updateInfo = @CX_UpdateInfo(updateEntity = Company.class))
+	@JSJPQLMethod(query = "select c from Company c", transferInfo = @JSTransferInfo(type = "com.farata.demo.dto.CompanyDTO", mappedBy = Company.class), updateInfo = @JSUpdateInfo(updateEntity = Company.class))
 	List<?> getCompaniesTransferInfoTypeUpdateEntity();
 
-	@CX_JSJPQLMethod(query = "select c from Company c", transferInfo = @CX_TransferInfo(type = "com.farata.demo.dto.CompanyDTO", mappedBy = Company.class), updateInfo = @CX_UpdateInfo(updateEntity = Company.class, updatablePropertyNames = "company,pk"))
+	@JSJPQLMethod(query = "select c from Company c", transferInfo = @JSTransferInfo(type = "com.farata.demo.dto.CompanyDTO", mappedBy = Company.class), updateInfo = @JSUpdateInfo(updateEntity = Company.class, updatablePropertyNames = "company,pk"))
 	List<?> getCompaniesTransferInfoTypeUpdatablePropertyNames(); 
 
-	@CX_JSJPQLMethod(query = "select c from Company c", transferInfo = @CX_TransferInfo(type = "com.farata.demo.dto.CompanyDTO", mappedBy = Company.class), updateInfo = @CX_UpdateInfo(updateEntity = Company.class, keyPropertyNames="id"))
+	@JSJPQLMethod(query = "select c from Company c", transferInfo = @JSTransferInfo(type = "com.farata.demo.dto.CompanyDTO", mappedBy = Company.class), updateInfo = @JSUpdateInfo(updateEntity = Company.class, keyPropertyNames="id"))
 	List<?> getCompaniesTransferInfoTypeKeyPropertyNames();
 	
-	@CX_JSGenerateStore
-	@CX_JSJPQLMethod(query = "select ca from CompanyAssociate ca", transferInfo = @CX_TransferInfo(type = "com.farata.demo.dto.CompanyAssociateDTO", mappedBy = CompanyAssociate.class), updateInfo = @CX_UpdateInfo(updateEntity = CompanyAssociate.class))
+	@JSGenerateStore
+	@JSJPQLMethod(query = "select ca from CompanyAssociate ca", transferInfo = @JSTransferInfo(type = "com.farata.demo.dto.CompanyAssociateDTO", mappedBy = CompanyAssociate.class), updateInfo = @JSUpdateInfo(updateEntity = CompanyAssociate.class))
 	List<?> getCompanyAssociates(Object companyId);
 	
-	@CX_JSJPQLMethod(query = "select ca from CompanyAssociate ca")
+	@JSJPQLMethod(query = "select ca from CompanyAssociate ca")
 	List<CompanyAssociateDTO> getCompanyAssociatesListTypeParameterAsDTO(Object companyId); 
 
-	@CX_JSJPQLMethod(query = "select ca from CompanyAssociate ca")
+	@JSJPQLMethod(query = "select ca from CompanyAssociate ca")
 	List<CompanyAssociate> getCompanyAssociatesListTypeParameterAsEntity(Object companyId);  
 }

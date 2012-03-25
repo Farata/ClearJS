@@ -5,30 +5,30 @@ import java.util.List;
 import com.farata.test.entity.Company;
 import com.farata.test.entity.CompanyAssociate;
 
-import clear.cdb.extjs.annotations.CX_JSGenerateStore;
-import clear.cdb.extjs.annotations.CX_JSGenerateSample;
-import clear.cdb.extjs.annotations.CX_JSJPQLMethod;
-import clear.cdb.extjs.annotations.CX_JSService;
-import clear.cdb.extjs.annotations.CX_UpdateInfo;
-import clear.cdb.extjs.annotations.CX_TransferInfo;
+import clear.cdb.extjs.annotations.JSGenerateStore;
+import clear.cdb.extjs.annotations.JSGenerateSample;
+import clear.cdb.extjs.annotations.JSJPQLMethod;
+import clear.cdb.extjs.annotations.JSService;
+import clear.cdb.extjs.annotations.JSUpdateInfo;
+import clear.cdb.extjs.annotations.JSTransferInfo;
 
-@CX_JSService
+@JSService
 public interface ICompanyService {
-	@CX_JSGenerateSample
-	@CX_JSGenerateStore()
-	@CX_JSJPQLMethod(
+	@JSGenerateSample
+	@JSGenerateStore()
+	@JSJPQLMethod(
 			query="SELECT c FROM Company c",
-			transferInfo=@CX_TransferInfo(type="com.farata.test.dto.CompanyDTO", mappedBy=Company.class),
-			updateInfo=@CX_UpdateInfo(updateEntity=Company.class, autoSyncEnabled=true)
+			transferInfo=@JSTransferInfo(type="com.farata.test.dto.CompanyDTO", mappedBy=Company.class),
+			updateInfo=@JSUpdateInfo(updateEntity=Company.class, autoSyncEnabled=true)
 		)
 		
 		List<?> getCompanies();
 	
-	@CX_JSGenerateStore
-	@CX_JSJPQLMethod(
+	@JSGenerateStore
+	@JSJPQLMethod(
 			query="SELECT a FROM CompanyAssociate a WHERE a.company.id=:companyId",
-			transferInfo=@CX_TransferInfo(type="com.farata.test.dto.CompanyAssociateDTO",mappedBy=CompanyAssociate.class),
-			updateInfo=@CX_UpdateInfo(updateEntity=CompanyAssociate.class, autoSyncEnabled=true)
+			transferInfo=@JSTransferInfo(type="com.farata.test.dto.CompanyAssociateDTO",mappedBy=CompanyAssociate.class),
+			updateInfo=@JSUpdateInfo(updateEntity=CompanyAssociate.class, autoSyncEnabled=true)
 		)
 		List<?> getAssociates(Integer companyId);
 }

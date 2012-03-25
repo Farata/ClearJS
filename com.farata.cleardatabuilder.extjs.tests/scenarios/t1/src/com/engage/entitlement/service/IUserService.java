@@ -2,19 +2,19 @@ package com.engage.entitlement.service;
 
 import java.util.List;
 
-import clear.cdb.extjs.annotations.CX_JSGenerateStore;
-import clear.cdb.extjs.annotations.CX_JSJPQLMethod;
-import clear.cdb.extjs.annotations.CX_JSService;
-import clear.cdb.extjs.annotations.CX_TransferInfo;
-import clear.cdb.extjs.annotations.CX_UpdateInfo;
+import clear.cdb.extjs.annotations.JSGenerateStore;
+import clear.cdb.extjs.annotations.JSJPQLMethod;
+import clear.cdb.extjs.annotations.JSService;
+import clear.cdb.extjs.annotations.JSTransferInfo;
+import clear.cdb.extjs.annotations.JSUpdateInfo;
 
 import com.engage.entitlement.entity.UserEntity;
 
-@CX_JSService
+@JSService
 public interface IUserService {
 
-    @CX_JSGenerateStore
-	@CX_JSJPQLMethod(
+    @JSGenerateStore
+	@JSJPQLMethod(
 	 		query="SELECT u.usrId, u.firstName, u.lastName, u.emailId, u.loginId, u.pwd"
 	            + ",u.selfDesc, u.title, u.photoFileUri, u.primaryCommunityId, u.isSponsor"
 	            + ",u.addressLine1, u.addressLine2, u.city, u.state, u.isoCountryCode"
@@ -41,10 +41,10 @@ public interface IUserService {
 				+ "    AND ur3.roleId=r3.roleId"
 				+ ") as hostId"
 				+ " FROM UserEntity u WHERE usrId=:id",
-		transferInfo=@CX_TransferInfo(
+		transferInfo=@JSTransferInfo(
 				type="com.engage.entitlement.dto.UserEntityDTO", 
 				mappedBy=UserEntity.class),
-		updateInfo=@CX_UpdateInfo(updateEntity=UserEntity.class, autoSyncEnabled=true)
+		updateInfo=@JSUpdateInfo(updateEntity=UserEntity.class, autoSyncEnabled=true)
 	) 
     List<?> getById(Long id); 
 }

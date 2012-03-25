@@ -11,7 +11,7 @@
 		<xsl:param name="methodNode"/>
 		<xsl:param name="springEnabled"/>
 
-		<xsl:variable name="javaFillMethod" select="helper:getMethodAnnotation($interfaceName, $methodNode/@name, 'clear.cdb.extjs.annotations.CX_JSFillMethod')"/>
+		<xsl:variable name="javaFillMethod" select="helper:getMethodAnnotation($interfaceName, $methodNode/@name, 'clear.cdb.extjs.annotations.JSFillMethod')"/>
 		<xsl:variable name="javaAutoSyncEnabled" select="boolean($javaFillMethod/method[@name='autoSyncEnabled']/@value = 'true')"/>
 		<xsl:variable name="javaSync" select="boolean($javaFillMethod/method[@name='sync']/@value = 'true')"/>
 	@DirectMethod

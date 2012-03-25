@@ -4,7 +4,8 @@ import java.util.Collection;
 
 import org.eclipse.jdt.apt.core.util.EclipseMessager;
 
-import clear.cdb.extjs.annotations.CX_JSGetMethod;
+import clear.cdb.extjs.annotations.JSFillChildrenMethod;
+import clear.cdb.extjs.annotations.JSFillMethod;
 
 import com.sun.mirror.apt.AnnotationProcessor;
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
@@ -13,11 +14,11 @@ import com.sun.mirror.declaration.AnnotationTypeDeclaration;
 import com.sun.mirror.declaration.Declaration;
 import com.sun.mirror.declaration.MethodDeclaration;
 
-public class CX_JSGetMethodProcessor implements AnnotationProcessor {
+public class JSFillMethodProcessor implements AnnotationProcessor {
 
 	private AnnotationProcessorEnvironment _env;
 
-	CX_JSGetMethodProcessor(AnnotationProcessorEnvironment _env) {
+	JSFillMethodProcessor(AnnotationProcessorEnvironment _env) {
 		this._env = _env;
 	}
 
@@ -27,7 +28,7 @@ public class CX_JSGetMethodProcessor implements AnnotationProcessor {
 
 		// obtain the declaration of the annotation we want to process
 		AnnotationTypeDeclaration annoDecl = (AnnotationTypeDeclaration) _env
-				.getTypeDeclaration(CX_JSGetMethod.class.getName());
+				.getTypeDeclaration(JSFillMethod.class.getName());
 
 		// get the annotated types
 		Collection<Declaration> annotatedTypes = _env
@@ -38,13 +39,13 @@ public class CX_JSGetMethodProcessor implements AnnotationProcessor {
 
 			// for each annotation found, get a map of element name/value pairs
 			for (AnnotationMirror mirror : mirrors) {
-				if (!"CX_JSGetMethod".equals(mirror.getAnnotationType()
+				if (!"JSFillMethod".equals(mirror.getAnnotationType()
 						.getDeclaration().getSimpleName())) {
 					continue;
 				}
 				MethodDeclaration methodDeclaration = (MethodDeclaration) decl;
-				CX_JSJPQLMethodProcessor.checkTransferInfo(mirror,
-						methodDeclaration, false, messager);
+				JSJPQLMethodProcessor.checkReturnType(mirror,
+						methodDeclaration, messager);
 			}
 		}
 	}

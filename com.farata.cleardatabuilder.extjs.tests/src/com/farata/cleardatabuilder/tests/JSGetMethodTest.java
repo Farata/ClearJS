@@ -2,8 +2,8 @@ package com.farata.cleardatabuilder.tests;
 
 import org.apache.tools.ant.Project;
 
-public class CX_FillChildrenMethodTest extends BaseTest {
+public class JSGetMethodTest extends BaseTest {
 	public void testEntityDTOs() {
-		executeCDBBuild("CX_FillChildrenMethod", Project.MSG_INFO);
+		executeCDBBuild("JSGetMethod", Project.MSG_INFO);
 	}
 }

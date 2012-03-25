@@ -49,28 +49,28 @@ public class <xsl:value-of select="$serviceName"/> implements <xsl:value-of sele
 		<xsl:for-each select="$methods/method">
 			<xsl:variable name="methodNode" select="current()"/>
 			<xsl:choose>
-				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSJPQLMethod']">
+				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.JSJPQLMethod']">
 					<xsl:call-template name="service-impl-jpql.xsl">
 						<xsl:with-param name="springEnabled" select="$springEnabled" />
 						<xsl:with-param name="interfaceName" select="$interfaceName" />
 						<xsl:with-param name="methodNode" select="$methodNode" />
 					</xsl:call-template>
 				</xsl:when>
-				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSFillMethod']">
+				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.JSFillMethod']">
 					<xsl:call-template name="service-impl-fill.xsl">
 						<xsl:with-param name="springEnabled" select="$springEnabled" />
 						<xsl:with-param name="interfaceName" select="$interfaceName" />
 						<xsl:with-param name="methodNode" select="$methodNode" />
 					</xsl:call-template>
 				</xsl:when>
-				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSGetMethod']">
+				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.JSGetMethod']">
 					<xsl:call-template name="service-impl-get.xsl">
 						<xsl:with-param name="springEnabled" select="$springEnabled" />
 						<xsl:with-param name="interfaceName" select="$interfaceName" />
 						<xsl:with-param name="methodNode" select="$methodNode" />
 					</xsl:call-template>
 				</xsl:when>
-				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSFillChildrenMethod']">
+				<xsl:when test="annotations/annotation[@name='clear.cdb.extjs.annotations.JSFillChildrenMethod']">
 					<xsl:call-template name="service-impl-fill-children.xsl">
 						<xsl:with-param name="springEnabled" select="$springEnabled" />
 						<xsl:with-param name="interfaceName" select="$interfaceName" />

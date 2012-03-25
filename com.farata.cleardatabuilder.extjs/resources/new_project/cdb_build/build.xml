@@ -119,7 +119,7 @@
 				var typeNames = typeNamesString.split(",");
 				for (annotationName in annotationNames) {
 					if (annotationNames[annotationName] != null && annotationNames[annotationName] != "") {
-						if (annotationNames[annotationName] == "clear.cdb.extjs.annotations.CX_JSService") {
+						if (annotationNames[annotationName] == "clear.cdb.extjs.annotations.JSService") {
 							includes += String(typeNames[annotationName]).replace(/\./g, '/') + ".java,";
 						}
 					}

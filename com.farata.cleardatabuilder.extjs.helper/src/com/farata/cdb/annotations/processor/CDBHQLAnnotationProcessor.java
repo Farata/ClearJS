@@ -16,7 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import clear.cdb.extjs.annotations.CX_JSJPQLMethod;
+import clear.cdb.extjs.annotations.JSJPQLMethod;
 
 import com.farata.cdb.annotations.helper.HQLCompiler;
 import com.farata.cdb.annotations.helper.HQLHelper;
@@ -45,7 +45,7 @@ public class CDBHQLAnnotationProcessor implements AnnotationProcessor,
 
 		// obtain the declaration of the annotation we want to process
 		AnnotationTypeDeclaration annoDecl = (AnnotationTypeDeclaration) _env
-				.getTypeDeclaration(CX_JSJPQLMethod.class.getName());
+				.getTypeDeclaration(JSJPQLMethod.class.getName());
 
 		// get the annotated types
 		Collection<Declaration> annotatedTypes = _env
@@ -56,7 +56,7 @@ public class CDBHQLAnnotationProcessor implements AnnotationProcessor,
 
 			// for each annotation found, get a map of element name/value pairs
 			for (AnnotationMirror mirror : mirrors) {
-				if (!"CX_JSJPQLMethod".equals(mirror.getAnnotationType()
+				if (!"JSJPQLMethod".equals(mirror.getAnnotationType()
 						.getDeclaration().getSimpleName())) {
 					continue;
 				}
@@ -175,7 +175,7 @@ public class CDBHQLAnnotationProcessor implements AnnotationProcessor,
 	@Override
 	public Collection<String> supportedAnnotationTypes() {
 		ArrayList<String> result = new ArrayList<String>();
-		result.add(CX_JSJPQLMethod.class.getCanonicalName());
+		result.add(JSJPQLMethod.class.getCanonicalName());
 		return result;
 	}
 

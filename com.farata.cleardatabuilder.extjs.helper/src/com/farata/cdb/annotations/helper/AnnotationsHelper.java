@@ -40,10 +40,10 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import clear.cdb.extjs.annotations.CX_JSFillChildrenMethod;
-import clear.cdb.extjs.annotations.CX_JSGetMethod;
-import clear.cdb.extjs.annotations.CX_JSJPQLMethod;
-import clear.cdb.extjs.annotations.CX_UpdateInfo;
+import clear.cdb.extjs.annotations.JSFillChildrenMethod;
+import clear.cdb.extjs.annotations.JSGetMethod;
+import clear.cdb.extjs.annotations.JSJPQLMethod;
+import clear.cdb.extjs.annotations.JSUpdateInfo;
 import clear.cdb.extjs.annotations.DEFAULT;
 
 public class AnnotationsHelper {
@@ -308,7 +308,7 @@ public class AnnotationsHelper {
 		}
 
 		// Check transferType annotation
-		CX_JSGetMethod getMethod = method.getAnnotation(CX_JSGetMethod.class);
+		JSGetMethod getMethod = method.getAnnotation(JSGetMethod.class);
 		if (getMethod != null) {
 			transferType = getMethod.transferInfo().type();
 			if (transferType != null && transferType.length() > 0
@@ -319,8 +319,8 @@ public class AnnotationsHelper {
 			}
 		}
 
-		CX_JSFillChildrenMethod fillChildrenMethod = method
-				.getAnnotation(CX_JSFillChildrenMethod.class);
+		JSFillChildrenMethod fillChildrenMethod = method
+				.getAnnotation(JSFillChildrenMethod.class);
 		if (fillChildrenMethod != null) {
 			transferType = fillChildrenMethod.transferInfo().type();
 			if (transferType != null && transferType.length() > 0
@@ -344,8 +344,8 @@ public class AnnotationsHelper {
 			}
 		}
 
-		CX_JSJPQLMethod jpqlMethod = method
-				.getAnnotation(CX_JSJPQLMethod.class);
+		JSJPQLMethod jpqlMethod = method
+				.getAnnotation(JSJPQLMethod.class);
 		if (jpqlMethod != null) {
 			transferType = jpqlMethod.transferInfo().type();
 			if (transferType != null && transferType.length() > 0
@@ -360,7 +360,7 @@ public class AnnotationsHelper {
 			// }
 
 			// Check updateEntity annotation
-			CX_UpdateInfo uiAnnotation = jpqlMethod.updateInfo();
+			JSUpdateInfo uiAnnotation = jpqlMethod.updateInfo();
 			if (uiAnnotation != null) {
 				Class<?> updateEntity = uiAnnotation.updateEntity();
 				if (updateEntity != null && !updateEntity.equals(DEFAULT.class)) {
@@ -374,7 +374,7 @@ public class AnnotationsHelper {
 		}
 
 		// Check updateEntity annotation
-		CX_UpdateInfo uiAnnotation = method.getAnnotation(CX_UpdateInfo.class);
+		JSUpdateInfo uiAnnotation = method.getAnnotation(JSUpdateInfo.class);
 		if (uiAnnotation != null) {
 			Class<?> updateEntity = uiAnnotation.updateEntity();
 			if (updateEntity != null) {

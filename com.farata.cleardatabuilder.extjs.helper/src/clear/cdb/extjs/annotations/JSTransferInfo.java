@@ -7,12 +7,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
-public @interface CX_UpdateInfo {
-	Class<?> updateEntity();
-
-	String keyPropertyNames() default "";
-
-	String updatablePropertyNames() default "";
-
-	boolean autoSyncEnabled() default false;
+/* Write about FXOneToMany picked up automatically from @OneToMany*/
+public @interface JSTransferInfo {
+	String type(); 
+	Class<?> mappedBy() default DEFAULT.class;
 }

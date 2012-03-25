@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface CX_JSGenerateSample {
+public @interface JSGenerateSample {
 
 	String defaultFillArguments() default "";
 }

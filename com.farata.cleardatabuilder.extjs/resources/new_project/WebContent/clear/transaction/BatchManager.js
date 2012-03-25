@@ -229,7 +229,7 @@ Ext.define('Clear.transaction.BatchManager', {
 //				token.method = DataCollection.SYNC;
 				// If datacollection is not going to clean it's state with returned or pushed changeObjects,
 				// we clear in in advance. If problem happens, we will restoreState()
-//				dataCollection.cx_internal::saveState(token);	
+//				dataCollection.JSinternal::saveState(token);	
 //				if (!dataCollection.autoSyncEnabled && !dataCollection.roundTripSync)
 //					dataCollection.resetState();
 

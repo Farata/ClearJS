@@ -16,11 +16,11 @@
 		<xsl:variable name="methodNode"
 			select="annotated-types/annotated-type[@name=$interfaceName]/methods/method[@name=$methodName]" />
 		<xsl:variable name="jpqlMethodNode"
-			select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSJPQLMethod']" />
+			select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.JSJPQLMethod']" />
 		<xsl:variable name="types"
 			select="$jpqlMethodNode/method[@name='query']/query" />
 		<xsl:variable name="updateInfo"
-			select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.CX_UpdateInfo'] | $jpqlMethodNode/method[@name='updateInfo']/value/annotation" />
+			select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.JSUpdateInfo'] | $jpqlMethodNode/method[@name='updateInfo']/value/annotation" />
 		<xsl:variable name="updateEntity"
 			select="helper:replaceAll($updateInfo/method[@name='updateEntity']/@value, 'class ', '')" />
 		<xsl:variable name="annotatedType"

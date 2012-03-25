@@ -4,16 +4,16 @@ import java.util.List;
 
 import com.farata.demo.entities.Status;
 
-import clear.cdb.extjs.annotations.CX_JSGenerateStore;
-import clear.cdb.extjs.annotations.CX_JSGenerateSample;
-import clear.cdb.extjs.annotations.CX_JSJPQLMethod;
-import clear.cdb.extjs.annotations.CX_JSService;
-import clear.cdb.extjs.annotations.CX_TransferInfo;
+import clear.cdb.extjs.annotations.JSGenerateStore;
+import clear.cdb.extjs.annotations.JSGenerateSample;
+import clear.cdb.extjs.annotations.JSJPQLMethod;
+import clear.cdb.extjs.annotations.JSService;
+import clear.cdb.extjs.annotations.JSTransferInfo;
 
-@CX_JSService
+@JSService
 public interface TestService1 {
-	@CX_JSGenerateSample
-	@CX_JSGenerateStore
-	@CX_JSJPQLMethod(query = "SELECT st, st.statusid, ord FROM Status st JOIN st.storeorders ord", transferInfo=@CX_TransferInfo(type="com.farata.demo.dto.StatusDTO")) 
+	@JSGenerateSample
+	@JSGenerateStore
+	@JSJPQLMethod(query = "SELECT st, st.statusid, ord FROM Status st JOIN st.storeorders ord", transferInfo=@JSTransferInfo(type="com.farata.demo.dto.StatusDTO")) 
 	List<?> getStatusesList ();
 }

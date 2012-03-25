@@ -17,11 +17,11 @@
 		<xsl:variable name="methodNode"
 			select="annotated-types/annotated-type[@name=$interfaceName]/methods/method[@name=$methodName]" />
 		<xsl:variable name="jpqlMethodNode"
-			select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSJPQLMethod']" />
+			select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.JSJPQLMethod']" />
 		<xsl:variable name="getMethodNode"
-			select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSGetMethod']" />
+			select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.JSGetMethod']" />
 		<xsl:variable name="fillChildrenMethodNode"
-			select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSFillChildrenMethod']" />
+			select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.JSFillChildrenMethod']" />
 
 		<xsl:choose>
 			<xsl:when test="$jpqlMethodNode">

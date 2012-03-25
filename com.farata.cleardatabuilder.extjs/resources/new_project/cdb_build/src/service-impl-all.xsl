@@ -18,7 +18,7 @@
 		<xsl:for-each select="annotated-types/annotated-type">
 			<xsl:variable name="interfaceName" select="@name" />
 			<xsl:variable name="cxService"
-				select="annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSService']" />
+				select="annotations/annotation[@name='clear.cdb.extjs.annotations.JSService']" />
 			<xsl:if test="$cxService">
 				<xsl:variable name="typeName" select="helper:getTypeName($interfaceName)" />
 				<xsl:variable name="packageName"

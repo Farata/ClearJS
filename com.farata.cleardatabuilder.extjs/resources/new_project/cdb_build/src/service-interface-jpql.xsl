@@ -10,8 +10,8 @@
 		<xsl:param name="interfaceName"/>
 		<xsl:param name="methodNode"/>
 
-		<xsl:variable name="jpqlMethodNode" select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.CX_JSJPQLMethod']"/>
-		<xsl:variable name="updateInfo" select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.CX_UpdateInfo'] | $jpqlMethodNode/method[@name='updateInfo']/value/annotation"/>
+		<xsl:variable name="jpqlMethodNode" select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.JSJPQLMethod']"/>
+		<xsl:variable name="updateInfo" select="$methodNode/annotations/annotation[@name='clear.cdb.extjs.annotations.JSUpdateInfo'] | $jpqlMethodNode/method[@name='updateInfo']/value/annotation"/>
 		<xsl:variable name="updateEntity" select="helper:replaceAll($updateInfo/method[@name='updateEntity']/@value, 'class ', '')"/>
 	org.hibernate.Query <xsl:value-of select="$methodNode/@name"/>_preExecQuery(org.hibernate.Query query<xsl:if test="count($methodNode/parameters/parameter)>0">, <xsl:for-each select="$methodNode/parameters/parameter"><xsl:value-of select="concat(@type,' ')"/><xsl:value-of select="@name"/><xsl:if test="not(last() = position())">, </xsl:if></xsl:for-each></xsl:if>);
 		<xsl:if test="$updateEntity">

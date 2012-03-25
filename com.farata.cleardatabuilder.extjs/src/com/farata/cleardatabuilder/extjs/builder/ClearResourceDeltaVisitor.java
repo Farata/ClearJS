@@ -13,7 +13,7 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
 
-import clear.cdb.extjs.annotations.CX_JSService;
+import clear.cdb.extjs.annotations.JSService;
 
 public class ClearResourceDeltaVisitor implements IResourceDeltaVisitor {
 
@@ -59,7 +59,7 @@ public class ClearResourceDeltaVisitor implements IResourceDeltaVisitor {
 		Class<?> clazz = urlClazzLoader.loadClass(className);
 		Annotation[] ann = clazz.getAnnotations();
 		for (Annotation a: ann) {
-			if (a.annotationType() != null && "clear.cdb.extjs.annotations.CX_JSService".equals(a.annotationType().getName())) {
+			if (a.annotationType() != null && "clear.cdb.extjs.annotations.JSService".equals(a.annotationType().getName())) {
 				return true;
 			}
 		}
