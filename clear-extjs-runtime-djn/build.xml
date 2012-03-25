@@ -7,10 +7,10 @@
 		<javac srcdir="src" destdir="dist" debug="on" debuglevel="lines,vars,source" deprecation="deprecation" optimize="optimize" includeantruntime="false"
     			       source="1.6" target="1.6">
 			<classpath>
-				<fileset dir="../com.farata.lib.js/base">
+				<fileset dir="../com.farata.lib.extjs/base">
 					<include name="**/*.jar"/>
 				</fileset>
-				<fileset dir="../com.farata.lib.js/servlet">
+				<fileset dir="../com.farata.lib.extjs/servlet">
 					<include name="**/*.jar"/>
 				</fileset>
 				<fileset dir="lib">

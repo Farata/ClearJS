@@ -3,11 +3,11 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="lib/clear-extjs-runtime-core.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/jta-1.1.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/jta-spec1_0_1.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/jts1_0.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/directjngine.2.0-alpha1.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/gson-2.1.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/servlet/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jta-spec1_0_1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jts1_0.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/directjngine.2.0-alpha1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/gson-2.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/servlet/servlet-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

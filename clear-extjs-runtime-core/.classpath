@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/ant-contrib-0.6.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/antlr.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/ant-contrib-0.6.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/antlr.jar"/>
 
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/asm-attrs.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/asm.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/asm-attrs.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/asm.jar"/>
 
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/commons-beanutils-1.6.1.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/commons-codec-1.4.0.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/commons-dbcp-1.2.2.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/commons-httpclient-3.0.1.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/commons-io-1.4.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/commons-lang-2.3.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/commons-logging.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/commons-pool-1.5.4.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/concurrent.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/connector-1_5.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/hibernate3.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/howl.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/jta-1.1.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/jta-spec1_0_1.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/jts1_0.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-beanutils-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-codec-1.4.0.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-dbcp-1.2.2.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-httpclient-3.0.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-io-1.4.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-pool-1.5.4.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/concurrent.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/connector-1_5.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/hibernate3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/howl.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jta-spec1_0_1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jts1_0.jar"/>
 
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/log4j-1.2.15.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/serializer.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/xalan.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.js/base/xapool.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/serializer.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/xalan.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/xapool.jar"/>
 
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
