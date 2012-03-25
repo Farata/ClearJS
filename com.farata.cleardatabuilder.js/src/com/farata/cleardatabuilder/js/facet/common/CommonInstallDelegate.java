@@ -54,7 +54,8 @@ public class CommonInstallDelegate implements IDelegate {
 			@Override
 			public void handleEvent(IFacetedProjectEvent event) {
 				IProjectFacetActionEvent evt = (IProjectFacetActionEvent) event;
-				if ("com.farata.cleardatabuilder.js.facet.common".equals(evt.getProjectFacet().getId())) {
+				if ("com.farata.cleardatabuilder.js.facet.common".equals(evt
+						.getProjectFacet().getId())) {
 					try {
 						FacetedProjectFramework.removeListener(this);
 						final String prjName = project.getName();
@@ -64,13 +65,18 @@ public class CommonInstallDelegate implements IDelegate {
 							protected IStatus run(
 									IProgressMonitor iprogressmonitor) {
 								final Properties props = new Properties();
-								props.setProperty("extjs.path", config.getExtJSPath().getAbsolutePath());
-								if(sampleInstallConfig.isHibernateSample()) {
-									props.setProperty("is.hibernate.sample", "true");
-								} else {
-									props.setProperty("is.plain.java.sample", "true");
+								props.setProperty("extjs.path", config
+										.getExtJSPath().getAbsolutePath());
+								if (sampleInstallConfig != null) {
+									if (sampleInstallConfig.isHibernateSample()) {
+										props.setProperty(
+												"is.hibernate.sample", "true");
+									} else {
+										props.setProperty(
+												"is.plain.java.sample", "true");
+									}
 								}
-								
+
 								fillHibernateProps(props, project, monitor);
 
 								Installer.install(props, prjName,
@@ -198,7 +204,7 @@ public class CommonInstallDelegate implements IDelegate {
 		JpaProject jpaProject = JptJpaCorePlugin.getJpaProject(project);
 		long time = 0;
 		while (jpaProject == null) {
-			if (time>timeout) {
+			if (time > timeout) {
 				break;
 			}
 			try {
@@ -206,7 +212,7 @@ public class CommonInstallDelegate implements IDelegate {
 			} catch (InterruptedException e) {
 			}
 			time += 100;
-			//JptCorePlugin.rebuildJpaProject(project);
+			// JptCorePlugin.rebuildJpaProject(project);
 			jpaProject = JptJpaCorePlugin.getJpaProject(project);
 		}
 		return jpaProject;
