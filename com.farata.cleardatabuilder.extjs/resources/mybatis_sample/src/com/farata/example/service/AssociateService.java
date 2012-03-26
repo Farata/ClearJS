@@ -1,11 +1,9 @@
 package com.farata.example.service;
 
 import java.util.List;
-
+import java.util.Map;
 import clear.data.ChangeObject;
 import clear.transaction.identity.IdentityRack;
-
-import com.farata.example.data.DataEngine;
 import com.farata.example.dto.AssociateDTO;
 import com.farata.example.mapper.AssociateMapper;
 import com.farata.example.service.generated._AssociateService;
@@ -14,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @org.springframework.stereotype.Service("com.farata.example.service.AssociateService")
 public class AssociateService extends _AssociateService {
-
+	private AssociateMapper associateMapper;
 	@Override
 	public List<AssociateDTO> getAssociates(Integer companyId) {
 		List<AssociateDTO> associateList = associateMapper.getAssociates(companyId);

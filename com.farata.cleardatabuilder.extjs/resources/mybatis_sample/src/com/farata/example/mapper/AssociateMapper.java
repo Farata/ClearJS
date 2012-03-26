@@ -19,7 +19,7 @@ public interface AssociateMapper {
 		@Result(property="id", column="id"),
 		@Result(property="associateName", column="associate")
 	})
-	List<AssociateDTO> getAssociates(Long company_id);
+	List<AssociateDTO> getAssociates(Integer company_id);
 
 	@Insert("INSERT INTO company_associate (associate, company_id) VALUES (#{associateName}, #{companyId})")
 	//@SelectKey(statement = "call identity()", keyProperty = "id", before = false, resultType = Long.class)

@@ -6,6 +6,7 @@ import com.farata.example.dto.CompanyDTO;
 import com.farata.example.mapper.CompanyMapper;
 import com.farata.example.service.generated._CompanyService;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @org.springframework.stereotype.Service("com.farata.example.service.CompanyService")
