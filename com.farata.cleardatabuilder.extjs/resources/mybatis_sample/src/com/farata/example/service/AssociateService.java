@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @org.springframework.stereotype.Service("com.farata.example.service.AssociateService")
 public class AssociateService extends _AssociateService {
+	@Autowired
 	private AssociateMapper associateMapper;
 	@Override
 	public List<AssociateDTO> getAssociates(Integer companyId) {
