@@ -28,8 +28,8 @@ public class SampleInstallWizardPage extends AbstractFacetWizardPage {
 		SampleInstallWizardPageUI impl = new SampleInstallWizardPageUI(this, c);
 		impl.createParent();
 		setControl(c);
-		setTitle("Clear Data Builder JS Facet");
-		setDescription("Configure Clear Data Builder JS settings.");
+		setTitle("ClearDataBuilder for Ext JS Facet");
+		setDescription("Configure ClearDataBuilder for Ext JS settings.");
 	}
 
 	public SampleInstallConfig getConfig() {

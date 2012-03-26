@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.farata.cleardatabuilder.extjs.feature"
-      label="ClearDataBuilder JS Feature"
+      label="ClearDataBuilder for Ext JS Feature"
       version="1.0.0.qualifier">
 
    <description url="http://www.example.com/description">
-      ClearDataBuilder JS, version 1.0
+      ClearDataBuilder for Ext JS, v 1.0
    </description>
 
    <copyright url="http://www.example.com/copyright">
@@ -25,7 +25,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
    </license>
 
    <plugin
-         id="com.farata.cleardatabuilder.js"
+         id="com.farata.cleardatabuilder.extjs"
          download-size="0"
          install-size="0"
          version="0.0.0"/>

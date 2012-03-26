@@ -28,8 +28,8 @@ public class CommonInstallWizardPage extends AbstractFacetWizardPage {
 		CommonInstallWizardPageUI impl = new CommonInstallWizardPageUI(this, c);
 		impl.createParent();
 		setControl(c);
-		setTitle("Clear Data Builder JS Facet");
-		setDescription("Configure Clear Data Builder JS settings.");
+		setTitle("ClearDataBuilder for Ext JS Facet");
+		setDescription("Configure ClearDataBuilder for Ext JS settings.");
 		setPageComplete(false);
 	}
 

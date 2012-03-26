@@ -2,12 +2,12 @@
 <plugin>
 	<extension point="org.eclipse.wst.common.project.facet.core.facets">
 		<category id="com.farata.cleardatabuilder.extjs.facet.category">
-			<label>Clear Data Builder JS 1.0 Facets</label>
-			<description>Clear Data Builder JS 1.0 Facets</description>
+			<label>ClearDataBuilder for Ext JS, v 1.0 Facets</label>
+			<description>ClearDataBuilder for Ext JS, v 1.0 Facets</description>
 		</category>
 		<project-facet id="com.farata.cleardatabuilder.extjs.facet.common">
-			<label>CDB JS Web Project Facet</label>
-			<description>CDB JS Web Project Facet</description>
+			<label>CDB Ext JS Web Project Facet</label>
+			<description>CDB Ext JS Web Project Facet</description>
 			<member category="com.farata.cleardatabuilder.extjs.facet.category" />
 		</project-facet>
 		<project-facet-version facet="com.farata.cleardatabuilder.extjs.facet.common"
@@ -39,8 +39,8 @@
 		</action>
 
 		<project-facet id="com.farata.cleardatabuilder.extjs.facet.sample">
-			<label>CDB JS Sample Project Facet</label>
-			<description>CDB JS Sample Project Facet</description>
+			<label>CDB Ext JS Sample Project Facet</label>
+			<description>CDB Ext JS Sample Project Facet</description>
 			<member category="com.farata.cleardatabuilder.extjs.facet.category" />
 		</project-facet>
 		<project-facet-version facet="com.farata.cleardatabuilder.extjs.facet.sample"
@@ -104,7 +104,7 @@
 	</extension>
 	
 	<extension point="org.eclipse.core.resources.natures" id="com.farata.cleardatabuilder.extjs.CDBJSNature"
-		name="Clear Data Builder JS Nature">
+		name="ClearDataBuilder for Ext JS Nature">
 		<runtime>
 			<run class="com.farata.cleardatabuilder.extjs.builder.ClearNature">
 			</run>
@@ -119,7 +119,7 @@
 	</extension>
 	<extension point="org.eclipse.ui.propertyPages">
 		<page class="com.farata.cleardatabuilder.extjs.ui.ClearPreferences" id="com.farata.cleardatabuilder.extjs.ui.cdbPreferences"
-			name="Clear Data Builder JS">
+			name="ClearDataBuilder for Ext JS">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject">
 					<test property="org.eclipse.core.resources.projectNature"

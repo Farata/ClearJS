@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ClearDataBuilder JS
-Bundle-SymbolicName: com.farata.cleardatabuilder.js;singleton:=true
+Bundle-Name: ClearDataBuilder for Ext JS
+Bundle-SymbolicName: com.farata.cleardatabuilder.extjs;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.farata.cleardatabuilder.extjs.Activator
 Bundle-Vendor: FARATA

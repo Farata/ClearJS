@@ -13,10 +13,6 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
 
-
-
-//import flex.data.messages.DataMessage;
-
 @SuppressWarnings("unchecked")
 public class ChangeObject<T> implements Serializable {
 	
