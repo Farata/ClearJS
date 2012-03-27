@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.ui,
  org.eclipse.jpt.common.core,
  org.eclipse.jpt.jpa.core,
- org.eclipse.jpt.jpa.ui
+ org.eclipse.jpt.jpa.ui,
+ com.farata.dto2extjs.asap
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
