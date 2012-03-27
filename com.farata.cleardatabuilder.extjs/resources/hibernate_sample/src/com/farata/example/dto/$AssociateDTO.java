@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.*;
 
 @JSClass
-public class $AssociateDTO  implements Serializable{
+public class $AssociateDTO  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 			
