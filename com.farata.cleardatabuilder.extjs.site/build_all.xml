@@ -1,7 +1,7 @@
 <project name="project" default="main">
 	<property file="build.properties" />
 	<target name="main" depends="clean">
-		<copy todir="../com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/lib">
+		<copy todir="../com.farata.cleardatabuilder.extjs/resources/spring_project/WebContent/WEB-INF/lib">
 			<fileset dir="../com.farata.lib.extjs/spring3.1.0" >
 				<exclude name="**/*.svn" />
 			</fileset>
@@ -35,5 +35,7 @@
 	<target name="clean">
 		<delete dir="../com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/lib" />
 		<mkdir dir="../com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/lib" />
+		<delete dir="../com.farata.cleardatabuilder.extjs/resources/spring_project/WebContent/WEB-INF/lib" />
+		<mkdir dir="../com.farata.cleardatabuilder.extjs/resources/spring_project/WebContent/WEB-INF/lib" />
 	</target>
 </project>
