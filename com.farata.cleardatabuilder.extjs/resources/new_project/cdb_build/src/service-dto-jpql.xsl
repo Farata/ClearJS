@@ -42,7 +42,6 @@
 import com.farata.dto2extjs.annotations.*;
 
 import clear.cdb.utils.SessionFactoryUtils;
-import clear.data.IUID;
 
 import java.io.Serializable;
 import java.util.*;
