@@ -60,7 +60,7 @@
 			<fileset dir="../resources/java_sample" />
 		</copy>
 	</target>
-	<target name="install-mybatis" if="is.mybatis.sample">
+	<target name="install-mybatis" if="is.mybatis.sample" depends="install-spring">
 		<mkdir dir="${workspace.path}/${project.name}" />
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
 			<fileset dir="../resources/mybatis_sample" />
