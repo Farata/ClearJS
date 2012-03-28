@@ -3,27 +3,7 @@
 	<description>
 	</description>
 	<property file="build.properties" />
-	<target name="default" depends="install-new, install-sample"/>
-	<target name="install-new">
-		<mkdir dir="${workspace.path}/${project.name}" />
-		<copy todir="${workspace.path}/${project.name}" overwrite="true">
-			<fileset dir="../resources/new_project" />
-		</copy>
-		<mkdir dir="${workspace.path}/${project.name}/WebContent/extjs" />
-		<copy todir="${workspace.path}/${project.name}/WebContent/extjs" overwrite="true">
-			<fileset dir="${extjs.path}">
-				<exclude name="build/**"/>
-				<exclude name="builds/**"/>
-				<exclude name="compatibility/**"/>
-				<exclude name="docs/**"/>
-				<exclude name="examples/**"/>
-				<exclude name="jsbuilder/**"/>
-				<exclude name="WEB-INF/**"/>
-				<exclude name="welcome/**"/>
-				<exclude name="index.html" />
-				<exclude name="release-notes.html" />
-			</fileset>
-		</copy>
+	<target name="default" depends="install-new, install-spring, install-sample">
 		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{persistence.unit}**" value="${persistence.unit}" />
 		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{jta.data.source}**" value="${jta.data.source}" />
 		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{hibernate.dialect}**" value="${hibernate.dialect}" />
@@ -40,16 +20,33 @@
 		<replace file="${workspace.path}/${project.name}/WebContent/app.js" token="**{app.name}**" value="${app.name}" />
 		<replace dir="${workspace.path}/${project.name}/WebContent/app" token="**{app.name}**" value="${app.name}" />
 	</target>
+	<target name="install-new">
+		<mkdir dir="${workspace.path}/${project.name}" />
+		<copy todir="${workspace.path}/${project.name}" overwrite="true">
+			<fileset dir="../resources/new_project" />
+		</copy>
+		<mkdir dir="${workspace.path}/${project.name}/WebContent/extjs" />
+		<copy todir="${workspace.path}/${project.name}/WebContent/extjs" overwrite="true">
+			<fileset dir="${extjs.path}">
+				<exclude name="build/**" />
+				<exclude name="builds/**" />
+				<exclude name="compatibility/**" />
+				<exclude name="docs/**" />
+				<exclude name="examples/**" />
+				<exclude name="jsbuilder/**" />
+				<exclude name="WEB-INF/**" />
+				<exclude name="welcome/**" />
+				<exclude name="index.html" />
+				<exclude name="release-notes.html" />
+			</fileset>
+		</copy>
+	</target>
 
 	<target name="install-sample" if="is.sample" depends="install-hibernate,install-plain-java,install-mybatis">
 		<mkdir dir="${workspace.path}/${project.name}" />
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
 			<fileset dir="../resources/sample_project" />
 		</copy>
-		<replace file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" token="**{persistence.unit}**" value="${persistence.unit}" />
-		<replace file="${workspace.path}/${project.name}/.settings/org.eclipse.jdt.apt.core.prefs" token="**{app.name}**" value="${app.name}" />
-		<replace dir="${workspace.path}/${project.name}/WebContent/app" token="**{app.name}**" value="${app.name}" />
-		<replace file="${workspace.path}/${project.name}/WebContent/app.js" token="**{app.name}**" value="${app.name}" />
 	</target>
 	<target name="install-hibernate" if="is.hibernate.sample">
 		<mkdir dir="${workspace.path}/${project.name}" />
@@ -63,7 +60,7 @@
 			<fileset dir="../resources/java_sample" />
 		</copy>
 	</target>
-	<target name="install-mybatis" if="is.mybatis.sample" depends="install-spring">
+	<target name="install-mybatis" if="is.mybatis.sample">
 		<mkdir dir="${workspace.path}/${project.name}" />
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
 			<fileset dir="../resources/mybatis_sample" />

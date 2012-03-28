@@ -11,5 +11,37 @@
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/servlet/servlet-api.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-logging.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.aop-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.asm-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.aspects-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.beans-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.context-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.context.support-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.core-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.expression-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.instrument-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.instrument.tomcat-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.jdbc-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.jms-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.orm-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.oxm-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.test-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.transaction-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.web-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.web.portlet-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.web.servlet-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/org.springframework.web.struts-3.1.0.RC1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-flex-core-1.5.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-acl-3.1.0.RC3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-aspects-3.1.0.RC3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-cas-3.1.0.RC3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-config-3.1.0.RC3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-core-3.1.0.RC3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-crypto-3.1.0.RC3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-ldap-3.1.0.RC3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-openid-3.1.0.RC3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-remoting-3.1.0.RC3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-taglibs-3.1.0.RC3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-web-3.1.0.RC3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

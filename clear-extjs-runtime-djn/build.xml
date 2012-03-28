@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="project" default="default">
 
-	<target name="default" >
-		<delete dir="dist" failonerror="no"/>
-		<mkdir dir="dist"/>
-		<javac srcdir="src" destdir="dist" debug="on" debuglevel="lines,vars,source" deprecation="deprecation" optimize="optimize" includeantruntime="false"
-    			       source="1.6" target="1.6">
+	<target name="default">
+		<delete dir="dist" failonerror="no" />
+		<mkdir dir="dist" />
+		<javac srcdir="src" destdir="dist" debug="on" debuglevel="lines,vars,source" deprecation="deprecation" optimize="optimize" includeantruntime="false" source="1.6" target="1.6">
 			<classpath>
 				<fileset dir="../com.farata.lib.extjs/base">
-					<include name="**/*.jar"/>
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="../com.farata.lib.extjs/spring3.1.0">
+					<include name="**/*.jar" />
 				</fileset>
 				<fileset dir="../com.farata.lib.extjs/servlet">
-					<include name="**/*.jar"/>
+					<include name="**/*.jar" />
 				</fileset>
 				<fileset dir="lib">
-					<include name="**/*.jar"/>
+					<include name="**/*.jar" />
 				</fileset>
 			</classpath>
 		</javac>
