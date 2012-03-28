@@ -76,7 +76,7 @@ public class CommonInstallDelegate implements IDelegate {
 												"is.plain.java.sample", "true");
 									}
 								}
-								if (sampleInstallConfig != null) {
+								if (config != null) {
 									if (config.isAddSpringSupport()) {
 										props.setProperty(
 												"add.spring.support", "true");
