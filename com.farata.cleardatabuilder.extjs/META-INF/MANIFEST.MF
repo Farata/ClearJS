@@ -4,7 +4,7 @@ Bundle-Name: ClearDataBuilder for Ext JS
 Bundle-SymbolicName: com.farata.cleardatabuilder.extjs;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.farata.cleardatabuilder.extjs.Activator
-Bundle-Vendor: FARATA
+Bundle-Vendor: Farata Systems LLC
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.wst.common.project.facet.core,
