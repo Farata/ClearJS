@@ -3,7 +3,7 @@
 	<description>
 	</description>
 	<property file="build.properties" />
-	<target name="default" depends="install-new, install-spring, install-sample"/>
+	<target name="default" depends="install-new, install-sample"/>
 	<target name="install-new">
 		<mkdir dir="${workspace.path}/${project.name}" />
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
@@ -41,7 +41,7 @@
 		<replace dir="${workspace.path}/${project.name}/WebContent/app" token="**{app.name}**" value="${app.name}" />
 	</target>
 
-	<target name="install-sample" if="is.sample" depends="install-hibernate,install-plain-java">
+	<target name="install-sample" if="is.sample" depends="install-hibernate,install-plain-java,install-mybatis">
 		<mkdir dir="${workspace.path}/${project.name}" />
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
 			<fileset dir="../resources/sample_project" />
@@ -63,7 +63,13 @@
 			<fileset dir="../resources/java_sample" />
 		</copy>
 	</target>
-	<target name="install-spring" if="add.spring.support">
+	<target name="install-mybatis" if="is.mybatis.sample" depends="install-spring">
+		<mkdir dir="${workspace.path}/${project.name}" />
+		<copy todir="${workspace.path}/${project.name}" overwrite="true">
+			<fileset dir="../resources/mybatis_sample" />
+		</copy>
+	</target>
+	<target name="install-spring">
 		<mkdir dir="${workspace.path}/${project.name}" />
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
 			<fileset dir="../resources/spring_project" />

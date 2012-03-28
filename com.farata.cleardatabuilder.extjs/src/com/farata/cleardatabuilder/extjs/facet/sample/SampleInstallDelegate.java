@@ -33,7 +33,7 @@ public class SampleInstallDelegate implements IDelegate{
 				(SampleInstallConfig) context, monitor);
 		
 		try {
-			if (config.isHibernateSample()) {
+			if (config.isHibernateSample() || config.isMybatisSample()) {
 				unpackSampleDB(config.getSampleDBInstallFolder(), monitor);
 				createDBConnection(project, config.getSampleDBInstallFolder());
 			}

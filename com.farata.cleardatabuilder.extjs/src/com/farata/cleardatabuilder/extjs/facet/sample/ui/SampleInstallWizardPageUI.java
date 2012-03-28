@@ -2,7 +2,6 @@ package com.farata.cleardatabuilder.extjs.facet.sample.ui;
 
 import java.io.File;
 
-import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -15,7 +14,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -55,17 +53,22 @@ public class SampleInstallWizardPageUI {
 		sampleCombo = new Combo(parent, SWT.NONE);
 		sampleCombo.add("Hibernate sample");
 		sampleCombo.add("Plain Java sample");
+		sampleCombo.add("Mybatis sample");
 		sampleCombo.select(0);
 		sampleCombo.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent selectionevent) {
 				boolean hbn = sampleCombo.getSelectionIndex() == 0;
-				dbLabel.setEnabled(hbn);
-				sampleDBInstallFolder.setEnabled(hbn);
-				button.setEnabled(hbn);
+				boolean plnjava = sampleCombo.getSelectionIndex() == 1;
+				boolean mybts = sampleCombo.getSelectionIndex() == 2;
+				dbLabel.setEnabled(!plnjava);
+				sampleDBInstallFolder.setEnabled(!plnjava);
+				button.setEnabled(!plnjava);
 				installWizardPage.getConfig().setHibernateSample(hbn);
-				installWizardPage.setPageComplete(!hbn
+				installWizardPage.getConfig().setPlainJavaSample(plnjava);
+				installWizardPage.getConfig().setMybatisSample(mybts);
+				installWizardPage.setPageComplete(plnjava
 						|| installWizardPage
 								.validateInstallationFolder(new File(
 										sampleDBInstallFolder.getText())));
@@ -109,7 +112,7 @@ public class SampleInstallWizardPageUI {
 		String os = System.getProperty("os.name").toLowerCase();
 		String defaultDBFolder="";
 		if (os.indexOf("win") >= 0) {
-			defaultDBFolder = home + "/Application Data/ClearDataBuilder/cleardb";
+			defaultDBFolder = home + "\\Application Data\\ClearDataBuilder\\cleardb";
 		} else if (os.indexOf("mac") >= 0) {			
 			defaultDBFolder = home + "/Library/ApplicationSupport/ClearDataBuilder/companydb";
 		};

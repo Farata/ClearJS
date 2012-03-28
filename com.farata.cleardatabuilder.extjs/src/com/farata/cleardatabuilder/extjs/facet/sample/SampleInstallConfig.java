@@ -8,6 +8,16 @@ public class SampleInstallConfig {
 	private IWizardContext wizardContext;
 	private File sampleDBInstallFolder;
 	private boolean hibernateSample = true;
+	private boolean plainJavaSample;
+	private boolean mybatisSample;
+
+	public boolean isPlainJavaSample() {
+		return plainJavaSample;
+	}
+
+	public boolean isMybatisSample() {
+		return mybatisSample;
+	}
 
 	public boolean isHibernateSample() {
 		return hibernateSample;
@@ -30,6 +40,14 @@ public class SampleInstallConfig {
 	}
 
 	public void setHibernateSample(boolean hibernateSample) {
-		this.hibernateSample = hibernateSample;	
+		this.hibernateSample = hibernateSample;
+	}
+
+	public void setPlainJavaSample(boolean plainJavaSample) {
+		this.plainJavaSample = plainJavaSample;
+	}
+
+	public void setMybatisSample(boolean mybatisSample) {
+		this.mybatisSample = mybatisSample;
 	}
 }

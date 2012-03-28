@@ -71,9 +71,12 @@ public class CommonInstallDelegate implements IDelegate {
 									if (sampleInstallConfig.isHibernateSample()) {
 										props.setProperty(
 												"is.hibernate.sample", "true");
-									} else {
+									} else if (sampleInstallConfig.isPlainJavaSample()) {
 										props.setProperty(
 												"is.plain.java.sample", "true");
+									} else if (sampleInstallConfig.isMybatisSample()) {
+										props.setProperty(
+												"is.mybatis.sample", "true");
 									}
 								}
 								if (config != null) {

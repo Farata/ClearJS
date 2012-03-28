@@ -9,5 +9,7 @@
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/directjngine.2.0-alpha1.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/gson-2.1.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/servlet/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/log4j-1.2.15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
