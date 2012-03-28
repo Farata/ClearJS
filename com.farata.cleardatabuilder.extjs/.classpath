@@ -49,7 +49,6 @@
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/serializer.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/slf4j-api-1.6.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/slf4j-log4j12-1.6.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/spring-flex-core-1.5.2.RELEASE.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/xalan.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/xapool.jar"/>
 	<classpathentry exported="true" kind="lib" path="resources/new_project/WebContent/WEB-INF/lib/yuicompressor-2.4.2.jar"/>

@@ -54,7 +54,6 @@
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/serializer.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/slf4j-api-1.6.0.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/slf4j-log4j12-1.6.0.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/spring-flex-core-1.5.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/xalan.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/xapool.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/yuicompressor-2.4.2.jar"/>
