@@ -3,8 +3,7 @@
 	<description>
 	</description>
 	<property file="build.properties" />
-	<target name="default" depends="install-new, install-sample">
-	</target>
+	<target name="default" depends="install-new, install-spring, install-sample"/>
 	<target name="install-new">
 		<mkdir dir="${workspace.path}/${project.name}" />
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
@@ -62,6 +61,12 @@
 		<mkdir dir="${workspace.path}/${project.name}" />
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
 			<fileset dir="../resources/java_sample" />
+		</copy>
+	</target>
+	<target name="install-spring" if="add.spring.support">
+		<mkdir dir="${workspace.path}/${project.name}" />
+		<copy todir="${workspace.path}/${project.name}" overwrite="true">
+			<fileset dir="../resources/spring_project" />
 		</copy>
 	</target>
 </project>

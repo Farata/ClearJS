@@ -16,18 +16,7 @@ package <xsl:value-of select="$rootPackage"/>;
 
 import <xsl:value-of select="$rootPackage"/>.generated.*;
 
-@org.springframework.stereotype.Service("<xsl:value-of select="$rootPackage"/>.<xsl:value-of select="$subServiceName"/>")
 public class <xsl:value-of select="$subServiceName"/> extends <xsl:value-of select="$superServiceName"/> {
-	private org.springframework.orm.hibernate3.HibernateTemplate hibernateTemplate;
-		
-	@org.springframework.beans.factory.annotation.Autowired
-	public void setHibernateTemplate(org.springframework.orm.hibernate3.HibernateTemplate hibernateTemplateValue) {
-		hibernateTemplate = hibernateTemplateValue;
-	}
-
-	public org.springframework.orm.hibernate3.HibernateTemplate getHibernateTemplate() {
-		return hibernateTemplate;
-	}
 }
 	</xsl:template>
 </xsl:stylesheet>
