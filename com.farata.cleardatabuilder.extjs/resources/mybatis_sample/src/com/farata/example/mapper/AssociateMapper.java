@@ -17,7 +17,8 @@ public interface AssociateMapper {
 	@Select("SELECT * FROM company_associate WHERE company_id = #{companyId}")
 	@Results(value = {
 		@Result(property="id", column="id"),
-		@Result(property="associateName", column="associate")
+		@Result(property="associateName", column="associate"),
+		@Result(property="companyId", column="company_id")
 	})
 	List<AssociateDTO> getAssociates(Integer company_id);
 
