@@ -1,8 +1,8 @@
 <mockup version="1.0" skin="sketch" measuredW="900" measuredH="793" mockupW="893" mockupH="793">
   <controls>
-    <control controlID="0" controlTypeID="com.balsamiq.mockups::RadioButtonGroup" x="612" y="210" w="134" h="63" measuredW="134" measuredH="63" zOrder="0" locked="false" isInGroup="-1">
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::RadioButtonGroup" x="612" y="210" w="134" h="63" measuredW="85" measuredH="63" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>%28o%29%20MyBatis%20%28selected%29%0A%28%20%29%20Hibernate%0A%28%29%20None%20</text>
+        <text>%28o%29%20MyBatis%0A%28%20%29%20Hibernate%0A%28%29%20None%20</text>
       </controlProperties>
     </control>
     <control controlID="2" controlTypeID="com.balsamiq.mockups::ComboBox" x="619" y="279" w="184" h="-1" measuredW="74" measuredH="48" zOrder="1" locked="false" isInGroup="-1">
