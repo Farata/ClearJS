@@ -78,7 +78,8 @@ public class CommonInstallWizardPageUI {
 		
 		springCheckbox = new Button(parent, SWT.CHECK);
 		springCheckbox.setText("Add Spring support");
-		springCheckbox.setSelection(true);
+		springCheckbox.setEnabled(false);
+		//springCheckbox.setSelection(true);
 		springCheckbox.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 				installWizardPage.getConfig().setAddSpringSupport(springCheckbox.getSelection());

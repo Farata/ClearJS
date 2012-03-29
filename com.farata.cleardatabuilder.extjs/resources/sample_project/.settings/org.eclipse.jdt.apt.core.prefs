@@ -1,7 +1,7 @@
 eclipse.preferences.version=1
 org.eclipse.jdt.apt.aptEnabled=true
 org.eclipse.jdt.apt.genSrcDir=WebContent
-org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdb.configuration.file=**{app.name}**/src/hibernate.cfg.xml
+
 org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdb.entities.classpath=**{app.name}**/build/classes
 
 org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.output=**{app.name}**/WebContent
