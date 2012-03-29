@@ -7,7 +7,7 @@ import org.eclipse.wst.common.project.facet.ui.IWizardContext;
 public class CommonInstallConfig {
 
 	private IWizardContext wizardContext;
-	private boolean addSpringSupport = true;
+	private boolean addSpringSupport = false;
 	private File extJSPath;
 
 	public File getExtJSPath() {
