@@ -112,9 +112,9 @@ public class SampleInstallWizardPageUI {
 		String os = System.getProperty("os.name").toLowerCase();
 		String defaultDBFolder="";
 		if (os.indexOf("win") >= 0) {
-			defaultDBFolder = home + "\\Application Data\\ClearDataBuilder\\cleardb";
+			defaultDBFolder = home + "\\Application Data\\ClearDataBuilder";
 		} else if (os.indexOf("mac") >= 0) {			
-			defaultDBFolder = home + "/Library/ApplicationSupport/ClearDataBuilder/companydb";
+			defaultDBFolder = home + "/Library/ApplicationSupport/ClearDataBuilder";
 		};
 		sampleDBInstallFolder.setText(defaultDBFolder);
 	}

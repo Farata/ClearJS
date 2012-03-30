@@ -65,11 +65,11 @@ public class SampleInstallDelegate implements IDelegate{
 	
 	private static void unpackSampleDB(File installationFolder,
 			IProgressMonitor monitor) {
-		File sampleDBZip;
+		File clearDBZip;
 		try {
-			sampleDBZip = Commons.getBundleEntry(Activator.getDefault()
-					.getBundle(), "resources/SampleDB/sampledb.zip");
-			Util.unpack(installationFolder.toString(), sampleDBZip.toString(),
+			clearDBZip = Commons.getBundleEntry(Activator.getDefault()
+					.getBundle(), "resources/SampleDB/cleardb.zip");
+			Util.unpack(installationFolder.toString(), clearDBZip.toString(),
 					Util.OVERRIDE_ALWAYS);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -93,7 +93,7 @@ public class SampleInstallDelegate implements IDelegate{
 				"org.hsqldb.jdbcDriver");
 		baseProperties.setProperty(
 				"org.eclipse.datatools.connectivity.db.databaseName",
-				"companydb");
+				"cleardb");
 		baseProperties
 				.setProperty(
 						"org.eclipse.datatools.connectivity.driverDefinitionID",
@@ -101,7 +101,7 @@ public class SampleInstallDelegate implements IDelegate{
 		baseProperties.setProperty(
 				"org.eclipse.datatools.connectivity.db.version", "1.8");
 		baseProperties.setProperty("org.eclipse.datatools.connectivity.db.URL",
-				"jdbc:hsqldb:hsql://localhost:9002/companydb");
+				"jdbc:hsqldb:hsql://localhost:9002/cleardb");
 		baseProperties.setProperty(
 				"org.eclipse.datatools.connectivity.db.vendor", "HSQLDB");
 

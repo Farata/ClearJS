@@ -171,7 +171,7 @@ public class CommonInstallDelegate implements IDelegate {
 			} else {
 				props.setProperty("hibernate.dialect",
 						"org.hibernate.dialect.HSQLDialect");
-				String dsName = "java:/comp/env/jdbc/companydb";
+				String dsName = "java:/comp/env/jdbc/cleardb";
 				props.setProperty("jta.data.source", dsName);
 			}
 
@@ -182,10 +182,10 @@ public class CommonInstallDelegate implements IDelegate {
 
 	private void setDefaultProps(Properties props) {
 		props.setProperty(PARAM_DS_DRIVER_CLASS_NAME, "org.hsqldb.jdbcDriver");
-		props.setProperty(PARAM_DS_NAME, "companydb");
+		props.setProperty(PARAM_DS_NAME, "cleardb");
 		props.setProperty(PARAM_DS_PASSWORD, "");
 		props.setProperty(PARAM_DS_URL,
-				"jdbc:hsqldb:hsql://localhost:9002/companydb");
+				"jdbc:hsqldb:hsql://localhost:9002/cleardb");
 		props.setProperty(PARAM_DS_USER, "sa");
 	}
 
