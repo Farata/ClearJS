@@ -21,7 +21,7 @@ public interface CompanyMapper {
 	})
 	List<CompanyDTO> getCompanies();
 	
-	@Insert("INSERT INTO company (id, company) VALUES (#{id}, #{companyName})")
+	@Insert("INSERT INTO company (company) VALUES (#{companyName})")
 	@SelectKey(statement = "call identity()", keyProperty = "id", before = false, resultType = int.class)
 	Integer create(CompanyDTO dto);
 
