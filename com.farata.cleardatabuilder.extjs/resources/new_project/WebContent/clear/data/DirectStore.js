@@ -254,20 +254,24 @@ Ext.define('Clear.data.DirectStore', {
       var associations;
 
       if (item.phantom!==true) {			
-    	  if (this.modifiedMap.remove(item) ) {
-			associations = item.associatons;
-			associations.each(function(association) {
-				var associatedStore;
-				if (association.type=="hasMany") {
-					associatedStore = item[association.storeName];
-					if (associatedStore) {
-						associatedStore.removeAll();
-					} 
-				}        					
-			}, this);  		
-    	  }
-		}
-		this.updateCommitRequired();		
+	    	  if (this.modifiedMap.remove(item) ) {
+				associations = item.associatons;
+				associations.each(function(association) {
+					var associatedStore;
+					if (association.type=="hasMany") {
+						associatedStore = item[association.storeName];
+						if (associatedStore) {
+							associatedStore.removeAll();
+						} 
+					}        					
+				}, this);
+	    	  }
+	    	  // Make sure freshly added and already commited item has "raw":
+	    	  if (item.raw === undefined) {
+	    		  item.raw = Ext.apply({}, item.data)
+	    	  }
+      }
+      this.updateCommitRequired();		
     },
     
     onUpdateRecord: function (store, item) {
