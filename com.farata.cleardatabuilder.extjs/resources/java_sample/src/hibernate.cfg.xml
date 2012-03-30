@@ -5,7 +5,7 @@
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.datasource">java:/comp/env/jdbc/companydb</property>
+        <property name="connection.datasource">java:/comp/env/jdbc/cleardb</property>
         <property name="transaction.auto_close_session">true</property>
         <property name="connection.pool_size">1</property>
         <property name="current_session_context_class">jta</property>
