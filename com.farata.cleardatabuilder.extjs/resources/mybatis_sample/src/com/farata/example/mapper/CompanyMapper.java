@@ -20,9 +20,9 @@ public interface CompanyMapper {
 		@Result(property="companyName", column="company")
 	})
 	List<CompanyDTO> getCompanies();
+	
 	@Insert("INSERT INTO company (id, company) VALUES (#{id}, #{companyName})")
-	@Options(useGeneratedKeys = true, keyProperty="id")
-	//@SelectKey(statement = "call identity()", keyProperty = "id", before = false, resultType = Long.class)
+	@SelectKey(statement = "call identity()", keyProperty = "id", before = false, resultType = int.class)
 	Integer create(CompanyDTO dto);
 
 	@Update("UPDATE company SET company = #{companyName} WHERE id = #{id}")

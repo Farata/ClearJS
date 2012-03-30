@@ -23,8 +23,7 @@ public interface AssociateMapper {
 	List<AssociateDTO> getAssociates(Integer company_id);
 
 	@Insert("INSERT INTO company_associate (associate, company_id) VALUES (#{associateName}, #{companyId})")
-	//@SelectKey(statement = "call identity()", keyProperty = "id", before = false, resultType = Long.class)
-	@Options(useGeneratedKeys = true, keyProperty="id")
+	@SelectKey(statement = "call identity()", keyProperty = "id", before = false, resultType = int.class)
 	Integer create(AssociateDTO dto);
 
 	@Update("UPDATE company_associate SET associate = #{associateName}, company_id = #{companyId} WHERE id = #{id}")

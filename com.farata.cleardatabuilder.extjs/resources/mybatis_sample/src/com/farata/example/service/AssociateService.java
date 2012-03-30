@@ -27,8 +27,10 @@ public class AssociateService extends _AssociateService {
 	public void getAssociates_doCreate(ChangeObject changeObject) {				
 		AssociateDTO dto =  (AssociateDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), AssociateDTO.class);			
 			
-		Integer parentCompanyId = (Integer)IdentityRack.getIdentity("com.farata.example.dto.CompanyDTO", "id", dto.id);
-		dto.companyId = parentCompanyId;
+		if (dto.companyId <=0) {
+			Integer parentCompanyId = (Integer)IdentityRack.getIdentity("com.farata.example.dto.CompanyDTO", "id", dto.id);
+			dto.companyId = parentCompanyId;
+		}
 		
 		if ((dto.id == null) || (dto.id <= 0)) {
 			associateMapper.create(dto);
