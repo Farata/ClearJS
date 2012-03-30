@@ -33,13 +33,14 @@ public class AssociateService extends _AssociateService {
 		// created object.
 		// Please replace it with your own code.
 		
-		AssociateDTO dto =  (AssociateDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), AssociateDTO.class);			
-
 		System.out.println("doCreate method");
-		
-		Integer parentCompanyId = (Integer)IdentityRack.getIdentity("com.farata.test.dto.CompanyDTO", "id", dto.id);
-		dto.companyId = parentCompanyId;
 
+		AssociateDTO dto =  (AssociateDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), AssociateDTO.class);			
+		
+		if (dto.companyId <=0) {
+			Integer parentCompanyId = (Integer)IdentityRack.getIdentity("com.farata.example.dto.CompanyDTO", "id", dto.id);
+			dto.companyId = parentCompanyId;
+		}
 		
 		Integer companyId = dto.companyId;
 		List<AssociateDTO> associateList = dataEngine.getAssociateList(companyId);
