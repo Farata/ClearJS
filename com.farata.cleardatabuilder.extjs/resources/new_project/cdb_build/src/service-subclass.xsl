@@ -10,13 +10,9 @@
 		<xsl:param name="subServiceName"/>
 		<xsl:param name="superServiceName"/>
 		<xsl:param name="interfaceName"/>
-		<xsl:param name="rootPackage"/>
-	
-package <xsl:value-of select="$rootPackage"/>;
-
+		<xsl:param name="rootPackage"/>package <xsl:value-of select="$rootPackage"/>;
 import <xsl:value-of select="$rootPackage"/>.generated.*;
-
 public class <xsl:value-of select="$subServiceName"/> extends <xsl:value-of select="$superServiceName"/> {
 }
-	</xsl:template>
+</xsl:template>
 </xsl:stylesheet>
