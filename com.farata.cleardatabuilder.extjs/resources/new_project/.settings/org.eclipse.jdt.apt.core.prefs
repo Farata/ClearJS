@@ -6,8 +6,8 @@ org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdb.entities.classpath=
 org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.output=**{app.name}**/WebContent
 
 org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.package-path-transformer=**{app.name}**:app
-org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.class-name-transformer=**{app.name}**.model.$1$3Model<<^((\\w+\\.)*)dto.(\\S+)DTO$
+org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.class-name-transformer=**{app.name}**.model
 org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.store.package-path-transformer=**{app.name}**:app
-org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.store.class-name-transformer=**{app.name}**.store.$1$3Store<<^((\\w+\\.)*)dto.(\\S+)DTO$
+org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.store.class-name-transformer=**{app.name}**.store
 
 
