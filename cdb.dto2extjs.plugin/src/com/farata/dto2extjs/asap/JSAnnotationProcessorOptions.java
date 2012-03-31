@@ -25,7 +25,7 @@ import com.sun.mirror.apt.Messager;
 
 public class JSAnnotationProcessorOptions {
 	
-	private static final String FLEX_WORKSPACE_LINK_TOKEN = "${DOCUMENTS}";
+	private static final String WORKSPACE_LINK_TOKEN = "${DOCUMENTS}";
 	
 	final private AnnotationProcessorEnvironment _env;
 	
@@ -72,10 +72,10 @@ public class JSAnnotationProcessorOptions {
 			);
 			isValid = false;
 		} else {
-			if (output.startsWith(FLEX_WORKSPACE_LINK_TOKEN)) {
+			if (output.startsWith(WORKSPACE_LINK_TOKEN)) {
 				final File root = ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile();
 				// ${...}/directory
-				final int indexOfCharAfterLinkToken = FLEX_WORKSPACE_LINK_TOKEN.length() + 1;
+				final int indexOfCharAfterLinkToken = WORKSPACE_LINK_TOKEN.length() + 1;
 				// handle the case if pointed to workspace root
 				if (output.length() > indexOfCharAfterLinkToken) {
 					_output = new File(root, output.substring(indexOfCharAfterLinkToken));
