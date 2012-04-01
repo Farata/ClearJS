@@ -10,7 +10,7 @@ import clear.cdb.extjs.annotations.JSService;
 
 @JSService
 public interface IAssociateService {
-	@JSGenerateStore(collectionType="com.farata.java_test.collections.AssociateCollection")
+	@JSGenerateStore(storeType="com.farata.java_test.collections.AssociateCollection")
 	@JSFillMethod(autoSyncEnabled = true)
 	List<AssociateDTO> fill(Long companyId);
 }

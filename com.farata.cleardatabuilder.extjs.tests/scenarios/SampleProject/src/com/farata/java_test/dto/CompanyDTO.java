@@ -42,7 +42,11 @@ public class CompanyDTO implements Serializable, IUID {
 		this.company = company;
 	}
 
-	@JSOneToMany(collectionType = "com.farata.java_test.collections.AssociateCollection", fillArguments = "id", sync = SyncType.BATCH)
+	@JSOneToMany(
+			storeType = "com.farata.java_test.collections.AssociateCollection", 
+			fillArguments = "id", 
+			sync = SyncType.BATCH
+	)
 	public List<AssociateDTO> getAssociates() {
 		return associates;
 	}
