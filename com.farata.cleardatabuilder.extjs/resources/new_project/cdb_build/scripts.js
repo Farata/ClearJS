@@ -740,7 +740,7 @@ function generateCollections() {
 									entityNamesArray[entity],
 									"" + annotationsHelper.getMethodNameByMethod(methods[method]),
 									"clear.cdb.extjs.annotations.JSGenerateStore",
-									"collectionType");
+									"storeType");
 					var packageName = "";
 					if (("" != collectionName) && !isEmpty(collectionName)) {
 						packageName = ""
