@@ -15,5 +15,10 @@ Ext.application({
     requires: [
         'Clear.override.ExtJSOverrider'
     ],
+    controllers: [
+        'ToolbarController',
+        'CompanyListController',
+        'AssociateController'
+    ],
     autoCreateViewport: true
 });
