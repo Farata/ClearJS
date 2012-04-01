@@ -20,9 +20,9 @@ import java.lang.annotation.Target;
  * the <code>transferInfo</code> becomes the transfer type;</li>
  * <li>if none of the above conditions are met, transfer type remains unknown</li>
  * </p> 
- * <p>If transfer type is not known, developer has to explicitly provide the value of the <code>collectionType</code> parameter, otherwise no collection
+ * <p>If transfer type is not known, developer has to explicitly provide the value of the <code>storeType</code> parameter, otherwise no collection
  * will be generated at all. A special care has to be taken of the related &#64;FXOneToMany annotations preceding getters of such transfer type: developer has to
- * explicitly provide the same value of the <code>collectionType</code> there as well.  
+ * explicitly provide the same value of the <code>storeType</code> there as well.  
  * </p>
  * <p>
  *  Example 1: When the transfer type is known, it is recommended to rely on default naming of the generated collection. Here, based on the 
@@ -36,9 +36,9 @@ import java.lang.annotation.Target;
  * </pre>
  * </p>
  * <p>
- * 	Example 2: When the transfer type is not known, <code>collectionType</code> has to be provided by the developer explicitly:
+ * 	Example 2: When the transfer type is not known, <code>storeType</code> has to be provided by the developer explicitly:
  *  <pre>
- * 	&#64;JSGenerateStore(collectionType="com.farata.collections.MyCompanyCollection")
+ * 	&#64;JSGenerateStore(storeType="com.farata.collections.MyCompanyCollection")
  * 	&#64;JSJPQLMethod(
  * 		query="SELECT c FROM Company c"
  * 	)
@@ -46,11 +46,11 @@ import java.lang.annotation.Target;
 * </pre>
  * </p>
  * <p>
- * 	Example 3: In relation with Example 2, <code>&#64;FXOneToMany</code> annotation of the <code>companyAssociates</code> property 
- * in the <code>com.farata.test.entity.Company</code> class has to explicitly specify the <code>collectionType</code> to match
+ * 	Example 3: In relation with Example 2, <code>&#64;JSOneToMany</code> annotation of the <code>companyAssociates</code> property 
+ * in the <code>com.farata.test.entity.Company</code> class has to explicitly specify the <code>storeType</code> to match
  * that of the related <code>&#64;JSGenerateStore</code> annotation:
  *  <pre>
- * 	&#64;FXOneToMany(fillArguments="id", collectionType="com.farata.collections.MyCompanyCollection")
+ * 	&#64;JSOneToMany(fillArguments="id", storeType="com.farata.collections.MyCompanyCollection")
  * 	public Set<CompanyAssociate> getCompanyAssociates() {
  *		return this.companyAssociates;
  * 	}
@@ -69,5 +69,5 @@ public @interface JSGenerateStore {
 	 * Fully qualified name of the DataCollection descendant, i.e. "com.farata.test.collections.CompanyCollection".
 	 * @return
 	 */
-	String collectionType() default "";
+	String storeType() default "";
 }
