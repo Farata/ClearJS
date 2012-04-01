@@ -1,17 +1,14 @@
 package com.farata.cleardatabuilder.extjs.facet.common;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.util.Set;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action.Type;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IWizardContext;
 
@@ -67,19 +64,32 @@ public class CommonInstallWizardPage extends AbstractFacetWizardPage {
 		return false;
 	}
 
-	public static SampleInstallConfig extractSampleConfiguration(
-			CommonInstallConfig config) throws CoreException {
+	public static SampleInstallConfig extractSampleConfiguration(CommonInstallConfig config) throws CoreException {
 		IWizardContext wizardContext = config.getWizardContext();
 		Set<?> projectFacets = wizardContext.getSelectedProjectFacets();
 		for (Object oProjectFacet : projectFacets) {
 			if (oProjectFacet instanceof IProjectFacetVersion) {
-				Object conf = wizardContext.getConfig(
-						(IProjectFacetVersion) oProjectFacet, Type.INSTALL, "");
+				Object conf = wizardContext.getConfig((IProjectFacetVersion) oProjectFacet, Type.INSTALL, "");
 				if (conf instanceof SampleInstallConfig) {
 					return (SampleInstallConfig) conf;
 				}
 			}
 		}
 		return null;
+	}
+
+	public boolean validateAppName(String text) {
+		if (text == null || text.length() == 0) {
+			return false;
+		}
+		if (!Character.isJavaIdentifierStart(text.charAt(0))) {
+			return false;
+		}
+		for (int i = 1; i < text.length(); i++) {
+			if (!Character.isJavaIdentifierPart(text.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

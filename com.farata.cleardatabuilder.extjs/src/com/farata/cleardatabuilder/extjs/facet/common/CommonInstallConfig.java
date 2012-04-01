@@ -9,6 +9,7 @@ public class CommonInstallConfig {
 	private IWizardContext wizardContext;
 	private boolean addSpringSupport = false;
 	private File extJSPath;
+	private String appName;
 
 	public File getExtJSPath() {
 		return extJSPath;
@@ -32,6 +33,14 @@ public class CommonInstallConfig {
 
 	public void setWizardContext(IWizardContext wizardContext) {
 		this.wizardContext = wizardContext;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	public String getAppName() {
+		return appName;
 	}
 	
 }

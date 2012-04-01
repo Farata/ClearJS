@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
-import org.eclipse.ant.core.AntRunner;
 import org.eclipse.ant.launching.IAntLaunchConstants;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -42,7 +41,6 @@ public class Installer {
 		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		String workspacePath = root.getLocation().toOSString();
 		properties.setProperty("workspace.path", workspacePath);
-		properties.setProperty("app.name", projectName.trim());
 		properties.setProperty("project.name", projectName.trim());
 
 		if (isNew) {

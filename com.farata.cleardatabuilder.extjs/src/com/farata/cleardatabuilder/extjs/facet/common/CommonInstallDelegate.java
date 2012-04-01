@@ -67,6 +67,8 @@ public class CommonInstallDelegate implements IDelegate {
 								final Properties props = new Properties();
 								props.setProperty("extjs.path", config
 										.getExtJSPath().getAbsolutePath());
+								props.setProperty("app.name", config
+										.getAppName());
 								if (sampleInstallConfig != null) {
 									if (sampleInstallConfig.isHibernateSample()) {
 										props.setProperty(

@@ -16,6 +16,7 @@
 		<replace file="${workspace.path}/${project.name}/.project" token="**{project_name}**" value="${project.name}" />
 		<replace file="${workspace.path}/${project.name}/cdb_build/build.properties" token="**{app.name}**" value="${app.name}" />
 		<replace file="${workspace.path}/${project.name}/.settings/org.eclipse.jdt.apt.core.prefs" token="**{app.name}**" value="${app.name}" />
+		<replace file="${workspace.path}/${project.name}/.settings/org.eclipse.jdt.apt.core.prefs" token="**{project_name}**" value="${project.name}" />
 		<replace file="${workspace.path}/${project.name}/WebContent/WEB-INF/web.xml" token="**{app.name}**" value="${app.name}" />
 		<replace file="${workspace.path}/${project.name}/WebContent/app.js" token="**{app.name}**" value="${app.name}" />
 		<replace dir="${workspace.path}/${project.name}/WebContent/app" token="**{app.name}**" value="${app.name}" />
