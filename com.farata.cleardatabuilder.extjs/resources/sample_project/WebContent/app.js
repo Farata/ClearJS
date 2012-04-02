@@ -17,7 +17,7 @@ Ext.application({
     ],
     controllers: [
         'ToolbarController',
-        'CompanyListController',
+        'CompanyController',
         'AssociateController'
     ],
     autoCreateViewport: true

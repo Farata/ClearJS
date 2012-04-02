@@ -158,6 +158,7 @@ public class JSAnnotationProcessor implements AnnotationProcessor {
 			IFile ifile= workspace.getRoot().getFileForLocation(location);
 			ifile.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (Throwable e) {
+			e.printStackTrace();
 		}
 	}
 	
