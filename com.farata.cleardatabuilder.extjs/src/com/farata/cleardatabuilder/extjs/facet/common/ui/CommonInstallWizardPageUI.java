@@ -74,7 +74,7 @@ public class CommonInstallWizardPageUI {
 		appNameLabel.setText("Application name:");
 		appNameText = new Text(parent, SWT.BORDER);
 		appNameText.setLayoutData(gridData);
-		appNameText.setText(projectName.toUpperCase());
+		appNameText.setText(projectName);
 		appNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				validateFields();
