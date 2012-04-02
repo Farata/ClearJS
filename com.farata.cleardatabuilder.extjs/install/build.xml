@@ -43,6 +43,7 @@
 		</copy>
 	</target>
 	<target name="install-sample-complete" if="is.sample" depends="install-sample-core,install-hibernate,install-plain-java,install-mybatis">
+		<delete file="${workspace.path}/${project.name}/WebContent/app/controller/HelloController.js" failonerror="false"/>		
 	</target>
 	<target name="install-sample-core">
 		<mkdir dir="${workspace.path}/${project.name}" />
