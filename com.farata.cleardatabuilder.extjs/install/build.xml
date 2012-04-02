@@ -3,7 +3,7 @@
 	<description>
 	</description>
 	<property file="build.properties" />
-	<target name="default" depends="install-new, install-sample-complete">
+	<target name="default" depends="install-new, install-sample">
 		<replace dir="${workspace.path}/${project.name}/src/META-INF" token="**{persistence.unit}**" value="${persistence.unit}"  />
 		<replace dir="${workspace.path}/${project.name}/src/META-INF" token="**{jta.data.source}**" value="${jta.data.source}" />
 		<replace dir="${workspace.path}/${project.name}/src/META-INF" token="**{hibernate.dialect}**" value="${hibernate.dialect}" />
@@ -42,7 +42,11 @@
 			</fileset>
 		</copy>
 	</target>
-	<target name="install-sample-complete" if="is.sample" depends="install-sample-core,install-hibernate,install-plain-java,install-mybatis">
+	<target name="install-sample" if="is.sample" >
+		<antcall target="install-sample-core"/>		
+		<antcall target="install-hibernate"/>
+		<antcall target="install-plain-java"/>
+		<antcall target="install-mybatis"/>		
 		<delete file="${workspace.path}/${project.name}/WebContent/app/controller/HelloController.js" failonerror="false"/>		
 	</target>
 	<target name="install-sample-core">
@@ -63,7 +67,8 @@
 			<fileset dir="../resources/java_sample" />
 		</copy>
 	</target>
-	<target name="install-mybatis" if="is.mybatis.sample" depends="install-spring">
+	<target name="install-mybatis" if="is.mybatis.sample">
+		<antcall target="install-spring" />
 		<mkdir dir="${workspace.path}/${project.name}" />
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
 			<fileset dir="../resources/mybatis_sample" />
