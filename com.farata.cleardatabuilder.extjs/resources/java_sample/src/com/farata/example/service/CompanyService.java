@@ -28,16 +28,16 @@ public class CompanyService extends _CompanyService {
 	
 	@Override
 	public void getCompanies_doCreate(ChangeObject changeObject) {
+		System.out.println("doCreate method");
 		CompanyDTO dto =  (CompanyDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), CompanyDTO.class);					
 
-		System.out.println("doCreate method");
 		
 		if ((dto.id == null) || (dto.id <= 0)) {
 			Object oldId = dto.id;
 			dto.id = dataEngine.getMaxCompanyId() + 1;	
 			changeObject.addChangedPropertyName("id");
 			
-			IdentityRack.setIdentity("com.farata.test.dto.CompanyDTO", "id", oldId, dto.id);		
+			IdentityRack.setIdentity("com.farata.example.dto.CompanyDTO", "id", oldId, dto.id);		
 		}
 
 		dataEngine.getCompanyList().add(dto);
