@@ -48,8 +48,9 @@ import clear.cdb.extjs.annotations.DEFAULT;
 
 public class AnnotationsHelper {
 
-	private static final String[] PRIMITIVE_TYPES = { "int", "float", "double",
-			"char", "byte", "boolean", "long", "short" };
+	private static final String[] PRIMITIVE_TYPES = { "int", "float", "double", "char", "byte", "boolean", "long",
+			"short" };
+	public static boolean DEBUG;
 
 	public AnnotationsHelper() {
 	}
@@ -63,13 +64,10 @@ public class AnnotationsHelper {
 		return false;
 	}
 
-	public static boolean typeAnnotatedWith(String typeName,
-			String annotationName) throws ClassNotFoundException {
+	public static boolean typeAnnotatedWith(String typeName, String annotationName) throws ClassNotFoundException {
 		try {
-			Class<?> clazz = AnnotationsHelper.class.getClassLoader()
-					.loadClass(typeName);
-			Class<?> annotationClazz = AnnotationsHelper.class.getClassLoader()
-					.loadClass(annotationName);
+			Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
+			Class<?> annotationClazz = AnnotationsHelper.class.getClassLoader().loadClass(annotationName);
 			Annotation[] annotations = clazz.getAnnotations();
 			for (Annotation annotation : annotations) {
 				if (annotation.annotationType().equals(annotationClazz)) {
@@ -83,8 +81,7 @@ public class AnnotationsHelper {
 
 	public static String getMethodName(String typeName, String methodName) {
 		try {
-			Class<?> clazz = AnnotationsHelper.class.getClassLoader()
-					.loadClass(typeName);
+			Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
 			Method method = findMethodByName(clazz, methodName);
 			return method == null ? null : method.getName();
 		} catch (ClassNotFoundException e) {
@@ -97,14 +94,11 @@ public class AnnotationsHelper {
 		return method.getName();
 	}
 
-	public static boolean methodAnnotatedWith(String typeName,
-			String methodName, String annotationName)
+	public static boolean methodAnnotatedWith(String typeName, String methodName, String annotationName)
 			throws ClassNotFoundException {
 		try {
-			Class<?> clazz = AnnotationsHelper.class.getClassLoader()
-					.loadClass(typeName);
-			Class<?> annotationClazz = AnnotationsHelper.class.getClassLoader()
-					.loadClass(annotationName);
+			Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
+			Class<?> annotationClazz = AnnotationsHelper.class.getClassLoader().loadClass(annotationName);
 			Method method = findMethodByName(clazz, methodName);
 			if (method == null) {
 				return false;
@@ -122,24 +116,20 @@ public class AnnotationsHelper {
 		return false;
 	}
 
-	public static Object getMethodAnnotationValue(String typeName,
-			String methodName, String annotationName, String annotationAtrribute)
-			throws ClassNotFoundException, IllegalArgumentException,
+	public static Object getMethodAnnotationValue(String typeName, String methodName, String annotationName,
+			String annotationAtrribute) throws ClassNotFoundException, IllegalArgumentException,
 			IllegalAccessException, InvocationTargetException {
 		// System.out.println(methodName + " " + annotationName +
 		// " "+annotationAtrribute);
-		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(
-				typeName);
-		Class<?> annotationClazz = AnnotationsHelper.class.getClassLoader()
-				.loadClass(annotationName);
+		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
+		Class<?> annotationClazz = AnnotationsHelper.class.getClassLoader().loadClass(annotationName);
 		Method method = findMethodByName(clazz, methodName);
 		if (method == null) {
 			return null;
 		}
 		Annotation[] annotations = method.getAnnotations();
 		for (Annotation annotation : annotations) {
-			Class<? extends Annotation> annotationType = annotation
-					.annotationType();
+			Class<? extends Annotation> annotationType = annotation.annotationType();
 			if (annotationType.equals(annotationClazz)) {
 				Method[] methods = annotationType.getDeclaredMethods();
 				for (Method annotationMethod : methods) {
@@ -153,26 +143,21 @@ public class AnnotationsHelper {
 		return null;
 	}
 
-	public static Node getTypeAnnotation(String typeName, String annotationName)
-			throws ClassNotFoundException, IllegalArgumentException,
-			IllegalAccessException, InvocationTargetException,
-			ParserConfigurationException, SAXException, IOException {
-		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(
-				typeName);
-		Class<?> annotationClazz = AnnotationsHelper.class.getClassLoader()
-				.loadClass(annotationName);
+	public static Node getTypeAnnotation(String typeName, String annotationName) throws ClassNotFoundException,
+			IllegalArgumentException, IllegalAccessException, InvocationTargetException, ParserConfigurationException,
+			SAXException, IOException {
+		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
+		Class<?> annotationClazz = AnnotationsHelper.class.getClassLoader().loadClass(annotationName);
 		String out = "<annotation>\n";
 		Annotation[] annotations = clazz.getAnnotations();
 		for (Annotation annotation : annotations) {
-			Class<? extends Annotation> annotationType = annotation
-					.annotationType();
+			Class<? extends Annotation> annotationType = annotation.annotationType();
 			if (annotationType.equals(annotationClazz)) {
 				out += "\t<exists/>\n";
 				Method[] methods = annotationType.getDeclaredMethods();
 				for (Method annotationMethod : methods) {
 					Object res = annotationMethod.invoke(annotation);
-					out += "\t<method name=\"" + annotationMethod.getName()
-							+ "\" value=\"" + res + "\"/>\n";
+					out += "\t<method name=\"" + annotationMethod.getName() + "\" value=\"" + res + "\"/>\n";
 				}
 			}
 		}
@@ -181,13 +166,10 @@ public class AnnotationsHelper {
 		return buildDocumentElement(out);
 	}
 
-	public static Node getMethodAnnotation(String typeName, String methodName,
-			String annotationName) throws ClassNotFoundException,
-			IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException, ParserConfigurationException,
-			SAXException, IOException {
-		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(
-				typeName);
+	public static Node getMethodAnnotation(String typeName, String methodName, String annotationName)
+			throws ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException,
+			ParserConfigurationException, SAXException, IOException {
+		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
 		Class<? extends Annotation> annotationClazz = (Class<? extends Annotation>) AnnotationsHelper.class
 				.getClassLoader().loadClass(annotationName);
 		Method method = findMethodByName(clazz, methodName);
@@ -202,30 +184,25 @@ public class AnnotationsHelper {
 		return buildDocumentElement(out.toString());
 	}
 
-	public static void getAnnotationValues(Annotation annotation,
-			StringBuffer out, String indent) throws IllegalAccessException,
-			InvocationTargetException {
-		String annotationName = annotation == null ? "" : annotation
-				.annotationType().getCanonicalName();
+	public static void getAnnotationValues(Annotation annotation, StringBuffer out, String indent)
+			throws IllegalAccessException, InvocationTargetException {
+		String annotationName = annotation == null ? "" : annotation.annotationType().getCanonicalName();
 		out.append(indent + "<annotation name=\"" + annotationName + "\">\n");
 		if (annotation != null) {
 			out.append(indent + "\t<exists/>\n");
-			Class<? extends Annotation> annotationClazz = annotation
-					.annotationType();
+			Class<? extends Annotation> annotationClazz = annotation.annotationType();
 			Method[] methods = annotationClazz.getDeclaredMethods();
 			for (Method annotationMethod : methods) {
 				Object res = annotationMethod.invoke(annotation);
 				if (res instanceof Annotation) {
-					out.append(indent + "\t<method name=\""
-							+ annotationMethod.getName() + "\">\n" + indent
+					out.append(indent + "\t<method name=\"" + annotationMethod.getName() + "\">\n" + indent
 							+ "\t\t<value>\n");
 					Annotation ann = (Annotation) res;
 					getAnnotationValues(ann, out, indent + "\t\t\t");
 					out.append(indent + "\t\t</value>\n");
 					out.append(indent + "\t</method>\n");
 				} else {
-					out.append(indent + "\t<method name=\""
-							+ annotationMethod.getName() + "\" value=\""
+					out.append(indent + "\t<method name=\"" + annotationMethod.getName() + "\" value=\""
 							+ objectToString(res) + "\"/>\n");
 				}
 			}
@@ -243,15 +220,11 @@ public class AnnotationsHelper {
 		return obj.toString();
 	}
 
-	public static Node getMethodParametersAnnotations(String typeName,
-			String methodName, String annotationName)
-			throws ClassNotFoundException, IllegalArgumentException,
-			IllegalAccessException, InvocationTargetException,
+	public static Node getMethodParametersAnnotations(String typeName, String methodName, String annotationName)
+			throws ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException,
 			ParserConfigurationException, SAXException, IOException {
-		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(
-				typeName);
-		Class<?> annotationClazz = AnnotationsHelper.class.getClassLoader()
-				.loadClass(annotationName);
+		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
+		Class<?> annotationClazz = AnnotationsHelper.class.getClassLoader().loadClass(annotationName);
 		Method method = findMethodByName(clazz, methodName);
 		if (method == null) {
 			return null;
@@ -261,17 +234,14 @@ public class AnnotationsHelper {
 		for (int i = 0; i < annotations.length; i++) {
 			for (int j = 0; j < annotations[i].length; j++) {
 				Annotation annotation = annotations[i][j];
-				Class<? extends Annotation> annotationType = annotation
-						.annotationType();
+				Class<? extends Annotation> annotationType = annotation.annotationType();
 				if (annotationType.equals(annotationClazz)) {
 					out += "\t<exists/>\n";
 					out += "\t<annotation parameterCount=\"" + i + "\">\n";
 					Method[] methods = annotationType.getDeclaredMethods();
 					for (Method annotationMethod : methods) {
 						Object res = annotationMethod.invoke(annotation);
-						out += "\t\t<method name=\""
-								+ annotationMethod.getName() + "\" value=\""
-								+ res + "\"/>\n";
+						out += "\t\t<method name=\"" + annotationMethod.getName() + "\" value=\"" + res + "\"/>\n";
 					}
 					out += "\t</annotation>\n";
 				}
@@ -282,28 +252,23 @@ public class AnnotationsHelper {
 		return buildDocumentElement(out);
 	}
 
-	public static String getMethodReturnType(String typeName, String methodName)
-			throws ClassNotFoundException {
-		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(
-				typeName);
+	public static String getMethodReturnType(String typeName, String methodName) throws ClassNotFoundException {
+		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
 		Method method = findMethodByName(clazz, methodName);
 		Type type = method.getGenericReturnType();
 		String s = type.toString();
 		return s;
 	}
 
-	public static String getMethodTransferType(String typeName,
-			String methodName) throws ClassNotFoundException {
-		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(
-				typeName);
+	public static String getMethodTransferType(String typeName, String methodName) throws ClassNotFoundException {
+		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
 		Method method = findMethodByName(clazz, methodName);
 
 		// Check return type parameter
 		Type type = method.getGenericReturnType();
 		String s = type.toString();
 		String transferType = getTypeParameter(s);
-		if (transferType != null && transferType.length() > 0
-				&& !transferType.equals("?")) {
+		if (transferType != null && transferType.length() > 0 && !transferType.equals("?")) {
 			return transferType;
 		}
 
@@ -311,27 +276,23 @@ public class AnnotationsHelper {
 		JSGetMethod getMethod = method.getAnnotation(JSGetMethod.class);
 		if (getMethod != null) {
 			transferType = getMethod.transferInfo().type();
-			if (transferType != null && transferType.length() > 0
-					&& !transferType.equals("?")) {
+			if (transferType != null && transferType.length() > 0 && !transferType.equals("?")) {
 				return transferType;
 			} else {
 				return s.replace("class ", "");
 			}
 		}
 
-		JSFillChildrenMethod fillChildrenMethod = method
-				.getAnnotation(JSFillChildrenMethod.class);
+		JSFillChildrenMethod fillChildrenMethod = method.getAnnotation(JSFillChildrenMethod.class);
 		if (fillChildrenMethod != null) {
 			transferType = fillChildrenMethod.transferInfo().type();
-			if (transferType != null && transferType.length() > 0
-					&& !transferType.equals("?")) {
+			if (transferType != null && transferType.length() > 0 && !transferType.equals("?")) {
 				return transferType;
 			} else {
 				Class<?> parent = fillChildrenMethod.parent();
 				String property = fillChildrenMethod.property();
 				try {
-					String entityType = getBeanPropertyType(
-							parent.getCanonicalName(), property);
+					String entityType = getBeanPropertyType(parent.getCanonicalName(), property);
 					entityType = getTypeParameter(entityType);
 					transferType = getDTOByEntity(entityType);
 					if (transferType == null) {
@@ -344,12 +305,10 @@ public class AnnotationsHelper {
 			}
 		}
 
-		JSJPQLMethod jpqlMethod = method
-				.getAnnotation(JSJPQLMethod.class);
+		JSJPQLMethod jpqlMethod = method.getAnnotation(JSJPQLMethod.class);
 		if (jpqlMethod != null) {
 			transferType = jpqlMethod.transferInfo().type();
-			if (transferType != null && transferType.length() > 0
-					&& !transferType.equals("?")) {
+			if (transferType != null && transferType.length() > 0 && !transferType.equals("?")) {
 				return transferType;
 			}
 
@@ -365,8 +324,7 @@ public class AnnotationsHelper {
 				Class<?> updateEntity = uiAnnotation.updateEntity();
 				if (updateEntity != null && !updateEntity.equals(DEFAULT.class)) {
 					transferType = updateEntity.getCanonicalName();
-					if (transferType != null && transferType.length() > 0
-							&& !transferType.equals("?")) {
+					if (transferType != null && transferType.length() > 0 && !transferType.equals("?")) {
 						return transferType;
 					}
 				}
@@ -379,8 +337,7 @@ public class AnnotationsHelper {
 			Class<?> updateEntity = uiAnnotation.updateEntity();
 			if (updateEntity != null) {
 				transferType = updateEntity.getCanonicalName();
-				if (transferType != null && transferType.length() > 0
-						&& !transferType.equals("?")) {
+				if (transferType != null && transferType.length() > 0 && !transferType.equals("?")) {
 					return transferType;
 				}
 			}
@@ -418,8 +375,7 @@ public class AnnotationsHelper {
 		return typeName;
 	}
 
-	private static Annotation getPropertyAnnotation(Class<?> clazz,
-			PropertyDescriptor descriptor,
+	private static Annotation getPropertyAnnotation(Class<?> clazz, PropertyDescriptor descriptor,
 			Class<? extends Annotation> annotationClazz) {
 		Annotation annotation = null;
 		try {
@@ -443,25 +399,19 @@ public class AnnotationsHelper {
 
 	}
 
-	public static Node getEntityIdBeanProperty(String typeName)
-			throws Exception {
+	public static Node getEntityIdBeanProperty(String typeName) throws Exception {
 		try {
-			Class<?> clazz = AnnotationsHelper.class.getClassLoader()
-					.loadClass(typeName);
-			PropertyDescriptor[] descriptors = PropertyUtils
-					.getPropertyDescriptors(clazz);
+			Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
+			PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(clazz);
 			String out = "";
 			for (PropertyDescriptor descriptor : descriptors) {
 				String propertyType = "";
-				if (descriptor.getReadMethod() == null
-						|| descriptor.getWriteMethod() == null) {
+				if (descriptor.getReadMethod() == null || descriptor.getWriteMethod() == null) {
 					continue;
 				}
-				Annotation idAnnotation = getPropertyAnnotation(clazz,
-						descriptor, javax.persistence.Id.class);
+				Annotation idAnnotation = getPropertyAnnotation(clazz, descriptor, javax.persistence.Id.class);
 				if (idAnnotation == null) {
-					idAnnotation = getPropertyAnnotation(clazz, descriptor,
-							javax.persistence.EmbeddedId.class);
+					idAnnotation = getPropertyAnnotation(clazz, descriptor, javax.persistence.EmbeddedId.class);
 				}
 				if (idAnnotation == null) {
 					continue;
@@ -479,10 +429,8 @@ public class AnnotationsHelper {
 				} else {
 					propertyType = getTypeName((Class<?>) type);
 				}
-				out += "<property name=\"" + descriptor.getName() + "\" "
-						+ "type=\"" + propertyType + "\" " + "readMethod=\""
-						+ descriptor.getReadMethod().getName() + "\" "
-						+ "writeMethod=\""
+				out += "<property name=\"" + descriptor.getName() + "\" " + "type=\"" + propertyType + "\" "
+						+ "readMethod=\"" + descriptor.getReadMethod().getName() + "\" " + "writeMethod=\""
 						+ descriptor.getWriteMethod().getName() + "\"/>";
 				return buildDocumentElement(out);
 			}
@@ -495,22 +443,18 @@ public class AnnotationsHelper {
 
 	public static Node getVersionProperties(String typeName) throws Exception {
 		try {
-			Class<?> clazz = AnnotationsHelper.class.getClassLoader()
-					.loadClass(typeName);
-			PropertyDescriptor[] descriptors = PropertyUtils
-					.getPropertyDescriptors(clazz);
+			Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
+			PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(clazz);
 			String out = "<properties>\n";
 			for (PropertyDescriptor descriptor : descriptors) {
-				Node versionNode = getBeanPropertyAnnotation(typeName,
-						descriptor.getName(), "javax.persistence.Version");
-				if (versionNode.getOwnerDocument()
-						.getElementsByTagName("exists").getLength() == 0) {
+				Node versionNode = getBeanPropertyAnnotation(typeName, descriptor.getName(),
+						"javax.persistence.Version");
+				if (versionNode.getOwnerDocument().getElementsByTagName("exists").getLength() == 0) {
 					continue;
 				}
 				String propertyType = "";
 
-				if (descriptor.getReadMethod() == null
-						|| descriptor.getWriteMethod() == null) {
+				if (descriptor.getReadMethod() == null || descriptor.getWriteMethod() == null) {
 					continue;
 				}
 				Type type = descriptor.getReadMethod().getGenericReturnType();
@@ -526,10 +470,8 @@ public class AnnotationsHelper {
 				} else {
 					propertyType = getTypeName((Class<?>) type);
 				}
-				out += "\t<property name=\"" + descriptor.getName() + "\" "
-						+ "type=\"" + propertyType + "\" " + "readMethod=\""
-						+ descriptor.getReadMethod().getName() + "\" "
-						+ "writeMethod=\""
+				out += "\t<property name=\"" + descriptor.getName() + "\" " + "type=\"" + propertyType + "\" "
+						+ "readMethod=\"" + descriptor.getReadMethod().getName() + "\" " + "writeMethod=\""
 						+ descriptor.getWriteMethod().getName() + "\"/>\n";
 			}
 			out += "</properties>";
@@ -543,10 +485,8 @@ public class AnnotationsHelper {
 
 	public static Node getBeanProperties(String typeName) throws Exception {
 		try {
-			Class<?> clazz = AnnotationsHelper.class.getClassLoader()
-					.loadClass(typeName);
-			PropertyDescriptor[] descriptors = PropertyUtils
-					.getPropertyDescriptors(clazz);
+			Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
+			PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(clazz);
 			String out = "<properties>\n";
 			for (PropertyDescriptor descriptor : descriptors) {
 				String propertyType = "";
@@ -558,8 +498,7 @@ public class AnnotationsHelper {
 				// } catch (Exception e) {
 				// continue;
 				// }
-				if (descriptor.getReadMethod() == null
-						|| descriptor.getWriteMethod() == null) {
+				if (descriptor.getReadMethod() == null || descriptor.getWriteMethod() == null) {
 					continue;
 				}
 				Type type = descriptor.getReadMethod().getGenericReturnType();
@@ -576,11 +515,15 @@ public class AnnotationsHelper {
 				} else {
 					propertyType = getTypeName((Class<?>) type);
 				}
-				out += "\t<property name=\"" + descriptor.getName() + "\" "
-						+ "type=\"" + propertyType + "\" " + "readMethod=\""
-						+ descriptor.getReadMethod().getName() + "\" "
-						+ "writeMethod=\""
-						+ descriptor.getWriteMethod().getName() + "\"/>\n";
+				out += "\t<property name=\"" + descriptor.getName() + "\" " + "type=\"" + propertyType + "\" "
+						+ "readMethod=\"" + descriptor.getReadMethod().getName() + "\" " + "writeMethod=\""
+						+ descriptor.getWriteMethod().getName() + "\">\n";
+				try {
+					out += getBeanPropertyAnnotationsString(typeName, descriptor.getName(), "\t\t") + "\n";
+				} catch (Throwable th) {
+					th.printStackTrace();
+				}
+				out += "\t</property>\n";
 			}
 			out += "</properties>";
 
@@ -592,15 +535,13 @@ public class AnnotationsHelper {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Node getBeanPropertyAnnotation(String typeName,
-			String propertyId, String annotationName) throws Exception {
+	public static Node getBeanPropertyAnnotation(String typeName, String propertyId, String annotationName)
+			throws Exception {
 		try {
-			Class<?> clazz = AnnotationsHelper.class.getClassLoader()
-					.loadClass(typeName);
+			Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
 			Class<? extends Annotation> annotationClazz = (Class<? extends Annotation>) AnnotationsHelper.class
 					.getClassLoader().loadClass(annotationName);
-			PropertyDescriptor[] descriptors = PropertyUtils
-					.getPropertyDescriptors(clazz);
+			PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(clazz);
 			String out = "<annotation>\n";
 			for (PropertyDescriptor descriptor : descriptors) {
 				if (descriptor.getName().equals(propertyId)) {
@@ -627,9 +568,7 @@ public class AnnotationsHelper {
 						Method[] methods = annotationClazz.getDeclaredMethods();
 						for (Method annotationMethod : methods) {
 							Object res = annotationMethod.invoke(annotation);
-							out += "\t<method name=\""
-									+ annotationMethod.getName()
-									+ "\" value=\"" + res + "\"/>\n";
+							out += "\t<method name=\"" + annotationMethod.getName() + "\" value=\"" + res + "\"/>\n";
 						}
 					}
 					break;
@@ -644,14 +583,73 @@ public class AnnotationsHelper {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public static String getBeanPropertyType(String typeName, String propertyId)
-			throws Exception {
+	public static Node getBeanPropertyAnnotations(String typeName, String propertyId) {
 		try {
-			Class<?> clazz = AnnotationsHelper.class.getClassLoader()
-					.loadClass(typeName);
-			PropertyDescriptor[] descriptors = PropertyUtils
-					.getPropertyDescriptors(clazz);
+			String out = getBeanPropertyAnnotationsString(typeName, propertyId, "");
+			return buildDocumentElement(out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static String getBeanPropertyAnnotationsString(String typeName, String propertyId, String indent)
+			throws Exception {
+		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
+		PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(clazz);
+		String out = indent + "<annotations>\n";
+		for (PropertyDescriptor descriptor : descriptors) {
+			if (descriptor.getName().equals(propertyId)) {
+				Annotation[] annotations = null;
+				try {
+					Field field = clazz.getDeclaredField(propertyId);
+					annotations = field.getAnnotations();
+				} catch (Exception e) {
+				}
+				if (annotations == null) {
+					Method method = descriptor.getReadMethod();
+					if (method != null) {
+						annotations = method.getAnnotations();
+					}
+				}
+				if (annotations == null) {
+					Method method = descriptor.getWriteMethod();
+					if (method != null) {
+						annotations = method.getAnnotations();
+					}
+				}
+
+				if (annotations != null) {
+					for (Annotation annotation : annotations) {
+						Class<? extends Annotation> annotationClazz = annotation.annotationType();
+						out += indent + "\t<annotation name=\"" + annotation.annotationType().getCanonicalName()
+								+ "\">\n";
+						Method[] methods = annotationClazz.getDeclaredMethods();
+						for (Method annotationMethod : methods) {
+							try {
+								Object res = annotationMethod.invoke(annotation);
+								out += indent + "\t\t<method name=\"" + annotationMethod.getName() + "\" value=\""
+										+ res + "\"/>\n";
+							} catch (Throwable th) {
+								continue;
+							}
+						}
+						out += indent + "\t</annotation>\n";
+					}
+				}
+				break;
+			}
+		}
+		out += indent + "</annotations>";
+
+		return out;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static String getBeanPropertyType(String typeName, String propertyId) throws Exception {
+		try {
+			Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
+			PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(clazz);
 			String out = "<annotation>\n";
 			for (PropertyDescriptor descriptor : descriptors) {
 				if (descriptor.getName().equals(propertyId)) {
@@ -664,12 +662,10 @@ public class AnnotationsHelper {
 					// } catch (Exception e) {
 					// continue;
 					// }
-					if (descriptor.getReadMethod() == null
-							|| descriptor.getWriteMethod() == null) {
+					if (descriptor.getReadMethod() == null || descriptor.getWriteMethod() == null) {
 						continue;
 					}
-					Type type = descriptor.getReadMethod()
-							.getGenericReturnType();
+					Type type = descriptor.getReadMethod().getGenericReturnType();
 					// Type type = descriptor.getPropertyType();
 					if (type instanceof ParameterizedType) {
 						ParameterizedType partype = (ParameterizedType) type;
@@ -693,23 +689,23 @@ public class AnnotationsHelper {
 		}
 	}
 
-	public static Node buildDocumentElement(String string)
-			throws ParserConfigurationException, SAXException, IOException {
-		// System.out.println(string);
-		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance()
-				.newDocumentBuilder();
+	public static Node buildDocumentElement(String string) throws ParserConfigurationException, SAXException,
+			IOException {
+		if (DEBUG) {
+			System.out.println(string);
+		}
+		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		StringReader reader = new StringReader(string);
 		InputSource inputSource = new InputSource(reader);
 		return docBuilder.parse(inputSource).getDocumentElement();
 	}
 
-	public static String replaceAll(String string, String subject,
-			String replacement) {
+	public static String replaceAll(String string, String subject, String replacement) {
 		return string.replace(subject, replacement);
 	}
 
-	public static Node split(String string, String delimiter)
-			throws ParserConfigurationException, SAXException, IOException {
+	public static Node split(String string, String delimiter) throws ParserConfigurationException, SAXException,
+			IOException {
 		String[] arr = string.split(delimiter);
 		String out = "<array>\n";
 		for (String s : arr) {
@@ -722,24 +718,19 @@ public class AnnotationsHelper {
 		return buildDocumentElement(out);
 	}
 
-	public static Node getMethods(String typeName)
-			throws ParserConfigurationException, SAXException, IOException,
+	public static Node getMethods(String typeName) throws ParserConfigurationException, SAXException, IOException,
 			ClassNotFoundException {
 		String out = "<methods>\n";
 		Method[] methods = getClassMethods(typeName);
 		for (Method method : methods) {
-			out += "\t<method id=\""
-					+ method.toString()
-					+ "\" to-string=\""
-					+ methodToString(method).replaceAll("<", "&lt;")
-							.replaceAll(">", "&gt;") + "\" name=\""
+			out += "\t<method id=\"" + method.toString() + "\" to-string=\""
+					+ methodToString(method).replaceAll("<", "&lt;").replaceAll(">", "&gt;") + "\" name=\""
 					+ method.getName() + "\">\n";
 			Class<?>[] params = method.getParameterTypes();
 			out += "\t\t<parameters>\n";
 			int count = 0;
 			for (Class<?> param : params) {
-				out += "\t\t\t<parameter type=\"" + getTypeName(param)
-						+ "\" order=\"" + count + "\"/>\n";
+				out += "\t\t\t<parameter type=\"" + getTypeName(param) + "\" order=\"" + count + "\"/>\n";
 				count++;
 			}
 			out += "\t\t</parameters>\n";
@@ -749,30 +740,24 @@ public class AnnotationsHelper {
 		return buildDocumentElement(out);
 	}
 
-	public static Method[] getClassMethods(String typeName)
-			throws ClassNotFoundException {
-		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(
-				typeName);
+	public static Method[] getClassMethods(String typeName) throws ClassNotFoundException {
+		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
 		Method[] methods = clazz.getMethods();
 		return methods;
 	}
 
-	public static boolean methodHasReturnType(String typeName, String methodName)
-			throws ClassNotFoundException {
-		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(
-				typeName);
+	public static boolean methodHasReturnType(String typeName, String methodName) throws ClassNotFoundException {
+		Class<?> clazz = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
 		Method method = findMethodByName(clazz, methodName);
 		Class<?> type = method.getReturnType();
 		return type != null && !type.toString().equals("void");
 	}
 
 	@SuppressWarnings("unchecked")
-	public static String getHQLReturnTypes(String query, String indent)
-			throws Exception {
+	public static String getHQLReturnTypes(String query, String indent) throws Exception {
 		try {
 			String[] parsedAliases = getSelectQueryAliases(query);
-			QueryTranslatorImpl trans = (QueryTranslatorImpl) HQLHelper
-					.compileQuery(query);
+			QueryTranslatorImpl trans = (QueryTranslatorImpl) HQLHelper.compileQuery(query);
 			String out = indent + "<query>\n";
 			out += indent + "\t<types>\n";
 			org.hibernate.type.Type[] types = trans.getReturnTypes();
@@ -782,21 +767,18 @@ public class AnnotationsHelper {
 				try {
 					Integer.valueOf(alias);
 					alias = "property" + alias;
-					if (Pattern.matches("[a-zA-Z$_][a-zA-Z$_0-9]*",
-							parsedAliases[i])) {
+					if (Pattern.matches("[a-zA-Z$_][a-zA-Z$_0-9]*", parsedAliases[i])) {
 						alias = parsedAliases[i];
 					}
 				} catch (Throwable e) {
 				}
-				out += indent + "\t\t<type name=\""
-						+ getTypeName(types[i].getReturnedClass())
-						+ "\" alias=\"" + alias + "\" />\n";
+				out += indent + "\t\t<type name=\"" + getTypeName(types[i].getReturnedClass()) + "\" alias=\"" + alias
+						+ "\" />\n";
 			}
 			out += indent + "\t</types>\n";
 			out += indent + "\t<parameters>\n";
 			ParameterTranslations params = trans.getParameterTranslations();
-			String[] paramNames = (String[]) params.getNamedParameterNames()
-					.toArray(new String[0]);
+			String[] paramNames = (String[]) params.getNamedParameterNames().toArray(new String[0]);
 			Arrays.sort(paramNames, new HQLParamersComparator(params));
 			for (String paramName : paramNames) {
 				out += indent + "\t\t<parameter name=\"" + paramName + "\"/>\n";
@@ -815,8 +797,7 @@ public class AnnotationsHelper {
 		try {
 			String[] parsedAliases = getSelectQueryAliases(query);
 			if (parsedAliases != null && parsedAliases.length == 1) {
-				QueryTranslatorImpl trans = (QueryTranslatorImpl) HQLHelper
-						.compileQuery(query);
+				QueryTranslatorImpl trans = (QueryTranslatorImpl) HQLHelper.compileQuery(query);
 				org.hibernate.type.Type[] types = trans.getReturnTypes();
 				String[] aliases = trans.getReturnAliases();
 				if (types != null && types.length == 1) {
@@ -825,8 +806,7 @@ public class AnnotationsHelper {
 					try {
 						Integer.valueOf(alias);
 						alias = "property" + alias;
-						if (Pattern.matches("[a-zA-Z$_][a-zA-Z$_0-9]*",
-								parsedAliases[0])) {
+						if (Pattern.matches("[a-zA-Z$_][a-zA-Z$_0-9]*", parsedAliases[0])) {
 							alias = parsedAliases[0];
 						} else {
 							return result;
@@ -836,51 +816,34 @@ public class AnnotationsHelper {
 					}
 					Class<?> clazz = type.getReturnedClass();
 					if (clazz.isAnnotationPresent(Entity.class)) {
-						NodeList beanProperties = getBeanProperties(
-								clazz.getCanonicalName()).getChildNodes();
+						NodeList beanProperties = getBeanProperties(clazz.getCanonicalName()).getChildNodes();
 						String s = "SELECT ";
 						for (int i = 0; i < beanProperties.getLength(); i++) {
 							Node item = beanProperties.item(i);
 							if ("property".equals(item.getNodeName())) {
-								String propertyName = item.getAttributes()
-										.getNamedItem("name").getNodeValue();
-								String typeName = item.getAttributes()
-										.getNamedItem("type").getNodeValue();
+								String propertyName = item.getAttributes().getNamedItem("name").getNodeValue();
+								String typeName = item.getAttributes().getNamedItem("type").getNodeValue();
 								try {
 									if (typeName.indexOf('<') != -1) {
-										typeName = typeName.substring(0,
-												typeName.indexOf('<'));
+										typeName = typeName.substring(0, typeName.indexOf('<'));
 									}
-									Class<?> clazz1 = AnnotationsHelper.class
-											.getClassLoader().loadClass(
-													typeName);
-									if (Collection.class
-											.isAssignableFrom(clazz1)) {
+									Class<?> clazz1 = AnnotationsHelper.class.getClassLoader().loadClass(typeName);
+									if (Collection.class.isAssignableFrom(clazz1)) {
 										continue;
 									}
-									Field propField = clazz
-											.getDeclaredField(propertyName);
-									Transient transientAnnotation = propField
-											.getAnnotation(Transient.class);
+									Field propField = clazz.getDeclaredField(propertyName);
+									Transient transientAnnotation = propField.getAnnotation(Transient.class);
 									if (transientAnnotation == null) {
-										String readMethodName = item
-												.getAttributes()
-												.getNamedItem("readMethod")
+										String readMethodName = item.getAttributes().getNamedItem("readMethod")
 												.getNodeValue();
-										String writeMethodName = item
-												.getAttributes()
-												.getNamedItem("writeMethod")
+										String writeMethodName = item.getAttributes().getNamedItem("writeMethod")
 												.getNodeValue();
 
-										Method[] methods = clazz
-												.getDeclaredMethods();
+										Method[] methods = clazz.getDeclaredMethods();
 										for (Method m : methods) {
-											if (m.getName().equals(
-													readMethodName)
-													|| m.getName().equals(
-															writeMethodName)) {
-												transientAnnotation = methods[i]
-														.getAnnotation(Transient.class);
+											if (m.getName().equals(readMethodName)
+													|| m.getName().equals(writeMethodName)) {
+												transientAnnotation = methods[i].getAnnotation(Transient.class);
 											}
 										}
 									}
@@ -889,14 +852,11 @@ public class AnnotationsHelper {
 									}
 								} catch (Throwable e) {
 								}
-								s += alias + "." + propertyName + " as "
-										+ propertyName + " , ";
+								s += alias + "." + propertyName + " as " + propertyName + " , ";
 							}
 						}
 						s = s.substring(0, s.length() - 2) + " ";
-						result = s
-								+ result.substring(result.toLowerCase()
-										.indexOf("from "));
+						result = s + result.substring(result.toLowerCase().indexOf("from "));
 					}
 				}
 			}
@@ -907,13 +867,11 @@ public class AnnotationsHelper {
 	}
 
 	public static String decapitalizeString(String string) {
-		return String.valueOf(string.charAt(0)).toLowerCase()
-				+ string.substring(1);
+		return String.valueOf(string.charAt(0)).toLowerCase() + string.substring(1);
 	}
 
 	public static String capitalizeString(String string) {
-		return String.valueOf(string.charAt(0)).toUpperCase()
-				+ string.substring(1);
+		return String.valueOf(string.charAt(0)).toUpperCase() + string.substring(1);
 	}
 
 	public static boolean isEmptyString(String string) {
@@ -1011,15 +969,12 @@ public class AnnotationsHelper {
 		}
 
 		Type genRetType = method.getGenericReturnType();
-		sb.append(((genRetType instanceof Class<?>) ? getTypeName((Class<?>) genRetType)
-				: genRetType.toString())
-				+ " ");
+		sb.append(((genRetType instanceof Class<?>) ? getTypeName((Class<?>) genRetType) : genRetType.toString()) + " ");
 
 		sb.append(method.getName() + "(");
 		Type[] params = method.getGenericParameterTypes();
 		for (int j = 0; j < params.length; j++) {
-			sb.append((params[j] instanceof Class<?>) ? getTypeName((Class<?>) params[j])
-					: (params[j].toString()));
+			sb.append((params[j] instanceof Class<?>) ? getTypeName((Class<?>) params[j]) : (params[j].toString()));
 			String pName = "arg" + j;
 			sb.append(" ").append(pName);
 			if (j < (params.length - 1))
@@ -1030,8 +985,8 @@ public class AnnotationsHelper {
 		if (exceptions.length > 0) {
 			sb.append(" throws ");
 			for (int k = 0; k < exceptions.length; k++) {
-				sb.append((exceptions[k] instanceof Class<?>) ? ((Class<?>) exceptions[k])
-						.getName() : exceptions[k].toString());
+				sb.append((exceptions[k] instanceof Class<?>) ? ((Class<?>) exceptions[k]).getName() : exceptions[k]
+						.toString());
 				if (k < (exceptions.length - 1))
 					sb.append(",");
 			}
@@ -1124,9 +1079,8 @@ public class AnnotationsHelper {
 		return getAttributeFieldNames(cols);
 	}
 
-	public static void createSessionFactory(String configurationFile)
-			throws FileNotFoundException, ParserConfigurationException,
-			SAXException, IOException {
+	public static void createSessionFactory(String configurationFile) throws FileNotFoundException,
+			ParserConfigurationException, SAXException, IOException {
 		HQLHelper.createSessionFactory(configurationFile);
 	}
 
@@ -1134,8 +1088,7 @@ public class AnnotationsHelper {
 		return entityToDTOMappings;
 	}
 
-	public static void setEntityToDTOMappings(
-			HashMap<String, String> entityToDTOMappings) {
+	public static void setEntityToDTOMappings(HashMap<String, String> entityToDTOMappings) {
 		AnnotationsHelper.entityToDTOMappings = entityToDTOMappings;
 	}
 
@@ -1143,8 +1096,7 @@ public class AnnotationsHelper {
 		return dtoToEntityMappings;
 	}
 
-	public static void setDtoToEntityMappings(
-			HashMap<String, String> dtoToEntityMappings) {
+	public static void setDtoToEntityMappings(HashMap<String, String> dtoToEntityMappings) {
 		AnnotationsHelper.dtoToEntityMappings = dtoToEntityMappings;
 	}
 
@@ -1179,8 +1131,7 @@ public class AnnotationsHelper {
 		return string;
 	}
 
-	private static String replaceAllEntities(String string, String key,
-			String replacement) {
+	private static String replaceAllEntities(String string, String key, String replacement) {
 		string = "<" + string + ">";
 		String result = "";
 		while (true) {
@@ -1216,8 +1167,7 @@ public class AnnotationsHelper {
 	}
 
 	public static String dtoToGenDTO(String dtoName) {
-		String dtoShortName = dtoName.substring(dtoName.lastIndexOf('.') + 1,
-				dtoName.length());
+		String dtoShortName = dtoName.substring(dtoName.lastIndexOf('.') + 1, dtoName.length());
 		return dtoName.replace('.' + dtoShortName, ".$" + dtoShortName);
 	}
 
@@ -1241,8 +1191,7 @@ public class AnnotationsHelper {
 	public static String createSubServiceName(String serviceName) {
 		String genTypeName = serviceName;
 		if (serviceName.indexOf(".") != -1) {
-			genTypeName = serviceName
-					.substring(serviceName.lastIndexOf(".") + 1);
+			genTypeName = serviceName.substring(serviceName.lastIndexOf(".") + 1);
 		}
 		if (genTypeName.substring(0, 1).equals("I")) {
 			genTypeName = genTypeName.substring(1);
@@ -1250,8 +1199,7 @@ public class AnnotationsHelper {
 			genTypeName = genTypeName + "Impl";
 		}
 		if (serviceName.indexOf(".") != -1) {
-			genTypeName = serviceName.substring(0,
-					serviceName.lastIndexOf(".") + 1) + genTypeName;
+			genTypeName = serviceName.substring(0, serviceName.lastIndexOf(".") + 1) + genTypeName;
 		}
 		return genTypeName;
 	}
@@ -1310,22 +1258,16 @@ public class AnnotationsHelper {
 		return genTypeName;
 	}
 
-/*	public static String createStoreName(String dtoName) {
-		String storeName = dtoName.replaceAll("(DTO)$", "Store");
-		storeName = storeName;
-		// System.out.println(collectionName);
-		return storeName;
-	}
-
-	public static String createStorePackageName(String dtoPackageName) {
-		String packageName = "";
-		if (dtoPackageName.indexOf('.') != -1) {
-			packageName = dtoPackageName.replaceAll("\\.[^.]*$", "");
-		}
-		// System.out.println(packageName);
-		return packageName;
-	}
-*/
+	/*
+	 * public static String createStoreName(String dtoName) { String storeName =
+	 * dtoName.replaceAll("(DTO)$", "Store"); storeName = storeName; //
+	 * System.out.println(collectionName); return storeName; }
+	 * 
+	 * public static String createStorePackageName(String dtoPackageName) {
+	 * String packageName = ""; if (dtoPackageName.indexOf('.') != -1) {
+	 * packageName = dtoPackageName.replaceAll("\\.[^.]*$", ""); } //
+	 * System.out.println(packageName); return packageName; }
+	 */
 	public static String getStorePath(String fullDTOName) {
 		String fullName = getStoreNameFull(fullDTOName);
 		return getStorePathByStoreName(fullName);
@@ -1336,10 +1278,9 @@ public class AnnotationsHelper {
 		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
 		String pkgTrans = aptProps
 				.getProperty("org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.store.package-path-transformer");
-		PatternPackageNameTransformer patternPackageNameTransformer = new PatternPackageNameTransformer(
-				pkgTrans);
+		PatternPackageNameTransformer patternPackageNameTransformer = new PatternPackageNameTransformer(pkgTrans);
 		pkg = patternPackageNameTransformer.transform(pkg);
-		
+
 		return pkg.replace('.', '/');
 	}
 
@@ -1358,14 +1299,13 @@ public class AnnotationsHelper {
 
 		String cnTrans = aptProps
 				.getProperty("org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.store.class-name-transformer");
-		PatternClassNameTransformer patternClassNameTransformer = new PatternClassNameTransformer(
-				cnTrans);
+		PatternClassNameTransformer patternClassNameTransformer = new PatternClassNameTransformer(cnTrans);
 
 		String fullName = patternClassNameTransformer.transform(fullDTOName);
 		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
 
 		String name = fullName.substring(fullName.lastIndexOf('.') + 1);
-		
+
 		return pkg + '.' + name;
 	}
 
@@ -1386,13 +1326,12 @@ public class AnnotationsHelper {
 		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
 		String pkgTrans = aptProps
 				.getProperty("org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.package-path-transformer");
-		PatternPackageNameTransformer patternPackageNameTransformer = new PatternPackageNameTransformer(
-				pkgTrans);
+		PatternPackageNameTransformer patternPackageNameTransformer = new PatternPackageNameTransformer(pkgTrans);
 		pkg = patternPackageNameTransformer.transform(pkg);
-		
+
 		return pkg.replace('.', '/');
 	}
-	
+
 	public static String getModelPackage(String fullDTOName) {
 		fullDTOName = getModelNameFull(fullDTOName);
 		return fullDTOName.substring(0, fullDTOName.lastIndexOf('.'));
@@ -1408,14 +1347,13 @@ public class AnnotationsHelper {
 
 		String cnTrans = aptProps
 				.getProperty("org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.class-name-transformer");
-		PatternClassNameTransformer patternClassNameTransformer = new PatternClassNameTransformer(
-				cnTrans);
+		PatternClassNameTransformer patternClassNameTransformer = new PatternClassNameTransformer(cnTrans);
 
 		String fullName = patternClassNameTransformer.transform(fullDTOName);
 		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
 
 		String name = fullName.substring(fullName.lastIndexOf('.') + 1);
-		
+
 		return pkg + '.' + name;
 	}
 
@@ -1430,11 +1368,10 @@ public class AnnotationsHelper {
 		if (aptProps == null) {
 			aptProps = new Properties();
 			try {
-				aptProps.load(new FileInputStream(
-						"../.settings/org.eclipse.jdt.apt.core.prefs"));
+				aptProps.load(new FileInputStream("../.settings/org.eclipse.jdt.apt.core.prefs"));
 			} catch (Throwable th) {
 			}
-//			System.err.println(aptProps);
+			// System.err.println(aptProps);
 		}
 	}
 }
