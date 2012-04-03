@@ -58,5 +58,6 @@
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/xapool.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/yuicompressor-2.4.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/cdb.dto2extjs.annotations"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,6 +1,7 @@
 package clear.cdb.extjs.test;
 
 import org.junit.Test;
+import org.w3c.dom.Node;
 
 import com.farata.cdb.annotations.helper.AnnotationsHelper;
 
@@ -19,6 +20,16 @@ public class HelperTests {
 		System.out.println(AnnotationsHelper.getModelNameFullGen("com.farata.some.dto.SomeDTO"));
 		System.out.println(AnnotationsHelper.getModelPackage("com.farata.some.dto.SomeDTO"));
 		System.out.println(AnnotationsHelper.getModelPath("com.farata.some.dto.SomeDTO"));
-
+	}
+	
+	@Test
+	public void getBeanPropertiesTest() {
+		try {
+			AnnotationsHelper.DEBUG = true;
+			Node res = AnnotationsHelper.getBeanProperties(TestBean.class.getCanonicalName());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
