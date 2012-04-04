@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.w3c.dom.Node;
 
 import com.farata.cdb.annotations.helper.AnnotationsHelper;
+import com.farata.example.dto.CompanyDTO;
 
 public class HelperTests {
 	@Test
@@ -26,7 +27,7 @@ public class HelperTests {
 	public void getBeanPropertiesTest() {
 		try {
 			AnnotationsHelper.DEBUG = true;
-			Node res = AnnotationsHelper.getBeanProperties(TestBean.class.getCanonicalName());
+			Node res = AnnotationsHelper.getBeanProperties(CompanyDTO.class.getCanonicalName());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
