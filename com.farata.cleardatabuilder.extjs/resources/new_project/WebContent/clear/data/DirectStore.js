@@ -62,7 +62,14 @@ Ext.define('Clear.data.DirectStore', {
 	 * @private 
      */
     modifiedMap: null,
-
+    
+    /**
+     * @property {Object} foreignKey
+	 * For a one-to-many associated store, the value of the foreign key property 
+	 * @private 
+     */
+    foreignKey: null,
+    
     /* End Definitions */
 
     /**
@@ -122,7 +129,6 @@ Ext.define('Clear.data.DirectStore', {
         	read:	this.updateCommitRequired
         });
     },
-        
     //private
     clearData: function() {
         this.callParent();
@@ -275,10 +281,9 @@ Ext.define('Clear.data.DirectStore', {
     },
     
     onUpdateRecord: function (store, item) {
-		var me=this, property;
-		
-		//	if (item is IUID && pce.property == "uid") return true;
-
+		var me=this, 
+			   property;	
+	    				
 		// Item might have reverted to original value or be not changed at all
 		// but associations can be dirty
 		item.computeAssociatedDirty();
@@ -309,5 +314,7 @@ Ext.define('Clear.data.DirectStore', {
 		}
 		this.updateCommitRequired();
     }
+    
+
 
 });

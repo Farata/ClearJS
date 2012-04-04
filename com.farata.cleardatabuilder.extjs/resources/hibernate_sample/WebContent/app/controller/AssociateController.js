@@ -51,7 +51,6 @@ Ext.define('**{app.name}**.controller.AssociateController', {
             store = view.getStore(),
             
             associate = store.createModel({
-                companyId: me.selectedCompany.id, 
                 associateName: 'Vasiliy Lokhankin'
             });
         

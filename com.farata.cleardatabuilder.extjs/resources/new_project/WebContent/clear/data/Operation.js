@@ -41,7 +41,7 @@ Ext.define('Clear.data.Operation', {
      */
     commitRecords: function (changeObjects) {
         var me = this,
-            mc, index, clientRecords, changeObject, clientRec, serverRec;
+            mc, index, clientRecords, changeObject, clientRec, serverRec, reloadAssociatedStoresRequired;
 
         if (!me.actionSkipSyncRe.test(me.action)) {
             clientRecords = me.records;
@@ -59,8 +59,14 @@ Ext.define('Clear.data.Operation', {
                     if (clientRec) {
                         serverRec = changeObject.newVersion;
                         clientRec.beginEdit();
+                        
+                        reloadAssociatedStoresRequired = (serverRec.getId() != clientRec.getId());
+
                         clientRec.set(serverRec.data);
                         clientRec.endEdit(true);
+
+                        if (reloadAssociatedStoresRequired)
+                        		this.reloadAssociatedStores(clientRec);
                     }
                 }
 
@@ -72,6 +78,27 @@ Ext.define('Clear.data.Operation', {
             }
         }
     },
+    
+    
+	/**
+	 * Reload associated stores where foreignKey is out of date because of the server change
+	 */ 
+    reloadAssociatedStores: function(item) {
+    	
+    		var associations = item.associations;
+		associations.each(function(association) {
+			var associatedStore;
+			if (association.type=="hasMany") {
+				associatedStore = item[association.storeName]; //i.e. item['getAssociatesStore']
+				if ((associatedStore) && (associatedStore.foreignKey!==item.getId())) {
+					// This will cause reload of the associatedStore via execution of the
+					//  item.getAssociates(123), etc.
+					item[association.name](item.getId());
+				} 
+			}        					
+		}, item);	    	
+    },
+    
     
     /**
      * Returns an array of Ext.data.Model instances as set by the Proxy.
