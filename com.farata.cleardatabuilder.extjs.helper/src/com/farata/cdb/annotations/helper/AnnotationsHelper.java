@@ -606,13 +606,13 @@ public class AnnotationsHelper {
 					annotations = field.getAnnotations();
 				} catch (Exception e) {
 				}
-				if (annotations == null) {
+				if (annotations == null || annotations.length == 0) {
 					Method method = descriptor.getReadMethod();
 					if (method != null) {
 						annotations = method.getAnnotations();
 					}
 				}
-				if (annotations == null) {
+				if (annotations == null || annotations.length == 0) {
 					Method method = descriptor.getWriteMethod();
 					if (method != null) {
 						annotations = method.getAnnotations();
