@@ -10,6 +10,7 @@
 		<xsl:param name="appName" />
 		<xsl:param name="dtoName" />
 		
+		<xsl:variable name="fields" select="helper:getBeanProperties($dtoName)" />
 <xsl:text/>Ext.Loader.setConfig({
 	disableCaching: false,
 	enabled: true,
@@ -19,8 +20,33 @@
 	}
 });
 
-Ext.syncRequire('<xsl:value-of select="$appName"/>.init.InitDirect');
+/*
+<xsl:for-each select="$fields/property">
+Property <xsl:value-of select="@name"/> has these annotations:
+<xsl:copy-of select="."/>
+ 
+</xsl:for-each>
+*/
 
+Ext.syncRequire('<xsl:value-of select="$appName"/>.init.InitDirect');
+// Define GridPanel
+Ext.define('<xsl:value-of select="$appName"/>.view.SampleGridPanel',{
+	extend: 'Ext.grid.Panel',
+	store:	'<xsl:value-of select="$storeName"/>',
+	alias:	'widget.samplegridpanel',
+	plugins : [ 
+		{ ptype : 'cellediting'} 
+	],				
+	columns : [<xsl:for-each select="$fields/property">
+		{ header:'<xsl:value-of select="@name" />', dataIndex: '<xsl:value-of select="@name" />'<xsl:if test="@type='java.lang.String'" >, editor:{xtype:'textfield'}</xsl:if>, flex:1}<xsl:if test="not(last() = position())">, </xsl:if> </xsl:for-each>
+	],		
+	tbar : [ 
+		{text : 'Load', action: 'load'}, 
+		{text : 'Add', action:'add'}, 
+		{text : 'Remove', action:'remove'}, 
+		{text : 'Sync', action:'sync'} 
+	]
+});
 // Launch the application 
 Ext.application({
     name: '<xsl:value-of select="$appName"/>',
@@ -33,9 +59,7 @@ Ext.application({
     launch:function() {
          Ext.create('Ext.container.Viewport', {
 			items: [
-				{
-					xtype: 'samplegridpanel'
-				}
+				{ xtype: 'samplegridpanel' }
 			]
          });
     }

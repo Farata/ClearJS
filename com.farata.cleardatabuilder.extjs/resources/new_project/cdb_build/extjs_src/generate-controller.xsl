@@ -9,32 +9,27 @@
 		<xsl:param name="storeName"/>
 		<xsl:param name="appName" />
 		<xsl:param name="dtoName" />
-		
 <xsl:text/>Ext.define('<xsl:value-of select="$appName"/>.controller.SampleController',{
 	extend: 'Ext.app.Controller',
 	stores:	['<xsl:value-of select="$storeName"/>'], 
     refs: [{
        ref: 'ThePanel',
-       selector: 'sampleGridPanel'
+       selector: 'samplegridpanel'
     }],
 		
 	init: function(){
-
 		this.control({
-			'sampleGridPanel button[text=Load]':{
+			'samplegridpanel button[action=load]':{
 				click: this.onLoad
-			},
-				
-			'sampleGridPanel button[text=Add]':{
+			},			
+			'samplegridpanel button[action=add]':{
 				click: this.onAdd
-			},
-				
-			'sampleGridPanel button[text=Delete]':{
-				click: this.onDelete
-			},
-				
-			'sampleGridPanel button[text=Save]':{
-				click: this.onSave
+			},				
+			'samplegridpanel button[action=remove]':{
+				click: this.onRemove
+			},				
+			'samplegridpanel button[action=sync]':{
+				click: this.onSync
 			}
 		});
 	},
@@ -43,30 +38,25 @@
 		var store = this.getStore('<xsl:value-of select="$storeName"/>');
 		store.load();
 	},
-
 	onAdd: function()	{
 		var store = this.getStore('<xsl:value-of select="$storeName"/>'),
-			record = store.createModel();
+			record = store.createModel({});
 			
- 		record.setId(store.getLocalIdentity());
-        return store.add(company);	    	
-	},
-	
-	onDelete: function(){
+		record.setId(store.getLocalIdentity());
+		return store.add(record);	    	
+	},	
+	onRemove: function(){
 		var store = this.getStore('<xsl:value-of select="$storeName"/>'),
 			panel = this.getThePanel(),
             view = panel.getView(),
             selectionModel = view.getSelectionModel(),
             selectedRecords = selectionModel.getSelection();
-        store.remove(selectedRecords);    
-		
-	},
-	
-	onSave:	function(){
+		store.remove(selectedRecords);    		
+	},	
+	onSync:	function(){
 		var store = this.getStore('<xsl:value-of select="$storeName"/>');
 		store.sync();
-	}
-		
+	}		
 });
 	</xsl:template>
 </xsl:stylesheet>
