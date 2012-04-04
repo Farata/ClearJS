@@ -37,7 +37,7 @@ public class CompanyService extends _CompanyService {
 			dto.id = dataEngine.getMaxCompanyId() + 1;	
 			changeObject.addChangedPropertyName("id");
 			
-			IdentityRack.setIdentity("com.farata.example.dto.CompanyDTO", "id", oldId, dto.id);		
+			IdentityRack.setIdentity(CompanyDTO.class.getName(), "id", oldId, dto.id);		
 		}
 
 		dataEngine.getCompanyList().add(dto);

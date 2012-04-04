@@ -8,6 +8,7 @@ import clear.transaction.identity.IdentityRack;
 
 import com.farata.example.data.DataEngine;
 import com.farata.example.dto.AssociateDTO;
+import com.farata.example.dto.CompanyDTO;
 import com.farata.example.service.generated._AssociateService;
 
 import clear.data.ChangeObject;
@@ -38,7 +39,7 @@ public class AssociateService extends _AssociateService {
 		AssociateDTO dto =  (AssociateDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), AssociateDTO.class);			
 		
 		if (dto.companyId <=0) {
-			Integer parentCompanyId = (Integer)IdentityRack.getIdentity("com.farata.example.dto.CompanyDTO", "id", dto.id);
+			Integer parentCompanyId = (Integer)IdentityRack.getIdentity(CompanyDTO.class.getName(), "id", dto.id);
 			dto.companyId = parentCompanyId;
 		}
 		

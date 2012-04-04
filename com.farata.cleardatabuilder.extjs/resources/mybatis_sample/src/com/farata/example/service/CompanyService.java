@@ -30,7 +30,7 @@ public class CompanyService extends _CompanyService {
 		companyMapper.create(dto);
 		if (oldId != dto.id) {
 			changeObject.addChangedPropertyName("id");
-			IdentityRack.setIdentity("com.farata.example.dto.CompanyDTO", "id", oldId, dto.id);		
+			IdentityRack.setIdentity(CompanyDTO.class.getName(), "id", oldId, dto.id);		
 		}
 
 		changeObject.setNewVersion(dto);
