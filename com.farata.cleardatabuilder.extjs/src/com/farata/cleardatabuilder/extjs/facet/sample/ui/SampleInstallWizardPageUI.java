@@ -49,11 +49,11 @@ public class SampleInstallWizardPageUI {
 		}
 		parent.setLayout(gridLayout);
 		sampleChoiceLabel = new Label(parent, SWT.NONE);
-		sampleChoiceLabel.setText("Sample's Persistence Kind:");
+		sampleChoiceLabel.setText("Example Type:");
 		sampleCombo = new Combo(parent, SWT.NONE);
-		sampleCombo.add("Hibernate sample");
-		sampleCombo.add("Plain Java sample");
-		sampleCombo.add("Mybatis sample");
+		sampleCombo.add("HashMap persistence");
+		sampleCombo.add("MyBatis persistence");
+		sampleCombo.add("Hibernate persistence");
 		sampleCombo.select(0);
 		sampleCombo.addSelectionListener(new SelectionListener() {
 
@@ -82,7 +82,7 @@ public class SampleInstallWizardPageUI {
 		new Label(parent, SWT.NONE);
 
 		dbLabel = new Label(parent, SWT.NONE);
-		dbLabel.setText("Install sample database to folder:");
+		dbLabel.setText("Folder to install sample database:");
 		sampleDBInstallFolder = new Text(parent, SWT.BORDER);
 		sampleDBInstallFolder.setLayoutData(gridData);
 
@@ -114,7 +114,7 @@ public class SampleInstallWizardPageUI {
 		if (os.indexOf("win") >= 0) {
 			defaultDBFolder = home + "\\Application Data\\ClearDataBuilder";
 		} else if (os.indexOf("mac") >= 0) {			
-			defaultDBFolder = home + "/Library/ApplicationSupport/ClearDataBuilder";
+			defaultDBFolder = home + "/Library/Application Support/ClearDataBuilder";
 		};
 		sampleDBInstallFolder.setText(defaultDBFolder);
 	}
