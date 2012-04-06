@@ -2,10 +2,8 @@ package com.farata.example.service;
 
 import java.util.List;
 
-import javax.annotation.Generated;
-
 import com.farata.example.entity.Company;
-import com.farata.example.entity.CompanyAssociate;
+import com.farata.example.entity.Associate;
 import clear.cdb.extjs.annotations.JSGenerateStore;
 import clear.cdb.extjs.annotations.JSGenerateSample;
 import clear.cdb.extjs.annotations.JSJPQLMethod;
@@ -27,9 +25,9 @@ public interface ICompanyService {
 	@JSGenerateSample
 	@JSGenerateStore
 	@JSJPQLMethod(
-			query="SELECT a.id, a.companyId, a.associateName FROM CompanyAssociate a WHERE a.companyId=:companyId",
+			query="SELECT a.id, a.companyId, a.associateName FROM Associate a WHERE a.companyId=:companyId",
 			transferInfo=@JSTransferInfo(type="com.farata.example.dto.AssociateDTO"),
-			updateInfo=@JSUpdateInfo(updateEntity=CompanyAssociate.class, keyPropertyNames="id", updatablePropertyNames="companyId,associateName", autoSyncEnabled=true)
+			updateInfo=@JSUpdateInfo(updateEntity=Associate.class, keyPropertyNames="id", updatablePropertyNames="companyId,associateName", autoSyncEnabled=true)
 	)
 	List<?> getAssociates(Integer companyId);
 }

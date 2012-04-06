@@ -1,6 +1,8 @@
 package com.farata.example.entity;
 
 import java.io.Serializable;
+import java.util.Set;
+
 import javax.persistence.*;
 
 
@@ -19,7 +21,7 @@ public class Company implements Serializable {
 
 	@Column(name="company")
 	private String companyName;
-
+	
     public Company() {
     }
 
@@ -37,6 +39,6 @@ public class Company implements Serializable {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
-	}
+	}	
 
 }

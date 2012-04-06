@@ -1,21 +1,10 @@
+
+	
 package com.farata.example.dto;
 
-import java.util.List;
-
-import com.farata.dto2extjs.annotations.JSClass;
-import com.farata.dto2extjs.annotations.JSOneToMany;
+import com.farata.dto2extjs.annotations.*;
 
 @JSClass
-public class CompanyDTO extends $CompanyDTO {
-
-	private List<AssociateDTO> companyAssociates;
+public class CompanyDTO  extends com.farata.example.dto.$CompanyDTO{
+}		
 	
-	@JSOneToMany(foreignKey="companyId", getter="getAssociates")
-	public List<AssociateDTO> getCompanyAssociates() {
-		return companyAssociates;
-	}
-	
-	public void setCompanyAssociates(List<AssociateDTO> companyAssociates) {
-		this.companyAssociates = companyAssociates;
-	}
-}

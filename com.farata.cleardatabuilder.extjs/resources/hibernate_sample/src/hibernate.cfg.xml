@@ -15,6 +15,6 @@
         <property name="show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
         <mapping class="com.farata.example.entity.Company"/>
-        <mapping class="com.farata.example.entity.CompanyAssociate"/>
+        <mapping class="com.farata.example.entity.Associate"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,14 +1,19 @@
 package com.farata.example.dto;
 		
 import com.farata.dto2extjs.annotations.*;
+
+import clear.cdb.utils.SessionFactoryUtils;
+
 import java.io.Serializable;
 import java.util.*;
 
-@JSClass
-public class $AssociateDTO  implements Serializable {
+import org.hibernate.Session;
 
-	private static final long serialVersionUID = 1L;
-			
+@JSClass
+public class $AssociateDTO  implements Serializable{
+
+	private static final long serialVersionUID = 1L;	
+		
 	protected java.lang.Integer id;
 	
 	public java.lang.Integer getId() {
@@ -27,13 +32,13 @@ public class $AssociateDTO  implements Serializable {
 		companyId = value;
 	}
 		
-	protected java.lang.String associate;
+	protected java.lang.String associateName;
 	
-	public java.lang.String getAssociate() {
-		return associate;
+	public java.lang.String getAssociateName() {
+		return associateName;
 	}
-	public void setAssociate(java.lang.String value) {
-		associate = value;
+	public void setAssociateName(java.lang.String value) {
+		associateName = value;
 	}
 		
 }	

@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="company_associate")
-public class CompanyAssociate implements Serializable {
+public class Associate implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -23,7 +23,7 @@ public class CompanyAssociate implements Serializable {
 	@Column(name="company_id")
 	private int companyId;
 
-    public CompanyAssociate() {
+    public Associate() {
     }
 
 	public int getId() {
