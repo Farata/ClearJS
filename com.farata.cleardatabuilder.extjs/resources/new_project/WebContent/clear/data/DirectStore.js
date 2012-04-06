@@ -64,11 +64,18 @@ Ext.define('Clear.data.DirectStore', {
     modifiedMap: null,
     
     /**
-     * @property {Object} foreignKey
+     * @property {Object} foreignKeyValue
 	 * For a one-to-many associated store, the value of the foreign key property 
 	 * @private 
      */
-    foreignKey: null,
+    foreignKeyValue: null,
+    
+    /**
+     * @property {String} foreignKeyName
+	 * For a one-to-many associated store, the name of the foreign key property 
+	 * @private 
+     */
+    foreignKeyName: null,
     
     /* End Definitions */
 

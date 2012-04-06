@@ -19,7 +19,7 @@ Ext.define('Clear.override.data.HasManyAssociation', {
 	            storeClassName	= that.storeType || 'Clear.data.DirectStore';
 	        // CHANGED: introduced parameter explicitPrimaryKey. This is used in store onUpdate
 	        // to refresh the content of associated store(s) once the primaryKey has changed    
-	        return function(explicitPrimaryKey) {
+	        return function() {
 	            var me = this,
 	                config, filter,
 	                modelDefaults = {},
@@ -27,10 +27,6 @@ Ext.define('Clear.override.data.HasManyAssociation', {
 	                onCommitRequiredChange,
 	                associatedStore = me[storeName];
 	      	    
-	            if (explicitPrimaryKey) {
-	            	   primaryKey = explicitPrimaryKey; // mostly for refrsh, but can be used in
-	            	                                    // original data extract as well
-	            }
 	            if (associatedStore === undefined) {
 	                if (filterProperty) {
 	                    filter = {
@@ -65,8 +61,8 @@ Ext.define('Clear.override.data.HasManyAssociation', {
 	              
 	                // CHANGE: allowed to pass the storeClassName, instead of the Ext.data.Store	                
 	                me[storeName] = associatedStore = Ext.create(storeClassName, config);
-	                me[storeName].foreignKey = params[0];
-			    	
+	                me[storeName].foreignKeyValue = params[0];
+	                me[storeName].foreignKeyName = foreignKey;
 	                // CHANGE: if the associate store is a descendant of the Clear.direct.Store
 	                //         it will dispatch event commitRequiredChange every time it's 
 	                //         commitRequired flag is changed. We used it to mark the associated
@@ -77,7 +73,7 @@ Ext.define('Clear.override.data.HasManyAssociation', {
 	    					this.afterCommit();
 	    				};
 	    				
-	    				associatedStore.on('commitRequiredChange', onCommitRequiredChange, me);
+	    			associatedStore.on('commitRequiredChange', onCommitRequiredChange, me);
 		    			//CHANGE: load only for non-phantom rows
 		            if (autoLoad && !me.phantom) {
 		                //CHANGE: Added passing params for loading
@@ -97,23 +93,8 @@ Ext.define('Clear.override.data.HasManyAssociation', {
 		                    	);
 		            }
 	            } //if (associatedStore === undefined) 
-	            if (explicitPrimaryKey) {
-	            		// refresh
-         	        me[storeName].foreignKey = explicitPrimaryKey;
-         	        modelDefaults[foreignKey] = explicitPrimaryKey;
-                    me[storeName].load(
-                    		{
-                    			'params':{0:explicitPrimaryKey},
-		                    	callback: function(records, operation, success) {
-		                    		if (success) Ext.Array.forEach(records, function(record) {
-		                    			record[Ext.getClassName(me) + 'BelongsToInstance'] = me;
-		                    		});
-		                    	}
-                    		}
-                    	);
-	            } else {	            	
-		            	return me[storeName];
-	            } 
+	            	            	
+		        return me[storeName];
 	        }; //return function()
 	    } //createStore
     }); //override

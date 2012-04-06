@@ -41,7 +41,7 @@ Ext.define('Clear.data.Operation', {
      */
     commitRecords: function (changeObjects) {
         var me = this,
-            mc, index, clientRecords, changeObject, clientRec, serverRec, reloadAssociatedStoresRequired;
+            mc, index, clientRecords, changeObject, clientRec, serverRec, reassignModelDefaultsRequired;
 
         if (!me.actionSkipSyncRe.test(me.action)) {
             clientRecords = me.records;
@@ -60,13 +60,13 @@ Ext.define('Clear.data.Operation', {
                         serverRec = changeObject.newVersion;
                         clientRec.beginEdit();
                         
-                        reloadAssociatedStoresRequired = (serverRec.getId() != clientRec.getId());
+                        reassignModelDefaultsRequired = (serverRec.getId() != clientRec.getId());
 
                         clientRec.set(serverRec.data);
                         clientRec.endEdit(true);
 
-                        if (reloadAssociatedStoresRequired)
-                        		this.reloadAssociatedStores(clientRec);
+                        if (reassignModelDefaultsRequired)
+                        		this.reassignModelDefaults(clientRec);
                     }
                 }
 
@@ -81,19 +81,18 @@ Ext.define('Clear.data.Operation', {
     
     
 	/**
-	 * Reload associated stores where foreignKey is out of date because of the server change
+	 * Reassign model defaults for associated stores where foreignKey is out of date 
 	 */ 
-    reloadAssociatedStores: function(item) {
-    	
-    		var associations = item.associations;
+    reassignModelDefaults: function(item) {
+
+    	var associations = item.associations;
 		associations.each(function(association) {
 			var associatedStore;
 			if (association.type=="hasMany") {
 				associatedStore = item[association.storeName]; //i.e. item['getAssociatesStore']
-				if ((associatedStore) && (associatedStore.foreignKey!==item.getId())) {
-					// This will cause reload of the associatedStore via execution of the
-					//  item.getAssociates(123), etc.
-					item[association.name](item.getId());
+				if ((associatedStore) && (associatedStore.foreignKeyValue!==item.getId())) {
+					associatedStore.foreignKeyValue = item.getId();
+					associatedStore.modelDefaults[associatedStore.foreignKeyName] = associatedStore.foreignKeyValue;
 				} 
 			}        					
 		}, item);	    	
