@@ -59,8 +59,8 @@ public class SampleInstallWizardPageUI {
 
 			@Override
 			public void widgetSelected(SelectionEvent selectionevent) {
-				boolean hbn = sampleCombo.getSelectionIndex() == 2;
-				boolean plnjava = sampleCombo.getSelectionIndex() == 0;
+				boolean hbn = sampleCombo.getSelectionIndex() == 0;
+				boolean plnjava = sampleCombo.getSelectionIndex() == 2;
 				boolean mybts = sampleCombo.getSelectionIndex() == 1;
 				dbLabel.setEnabled(!plnjava);
 				sampleDBInstallFolder.setEnabled(!plnjava);
