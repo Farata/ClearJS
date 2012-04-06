@@ -1,4 +1,4 @@
-Ext.define('ssss.controller.AssociateController', {
+Ext.define('**{app.name}**.controller.AssociateController', {
     extend: 'Ext.app.Controller',
     stores: ['example.AssociateStore'],
     refs: [{

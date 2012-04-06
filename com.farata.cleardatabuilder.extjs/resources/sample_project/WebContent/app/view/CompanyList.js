@@ -1,4 +1,4 @@
-Ext.define('ssss.view.CompanyList', {
+Ext.define('**{app.name}**.view.CompanyList', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.companylist',
     requires: ['Ext.grid.plugin.CellEditing'],
@@ -62,7 +62,7 @@ Ext.define('ssss.view.CompanyList', {
             /**
              * @event companySelectionChange
              * Fires after selection of the company has been changed.
-             * @param {ssss.store.example.CompanyModel} selectedCompany
+             * @param {**{app.name}**.store.example.CompanyModel} selectedCompany
              */
             companySelectionChange: true
         });

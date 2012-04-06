@@ -1,4 +1,4 @@
-Ext.define('ssss.view.AssociateList', {
+Ext.define('**{app.name}**.view.AssociateList', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.associatelist',
 

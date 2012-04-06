@@ -1,4 +1,4 @@
-Ext.define('ssss.controller.ToolbarController', {
+Ext.define('**{app.name}**.controller.ToolbarController', {
     extend: 'Ext.app.Controller',   
     stores: ['example.CompanyStore'],
     

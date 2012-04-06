@@ -1,8 +1,8 @@
-Ext.define('ssss.view.Viewport' ,{
+Ext.define('**{app.name}**.view.Viewport' ,{
     extend: 'Ext.container.Viewport', 
     requires: [
-        'ssss.view.CompanyList',
-        'ssss.view.AssociateList'
+        '**{app.name}**.view.CompanyList',
+        '**{app.name}**.view.AssociateList'
     ],
  
     layout: {
