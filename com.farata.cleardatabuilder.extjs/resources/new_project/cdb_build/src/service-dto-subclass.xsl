@@ -8,9 +8,7 @@
 	
 	<xsl:template match="/" name="service-dto-subclass.xsl">
 		<xsl:param name="dtoName"/>
-		<xsl:param name="rootPackage"/>
-	
-package <xsl:value-of select="$rootPackage"/>;
+		<xsl:param name="rootPackage"/>package <xsl:value-of select="$rootPackage"/>;
 
 import com.farata.dto2extjs.annotations.*;
 
