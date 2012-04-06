@@ -20,14 +20,6 @@
 	}
 });
 
-/*
-<xsl:for-each select="$fields/property">
-Property <xsl:value-of select="@name"/> has these annotations:
-<xsl:copy-of select="."/>
- 
-</xsl:for-each>
-*/
-
 Ext.syncRequire('<xsl:value-of select="$appName"/>.init.InitDirect');
 // Define GridPanel
 Ext.define('<xsl:value-of select="$appName"/>.view.SampleGridPanel',{
