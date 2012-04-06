@@ -20,6 +20,8 @@
 		<replace file="${workspace.path}/${project.name}/WebContent/WEB-INF/web.xml" token="**{app.name}**" value="${app.name}" />
 		<replace file="${workspace.path}/${project.name}/WebContent/app.js" token="**{app.name}**" value="${app.name}" />
 		<replace dir="${workspace.path}/${project.name}/WebContent/app" token="**{app.name}**" value="${app.name}" />
+		<replace file="${workspace.path}/${project.name}/WebContent/test.js" token="**{app.name}**" value="${app.name}" />
+		<replace dir="${workspace.path}/${project.name}/WebContent/test" token="**{app.name}**" value="${app.name}" />
 	</target>
 	<target name="install-new">
 		<mkdir dir="${workspace.path}/${project.name}" />
