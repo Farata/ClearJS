@@ -51,17 +51,17 @@ public class SampleInstallWizardPageUI {
 		sampleChoiceLabel = new Label(parent, SWT.NONE);
 		sampleChoiceLabel.setText("Example Type:");
 		sampleCombo = new Combo(parent, SWT.NONE);
-		sampleCombo.add("HashMap persistence");
-		sampleCombo.add("MyBatis persistence");
 		sampleCombo.add("Hibernate persistence");
+		sampleCombo.add("MyBatis persistence");
+		sampleCombo.add("HashMap persistence");
 		sampleCombo.select(0);
 		sampleCombo.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent selectionevent) {
 				boolean hbn = sampleCombo.getSelectionIndex() == 0;
-				boolean plnjava = sampleCombo.getSelectionIndex() == 2;
 				boolean mybts = sampleCombo.getSelectionIndex() == 1;
+				boolean plnjava = sampleCombo.getSelectionIndex() == 2;
 				dbLabel.setEnabled(!plnjava);
 				sampleDBInstallFolder.setEnabled(!plnjava);
 				button.setEnabled(!plnjava);
