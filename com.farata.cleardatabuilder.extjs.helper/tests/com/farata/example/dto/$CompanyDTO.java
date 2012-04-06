@@ -3,7 +3,6 @@ package com.farata.example.dto;
 import com.farata.dto2extjs.annotations.*;
 
 
-
 import java.io.Serializable;
 import java.util.*;
 
