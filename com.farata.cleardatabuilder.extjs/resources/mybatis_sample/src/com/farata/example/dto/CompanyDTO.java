@@ -12,25 +12,22 @@ public class CompanyDTO  implements Serializable, Cloneable{
 	private java.lang.Integer id;
 	private java.lang.String companyName;
 	
-	private List<AssociateDTO> associates;
-	
 	public java.lang.Integer getId() {
 		return id;
 	}
+
 	public void setId(java.lang.Integer id) {
 		this.id = id;
 	}
+
 	public java.lang.String getCompanyName() {
 		return companyName;
 	}
+
 	public void setCompanyName(java.lang.String companyName) {
 		this.companyName = companyName;
 	}
+
 	@JSOneToMany(foreignKey="companyId", getter="getAssociates")
-	public List<AssociateDTO> getAssociates() {
-		return associates;
-	}
-	public void setAssociates(List<AssociateDTO> associates) {
-		this.associates = associates;
-	}
+	public List<AssociateDTO> associates;
 }
