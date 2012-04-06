@@ -21,7 +21,7 @@ Ext.onReady(function() {
         ],
         controllers: [
           'ToolbarController', 
-          'CompanyListController', 
+          'CompanyController', 
           'AssociateController'
         ],
         launch: function() {
