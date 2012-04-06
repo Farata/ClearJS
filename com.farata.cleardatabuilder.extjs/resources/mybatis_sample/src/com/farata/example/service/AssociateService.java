@@ -28,12 +28,12 @@ public class AssociateService extends _AssociateService {
 	public void getAssociates_doCreate(ChangeObject changeObject) {				
 		AssociateDTO dto =  (AssociateDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), AssociateDTO.class);			
 			
-		if (dto.companyId <=0) {
-			Integer parentCompanyId = (Integer)IdentityRack.getIdentity(CompanyDTO.class.getName(), "id", dto.id);
-			dto.companyId = parentCompanyId;
+		if (dto.getCompanyId() <=0) {
+			Integer parentCompanyId = (Integer)IdentityRack.getIdentity(CompanyDTO.class.getName(), "id", dto.getId());
+			dto.setCompanyId(parentCompanyId);
 		}
 		
-		if ((dto.id == null) || (dto.id <= 0)) {
+		if ((dto.getId() == null) || (dto.getId() <= 0)) {
 			associateMapper.create(dto);
 			changeObject.addChangedPropertyName("id");
 		}

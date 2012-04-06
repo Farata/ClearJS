@@ -32,12 +32,12 @@ public class CompanyService extends _CompanyService {
 		CompanyDTO dto =  (CompanyDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), CompanyDTO.class);					
 
 		
-		if ((dto.id == null) || (dto.id <= 0)) {
-			Object oldId = dto.id;
-			dto.id = dataEngine.getMaxCompanyId() + 1;	
+		if ((dto.getId() == null) || (dto.getId() <= 0)) {
+			Object oldId = dto.getId();
+			dto.setId(dataEngine.getMaxCompanyId() + 1);	
 			changeObject.addChangedPropertyName("id");
 			
-			IdentityRack.setIdentity(CompanyDTO.class.getName(), "id", oldId, dto.id);		
+			IdentityRack.setIdentity(CompanyDTO.class.getName(), "id", oldId, dto.getId());		
 		}
 
 		dataEngine.getCompanyList().add(dto);

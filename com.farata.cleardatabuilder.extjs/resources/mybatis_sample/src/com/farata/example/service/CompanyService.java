@@ -26,11 +26,11 @@ public class CompanyService extends _CompanyService {
 	public void getCompanies_doCreate(ChangeObject changeObject) {
 		System.out.println("doCreate method");
 		CompanyDTO dto =  (CompanyDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), CompanyDTO.class);							
-		Object oldId = dto.id;
+		Object oldId = dto.getId();
 		companyMapper.create(dto);
-		if (oldId != dto.id) {
+		if (oldId != dto.getId()) {
 			changeObject.addChangedPropertyName("id");
-			IdentityRack.setIdentity(CompanyDTO.class.getName(), "id", oldId, dto.id);		
+			IdentityRack.setIdentity(CompanyDTO.class.getName(), "id", oldId, dto.getId());		
 		}
 
 		changeObject.setNewVersion(dto);

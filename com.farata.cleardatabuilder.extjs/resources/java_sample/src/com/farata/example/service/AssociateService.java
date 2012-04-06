@@ -38,16 +38,16 @@ public class AssociateService extends _AssociateService {
 
 		AssociateDTO dto =  (AssociateDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), AssociateDTO.class);			
 		
-		if (dto.companyId <=0) {
-			Integer parentCompanyId = (Integer)IdentityRack.getIdentity(CompanyDTO.class.getName(), "id", dto.id);
-			dto.companyId = parentCompanyId;
+		if (dto.getCompanyId() <=0) {
+			Integer parentCompanyId = (Integer)IdentityRack.getIdentity(CompanyDTO.class.getName(), "id", dto.getId());
+			dto.setCompanyId(parentCompanyId);
 		}
 		
-		Integer companyId = dto.companyId;
+		Integer companyId = dto.getCompanyId();
 		List<AssociateDTO> associateList = dataEngine.getAssociateList(companyId);
 		
-		if ((dto.id == null) || (dto.id <= 0)) {
-			dto.id = dataEngine.getMaxCompanyAssociateId() + 1;	
+		if ((dto.getId() == null) || (dto.getId() <= 0)) {
+			dto.setId(dataEngine.getMaxCompanyAssociateId() + 1);	
 			changeObject.addChangedPropertyName("id");
 		}
 		
