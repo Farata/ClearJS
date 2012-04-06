@@ -25,7 +25,7 @@ public class SampleInstallDelegate implements IDelegate{
 
 	private SampleInstallConfig config;
 	private CommonInstallConfig commonInstallConfig;
-
+	private static final String CLEARDB_PROFILE = "HSQLClearDB";
 	@Override
 	public void execute(IProject project, IProjectFacetVersion projectFacetVersion, Object context,
 			IProgressMonitor monitor) throws CoreException {
@@ -107,23 +107,23 @@ public class SampleInstallDelegate implements IDelegate{
 
 		ProfileManager profileManager = ProfileManager.getInstance();
 		IConnectionProfile profile = profileManager
-				.getProfileByName("CDB-Sample");
+				.getProfileByName(CLEARDB_PROFILE);
 		if (profile != null) {
 			//profileManager.deleteProfile(profile);
 		}
 		try {
 			if (profile == null) {
-				profileManager.createProfile("CDB-Sample", "",
+				profileManager.createProfile(CLEARDB_PROFILE, "",
 						"org.eclipse.datatools.enablement.hsqldb.connectionProfile",
 						baseProperties, null, false);
 		
 			}
 		}catch(Throwable th) {}
-		JptJpaCorePlugin.setConnectionProfileName(project, "CDB-Sample");
+		JptJpaCorePlugin.setConnectionProfileName(project, CLEARDB_PROFILE);
 
 //		JpaProject jpaProject = CommonInstallDelegate.waitForJpaProject(project);
 //		JpaDataSource ds = jpaProject.getDataSource();
-//		ds.setConnectionProfileName("CDB-Sample");
+//		ds.setConnectionProfileName(CLEARDB_PROFILE);
 	}
 
 }
