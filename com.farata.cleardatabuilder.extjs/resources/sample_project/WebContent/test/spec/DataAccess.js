@@ -13,13 +13,13 @@ Ext.define('Test.spec.DataAccess' ,{}, function () {
 	        expect(toolbarCtrl).toBeTruthy();
 	        
  	        if (!companyListCtrl) {
- 	        	companyListCtrl = Application.getController('CompanyListController');
+ 	        	companyCtrl = Application.getController('CompanyController');
  	        }
  	        
-	        expect(companyListCtrl).toBeTruthy();
+	        expect(companyCtrl).toBeTruthy();
 
  	        if (!store) {
- 	        	store = toolbarCtrl.getClearSamplesCompanyStore();
+ 	        	store = toolbarCtrl.getExampleCompanyStore();
  	        }
 
  	        expect(store).toBeTruthy();
@@ -42,7 +42,8 @@ Ext.define('Test.spec.DataAccess' ,{}, function () {
  	    });
  	    
  	    it("should autoincrement company id during insert",function(){
- 	        company = companyListCtrl.insertCompany()[0];
+ 	        companyCtrl.insertCompany();
+ 	        company = store.getAt(store.getCount()-1);
  	        toolbarCtrl.sync();
  	        waitsFor(
  	        	function(){ return !store.commitRequired; },
