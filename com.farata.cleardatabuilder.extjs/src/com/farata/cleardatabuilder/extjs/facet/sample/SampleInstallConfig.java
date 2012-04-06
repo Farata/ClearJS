@@ -7,8 +7,8 @@ import org.eclipse.wst.common.project.facet.ui.IWizardContext;
 public class SampleInstallConfig {
 	private IWizardContext wizardContext;
 	private File sampleDBInstallFolder;
-	private boolean hibernateSample = true;
-	private boolean plainJavaSample;
+	private boolean hibernateSample;
+	private boolean plainJavaSample = true;
 	private boolean mybatisSample;
 
 	public boolean isPlainJavaSample() {
