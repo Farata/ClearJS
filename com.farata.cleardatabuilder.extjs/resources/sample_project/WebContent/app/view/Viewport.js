@@ -12,15 +12,13 @@ Ext.define('**{app.name}**.view.Viewport' ,{
 
     items: [{
         border: false,
-        html: '"Fill" data from server, interactively modify, then "Commit" to persist changes.'
-            + '<br><br>'
-            + 'NOTE: id and companyId columns are not editable.'
+        html: 'You can load companies\' list from server, add/remove/modify companies info and sync back to the server.<br>' +
+        	  'Highlight a company to remove it or view/edit company\'s associates. Columns  <i>id</i> and <i>companyId</i> are not editable.'
     }, {
         	xtype: 'toolbar',
         	items: [
-            { itemId: 'btn_fill', text: 'Fill', action: 'fill' },
-    	        {	itemId:'btn_test', text:'Test'},
-            { itemId: 'btn_commit', text: 'Commit', action: 'commit', disabled: true }
+            { itemId: 'btn_fill', text: 'Load', action: 'fill', iconCls:'iconLargeLoad' },
+            { itemId: 'btn_commit', text: 'Sync', action: 'commit', disabled: true, iconCls:'iconLargeSync' }
         ]
     }, {
         xtype: 'companylist',
