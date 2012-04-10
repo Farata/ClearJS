@@ -21,21 +21,21 @@ Ext.define('**{app.name}**.view.AssociateList', {
         xtype: 'toolbar',
         dock: 'bottom',
         defaults: {
-            width: 70,
-            margin: '0 5px 0 0',
-            cls: 'PanelDocketBtnsClass'
+            width: 70
         },
         items: [{
             xtype: 'button',
             action: 'delete',
             text: 'Remove',
             scope: this,
-            disabled: true
+            disabled: true,
+            iconCls: 'iconRemovePerson'
         }, {
             xtype: 'button',
             action: 'insert',
             text: 'Add',
-            scope: this
+            scope: this,
+            iconCls: 'iconAddPerson'
         }]
     }],
 
