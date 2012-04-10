@@ -29,7 +29,7 @@ public class AssociateService extends _AssociateService {
 		AssociateDTO dto =  (AssociateDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), AssociateDTO.class);			
 			
 		if (dto.getCompanyId() <=0) {
-			Integer parentCompanyId = (Integer)IdentityRack.getIdentity(CompanyDTO.class.getName(), "id", dto.getId());
+			Integer parentCompanyId = (Integer)IdentityRack.getIdentity(CompanyDTO.class.getName(), "id", dto.getCompanyId());
 			dto.setCompanyId(parentCompanyId);
 		}
 		
