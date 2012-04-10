@@ -1,6 +1,5 @@
 package com.farata.example.service;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -22,10 +21,7 @@ public class CompanyService extends _CompanyService {
 		System.out.println("getCompanies method has returned " + companyList.size() + " CompanyDTO records");
 		return companyList;
 	}
-	
-	// This method, with arbitrary name, illustrates how to insert new data
-	//  marked as changeObject.isCreate() 
-	
+
 	@Override
 	public void getCompanies_doCreate(ChangeObject changeObject) {
 		System.out.println("doCreate method");
@@ -40,12 +36,10 @@ public class CompanyService extends _CompanyService {
 			IdentityRack.setIdentity(CompanyDTO.class.getName(), "id", oldId, dto.getId());		
 		}
 
-		dataEngine.getCompanyList().add(dto);
+		dataEngine.addCompany(dto);
 		changeObject.setNewVersion(dto);
 	}
 
-	// This method, with arbitrary name, illustrates how to update data marked 
-	//  as changeObject.isUpdate() utilizing array of changedPropertyNames
 	@Override
 	public void getCompanies_doUpdate(ChangeObject changeObject) {
 		
@@ -53,27 +47,9 @@ public class CompanyService extends _CompanyService {
 		CompanyDTO newVersion =  (CompanyDTO)deserializeObject((Map<String, String>)changeObject.getNewVersion(), CompanyDTO.class);
 		CompanyDTO previousVersion =  (CompanyDTO)deserializeObject((Map<String, String>)changeObject.getPreviousVersion(), CompanyDTO.class);
 		
-		CompanyDTO originalDTO = dataEngine.findCompany(previousVersion);
-		if (originalDTO != null) {
-			String[] changedPropertyNames = changeObject.getChangedPropertyNames();
-			Class<?extends CompanyDTO> clazz = CompanyDTO.class;
-			for (String propertyName: changedPropertyNames) {
-				try {
-				    Field field = clazz.getField(propertyName);
-				    Object originalValue = field.get(originalDTO);
-				    Object newValue = field.get(newVersion);
-				    field.set(originalDTO, newValue);
-					System.out.println("Changed: " + propertyName + ", Original Value: "
-							+ originalValue + ", New Value: " + newValue);				    
-				} catch (Exception e) {
-					new RuntimeException("Failed updating  property '" + propertyName +"'"  );
-				}
-			}
-		}	
+		dataEngine.updateCompany(previousVersion, newVersion, changeObject.getChangedPropertyNames() );
 	}
 
-	// This method, with arbitrary name, illustrates how to delete data marked 
-	//  as changeObject.isDelete().
 	@Override
 	public void getCompanies_doDelete(ChangeObject changeObject) {
 
