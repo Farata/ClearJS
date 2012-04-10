@@ -5,11 +5,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 /**
- * Is used to generate collection-based CRUD code for data synchronization between a database and Flex UI. Should be
- * applied only to methods returning collections of entities or collections of DTO types.
+ * Is used to automatically generate complete set of Java/Hibernate and Ext JS classes
+ * implementing CRUD data synchronization between a database and Ext JS UI; no manual coding
+ * is required.
+ * 
+ * Should be applied only to methods returning collections of entities or collections of DTO types.
  * <p>
-  <table class="innertable">
-  
+  <table class="innertable">  
   	<tr>
   		<th>Parameter</th><th>Type</th><th>Required</th><th>Description</th>
   	</tr>
@@ -37,9 +39,8 @@ import java.lang.annotation.Target;
  * </pre> 
 
  * Dynamic generation of the DTO in the context of code>&#64;JSJPQLMethod</code> is based on the properties of the 
- * result set. When flag <code>generate</code> is set to false generation is omitted, this allows to
- * avoid conflicting redefinition of the DTO across the project. NOTE: NOT IMPLEMENTED YET
-*  </td>
+ * result set. 
+ * </td>
   	</tr>	
   	<tr>
   		<td><code>updateInfo</code></td><td>&#64;JSUpdateInfo</td><td>Optional</td>
@@ -69,12 +70,12 @@ import java.lang.annotation.Target;
   where [fill_method] stands for the name of the original annotated method of the interface
  * </p>
  * <p>
- * For associated properties, i.e. properties annotated with <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/BlazeDS/4/com/farata/dto2fx/annotations/FXOneToMany.html">&#64;FXOneToMany</a> 
- * and <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/BlazeDS/4/com/farata/dto2fx/annotations/FXManyToOne.html">&#64;FXManyToOne</a> 
- * generated implementation of the <i>fill_method</i> returns <code>null</code> with one exception in <code>&#64;FXManyToOne</code> case :
- * <li>a <code>&#64;FXOneToMany</code> annotated property is returned as <code>null</code> always and gets populated
- * on-demand, when the FlexUI code accesses the property first time; </li>
- * <li>a <code>&#64;FXManyToOne</code> property contains <code>null</code>,
+ * For associated properties, i.e. properties annotated with <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/java/extjs/com/farata/dto2extjs/annotations/JSOneToMany.html">&#64;JSOneToMany</a> 
+ * and <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/java/extjs/com/farata/dto2extjs/annotations/JSManyToOne.html">&#64;JSManyToOne</a> 
+ * generated implementation of the <i>fill_method</i> returns <code>null</code> with one exception in <code>&#64;JSManyToOne</code> case :
+ * <li>a <code>&#64;JSOneToMany</code> annotated property is returned as <code>null</code> always and gets populated
+ * on-demand, when the Ext JS code accesses the property first time; </li>
+ * <li>a <code>&#64;JSManyToOne</code> property contains <code>null</code>,
  * unless it has been explicitly mentioned in the JPQL query</i>.
  * </p>
  *  <p>
@@ -104,7 +105,7 @@ import java.lang.annotation.Target;
  *  dynamically generated <code>CompanyAssociateDTO</code> object, its properties are shaped by result set of the query:
  *  <code>id</code>, <code>associateName</code>, <code>companyId</code>. Due to <code>mappedBy</code>, nested references 
  *  to <code>CompanyAssociate</code> will be automatically replaced with <code>CompanyAssociateDTO</code>. Since <code>updateInfo</code> is provided, CDB will generate Java methods that enable
- *  Flex UI to invoke <code>sync</code> method of the DataCollection:
+ *  Ext JS UI to invoke <code>sync</code> method of the store:
  * <pre>
  * 	&#64;JSJPQLMethod(
  * 		query="SELECT a.id, a.associateName, a.company.id as companyId FROM CompanyAssociate a",
@@ -114,17 +115,7 @@ import java.lang.annotation.Target;
  * 	List&lt;?&gt; getAssociates();
  * </pre>
  * </p>
- * <p>
- *  Example 4: <b>"Read-only" scenario that is reusing <code>CompanyAssociateDTO</code></b> type. The effective return type is a List of
- *  objects of <code>CompanyAssociateDTO</code> type that, according to <code>generate=false</code> is expected to be generated somewhere
- *  else in the project. 
- * <pre>
- * 	&#64;JSJPQLMethod(
- * 		query="SELECT a.id, a.associateName, a.company.id as companyId FROM CompanyAssociate a",
- * 		transferInfo=&#64;JSTransferInfo(type="com.farata.test.dto.CompanyAssociateDTO", generate=false)
- * 	)
- * 	List&lt;?&gt; getAssociates();
- * </pre>
+
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

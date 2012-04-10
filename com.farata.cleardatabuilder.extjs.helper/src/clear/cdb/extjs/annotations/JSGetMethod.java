@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Is used to generate item-based CRUD code for data synchronization between a Java class and Flex UI, driven
+ * Is used to generate item-based CRUD code for data synchronization between a Java class and Ext JS UI, driven
  * by the item id. Should be applied only to methods returning entity or DTO type.
  * <p>
  *  <table class="innertable">

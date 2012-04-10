@@ -7,9 +7,14 @@ import java.lang.annotation.Target;
 
 /**
  * 
- * Generates GridTest CRUD Flex app with the DataGrid and DataCollection communicating with current annotated method.
+ * Generates sample GridPanel-based CRUD application. 
+ * <p>This annotation results in two files: <code>sampleApp.js</code> and <code>controller/SampleControlles.js</code>
+ * located in <code><project-root>/WebContent/samples/<interface-package>/<method-name></code> folder, where
+ * <code>interface-package</code> and <code>method-name</code> correspond to the class and method annotated
+ * with &#64;JSGenerateSample.
+ * </p>
  * 
- * @parameter defaultFillArguments Comma separated values to be hardcoded as values of the collection.fill(arg1, arg2,...)
+ * @parameter defaultFillArguments 
  *
  */
 @Retention(RetentionPolicy.RUNTIME)

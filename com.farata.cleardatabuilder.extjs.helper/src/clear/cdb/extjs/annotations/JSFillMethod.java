@@ -7,7 +7,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Is used to generate collection-based CRUD code for data synchronization between a Java class and Flex UI.
+ * Is used to generate incomplete set of Java and Ext JS classes
+ * implementing CRUD data synchronization between a database and Ext JS UI; developer
+ * is expected to override one of the generated classes to specify the actual methods of
+ * selecting a list of records as well as creating/deleting/updating a record.
  * <p>
  *  <table class="innertable">
   
@@ -16,22 +19,21 @@ import java.lang.annotation.Target;
   	</tr>
   	<tr>
   		<td><code>sync</code></td><td>Boolean</td><td>Optional</td><td>If set to <code>true</code> directs the code-generation script to support updates from the
- * Flex UI, in addition to pulling the data to Flex UI from Java. Default value is <code>true</code>.</td>
+ * Ext JS UI, in addition to pulling the data to Ext JS UI from Java. Default value is <code>true</code>.</td>
   	</tr>	
   	<tr>
   		<td><code>autoSyncEnabled</code></td><td>Boolean</td><td>Optional</td><td>If set to <code>true</code> directs the code generation script to include
- * push of the incoming updates to peer DataCollections listening on the updates for the same result set.
+ * push of the incoming updates to peer stores listening on the updates for the same result set. NOT IMPLEMENTED YET.
  *  </td>
   	</tr>	
   </table>
 </p>  
  * <p>
- * Annotation <code>&#64;JSFillMethod</code> allows to plug-in an existing Java class into Flex/Java data synchronization,
- * based on Adobe LCDS <code>ChangeObject</code> interface and 
- * <a href="http://help.faratasystems.com/en_US/cleartoolkit/reference/flex/4/clear/collections/DataCollection.html">DataCollection</a>.
- * The method annotated by <code>&#64;JSFillMethod</code> will be designated as a <code>fillMethod</code> of the <code>DataCollection</code>.
- * Therefore it should return a collection of tuples, aka - data transfer objects(DTO) to be marhsalled to DataCollection during the
- * remote method invocation. When annotation parameter <code>sync</code> is <code>true</code>, code generation script 
+ * Annotation <code>&#64;JSFillMethod</code> allows to plug-in an existing Java class into Ext JS/Java data synchronization,
+ * based on the <code>ChangeObject</code> interface <code>Clear.data.DirectStore</code>.
+ * The method annotated by <code>&#64;JSFillMethod</code> will be designated as a <code>read</code> method of the store's <code>api</code> config property.
+ * Therefore it should return a collection of tuples, aka - data transfer objects(DTO) to be marhsalled to the store during the
+ * Ext.Direct method invocation. When annotation parameter <code>sync</code> is <code>true</code>, code generation script 
  * creates additional four methods:
  * </p>
  * <pre>
