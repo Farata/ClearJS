@@ -51,7 +51,7 @@ Ext.define('**{app.name}**.controller.AssociateController', {
             store = view.getStore(),
             
             associate = store.createModel({
-                associateName: 'Vasiliy Lokhankin'
+                associateName: 'John Smith'
             });
         
         //Ext Model won't make phantom if id is part of the config
