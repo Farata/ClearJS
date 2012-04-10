@@ -20,20 +20,17 @@ Ext.define('**{app.name}**.view.AssociateList', {
     dockedItems: [{
         xtype: 'toolbar',
         dock: 'bottom',
-        defaults: {
-            width: 70
-        },
         items: [{
             xtype: 'button',
             action: 'delete',
-            text: 'Remove',
+            text: 'Remove Associate',
             scope: this,
             disabled: true,
             iconCls: 'iconRemovePerson'
         }, {
             xtype: 'button',
             action: 'insert',
-            text: 'Add',
+            text: 'Add Associate',
             scope: this,
             iconCls: 'iconAddPerson'
         }]

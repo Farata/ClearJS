@@ -26,21 +26,6 @@ Ext.define('Test.spec.DataAccess' ,{}, function () {
  	        
  	    });
 
- 	    it("should have companies",function(){
-
- 	        toolbarCtrl.fill();
-
- 	        waitsFor(
- 	        	function(){ return !companyStore.isLoading(); },
- 	            "fill never completed",
- 	            4000
- 	        );
- 	        
- 	        runs( function() { 	        	
-	 	        expect(companyStore.getCount()).toBeGreaterThan(1);
- 	        });
- 	    });
- 	     	    
 	    it("should persist new company record",function(){
 		    	var count = companyStore.getCount();
 
@@ -200,18 +185,9 @@ Ext.define('Test.spec.DataAccess' ,{}, function () {
 	 	        });
  	        });
 	    });
-	    /*
- 	    it("should open the editor window", function(){
- 	        var grid = Ext.ComponentQuery.query('userlist')[0];
+ 	    
+ 
 
- 	        ctlr.editUser(grid,store.getAt(0));
-
- 	        var edit = Ext.ComponentQuery.query('useredit')[0];
-
- 	        expect(edit).toBeTruthy();
- 	        if(edit)edit.destroy();
- 	    });
-*/ 	    
 
 	});	
 });
