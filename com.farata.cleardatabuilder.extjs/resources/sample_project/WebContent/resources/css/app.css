@@ -1,0 +1,18 @@
+.iconLargeLoad {
+	background-image: url("../../resources/images/small_Download.png") !important;
+}
+.iconLargeSync {
+	background-image: url("../../resources/images/small_Upload.png") !important;
+}
+.iconAddCompany {
+	background-image: url("../../resources/images/small_organization_add.png") !important;
+}
+.iconRemoveCompany {
+	background-image: url("../../resources/images/small_organization_delete.png") !important;
+}
+.iconAddPerson {
+	background-image: url("../../resources/images/small_user_add.png") !important;
+}
+.iconRemovePerson {
+	background-image: url("../../resources/images/small_user_delete.png") !important;
+}

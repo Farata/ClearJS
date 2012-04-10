@@ -142,6 +142,37 @@ Ext.define('Test.spec.DataAccess' ,{}, function () {
  	        });
  	    });
 	    
+	    it("should propagate autoincremented parent id to new children during new parent/new children commit",function(){
+			companyCtrl.insertCompany();
+			var company = companyStore.getAt(companyStore.getCount()-1);
+    		var associateStore = company.getAssociates();
+	        waitsFor(
+	        		function(){return !associateStore.isLoading(); },
+	            "get associates never completed",
+	            4000
+	 	    );
+	        runs (function() { 	        	
+	            var associate = associateStore.createModel({
+	                associateName: 'Associate1'
+	            });
+	 	        associate.setId(associateStore.getLocalIdentity());	
+	 	        associateStore.add(associate);
+	            associate = associateStore.createModel({
+	                associateName: 'Associate2'
+	            });
+	 	        associate.setId(associateStore.getLocalIdentity());	
+	 	        associateStore.add(associate);
+	 	        toolbarCtrl.sync();
+	 	        waitsFor(
+	 	        		function(){ return !associateStore.commitRequired; },
+	 	        		"sync with insert failed",
+	 	        		10000
+	 	        ); 
+	 	        runs (function() { 	 	        	
+	 	        		expect(expect(associate.get("companyId")).toEqual(company.getId()));
+	 	        });
+	        });
+	    });	    
 	    
 	    it("should autoincrement id in the new associate during new parent/new child commit",function(){
     			companyCtrl.insertCompany();
