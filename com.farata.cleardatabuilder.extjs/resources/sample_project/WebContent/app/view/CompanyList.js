@@ -21,19 +21,21 @@ Ext.define('**{app.name}**.view.CompanyList', {
         xtype: 'toolbar',
         dock: 'bottom',
         defaults: {
-           width: 70 
+           width: 70
         },
         items: [{
             xtype: 'button',
             itemId: 'btn_delete',
             action: 'delete',
             text: 'Remove',
-            disabled: true
+            disabled: true,
+            iconCls:'iconRemoveCompany'
         }, {
             xtype: 'button',
             itemId: 'btn_insert',
             action: 'insert',
-            text: 'Add'
+            text: 'Add',
+            iconCls:'iconAddCompany'
         }]
     }],
 
