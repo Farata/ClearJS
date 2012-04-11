@@ -25,7 +25,7 @@
 						select="annotations/annotation[@name='clear.cdb.extjs.annotations.JSGenerateStore']" />
 					<xsl:if test="$generateStore">
 						<xsl:variable name="storeType"
-							select="$generateStore/method[@name='collectionType']/@value" />
+							select="$generateStore/method[@name='storeType']/@value" />
 						<xsl:variable name="fullStoreName">
 							<xsl:choose>
 								<xsl:when test="$storeType">

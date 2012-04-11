@@ -30,7 +30,7 @@
 						<xsl:variable name="fullStoreName">
 							<xsl:if test="$generateStore">
 								<xsl:variable name="storeType"
-									select="$generateStore/method[@name='collectionType']/@value" />
+									select="$generateStore/method[@name='storeType']/@value" />
 								<xsl:choose>
 									<xsl:when test="$storeType">
 										<xsl:value-of select="$storeType" />
