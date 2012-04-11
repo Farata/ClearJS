@@ -53,7 +53,7 @@ public class SampleInstallWizardPageUI {
 		sampleCombo = new Combo(parent, SWT.NONE);
 		sampleCombo.add("Hibernate persistence");
 		sampleCombo.add("MyBatis persistence");
-		sampleCombo.add("DoItYourself persistence");
+		sampleCombo.add("Manual persistence");
 		sampleCombo.select(0);
 		sampleCombo.addSelectionListener(new SelectionListener() {
 
