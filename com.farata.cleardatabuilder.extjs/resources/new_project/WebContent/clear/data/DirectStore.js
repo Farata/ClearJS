@@ -228,7 +228,7 @@ Ext.define('Clear.data.DirectStore', {
 
 	   	Ext.each(items, function(item, index, value){
 	   		if(item.isValid()) {
-	   			this.modifiedMap.add(item, item);
+	   			this.modifiedMap.add(item);
 	   		}
 	   	}, this);
 		this.updateCommitRequired();
