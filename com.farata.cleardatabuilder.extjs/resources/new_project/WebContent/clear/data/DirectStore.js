@@ -295,7 +295,7 @@ Ext.define('Clear.data.DirectStore', {
 		// but associations can be dirty
 		item.computeAssociatedDirty();
 		
-		if (me.modifiedMap.get(item)) {
+		if (me.modifiedMap.get(item.id)) {
 			//Remove item that does not belond to modifiedMap
 			if (item.isValid()) {
 				if ( item.dirty!==true && item.associatedDirty!==true) {
@@ -315,7 +315,7 @@ Ext.define('Clear.data.DirectStore', {
 						Ext.apply(item.raw, item.modified);
 					}
 						
-					me.modifiedMap.add(item, item);
+					me.modifiedMap.add(item);
 				} 											
 			}
 		}
