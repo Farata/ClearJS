@@ -48,7 +48,7 @@
 						<xsl:variable name="fullDtoName"
 							select="helper:getMethodTransferType($interfaceName, @name)" />
 						<xsl:variable name="fillParams"
-							select="helper:getMethodAnnotationValue($interfaceName, @name, 'clear.cdb.extjs.annotations.JSGenerateSample','defaultFillArguments')" />
+							select="helper:getMethodAnnotationValue($interfaceName, @name, 'clear.cdb.extjs.annotations.JSGenerateSample','defaultArguments')" />
 						<xsl:if test="$fullDtoName">
 							<xsl:apply-templates select="/" mode="view-output">
 								<xsl:with-param name="interfaceName" select="$interfaceName" />
