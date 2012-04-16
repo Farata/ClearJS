@@ -33,7 +33,7 @@ Ext.define('**{app.name}**.controller.AssociateController', {
     		
     		if (selectedCompany === null) {
     			panel.disable();
-    			associateStore = null;
+     			associateStore = this.getExampleAssociateStore();
     		} else {
     			panel.enable();
     			associateStore = selectedCompany.getAssociates();
