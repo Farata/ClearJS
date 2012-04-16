@@ -675,7 +675,7 @@ function generateMXMLSamples() {
 										fullInterfaceName,
 										"" + annotationsHelper.getMethodNameByMethod(methods[method]),
 										'clear.cdb.extjs.annotations.JSGenerateSample',
-										'defaultFillArguments');
+										'defaultArguments');
 
 						fillParamsParam = xslt.createParam();
 						fillParamsParam.setName("fillParams");
