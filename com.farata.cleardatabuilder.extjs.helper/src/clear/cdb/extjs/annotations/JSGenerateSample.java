@@ -14,12 +14,12 @@ import java.lang.annotation.Target;
  * with &#64;JSGenerateSample.
  * </p>
  * 
- * @parameter defaultFillArguments 
+ * @parameter defaultArguments 
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface JSGenerateSample {
 
-	String defaultFillArguments() default "";
+	String defaultArguments() default "";
 }
