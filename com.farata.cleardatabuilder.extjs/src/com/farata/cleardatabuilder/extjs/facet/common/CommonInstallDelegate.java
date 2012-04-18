@@ -18,6 +18,7 @@ import org.eclipse.jpt.jpa.core.JpaDataSource;
 import org.eclipse.jpt.jpa.core.JpaProject;
 import org.eclipse.jpt.jpa.core.JptJpaCorePlugin;
 import org.eclipse.jpt.jpa.db.ConnectionProfile;
+import org.eclipse.jst.common.project.facet.core.JavaFacetInstallConfig;
 import org.eclipse.wst.common.project.facet.core.FacetedProjectFramework;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action.Type;
@@ -41,62 +42,57 @@ public class CommonInstallDelegate implements IDelegate {
 	private static final String PARAM_DS_PASSWORD = "dataSourcePassword";
 	private CommonInstallConfig config;
 	private SampleInstallConfig sampleInstallConfig;
+	private JavaFacetInstallConfig javaFacetInstallConfig;
 
 	@Override
-	public void execute(final IProject project,
-			IProjectFacetVersion projectFacetVersion, Object context,
+	public void execute(final IProject project, IProjectFacetVersion projectFacetVersion, Object context,
 			final IProgressMonitor monitor) throws CoreException {
-		extractConfigurations(project, projectFacetVersion,
-				(CommonInstallConfig) context, monitor);
+		extractConfigurations(project, projectFacetVersion, (CommonInstallConfig) context, monitor);
 
 		final IFacetedProjectListener listener = new IFacetedProjectListener() {
 
 			@Override
 			public void handleEvent(IFacetedProjectEvent event) {
 				IProjectFacetActionEvent evt = (IProjectFacetActionEvent) event;
-				if ("com.farata.cleardatabuilder.extjs.facet.common".equals(evt
-						.getProjectFacet().getId())) {
+				if ("com.farata.cleardatabuilder.extjs.facet.common".equals(evt.getProjectFacet().getId())) {
 					try {
 						FacetedProjectFramework.removeListener(this);
 						final String prjName = project.getName();
 						Job job = new Job("Installing " + prjName) {
 
 							@Override
-							protected IStatus run(
-									IProgressMonitor iprogressmonitor) {
+							protected IStatus run(IProgressMonitor iprogressmonitor) {
 								final Properties props = new Properties();
-								props.setProperty("extjs.path", config
-										.getExtJSPath().getAbsolutePath());
-								props.setProperty("app.name", config
-										.getAppName());
+								try {
+									 String v = javaFacetInstallConfig.getProjectFacetVersion()
+										.getVersionString();
+									props.setProperty("project.java.version", v);
+								} catch (Throwable e) {
+									props.setProperty("project.java.version", "1.6");
+								}
+
+								props.setProperty("extjs.path", config.getExtJSPath().getAbsolutePath());
+								props.setProperty("app.name", config.getAppName());
 								if (sampleInstallConfig != null) {
 									if (sampleInstallConfig.isHibernateSample()) {
-										props.setProperty(
-												"is.hibernate.sample", "true");
+										props.setProperty("is.hibernate.sample", "true");
 									} else if (sampleInstallConfig.isPlainJavaSample()) {
-										props.setProperty(
-												"is.plain.java.sample", "true");
+										props.setProperty("is.plain.java.sample", "true");
 									} else if (sampleInstallConfig.isMybatisSample()) {
-										props.setProperty(
-												"is.mybatis.sample", "true");
+										props.setProperty("is.mybatis.sample", "true");
 									}
 								}
 								if (config != null) {
 									if (config.isAddSpringSupport()) {
-										props.setProperty(
-												"add.spring.support", "true");
+										props.setProperty("add.spring.support", "true");
 									} else {
-										props.setProperty(
-												"dont.add.spring.support", "true");
+										props.setProperty("dont.add.spring.support", "true");
 									}
 								}
 
-
 								fillHibernateProps(props, project, monitor);
 
-								Installer.install(props, prjName,
-										sampleInstallConfig == null ? true
-												: false, null);
+								Installer.install(props, prjName, sampleInstallConfig == null ? true : false, null);
 								return Status.OK_STATUS;
 							}
 						};
@@ -112,8 +108,7 @@ public class CommonInstallDelegate implements IDelegate {
 		FacetedProjectFramework.addListener(listener, types);
 	}
 
-	private void fillHibernateProps(Properties props, IProject project,
-			IProgressMonitor monitor) {
+	private void fillHibernateProps(Properties props, IProject project, IProgressMonitor monitor) {
 		try {
 			props.setProperty("persistence.unit", project.getName());
 			setDefaultProps(props);
@@ -128,38 +123,23 @@ public class CommonInstallDelegate implements IDelegate {
 			DatabaseIdentifier databaseIdentifier = null;
 			Dialect dialect = null;
 			if (profile != null) {
-				props.setProperty(PARAM_DS_DRIVER_CLASS_NAME,
-						profile.getDriverClassName());
+				props.setProperty(PARAM_DS_DRIVER_CLASS_NAME, profile.getDriverClassName());
 				props.setProperty(PARAM_DS_NAME, profile.getDatabaseName());
-				props.setProperty(
-						PARAM_DS_PASSWORD,
-						profile.getUserPassword() == null ? "" : profile
-								.getUserPassword());
+				props.setProperty(PARAM_DS_PASSWORD, profile.getUserPassword() == null ? "" : profile.getUserPassword());
 				props.setProperty(PARAM_DS_URL, profile.getURL());
-				props.setProperty(
-						PARAM_DS_USER,
-						profile.getUserName() == null ? "" : profile
-								.getUserName());
-				databaseIdentifier = new DatabaseIdentifier(profile.getName(),
-						profile.getDatabaseName());
+				props.setProperty(PARAM_DS_USER, profile.getUserName() == null ? "" : profile.getUserName());
+				databaseIdentifier = new DatabaseIdentifier(profile.getName(), profile.getDatabaseName());
 				try {
-					Connection conn = ProfileUtil
-							.getOrCreateReusableConnection(databaseIdentifier);
+					Connection conn = ProfileUtil.getOrCreateReusableConnection(databaseIdentifier);
 					dialect = DialectFactory.buildDialect(properties, conn);
-					ProfileUtil.closeConnection(profile.getName(),
-							profile.getDatabaseName(), conn);
+					ProfileUtil.closeConnection(profile.getName(), profile.getDatabaseName(), conn);
 				} catch (Throwable e) {
 					try {
-						IConnectionProfile iprofile = ProfileUtil
-								.getProfile(profile.getName());
-						Properties dbProps = iprofile
-								.getProperties(ProfileUtil.PROFILE_DB_VERSION_TYPE);
-						String dbVersion = dbProps
-								.getProperty(ProfileUtil.PROFILE_DB_VERSION);
-						String dbType = dbProps
-								.getProperty(ProfileUtil.PROFILE_DB_VENDOR_NAME);
-						dialect = HibernateDialectResolver.resolveDialect(
-								dbType, dbVersion);
+						IConnectionProfile iprofile = ProfileUtil.getProfile(profile.getName());
+						Properties dbProps = iprofile.getProperties(ProfileUtil.PROFILE_DB_VERSION_TYPE);
+						String dbVersion = dbProps.getProperty(ProfileUtil.PROFILE_DB_VERSION);
+						String dbType = dbProps.getProperty(ProfileUtil.PROFILE_DB_VENDOR_NAME);
+						dialect = HibernateDialectResolver.resolveDialect(dbType, dbVersion);
 					} catch (Throwable e1) {
 					}
 				}
@@ -167,12 +147,10 @@ public class CommonInstallDelegate implements IDelegate {
 
 			if (dialect != null) {
 				props.setProperty("hibernate.dialect", dialect.toString());
-				String dsName = "java:/comp/env/jdbc/"
-						+ profile.getDatabaseName();
+				String dsName = "java:/comp/env/jdbc/" + profile.getDatabaseName();
 				props.setProperty("jta.data.source", dsName);
 			} else {
-				props.setProperty("hibernate.dialect",
-						"org.hibernate.dialect.HSQLDialect");
+				props.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
 				String dsName = "java:/comp/env/jdbc/cleardb";
 				props.setProperty("jta.data.source", dsName);
 			}
@@ -186,25 +164,23 @@ public class CommonInstallDelegate implements IDelegate {
 		props.setProperty(PARAM_DS_DRIVER_CLASS_NAME, "org.hsqldb.jdbcDriver");
 		props.setProperty(PARAM_DS_NAME, "cleardb");
 		props.setProperty(PARAM_DS_PASSWORD, "");
-		props.setProperty(PARAM_DS_URL,
-				"jdbc:hsqldb:hsql://localhost:9002/cleardb");
+		props.setProperty(PARAM_DS_URL, "jdbc:hsqldb:hsql://localhost:9002/cleardb");
 		props.setProperty(PARAM_DS_USER, "sa");
 	}
 
-	private void extractConfigurations(IProject project,
-			IProjectFacetVersion projectFacetVersion,
-			CommonInstallConfig config, IProgressMonitor progressMonitor)
-			throws CoreException {
+	private void extractConfigurations(IProject project, IProjectFacetVersion projectFacetVersion,
+			CommonInstallConfig config, IProgressMonitor progressMonitor) throws CoreException {
 		this.config = config;
 		sampleInstallConfig = null;
 		IWizardContext wizardContext = config.getWizardContext();
 		Set<?> projectFacets = wizardContext.getSelectedProjectFacets();
 		for (Object oProjectFacet : projectFacets) {
 			if (oProjectFacet instanceof IProjectFacetVersion) {
-				Object conf = wizardContext.getConfig(
-						(IProjectFacetVersion) oProjectFacet, Type.INSTALL, "");
+				Object conf = wizardContext.getConfig((IProjectFacetVersion) oProjectFacet, Type.INSTALL, "");
 				if (conf instanceof SampleInstallConfig) {
 					sampleInstallConfig = (SampleInstallConfig) conf;
+				} else if (conf instanceof JavaFacetInstallConfig) {
+					javaFacetInstallConfig = (JavaFacetInstallConfig) conf;
 				}
 			}
 		}
