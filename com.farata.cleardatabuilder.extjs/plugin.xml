@@ -189,4 +189,27 @@
 			factoryClass="org.eclipse.jpt.jpa.ui.internal.jpa2.platform.generic.Generic2_0JpaPlatformUiFactory"/>
 	
 	</extension>
+	
+	<extension 
+			point="org.eclipse.ui.newWizards">
+      <category
+            name="ClearDataBuilder for Ext JS"
+            id="com.farata.cleardatabuilder.extjs"
+            icon="icons/myflex-category.ico">
+      </category>
+      <!-- wizard
+            name="ClearDataBuilder for Ext JS Project"
+            icon="icons/myflex-category.ico"
+            category="com.farata.cleardatabuilder.extjs"
+            class="com.farata.cleardatabuilder.extjs.wizard.CDBProjectWizard"
+            preferredPerspectives="org.eclipse.jdt.ui.JavaPerspective,org.eclipse.jdt.ui.JavaBrowsingPerspective,org.eclipse.jdt.ui.JavaHierarchyPerspective"
+            project="true"
+            finalPerspective="org.eclipse.jdt.ui.JavaPerspective"
+            id="com.farata.cleardatabuilder.extjs.wizard.CDBProjectWizard">
+         <description>
+           ClearDataBuilder for Ext JS
+         </description>
+         <keywordReference id="com.farata.cleardatabuilder.extjs"/>
+      </wizard -->
+	</extension>
 </plugin>
