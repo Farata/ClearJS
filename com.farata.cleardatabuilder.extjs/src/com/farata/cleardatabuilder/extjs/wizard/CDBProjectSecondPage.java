@@ -1,5 +1,9 @@
 package com.farata.cleardatabuilder.extjs.wizard;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectFirstPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -33,6 +37,17 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 	public CDBProjectSecondPage(IDataModel model, String pageName) {
 		super(model, pageName);
 		setShouldAddEARComposite(false);
+	}
+
+	protected String[] getValidationPropertyNames() {
+
+		String superProperties[] = super.getValidationPropertyNames();
+		List list = Arrays.asList(superProperties);
+		ArrayList<String> arrayList = new ArrayList<String>();
+		arrayList.addAll(list);
+		arrayList.add(CDB_EXTJS_FOLDER);
+		arrayList.add(CDB_SAMPLEDB_FOLDER);
+		return (String[]) arrayList.toArray(new String[0]);
 	}
 
 	protected Composite createTopLevelComposite(Composite parent) {
@@ -144,7 +159,20 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		group.setText("Folder to install sample database - cleardb");
 		group.setLayoutData(gdhfill());
 		group.setLayout(new GridLayout(2, false));
+
+		String home = System.getProperty("user.home");
+		String os = System.getProperty("os.name").toLowerCase();
+		String defaultDBFolder="";
+		if (os.indexOf("win") >= 0) {
+			defaultDBFolder = home + "\\Application Data\\ClearDataBuilder";
+		} else if (os.indexOf("mac") >= 0) {			
+			defaultDBFolder = home + "/Library/Application Support/ClearDataBuilder";
+		};
+		
 		final Text sampleDB = new Text(group, SWT.BORDER);
+		sampleDB.setText(defaultDBFolder);
+		model.setStringProperty(CDB_SAMPLEDB_FOLDER, defaultDBFolder);
+		
 		sampleDB.setLayoutData(gdhfill());
 		sampleDB.addModifyListener(new ModifyListener() {
 			@Override

@@ -50,7 +50,7 @@ public class CommonInstallWizardPage extends AbstractFacetWizardPage {
 		}
 	}
 
-	public boolean validateExtJSPath(final File path) {
+	public static boolean validateExtJSPath(final File path) {
 		if (path != null && path.isDirectory()) {
 			File[] files = path.listFiles(new FilenameFilter() {
 

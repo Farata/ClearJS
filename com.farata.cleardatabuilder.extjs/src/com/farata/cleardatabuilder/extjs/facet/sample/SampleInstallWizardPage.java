@@ -44,7 +44,7 @@ public class SampleInstallWizardPage extends AbstractFacetWizardPage {
 		}
 	}
 
-	public boolean validateInstallationFolder(File path) {
+	public static boolean validateInstallationFolder(File path) {
 		return path.isAbsolute();
 	}
 }
