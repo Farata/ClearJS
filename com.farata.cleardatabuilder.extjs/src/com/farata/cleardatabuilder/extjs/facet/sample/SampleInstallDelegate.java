@@ -63,7 +63,7 @@ public class SampleInstallDelegate implements IDelegate{
 		}
 	}
 	
-	private static void unpackSampleDB(File installationFolder,
+	public static void unpackSampleDB(File installationFolder,
 			IProgressMonitor monitor) {
 		File clearDBZip;
 		try {
@@ -76,7 +76,7 @@ public class SampleInstallDelegate implements IDelegate{
 		}
 	}
 	
-	private static void createDBConnection(IProject project, File sampleDBInstallFolder)
+	public static void createDBConnection(IProject project, File sampleDBInstallFolder)
 			throws ConnectionProfileException, CoreException {
 		Properties baseProperties = new Properties();
 		baseProperties.setProperty(

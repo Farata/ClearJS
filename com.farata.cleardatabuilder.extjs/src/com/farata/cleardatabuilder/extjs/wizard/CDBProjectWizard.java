@@ -1,5 +1,6 @@
 package com.farata.cleardatabuilder.extjs.wizard;
 
+import java.io.File;
 import java.sql.Connection;
 import java.util.Collection;
 import java.util.Properties;
@@ -25,6 +26,7 @@ import org.eclipse.wst.common.frameworks.internal.operations.IProjectCreationPro
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action.Type;
 import org.eclipse.wst.common.project.facet.ui.IWizardContext;
+import org.eclipse.datatools.connectivity.ConnectionProfileException;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.sqltools.core.DatabaseIdentifier;
 import org.eclipse.datatools.sqltools.core.profile.ProfileUtil;
@@ -34,6 +36,7 @@ import org.hibernate.dialect.resolver.DialectFactory;
 import com.farata.cleardatabuilder.extjs.facet.common.CommonInstallConfig;
 import com.farata.cleardatabuilder.extjs.facet.common.Installer;
 import com.farata.cleardatabuilder.extjs.facet.sample.SampleInstallConfig;
+import com.farata.cleardatabuilder.extjs.facet.sample.SampleInstallDelegate;
 import com.farata.cleardatabuilder.extjs.util.HibernateDialectResolver;
 
 //import org.hibernate.dialect.Dialect;
@@ -86,6 +89,25 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 	@Override
 	protected void performFinish(IProgressMonitor monitor) throws CoreException {
 		super.performFinish(monitor);
+
+		String type = model.getStringProperty(CDB_PROJECT_TYPE);
+		final boolean isNew = "new".equals(type);
+		final boolean isHibernateExample = "hibernateExample".equals(type);
+		final boolean isJavaExample = "javaExample".equals(type);
+		final boolean isMyBatisExample = "myBatisExample".equals(type);
+
+		if (isHibernateExample || isMyBatisExample) {
+			File installationFolder = new File(model.getStringProperty(CDB_SAMPLEDB_FOLDER));
+			SampleInstallDelegate.unpackSampleDB(installationFolder, monitor);
+			Collection all = model.getAllProperties();
+			IProject project = (IProject) model.getProperty(IProjectCreationPropertiesNew.PROJECT);
+			try {
+				SampleInstallDelegate.createDBConnection(project, installationFolder);
+			} catch (ConnectionProfileException e) {
+				e.printStackTrace();
+			}
+		}
+
 		final String prjName = getProjectName();
 		Job job = new Job("Installing " + prjName) {
 
@@ -101,12 +123,6 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 
 				props.setProperty("extjs.path", model.getStringProperty(CDB_EXTJS_FOLDER));
 				props.setProperty("app.name", prjName);
-
-				String type = model.getStringProperty(CDB_PROJECT_TYPE);
-				boolean isNew = "new".equals(type);
-				boolean isHibernateExample = "hibernateExample".equals(type);
-				boolean isJavaExample = "javaExample".equals(type);
-				boolean isMyBatisExample = "myBatisExample".equals(type);
 
 				if (isHibernateExample) {
 					props.setProperty("is.hibernate.sample", "true");
@@ -137,20 +153,27 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 
 			Properties properties = new Properties();
 			String profileName = model.getStringProperty(CONNECTION);
+			if (profileName == null || profileName.length() == 0) {
+				return;
+			}
 			IConnectionProfile profile = ProfileUtil.getProfile(profileName);
 			DatabaseIdentifier databaseIdentifier = null;
 			Dialect dialect = null;
 			if (profile != null) {
-				props.setProperty(PARAM_DS_DRIVER_CLASS_NAME, profile.getBaseProperties().getProperty(ProfileUtil.DRIVERCLASS));
+				props.setProperty(PARAM_DS_DRIVER_CLASS_NAME,
+						profile.getBaseProperties().getProperty(ProfileUtil.DRIVERCLASS));
 				props.setProperty(PARAM_DS_NAME, ProfileUtil.getProfileDatabaseName(profileName));
-				props.setProperty(PARAM_DS_PASSWORD, ProfileUtil.getPassword(profile) == null ? "" : ProfileUtil.getPassword(profile));
+				props.setProperty(PARAM_DS_PASSWORD,
+						ProfileUtil.getPassword(profile) == null ? "" : ProfileUtil.getPassword(profile));
 				props.setProperty(PARAM_DS_URL, profile.getBaseProperties().getProperty(ProfileUtil.URL));
 				props.setProperty(PARAM_DS_USER, ProfileUtil.getUserName(profile));
-				databaseIdentifier = new DatabaseIdentifier(profile.getName(), ProfileUtil.getProfileDatabaseName(profileName));
+				databaseIdentifier = new DatabaseIdentifier(profile.getName(),
+						ProfileUtil.getProfileDatabaseName(profileName));
 				try {
 					Connection conn = ProfileUtil.getOrCreateReusableConnection(databaseIdentifier);
 					dialect = DialectFactory.buildDialect(properties, conn);
-					ProfileUtil.closeConnection(profile.getName(), ProfileUtil.getProfileDatabaseName(profileName), conn);
+					ProfileUtil.closeConnection(profile.getName(), ProfileUtil.getProfileDatabaseName(profileName),
+							conn);
 				} catch (Throwable e) {
 					try {
 						IConnectionProfile iprofile = ProfileUtil.getProfile(profile.getName());
