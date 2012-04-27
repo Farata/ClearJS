@@ -197,7 +197,7 @@
             id="com.farata.cleardatabuilder.extjs"
             icon="icons/myflex-category.ico">
       </category>
-      <!-- wizard
+      <wizard
             name="ClearDataBuilder for Ext JS Project"
             icon="icons/myflex-category.ico"
             category="com.farata.cleardatabuilder.extjs"
@@ -210,6 +210,6 @@
            ClearDataBuilder for Ext JS
          </description>
          <keywordReference id="com.farata.cleardatabuilder.extjs"/>
-      </wizard -->
+      </wizard>
 	</extension>
 </plugin>

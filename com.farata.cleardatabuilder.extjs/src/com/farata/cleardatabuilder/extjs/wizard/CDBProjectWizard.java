@@ -1,7 +1,9 @@
 package com.farata.cleardatabuilder.extjs.wizard;
 
+import java.sql.Connection;
 import java.util.Collection;
 import java.util.Properties;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -15,11 +17,25 @@ import org.eclipse.jpt.jpa.core.JpaDataSource;
 import org.eclipse.jpt.jpa.core.JpaProject;
 import org.eclipse.jpt.jpa.core.JptJpaCorePlugin;
 import org.eclipse.jpt.jpa.db.ConnectionProfile;
+import org.eclipse.jst.common.project.facet.core.JavaFacetInstallConfig;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelFactory;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.internal.operations.IProjectCreationPropertiesNew;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action.Type;
+import org.eclipse.wst.common.project.facet.ui.IWizardContext;
+import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.sqltools.core.DatabaseIdentifier;
+import org.eclipse.datatools.sqltools.core.profile.ProfileUtil;
+import org.hibernate.dialect.Dialect;
+import org.hibernate.dialect.resolver.DialectFactory;
+
+import com.farata.cleardatabuilder.extjs.facet.common.CommonInstallConfig;
+import com.farata.cleardatabuilder.extjs.facet.common.Installer;
+import com.farata.cleardatabuilder.extjs.facet.sample.SampleInstallConfig;
+import com.farata.cleardatabuilder.extjs.util.HibernateDialectResolver;
+
 //import org.hibernate.dialect.Dialect;
 
 public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataModelProperties {
@@ -76,13 +92,12 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				final Properties props = new Properties();
-				// try {
-				// String v = getProjectFacetVersion()
-				// .getVersionString();
-				// props.setProperty("project.java.version", v);
-				// } catch (Throwable e) {
-				// props.setProperty("project.java.version", "1.6");
-				// }
+				String v = getJavaVersion();
+				if (v != null) {
+					props.setProperty("project.java.version", v);
+				} else {
+					props.setProperty("project.java.version", "1.6");
+				}
 
 				props.setProperty("extjs.path", model.getStringProperty(CDB_EXTJS_FOLDER));
 				props.setProperty("app.name", prjName);
@@ -106,71 +121,63 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 					props.setProperty("dont.add.spring.support", "true");
 				}
 
-				Collection pp = model.getAllProperties();
-				
-				IProject project = (IProject) model.getProperty(IProjectCreationPropertiesNew.PROJECT);
-				
-				fillHibernateProps(props, project, monitor);
+				fillHibernateProps(props, monitor);
 
-				//Installer.install(props, prjName, sampleInstallConfig == null ? true : false, null);
+				Installer.install(props, prjName, isNew, null);
 				return Status.OK_STATUS;
 			}
 		};
 		job.schedule(5);
 	}
-	
-	private void fillHibernateProps(Properties props, IProject project, IProgressMonitor monitor) {
+
+	private void fillHibernateProps(Properties props, IProgressMonitor monitor) {
 		try {
-			props.setProperty("persistence.unit", project.getName());
+			props.setProperty("persistence.unit", getProjectName());
 			setDefaultProps(props);
 
 			Properties properties = new Properties();
-			JpaProject jpaProject = waitForJpaProject(project, 1000);
-			if (jpaProject == null) {
-				return;
-			}
-			JpaDataSource ds = jpaProject.getDataSource();
-			ConnectionProfile profile = ds.getConnectionProfile();
+			String profileName = model.getStringProperty(CONNECTION);
+			IConnectionProfile profile = ProfileUtil.getProfile(profileName);
 			DatabaseIdentifier databaseIdentifier = null;
-			//Dialect dialect = null;
+			Dialect dialect = null;
 			if (profile != null) {
-				props.setProperty(PARAM_DS_DRIVER_CLASS_NAME, profile.getDriverClassName());
-				props.setProperty(PARAM_DS_NAME, profile.getDatabaseName());
-				props.setProperty(PARAM_DS_PASSWORD, profile.getUserPassword() == null ? "" : profile.getUserPassword());
-				props.setProperty(PARAM_DS_URL, profile.getURL());
-				props.setProperty(PARAM_DS_USER, profile.getUserName() == null ? "" : profile.getUserName());
-				databaseIdentifier = new DatabaseIdentifier(profile.getName(), profile.getDatabaseName());
-//				try {
-//					Connection conn = ProfileUtil.getOrCreateReusableConnection(databaseIdentifier);
-//					dialect = DialectFactory.buildDialect(properties, conn);
-//					ProfileUtil.closeConnection(profile.getName(), profile.getDatabaseName(), conn);
-//				} catch (Throwable e) {
-//					try {
-//						IConnectionProfile iprofile = ProfileUtil.getProfile(profile.getName());
-//						Properties dbProps = iprofile.getProperties(ProfileUtil.PROFILE_DB_VERSION_TYPE);
-//						String dbVersion = dbProps.getProperty(ProfileUtil.PROFILE_DB_VERSION);
-//						String dbType = dbProps.getProperty(ProfileUtil.PROFILE_DB_VENDOR_NAME);
-//						dialect = HibernateDialectResolver.resolveDialect(dbType, dbVersion);
-//					} catch (Throwable e1) {
-//					}
-//				}
+				props.setProperty(PARAM_DS_DRIVER_CLASS_NAME, profile.getBaseProperties().getProperty(ProfileUtil.DRIVERCLASS));
+				props.setProperty(PARAM_DS_NAME, ProfileUtil.getProfileDatabaseName(profileName));
+				props.setProperty(PARAM_DS_PASSWORD, ProfileUtil.getPassword(profile) == null ? "" : ProfileUtil.getPassword(profile));
+				props.setProperty(PARAM_DS_URL, profile.getBaseProperties().getProperty(ProfileUtil.URL));
+				props.setProperty(PARAM_DS_USER, ProfileUtil.getUserName(profile));
+				databaseIdentifier = new DatabaseIdentifier(profile.getName(), ProfileUtil.getProfileDatabaseName(profileName));
+				try {
+					Connection conn = ProfileUtil.getOrCreateReusableConnection(databaseIdentifier);
+					dialect = DialectFactory.buildDialect(properties, conn);
+					ProfileUtil.closeConnection(profile.getName(), ProfileUtil.getProfileDatabaseName(profileName), conn);
+				} catch (Throwable e) {
+					try {
+						IConnectionProfile iprofile = ProfileUtil.getProfile(profile.getName());
+						Properties dbProps = iprofile.getProperties(ProfileUtil.PROFILE_DB_VERSION_TYPE);
+						String dbVersion = dbProps.getProperty(ProfileUtil.PROFILE_DB_VERSION);
+						String dbType = dbProps.getProperty(ProfileUtil.PROFILE_DB_VENDOR_NAME);
+						dialect = HibernateDialectResolver.resolveDialect(dbType, dbVersion);
+					} catch (Throwable e1) {
+					}
+				}
 			}
 
-//			if (dialect != null) {
-//				props.setProperty("hibernate.dialect", dialect.toString());
-//				String dsName = "java:/comp/env/jdbc/" + profile.getDatabaseName();
-//				props.setProperty("jta.data.source", dsName);
-//			} else {
-//				props.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-//				String dsName = "java:/comp/env/jdbc/cleardb";
-//				props.setProperty("jta.data.source", dsName);
-//			}
+			if (dialect != null) {
+				props.setProperty("hibernate.dialect", dialect.toString());
+				String dsName = "java:/comp/env/jdbc/" + ProfileUtil.getProfileDatabaseName(profileName);
+				props.setProperty("jta.data.source", dsName);
+			} else {
+				props.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+				String dsName = "java:/comp/env/jdbc/cleardb";
+				props.setProperty("jta.data.source", dsName);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void setDefaultProps(Properties props) {
 		props.setProperty(PARAM_DS_DRIVER_CLASS_NAME, "org.hsqldb.jdbcDriver");
 		props.setProperty(PARAM_DS_NAME, "cleardb");
@@ -178,27 +185,18 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 		props.setProperty(PARAM_DS_URL, "jdbc:hsqldb:hsql://localhost:9002/cleardb");
 		props.setProperty(PARAM_DS_USER, "sa");
 	}
-	
-	public static JpaProject waitForJpaProject(IProject project, long timeout) {
-		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, null);
-		} catch (CoreException e1) {
-			e1.printStackTrace();
-		}
-		JpaProject jpaProject = JptJpaCorePlugin.getJpaProject(project);
-		long time = 0;
-		while (jpaProject == null) {
-			if (time > timeout) {
-				break;
+
+	private String getJavaVersion() {
+		Set<?> projectFacets = getFacetedProject().getProjectFacets();
+		for (Object oProjectFacet : projectFacets) {
+			if (oProjectFacet instanceof IProjectFacetVersion) {
+				IProjectFacetVersion v = (IProjectFacetVersion) oProjectFacet;
+				String id = v.getProjectFacet().getId();
+				if ("java".equalsIgnoreCase(id)) {
+					return v.getVersionString();
+				}
 			}
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-			}
-			time += 100;
-			// JptCorePlugin.rebuildJpaProject(project);
-			jpaProject = JptJpaCorePlugin.getJpaProject(project);
 		}
-		return jpaProject;
+		return null;
 	}
 }
