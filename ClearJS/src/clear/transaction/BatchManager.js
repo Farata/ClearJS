@@ -24,11 +24,11 @@
  * Likewise, a member of the batch carrying 'deletes' of the parent store is always listed after all 'deletes' of the children.
  * 
  * Execution of the sorted batch is done on the server by a class implementing the `clear.transaction.IBatchGateway` interface:
- *    package clear.transaction;
- *    import java.util.List;
- *    public interface IBatchGateway {
+ *     package clear.transaction;
+ *     import java.util.List;
+ *     public interface IBatchGateway {
  *        List<BatchMember> execute(List<BatchMember> items);
- *    }
+ *     }
  *
  * The batch is execute transactionally: either entire batch is commited to persistent storage
  * or it is rolled back entirely. 
@@ -313,21 +313,23 @@ Ext.define('Clear.transaction.BatchManager', {
 	},
 	/**
 	 * @private
-	 * Prepares callback to work on behalf of this instance despite the global window scope
+	 * Prepares callback that will know 'this' as the closure's "me", 
+	 * given the global window scope of the callback itself
 	 */
 	prepareBatchGatewayCallback: function() {
 		var me = this;
 		return function (result, remotingEvent) {
 			if (remotingEvent.status)
-				me.onResult(result);
+				me.onComplete(result);
 			else
 				me.onException(remotingEvent.message, remotingEvent.where);
 		};	 	
 	},
 	/**
+	 * Handles successful completion of the batch
 	 * @private
 	 */
-	onResult: function (result) {
+	onComplete: function (result) {
 		 var me = this,
 		 	 batchMember,	 
 		 	 key, proxy,response, store;
@@ -345,24 +347,17 @@ Ext.define('Clear.transaction.BatchManager', {
 		    	}); 
 		    	proxy = store.getProxy();
 		    	proxy.processResponse(true, me.operations[i], null, response, Ext.emptyFn, me);
-		    	store.onProxyWrite(me.operations[i]);
+		    	store.onProxyWrite(me.operations[i]);	       
 		    	/*
-		    	store.batchUpdateMode  operation complete
-		    	store. 
-		    	event :batch with .operations, operation
-		    	who listens
-		    	
-		    		        	 * listeners = {
-                scope: me,
-                exception: me.onBatchException
-            };
-
-        if (me.batchUpdateMode == 'operation') {
-            listeners.operationcomplete = me.onBatchOperationComplete;
-        } else {
-            listeners.complete = me.onBatchComplete;
-        }
-		    	*/
+		    	 The original code does this: 
+		    	 me.suspendEvents();
+		    	 me.onProxyWrite(me.operations[i]);
+		    	 me.resumeEvents();		       
+			     me.fireEvent('datachanged', me);
+			     me.fireEvent('refresh', me);
+		         This results in loosing 'write' from onProxyWrite(), which fires all 3 events.
+		         In turn, when we loose 'write' we loose recal of commitRequired 
+		        */
 			 } else {
 				console.log("Missing store for key: " + key);	
 			 }			
@@ -371,12 +366,14 @@ Ext.define('Clear.transaction.BatchManager', {
 	 		
 	},
 	/**
+	 * Handles failure of the batch
 	 * @private
 	 */
 	onException: function (message, where) {
 		this.fireEvent('exception', message, where); 
 	},
 	/**
+	 * Used to sort batch members in the order of priority
 	 * @private
 	 */     
     sortByPriority: function(a, b) {
