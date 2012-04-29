@@ -13,12 +13,13 @@ import com.softwarementors.extjs.djn.api.Registry;
 import com.softwarementors.extjs.djn.config.annotations.DirectMethod;
 import clear.djn.router.RequestRouter;
 import clear.transaction.BatchMember;
+import clear.transaction.IBatchGateway;
 import clear.transaction.UserTransactionManager;
 
 import com.softwarementors.extjs.djn.router.dispatcher.Dispatcher;
 import com.softwarementors.extjs.djn.router.processor.RequestException;
 
-public class BatchGateway {
+public class BatchGateway implements IBatchGateway {
 
 	@DirectMethod
 	public List<BatchMember> execute(List<BatchMember> items) {
