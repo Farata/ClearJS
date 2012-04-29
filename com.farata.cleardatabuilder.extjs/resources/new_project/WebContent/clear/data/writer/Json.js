@@ -1,3 +1,23 @@
+/**
+ * This file is part of the Clear Components for Ext JS 4.
+ * 
+ * Copyright (c) 2012 Farata Systems  http://www.faratasystems.com
+ *
+ * Licensed under The MIT License
+ * Re-distributions of files must retain the above copyright notice.
+ *
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ *
+ */
+/**
+ * @author Victor Rasputnis
+ * 
+ * Subclass of {@link Ext.data.writer.Json Ext.data.writer.Json} that is used by
+ * {@link Clear.data.DirectProxy Clear.data.DirectProxy} to communicate to server
+ * {@link Clear.data.ChangeObject ChangeObject} structures instead of plain model
+ * records as part of the 'create', 'update' and 'destroy' {@link Clear.data.Operation operations}.
+ * Normally, this class would not be used directly.
+ */
 Ext.define('Clear.data.writer.Json', {
 	 extend: 'Ext.data.writer.Json',
 	 alternateClassName: 'Clear.data.JsonWriter',

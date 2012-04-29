@@ -1,53 +1,85 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
+/**
+ * This file is part of the Clear Components for Ext JS 4.
+ * 
+ * Copyright (c) 2012 Farata Systems  http://www.faratasystems.com
+ *
+ * Licensed under The MIT License
+ * Re-distributions of files must retain the above copyright notice.
+ *
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ *
 */
 /**
- * Small helper class to create an {@link Ext.data.Store} configured with an {@link Ext.data.proxy.Direct}
- * and {@link Ext.data.reader.Json} to make interacting with an {@link Ext.direct.Manager} server-side
- * {@link Ext.direct.Provider Provider} easier. To create a different proxy/reader combination create a basic
- * {@link Ext.data.Store} configured as needed.
- *
- * **Note:** Although they are not listed, this class inherits all of the config options of:
- *
- * - **{@link Ext.data.Store Store}**
- *
- * - **{@link Ext.data.reader.Json JsonReader}**
- *
- *   - **{@link Ext.data.reader.Json#root root}**
- *   - **{@link Ext.data.reader.Json#idProperty idProperty}**
- *   - **{@link Ext.data.reader.Json#totalProperty totalProperty}**
- *
- * - **{@link Ext.data.proxy.Direct DirectProxy}**
- *
- *   - **{@link Ext.data.proxy.Direct#directFn directFn}**
- *   - **{@link Ext.data.proxy.Direct#paramOrder paramOrder}**
- *   - **{@link Ext.data.proxy.Direct#paramsAsHash paramsAsHash}**
- *
+ * @author Victor Rasputnis
+ * 
+ * This class should be used in place of the standard {@link Ext.data.DirectStore} to support
+ * transactional synchronization of the store data with an Ext.Direct provider supported by
+ * [CDBExt](http://www.cleartoolkit.com/dokuwiki/doku.php?id=clearwiki:03.cdbextjs "CDBExt").
+ * 
+ * Implementation of {@link #sync} goes beyond the standard concept of batching for synchronization
+ * supported by {@link Ext.data.DirectStore}. Here batch spans the store itself and entire hierarchy of child stores
+ * that are associated with the records of the parent stores via *hasMany* / *belongsTo* associations.
+ * 
+ * First, notice the new property - {@link #commitRequired} - a boolean flag that is indicating if
+ * any modifications had been done to the store data since the last load. 
+ * 
+ * Now we can explain what the {@link #sync} does. The store contributes up to three entries to the batch: 
+ * one for all new records, one for all updated records and one for all removed records. In addition,
+ * every record of the store knows is any of the associated stores are in the state where their 
+ * `commitRequired` is true. If so, every modified child store will contribute up to three entries
+ * to the batch and so on, recursively.
+ * 
+ * Execution of the sorted batch is done via {@link Clear.transaction.BatchManager}. It happens within
+ * a single XMLHTTP request and either succeeds in full or is entirely rejected by the server.  
+ * Upon completion of the batch, BatchManager iterates over results and applies the changes
+ * to all participating stores.
+ * Here is an example of the configured `Clear.data.DirectStore`:
+ *     Ext.define('MyApp.store.example.CompanyStore',{
+ *         extend: 'Clear.data.DirectStore',
+ *         requires  : ['MyApp.model.example.CompanyModel'],
+ *         model:'MyApp.model.example.CompanyModel',		
+ *         api: {
+ *             create:MyApp.direct.action.CompanyService.getCompanies_insertItems,
+ *             read : MyApp.direct.action.CompanyService.getCompanies,
+ *             update:MyApp.direct.action.CompanyService.getCompanies_updateItems,
+ *             destroy:MyApp.direct.action.CompanyService.getCompanies_deleteItems
+ *         }
+ *     });
  */
 Ext.define('Clear.data.DirectStore', {
-    /* Begin Definitions */
     
-    extend: 'Ext.data.Store',
-    
+    extend: 'Ext.data.Store',   
     alias: 'store.clear',
-
     requires: [
                'Clear.data.proxy.DirectProxy',
                'Ext.util.HashMap',
                'Ext.window.MessageBox'
               ],    
     uses: ['Clear.transaction.BatchManager'],
+        
+    /* Begin Definitions */
+    /**
+     * @property {String} batchUpdateMode
+     * @removed 4.0 Not applicable for {@link Clear.data.DirectStore}
+     * As per ancestor {@link Ext.data.Store} this property used to set the updating behavior based on batch synchronization.
+     * The default - 'operation' - would update the Store's
+     * internal representation of the data after each action of the batch has completed, 'complete' would wait until
+     * the entire batch has been completed before updating the Store's data.
+     * 
+     * Batching in Clear Components is transactional: the entire sequence of actions (batch)  
+     * *must* complete or terminate on the server in full. The batch includes actions corresponding to inserts,
+     * deletes and updates done to the store as well as *child* stores, associated to the records of the
+     * given store via `hasMany` associations. 
+     * 
+     * Accordingly, while `sync()` of {@link Ext.data.DirectStore} could send three independent requests to the server
+     * under `batchUpdateMode='complete'` or multiple (one per modified record) requests - under `batchUpdateMode='operation'`,
+     * the `sync()` of {@link Clear.data.DirectStore} results in only one request. When this request completes
+     * all participating stores get updated.
+     * 
+     * In that sense legacy values of 'operation' and 'complete' are not relevant along with the
+     * property `batchUpdateMode`.
+     */
+    batchUpdateMode: 'operation',
         
     /**
      * @property {Boolean} commitRequired
@@ -80,7 +112,7 @@ Ext.define('Clear.data.DirectStore', {
     /* End Definitions */
 
     /**
-     * Creates the store with the proxy pre-defined as Clear.data.proxy.Direct
+     * Creates the store with the  {@link Clear.data.proxy.Direct} proxy
      * @param {Object} config (optional) Config object
      */
     
@@ -128,7 +160,7 @@ Ext.define('Clear.data.DirectStore', {
         );
         this.resetState();
         this.on({
-        	load: 	this.onLoad,
+        	load: 	this.onProxyLoadDebug,
         	add: 	this.onAddRecord,
         	remove: this.onRemoveRecord,
         	update: this.onUpdateRecord,
@@ -141,7 +173,37 @@ Ext.define('Clear.data.DirectStore', {
         this.callParent();
         this.resetState();
     },
-    
+    /**
+     * Returns a *local identity* - next available client-side-only id, a unique negative integer.
+     * 
+     * It is used to maintain referential integrity across models involved in {@link #sync store sync()} 
+     * when records of the store have `child` records associated via *hasMany* relations and the primaryKey of
+     * the *master* correspond to the database field that is automatically assigned by the server
+     * (eg. autoincrement, sequence).
+     *
+     * A typical use case is two database tables related with primary and foreign keys.
+     * Developer may add a new *master* record with the primary key equal to -1, then add
+     * two *child* records each containing foreignKey equal to -1. The primary keys of the child
+     * records will contain -1 and -2. In the course of {@link #sync sync()} server-side code
+     * will insert the record to the *master* database which and next autoincremented value of the
+     * primary key will become 15  - for the sake of example. Then, the server-side code will
+     * replace each foreignKey occurence of -1 in *child* records with 15, prior to insert. The
+     * replacement values of *child* -1 and -2 get memorized as well, so the process can go to
+     * any level of recursion.
+     * 
+     * Example:
+     *     insertCompany: function() {
+     *       var me = this,
+     *       store = this.getExampleCompanyStore(),
+     *       company = store.createModel({
+     *         companyName: "New Company"
+     *       });
+     *             
+     *       company.setId(store.getLocalIdentity());
+        
+     *       store.add(company);
+     *     },
+     */
 	getLocalIdentity: function () {
 		var min=0;
 
@@ -191,8 +253,10 @@ Ext.define('Clear.data.DirectStore', {
 			this.fireEvent("commitRequiredChange", this, newValue, this.commitRequired);
 		}   	
     },
-    
-    sync: function(deep) {
+    /**
+     * @inheritdoc
+     */
+    sync: function() {
         var me        = this,
 			changes = me.getChanges(),
 			batchManager;
@@ -223,7 +287,10 @@ Ext.define('Clear.data.DirectStore', {
         //this.removed = [];// this is a redundancy, after store.onDestroyRecords()
     },
 
-
+    /*
+     * @private
+     * Attached as the 'add' event listener
+     */
     onAddRecord: function(store, items) {
 
 	   	Ext.each(items, function(item, index, value){
@@ -248,13 +315,15 @@ Ext.define('Clear.data.DirectStore', {
     onBatchException: function(message, where) {  		
         Ext.MessageBox.alert( "Batch Failed", Ext.String.format("{0}/n{1}", message, where));	
     },
-    
-    onLoad: function(store, records, successful, error){
+    /**
+     * @private
+     * Attached as the 'load' event, it is executed after proxy loads as well as after non-proxy loads.
+     * If there was a proxy exception it had been already reported
+     */
+    onProxyLoadDebug: function(store, records, successful){
     	  if (successful) {
     		  console.log( "onLoad", Ext.String.format("Store {0} loaded {1} records", store.storeId, records.length));
-    	  } else {
-    		  Ext.MessageBox.alert( error.message, Ext.String.format("{0}::{1} failed: {2}", error.action, error.method, error.where));      		  
-    	  }
+    	  } 
     },
     
     onProxyException: function (proxy, response, operation) {
@@ -263,6 +332,10 @@ Ext.define('Clear.data.DirectStore', {
     	
     },
 
+    /*
+     * @private
+     * Attached as the 'remove' event listener
+     */
     onRemoveRecord: function (store, item) {
       var associations;
 
@@ -286,7 +359,10 @@ Ext.define('Clear.data.DirectStore', {
       }
       this.updateCommitRequired();		
     },
-    
+    /*
+     * @private
+     * Attached as the 'update' event listener
+     */
     onUpdateRecord: function (store, item) {
 		var me=this, 
 			   property;	

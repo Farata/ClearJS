@@ -1,70 +1,48 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
- * This class is used to send requests to the server using {@link Ext.direct.Manager Ext.Direct}. When a
- * request is made, the transport mechanism is handed off to the appropriate
- * {@link Ext.direct.RemotingProvider Provider} to complete the call.
+ * This file is part of the Clear Components for Ext JS 4.
  *
- * # Specifying the function
+ * Copyright (c) 2012 Farata Systems  http://www.faratasystems.com
  *
- * This proxy expects a Direct remoting method to be passed in order to be able to complete requests.
- * This can be done by specifying the {@link #directFn} configuration. This will use the same direct
- * method for all requests. Alternatively, you can provide an {@link #api} configuration. This
- * allows you to specify a different remoting method for each CRUD action.
+ * Licensed under The MIT License
+ * Re-distributions of files must retain the above copyright notice.
  *
- * # Parameters
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  *
- * This proxy provides options to help configure which parameters will be sent to the server.
- * By specifying the {@link #paramsAsHash} option, it will send an object literal containing each
- * of the passed parameters. The {@link #paramOrder} option can be used to specify the order in which
- * the remoting method parameters are passed.
+ */
+/**
+ * @author Victor Rasputnis
  *
- * # Example Usage
- *
- *     Ext.define('User', {
- *         extend: 'Ext.data.Model',
- *         fields: ['firstName', 'lastName'],
- *         proxy: {
- *             type: 'direct',
- *             directFn: MyApp.getUsers,
- *             paramOrder: 'id' // Tells the proxy to pass the id as the first parameter to the remoting method.
- *         }
- *     });
- *     User.load(1);
+ * This class is used by {@link Clear.data.DirectStore Clear.data.DirectStore} to send CRUD requests to the server using {@link Ext.direct.Manager Ext.Direct}. 
+ * It is a subclass of the {@link Ext.data.proxy.Direct Ext.data.DirectProxy} and normally would not be used directly.
  */
 Ext.define('Clear.data.proxy.DirectProxy', {
+	extend: 'Ext.data.proxy.Direct',
+	requires: [
+	           'Ext.direct.Manager',
+	           'Clear.data.writer.Json',
+	           'Clear.data.reader.Json'
+	           ],
     /* Begin Definitions */
-
-    extend: 'Ext.data.proxy.Direct',
-
     alternateClassName: 'Clear.data.DirectProxy',
     alias: 'proxy.clear',
-
+    /**
+     * @cfg {String} defaultReaderType
+     * The default registered reader type. Defaults to 'clear' instead of 'json' as in {@link Clear.data.proxy.Proxy}
+     * @private
+     */
     defaultReaderType: 'clear',
+    /**
+     * @cfg {String} defaultWriterType
+     * The default registered writer type. Defaults to 'clear' instead of 'json' as in {@link Clear.data.proxy.Proxy}
+     * @private
+     */    
     defaultWriterType: 'clear',
     /**
      * @cfg {Number} timeout
-     * The number of milliseconds to wait for a response. Set to 300000 milliseconds (5 minutes) vs. original 30 sec
+     * The number of milliseconds to wait for a response. Set to 5 minutes vs 30 seconds as in as in {@link Clear.data.proxy.Proxy}
      */
     timeout : 300000,
     
-    requires: [
-       'Ext.direct.Manager',
-       'Clear.data.writer.Json',
-       'Clear.data.reader.Json'
-    ],
     
     readParamString: '',
     
@@ -100,9 +78,9 @@ Ext.define('Clear.data.proxy.DirectProxy', {
 		this.setWriter('clear');
     },
     
-	/*
+	/**
 	 * Returns name of the remote action
-	 * @param {String} local action type: a choice from 'create', 'read', 'update', 'destroy'
+	 * @param {String} actionType One of the following: 'create', 'read', 'update', 'destroy'
 	 */
 	getDirectAction: function(actionType) {
 		try {
@@ -112,9 +90,9 @@ Ext.define('Clear.data.proxy.DirectProxy', {
 		}	
 	},
 	
-	/*
+	/**
 	 * Returns name of the remote method
-	 * @param {String} local action type: a choice from 'create', 'read', 'update', 'destroy'
+	 * @param {String} actionType One of the following: 'create', 'read', 'update', 'destroy'
 	 */
 	getDirectMethod: function(actionType) {
 		
@@ -125,12 +103,25 @@ Ext.define('Clear.data.proxy.DirectProxy', {
 		}	
 	},
 
-    // They had only message and ultimately error coming to the DataStore load event was flat string
+    /**
+     * Sets up an exception on the operation. This method replaces the one of the
+     * parent and provides a structured exception information versus sole exception message
+     * @private
+     * @param {Ext.data.Operation} operation The operation
+     * @param {Object} response The response
+     */
+
     setException: function(operation, response) {
         operation.setException({action:response.action, method:response.method, message:response.message, where:response.where});
     },
     
-
+    /**
+     * Replacement of the ancestor's method to fire {@link #event-result result} 
+     * on successful completion of the processsing
+     * @private
+     * @param {Ext.data.Operation} operation The operation
+     * @param {Object} response The response
+     */
     processResponse: function(success, operation, request, response, callback, scope){
         var me = this,
             reader,
@@ -146,7 +137,7 @@ Ext.define('Clear.data.proxy.DirectProxy', {
                     response: response,
                     resultSet: result
                 });
-                // We added this
+                // We added this. Should not it be after setSuccessful though?
                 if (me.fireEvent('result', this, result, operation)) {                	
                 	operation.commitRecords(result.records);
                 }
@@ -168,9 +159,12 @@ Ext.define('Clear.data.proxy.DirectProxy', {
 
         me.afterRequest(request, success);
     },
-    // We intercept the parameters as of the read operation
+    /**
+     * @inheritdoc
+     */
     read: function() {
     	var operation = arguments[0];
+    	// We intercept the parameters as of the read operation
     	this.readParamString = Ext.Object.getValues(operation.params).join(".");
         this.callParent(arguments);
     }

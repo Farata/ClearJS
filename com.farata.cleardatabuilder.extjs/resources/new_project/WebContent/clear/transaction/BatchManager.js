@@ -1,26 +1,39 @@
-/*
-
-This file is part of Clear Components for Ext JS 4
-
-Copyright (c) 2012 FarataSystems LLC
-
-Contact:  info@faratasystems.com
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
+/**
+ * This file is part of the Clear Components for Ext JS 4.
+ * 
+ * Copyright (c) 2012 Farata Systems  http://www.faratasystems.com
+ *
+ * Licensed under The MIT License
+ * Re-distributions of files must retain the above copyright notice.
+ *
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ *
 */
 /**
- * @author Ed Spencer
- * @class Ext.data.Batch
+ * @author Victor Rasputnis
  *
- * <p>Provides a mechanism to run one or more {@link Ext.data.Operation operations} in a given order. Fires the 'operationcomplete' event
- * after the completion of each Operation, and the 'complete' event when all Operations have been successfully executed. Fires an 'exception'
- * event if any of the Operations encounter an exception.</p>
+ * Facilitates transactional {@link Clear.data.DirectStore#sync sync()} for one or more *top-level* stores and, recursively, their children.
+ * 
+ * The batch arranged by this object consists of {@link Clear.transaction.BatchMember} elements - up
+ * to three per a store - representing inserts, deletes and updates accumulated by one or more stores that developer
+ * adds directly, via {@link #addStore addStore()}.
+ * 
+ * BatchManager walks, recursively, down the hierarchy of the modified child stores associated via 'hasMany' association and
+ * adds their {@link Clear.transaction.BatchMember} elements as well. The resulting batch is sorted
+ * so that a member carrying 'inserts' on the parent store is always listed before the ones with 'inserts' of the children.
+ * Likewise, a member of the batch carrying 'deletes' of the parent store is always listed after all 'deletes' of the children.
+ * 
+ * Execution of the sorted batch is done on the server by a class implementing the `clear.transaction.IBatchGateway` interface:
+ *    package clear.transaction;
+ *    import java.util.List;
+ *    public interface IBatchGateway {
+ *        List<BatchMember> execute(List<BatchMember> items);
+ *    }
  *
- * <p>Usually these are only used internally by {@link Ext.data.proxy.Proxy} classes</p>
+ * The batch is execute transactionally: either entire batch is commited to persistent storage
+ * or it is rolled back entirely. 
+ * 
+ * Upon completion of the batch, BatchManager iterates over results and applies them to all participating stores.
  *
  */
 Ext.define('Clear.transaction.BatchManager', {
@@ -61,7 +74,7 @@ Ext.define('Clear.transaction.BatchManager', {
         me.mixins.observable.constructor.call(me, config);
 
 
-        /**
+        /*
          * Ordered array of store/priority pairs
          */
         me.registry = [];
@@ -72,12 +85,24 @@ Ext.define('Clear.transaction.BatchManager', {
         me.operations = null;
     },
 
- 
-    addStore: function(clearStore, priority) {
+	/**
+	 * Register store for later batch creation
+	 * @param {Clear.data.DirectStore} store. 
+	 * In the process of registration this store is considered as
+	 * a *top-level* store, emphasizing that other stores, associated via 'hasMany'
+	 * to the records of the *top-level*, will also be registered for batch creation as long as these
+	 * stores have been modified.
+	 * @param {Number} priority
+	 * The 
+	 */
+    addStore: function(store, priority) {
     	var registry = this.registry;
-		registry.push({'store':clearStore, 'priority':priority});
+		registry.push({'store':store, 'priority':priority});
     },
-    
+	/**
+	 * Creates the batch from all pre-registered stores 
+	 * @return batch 
+	 */
     createBatch: function () {
 		var me=this,
 			i,
@@ -208,7 +233,9 @@ Ext.define('Clear.transaction.BatchManager', {
 		}
 		return me.batch;
 	},
-	
+	/**
+	 * Sends the batch for execution by a `IBatchGateway` implementation
+	 */
 	sendBatch: function(batch)/*:AsyncToken*/ {
 		var me = this,
 		    key,
@@ -240,18 +267,21 @@ Ext.define('Clear.transaction.BatchManager', {
 		Clear.direct.action.BatchGateway.execute(batch, batchGatewayCallback);
 	},
 	
-	/*
-	 * Returns class name of the direct action as string
-	 */
+	/**
+	 * @private
+	 * Returns class name of the direct action
+	 */ 
 	getDirectAction: function(store, actionType) {
 		var action = store.proxy.getDirectAction(actionType);
 		if (!action) 
 			action = store.proxy.getDirectAction('read');
 		return action;
 	},
-	/*
-	 * Returns object with className and methodName properties
-	 */
+	
+	/**
+	 * @private
+	 * Returns method name of the direct action
+	 */ 
 	getDirectMethod: function(store, actionType) {
 		var method = store.proxy.getDirectMethod(actionType),
 			suffix = '';
@@ -266,7 +296,7 @@ Ext.define('Clear.transaction.BatchManager', {
 		}
 		return method;
 	},
-	/*
+	/**
 	 * @private
 	 */
 	getStoreKey: function(store) {
@@ -274,14 +304,14 @@ Ext.define('Clear.transaction.BatchManager', {
 			this.getDirectMethod(store, 'read') + "."  + 
     		store.proxy.readParamString;
 	},    
-	/*
+	/**
 	 * @private
 	 */
 	ignoreSubmethod: function (methodName) {
 		var t = methodName.split(/_deleteItems|_insertItems|_updateItems/);
 		return t[0];
 	},
-	/*
+	/**
 	 * @private
 	 * Prepares callback to work on behalf of this instance despite the global window scope
 	 */
@@ -294,8 +324,8 @@ Ext.define('Clear.transaction.BatchManager', {
 				me.onException(remotingEvent.message, remotingEvent.where);
 		};	 	
 	},
-	/*@private
-	 * 
+	/**
+	 * @private
 	 */
 	onResult: function (result) {
 		 var me = this,
@@ -340,13 +370,13 @@ Ext.define('Clear.transaction.BatchManager', {
 		me.fireEvent('complete'); 
 	 		
 	},
-	/*@private
-	 * 
+	/**
+	 * @private
 	 */
 	onException: function (message, where) {
 		this.fireEvent('exception', message, where); 
 	},
-	/*
+	/**
 	 * @private
 	 */     
     sortByPriority: function(a, b) {
@@ -359,7 +389,7 @@ Ext.define('Clear.transaction.BatchManager', {
 			return 0;
 		}
     },
-	/*
+	/**
 	 * @private
 	 */
     registerWithChildren: function(registration) {

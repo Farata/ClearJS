@@ -1,3 +1,22 @@
+/**
+ * This file is part of the Clear Components for Ext JS 4.
+ * 
+ * Copyright (c) 2012 Farata Systems  http://www.faratasystems.com
+ *
+ * Licensed under The MIT License
+ * Re-distributions of files must retain the above copyright notice.
+ *
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ *
+ */
+/**
+ * @author Victor Rasputnis
+ * 
+ * Subclass of {@link Ext.data.reader.Json Ext.data.reader.Json} that enables de-serialization
+ * of JSON server response for {@link Clear.data.ChangeObject ChangeObject} structures in addition
+ * to de-serialization of the models as per standard JsonReader. 
+ * This class is used by {@link Clear.data.DirectProxy Clear.data.DirectProxy} and normally would not be used directly.
+ */
 Ext.define('Clear.data.reader.Json', {
     extend: 'Ext.data.reader.Json',
     alternateClassName: 'Clear.data.JsonReader',
