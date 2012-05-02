@@ -131,7 +131,7 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 				} else if (isMyBatisExample) {
 					props.setProperty("is.mybatis.sample", "true");
 				}
-				if (model.getBooleanProperty(CDB_SPRING_ITEGRATION)) {
+				if (model.getBooleanProperty(CDB_SPRING_INTEGRATION)) {
 					props.setProperty("add.spring.support", "true");
 				} else {
 					props.setProperty("dont.add.spring.support", "true");

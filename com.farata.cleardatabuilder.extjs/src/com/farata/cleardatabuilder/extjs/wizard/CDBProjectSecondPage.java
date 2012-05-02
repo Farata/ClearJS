@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectFirstPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -24,6 +25,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
+import org.eclipse.wst.common.frameworks.internal.operations.IProjectCreationPropertiesNew;
 
 public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFacetDataModelProperties {
 
@@ -33,7 +35,8 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 	private Group sampleDBGroup;
 	private Label warningLabel;
 	private Composite connectionGroup;
-	
+	private Text appNameText;
+
 	public CDBProjectSecondPage(IDataModel model, String pageName) {
 		super(model, pageName);
 		setShouldAddEARComposite(false);
@@ -53,7 +56,8 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 
 	protected Composite createTopLevelComposite(Composite parent) {
 		final Composite top = new Composite(parent, 0);
-		//PlatformUI.getWorkbench().getHelpSystem().setHelp(top, getInfopopID());
+		// PlatformUI.getWorkbench().getHelpSystem().setHelp(top,
+		// getInfopopID());
 		top.setLayout(new GridLayout());
 		top.setLayoutData(new GridData(1808));
 		createProjectGroup(top);
@@ -81,6 +85,10 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 			public void propertyChanged(DataModelEvent datamodelevent) {
 				if (CDB_PROJECT_TYPE.equals(datamodelevent.getPropertyName())) {
 					switchControls(model.getStringProperty(CDB_PROJECT_TYPE), top);
+				} else if (IProjectCreationPropertiesNew.PROJECT.equals(datamodelevent.getPropertyName())) {
+					IProject prj = (IProject) model.getProperty(IProjectCreationPropertiesNew.PROJECT);
+					appNameText.setText(prj.getName());
+					model.setStringProperty(CDB_APPLICATION_NAME, prj.getName());
 				}
 			}
 		};
@@ -97,8 +105,8 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		appGroup.setLayout(layout);
 		appGroup.setLayoutData(new GridData(768));
 		Label appNameLabel = new Label(appGroup, SWT.NONE);
-		appNameLabel.setText("Application name:");
-		final Text appNameText = new Text(appGroup, SWT.BORDER);
+		appNameLabel.setText("Application:   ");
+		appNameText = new Text(appGroup, SWT.BORDER);
 		appNameText.setLayoutData(new GridData(768));
 		appNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -108,11 +116,26 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 	}
 
 	private void createExtJSGroup(final Composite parent) {
-		Group group = new Group(parent, SWT.NO_RADIO_GROUP);
-		group.setText("Ext JS folder, absolute URL or relative URL");
+		Group group = new Group(parent, SWT.SHADOW_IN);
+		group.setText("Ext JS Location");
 		group.setLayoutData(gdhfill());
-		group.setLayout(new GridLayout(2, false));
-		final Text extJSPath = new Text(group, SWT.BORDER);
+		group.setLayout(new GridLayout(3, false));
+
+		createLocalFolderGroup(group);
+		createLocalURLGroup(group);
+		createCDNGroup(group);
+
+		model.setStringProperty(CDB_EXTJS_LOCATION_TYPE, TYPE_LOCAL_FOLDER);
+
+		extJSGroup = group;
+	}
+
+	private void createLocalFolderGroup(final Group parent) {
+		final Button localFolderButton = new Button(parent, SWT.RADIO);
+		localFolderButton.setText("Local Folder:");
+		localFolderButton.setSelection(true);
+
+		final Text extJSPath = new Text(parent, SWT.BORDER);
 		extJSPath.setLayoutData(gdhfill());
 		extJSPath.addModifyListener(new ModifyListener() {
 			@Override
@@ -120,7 +143,23 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 				model.setProperty(CDB_EXTJS_FOLDER, extJSPath.getText());
 			}
 		});
-		Button button = new Button(group, SWT.NONE);
+
+		localFolderButton.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (localFolderButton.getSelection()) {
+					model.setStringProperty(CDB_EXTJS_LOCATION_TYPE, TYPE_LOCAL_FOLDER);
+					model.setProperty(CDB_EXTJS_FOLDER, extJSPath.getText());
+				}
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+			}
+		});
+
+		final Button button = new Button(parent, SWT.NONE);
 		button.setText("   Browse...   ");
 		button.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
@@ -136,7 +175,106 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 				}
 			}
 		});
-		extJSGroup = group;
+
+		model.addListener(new IDataModelListener() {
+
+			@Override
+			public void propertyChanged(DataModelEvent e) {
+				if (e.getPropertyName().equals(CDB_EXTJS_LOCATION_TYPE)) {
+					String type = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
+					boolean enabled = type.equals(TYPE_LOCAL_FOLDER);
+					extJSPath.setEnabled(enabled);
+					button.setEnabled(enabled);
+				}
+			}
+		});
+	}
+
+	private void createLocalURLGroup(final Group parent) {
+		final Button localFolderButton = new Button(parent, SWT.RADIO);
+		localFolderButton.setText("Local URL:");
+
+		final Text extJSPath = new Text(parent, SWT.BORDER);
+		extJSPath.setLayoutData(gdhfill());
+		extJSPath.setText("/extjs");
+		extJSPath.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				model.setProperty(CDB_EXTJS_FOLDER, extJSPath.getText());
+			}
+		});
+
+		localFolderButton.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (localFolderButton.getSelection()) {
+					model.setStringProperty(CDB_EXTJS_LOCATION_TYPE, TYPE_LOCAL_URL);
+					model.setProperty(CDB_EXTJS_FOLDER, extJSPath.getText());
+				}
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+			}
+		});
+
+		Label l = new Label(parent, SWT.NONE);
+
+		model.addListener(new IDataModelListener() {
+
+			@Override
+			public void propertyChanged(DataModelEvent e) {
+				if (e.getPropertyName().equals(CDB_EXTJS_LOCATION_TYPE)) {
+					String type = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
+					boolean enabled = type.equals(TYPE_LOCAL_URL);
+					extJSPath.setEnabled(enabled);
+				}
+			}
+		});
+	}
+
+	private void createCDNGroup(final Group parent) {
+		final Button localFolderButton = new Button(parent, SWT.RADIO);
+		localFolderButton.setText("CDN:");
+
+		final Text extJSPath = new Text(parent, SWT.BORDER);
+		extJSPath.setLayoutData(gdhfill());
+		extJSPath.setText("http://cdn.sencha.io/ext-4.1.0-gpl/ext-all.js");
+		extJSPath.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				model.setProperty(CDB_EXTJS_FOLDER, extJSPath.getText());
+			}
+		});
+
+		localFolderButton.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (localFolderButton.getSelection()) {
+					model.setStringProperty(CDB_EXTJS_LOCATION_TYPE, TYPE_CDN);
+					model.setProperty(CDB_EXTJS_FOLDER, extJSPath.getText());
+				}
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+			}
+		});
+		Label l = new Label(parent, SWT.NONE);
+
+		model.addListener(new IDataModelListener() {
+
+			@Override
+			public void propertyChanged(DataModelEvent e) {
+				if (e.getPropertyName().equals(CDB_EXTJS_LOCATION_TYPE)) {
+					String type = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
+					boolean enabled = type.equals(TYPE_CDN);
+					extJSPath.setEnabled(enabled);
+				}
+			}
+		});
 	}
 
 	private void createPersistancePlatformGroup(Composite parent) {
@@ -231,7 +369,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				model.setBooleanProperty(CDB_SPRING_ITEGRATION, springCheckbox.getSelection());
+				model.setBooleanProperty(CDB_SPRING_INTEGRATION, springCheckbox.getSelection());
 			}
 
 			@Override

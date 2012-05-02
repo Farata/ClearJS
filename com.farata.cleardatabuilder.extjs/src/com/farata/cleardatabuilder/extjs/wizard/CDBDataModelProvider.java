@@ -19,8 +19,9 @@ public class CDBDataModelProvider extends JpaFacetInstallDataModelProvider imple
 		names.add(CDB_APPLICATION_NAME);
 		names.add(CDB_EXTJS_FOLDER);
 		names.add(CDB_PERSISTANCE_PLATFORM);
-		names.add(CDB_SPRING_ITEGRATION);
+		names.add(CDB_SPRING_INTEGRATION);
 		names.add(CDB_SAMPLEDB_FOLDER);
+		names.add(CDB_EXTJS_LOCATION_TYPE);
 		return names;
 	}
 
