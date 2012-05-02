@@ -53,17 +53,20 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 
 	protected Composite createTopLevelComposite(Composite parent) {
 		final Composite top = new Composite(parent, 0);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, getInfopopID());
+		//PlatformUI.getWorkbench().getHelpSystem().setHelp(top, getInfopopID());
 		top.setLayout(new GridLayout());
 		top.setLayoutData(new GridData(1808));
 		createProjectGroup(top);
+		Control[] children = top.getChildren();
+		Composite locationGroup = (Composite) children[children.length - 1];
+		excludeControl(locationGroup);
 		createApplicationGroup(top);
 		createExtJSGroup(top);
 		createServerTargetComposite(top);
 		createSampleDBGroup(top);
 		createPersistancePlatformGroup(top);
 		CDBJpaFacetInstallPage.getConnectionGroup(top, (CDBProjectWizard) getWizard());
-		Control[] children = top.getChildren();
+		children = top.getChildren();
 		connectionGroup = (Composite) children[children.length - 1];
 		for (int i = 0; i < 9; i++) {
 			int toRemove = connectionGroup.getChildren().length - i - 1;
