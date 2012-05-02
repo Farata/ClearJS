@@ -16,6 +16,7 @@ public class CDBDataModelProvider extends JpaFacetInstallDataModelProvider imple
 	public Set getPropertyNames() {
 		Set<String> names = super.getPropertyNames();
 		names.add(CDB_PROJECT_TYPE);
+		names.add(CDB_APPLICATION_NAME);
 		names.add(CDB_EXTJS_FOLDER);
 		names.add(CDB_PERSISTANCE_PLATFORM);
 		names.add(CDB_SPRING_ITEGRATION);
@@ -24,7 +25,16 @@ public class CDBDataModelProvider extends JpaFacetInstallDataModelProvider imple
 	}
 
 	public IStatus validate(String s) {
-		if (CDB_EXTJS_FOLDER.equals(s)) {
+		if (CDB_APPLICATION_NAME.equals(s)) {
+			boolean valid = false;
+			String app = model.getStringProperty(s);
+			valid = CommonInstallWizardPage.validateAppName(app);
+			if (valid) {
+				return Status.OK_STATUS;
+			} else {
+				return new Status(4, "unknown", "Application name is not valid..");
+			}
+		} else if (CDB_EXTJS_FOLDER.equals(s)) {
 			boolean valid = false;
 			String sPath = model.getStringProperty(s);
 			if (sPath != null && sPath.trim().length() > 0) {

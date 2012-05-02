@@ -5,6 +5,7 @@ import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCr
 
 public interface CDBFacetDataModelProperties extends IFacetProjectCreationDataModelProperties, JpaFacetInstallDataModelProperties {
 	public static final String CDB_PROJECT_TYPE = "cdb.projectType";
+	public static final String CDB_APPLICATION_NAME = "cdb.applicationName";
 	public static final String CDB_EXTJS_FOLDER = "cdb.extjs.folder";
 	public static final String CDB_PERSISTANCE_PLATFORM = "cdb.persistance.platform";
 	public static final String CDB_SPRING_ITEGRATION = "cdb.spring.integration";

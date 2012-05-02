@@ -33,7 +33,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 	private Group sampleDBGroup;
 	private Label warningLabel;
 	private Composite connectionGroup;
-
+	
 	public CDBProjectSecondPage(IDataModel model, String pageName) {
 		super(model, pageName);
 		setShouldAddEARComposite(false);
@@ -45,6 +45,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		List list = Arrays.asList(superProperties);
 		ArrayList<String> arrayList = new ArrayList<String>();
 		arrayList.addAll(list);
+		arrayList.add(CDB_APPLICATION_NAME);
 		arrayList.add(CDB_EXTJS_FOLDER);
 		arrayList.add(CDB_SAMPLEDB_FOLDER);
 		return (String[]) arrayList.toArray(new String[0]);
@@ -56,6 +57,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		top.setLayout(new GridLayout());
 		top.setLayoutData(new GridData(1808));
 		createProjectGroup(top);
+		createApplicationGroup(top);
 		createExtJSGroup(top);
 		createServerTargetComposite(top);
 		createSampleDBGroup(top);
@@ -83,6 +85,23 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		model.setProperty(CDB_PROJECT_TYPE, "new");
 
 		return top;
+	}
+
+	private void createApplicationGroup(Composite parent) {
+		Composite appGroup = new Composite(parent, 0);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		appGroup.setLayout(layout);
+		appGroup.setLayoutData(new GridData(768));
+		Label appNameLabel = new Label(appGroup, SWT.NONE);
+		appNameLabel.setText("Application name:");
+		final Text appNameText = new Text(appGroup, SWT.BORDER);
+		appNameText.setLayoutData(new GridData(768));
+		appNameText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				model.setProperty(CDB_APPLICATION_NAME, appNameText.getText());
+			}
+		});
 	}
 
 	private void createExtJSGroup(final Composite parent) {
@@ -162,17 +181,18 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 
 		String home = System.getProperty("user.home");
 		String os = System.getProperty("os.name").toLowerCase();
-		String defaultDBFolder="";
+		String defaultDBFolder = "";
 		if (os.indexOf("win") >= 0) {
 			defaultDBFolder = home + "\\Application Data\\ClearDataBuilder";
-		} else if (os.indexOf("mac") >= 0) {			
+		} else if (os.indexOf("mac") >= 0) {
 			defaultDBFolder = home + "/Library/Application Support/ClearDataBuilder";
-		};
-		
+		}
+		;
+
 		final Text sampleDB = new Text(group, SWT.BORDER);
 		sampleDB.setText(defaultDBFolder);
 		model.setStringProperty(CDB_SAMPLEDB_FOLDER, defaultDBFolder);
-		
+
 		sampleDB.setLayoutData(gdhfill());
 		sampleDB.addModifyListener(new ModifyListener() {
 			@Override

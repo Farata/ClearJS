@@ -78,7 +78,7 @@ public class CommonInstallWizardPage extends AbstractFacetWizardPage {
 		return null;
 	}
 
-	public boolean validateAppName(String text) {
+	public static boolean validateAppName(String text) {
 		if (text == null || text.length() == 0) {
 			return false;
 		}

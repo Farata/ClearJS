@@ -122,7 +122,7 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 				}
 
 				props.setProperty("extjs.path", model.getStringProperty(CDB_EXTJS_FOLDER));
-				props.setProperty("app.name", prjName);
+				props.setProperty("app.name", model.getStringProperty(CDB_APPLICATION_NAME));
 
 				if (isHibernateExample) {
 					props.setProperty("is.hibernate.sample", "true");
