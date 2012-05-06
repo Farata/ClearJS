@@ -121,7 +121,17 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 					props.setProperty("project.java.version", "1.6");
 				}
 
-				props.setProperty("extjs.path", model.getStringProperty(CDB_EXTJS_FOLDER));
+				String extjsPath = model.getStringProperty(CDB_EXTJS_FOLDER).trim();
+				if (extjsPath.endsWith("/")) {
+					extjsPath = extjsPath.substring(0, extjsPath.length() - 1);
+				}
+				props.setProperty("extjs.path", extjsPath);
+
+				String locType = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
+				if (TYPE_LOCAL_FOLDER.equals(locType)) {
+					props.setProperty("extjs.folder", extjsPath);
+					props.setProperty("extjs.path", "extjs");
+				}
 				props.setProperty("app.name", model.getStringProperty(CDB_APPLICATION_NAME));
 
 				if (isHibernateExample) {

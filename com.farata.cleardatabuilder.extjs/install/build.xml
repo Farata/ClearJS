@@ -23,15 +23,20 @@
 		<replace dir="${workspace.path}/${project.name}/WebContent/app" token="**{app.name}**" value="${app.name}" />
 		<replace file="${workspace.path}/${project.name}/WebContent/test.js" token="**{app.name}**" value="${app.name}" />
 		<replace dir="${workspace.path}/${project.name}/WebContent/test" token="**{app.name}**" value="${app.name}" />
+		<replace file="${workspace.path}/${project.name}/WebContent/index.html" token="**{extjs.path}**" value="${extjs.path}" />
+		<replace file="${workspace.path}/${project.name}/WebContent/test.html" token="**{extjs.path}**" value="${extjs.path}" />
 	</target>
 	<target name="install-new">
 		<mkdir dir="${workspace.path}/${project.name}" />
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
 			<fileset dir="../resources/new_project" />
 		</copy>
+		<antcall target="copy-extjs"/>
+	</target>
+	<target name="copy-extjs" if="extjs.folder">
 		<mkdir dir="${workspace.path}/${project.name}/WebContent/extjs" />
 		<copy todir="${workspace.path}/${project.name}/WebContent/extjs" overwrite="true">
-			<fileset dir="${extjs.path}">
+			<fileset dir="${extjs.folder}">
 				<exclude name="build/**" />
 				<exclude name="builds/**" />
 				<exclude name="compatibility/**" />
@@ -79,7 +84,6 @@
 		<delete file="${workspace.path}/${project.name}/.settings/org.eclipse.jpt.core.prefs" failonerror="false"/>
 		<delete file="${workspace.path}/${project.name}/.settings/org.eclipse.wst.common.project.facet.core.prefs.xml" failonerror="false"/>
 		<delete file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" failonerror="false"/>
-		
 	</target>
 	<target name="install-spring" if="is.mybatis.sample">
 		<mkdir dir="${workspace.path}/${project.name}" />

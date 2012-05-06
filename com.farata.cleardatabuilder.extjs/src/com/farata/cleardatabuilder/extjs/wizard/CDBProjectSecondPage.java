@@ -240,7 +240,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 
 		final Text extJSPath = new Text(parent, SWT.BORDER);
 		extJSPath.setLayoutData(gdhfill());
-		extJSPath.setText("http://cdn.sencha.io/ext-4.1.0-gpl/ext-all.js");
+		extJSPath.setText("http://cdn.sencha.io/ext-4.1.0-gpl");
 		extJSPath.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {

@@ -38,11 +38,16 @@ public class CDBDataModelProvider extends JpaFacetInstallDataModelProvider imple
 		} else if (CDB_EXTJS_FOLDER.equals(s)) {
 			boolean valid = false;
 			String sPath = model.getStringProperty(s);
-			if (sPath != null && sPath.trim().length() > 0) {
-				File path = new File(sPath.trim());
-				if (path.exists()) {
-					valid = CommonInstallWizardPage.validateExtJSPath(path);
+			String locationType = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
+			if (CDB_EXTJS_LOCATION_TYPE.equals(locationType)) {
+				if (sPath != null && sPath.trim().length() > 0) {
+					File path = new File(sPath.trim());
+					if (path.exists()) {
+						valid = CommonInstallWizardPage.validateExtJSPath(path);
+					}
 				}
+			} else {
+				valid = sPath != null && sPath.trim().length() > 0;
 			}
 			if (valid) {
 				return Status.OK_STATUS;
