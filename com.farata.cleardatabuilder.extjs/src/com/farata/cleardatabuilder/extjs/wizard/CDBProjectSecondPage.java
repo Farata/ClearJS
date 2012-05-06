@@ -290,6 +290,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		hibernate.setText("Hibernate");
 		final Button none = new Button(group, SWT.RADIO);
 		none.setText("None");
+		model.setStringProperty(CDB_PERSISTANCE_PLATFORM, "myBatis");
 		SelectionListener listener = new SelectionListener() {
 
 			@Override
@@ -365,6 +366,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		springCheckbox.setLayoutData(new GridData());
 		springCheckbox.setText("Spring Integration");
 		springCheckbox.setSelection(true);
+		model.setBooleanProperty(CDB_SPRING_INTEGRATION, true);
 		springCheckbox.addSelectionListener(new SelectionListener() {
 
 			@Override

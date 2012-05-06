@@ -4,7 +4,7 @@
 	</description>
 	<property file="build.properties" />
 	<target name="default" depends="install-new, install-sample">
-		<replace dir="${workspace.path}/${project.name}/src/META-INF" token="**{persistence.unit}**" value="${persistence.unit}"  />
+		<replace dir="${workspace.path}/${project.name}/src/META-INF" token="**{persistence.unit}**" value="${persistence.unit}" />
 		<replace dir="${workspace.path}/${project.name}/src/META-INF" token="**{jta.data.source}**" value="${jta.data.source}" />
 		<replace dir="${workspace.path}/${project.name}/src/META-INF" token="**{hibernate.dialect}**" value="${hibernate.dialect}" />
 		<replace file="${workspace.path}/${project.name}/WebContent/META-INF/context.xml" token="**{dataSourceDriverClassName}**" value="${dataSourceDriverClassName}" />
@@ -31,7 +31,11 @@
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
 			<fileset dir="../resources/new_project" />
 		</copy>
-		<antcall target="copy-extjs"/>
+		<antcall target="copy-extjs" />
+		<antcall target="install-spring" />
+		<antcall target="adjust-new-hibernate" />
+		<antcall target="adjust-new-mybatis" />
+		<antcall target="adjust-new-none" />
 	</target>
 	<target name="copy-extjs" if="extjs.folder">
 		<mkdir dir="${workspace.path}/${project.name}/WebContent/extjs" />
@@ -50,12 +54,12 @@
 			</fileset>
 		</copy>
 	</target>
-	<target name="install-sample" if="is.sample" >
-		<antcall target="install-sample-core"/>		
-		<antcall target="install-hibernate"/>
-		<antcall target="install-plain-java"/>
-		<antcall target="install-mybatis"/>		
-		<delete file="${workspace.path}/${project.name}/WebContent/app/controller/HelloController.js" failonerror="false"/>		
+	<target name="install-sample" if="is.sample">
+		<antcall target="install-sample-core" />
+		<antcall target="install-hibernate" />
+		<antcall target="install-plain-java" />
+		<antcall target="install-mybatis" />
+		<delete file="${workspace.path}/${project.name}/WebContent/app/controller/HelloController.js" failonerror="false" />
 	</target>
 	<target name="install-sample-core">
 		<mkdir dir="${workspace.path}/${project.name}" />
@@ -76,19 +80,36 @@
 		</copy>
 	</target>
 	<target name="install-mybatis" if="is.mybatis.sample">
-		<antcall target="install-spring" />
 		<mkdir dir="${workspace.path}/${project.name}" />
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
 			<fileset dir="../resources/mybatis_sample" />
 		</copy>
-		<delete file="${workspace.path}/${project.name}/.settings/org.eclipse.jpt.core.prefs" failonerror="false"/>
-		<delete file="${workspace.path}/${project.name}/.settings/org.eclipse.wst.common.project.facet.core.prefs.xml" failonerror="false"/>
-		<delete file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" failonerror="false"/>
+		<delete file="${workspace.path}/${project.name}/.settings/org.eclipse.jpt.core.prefs" failonerror="false" />
+		<delete file="${workspace.path}/${project.name}/.settings/org.eclipse.wst.common.project.facet.core.prefs.xml" failonerror="false" />
+		<delete file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" failonerror="false" />
 	</target>
-	<target name="install-spring" if="is.mybatis.sample">
+	<target name="install-spring" if="add.spring.support">
 		<mkdir dir="${workspace.path}/${project.name}" />
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
 			<fileset dir="../resources/spring_project" />
 		</copy>
+	</target>
+	<target name="adjust-new-mybatis" if="myBatis.persistance.platform">
+		<copy todir="${workspace.path}/${project.name}" overwrite="true">
+			<fileset dir="../resources/new_project_mybatis" />
+		</copy>
+		<delete file="${workspace.path}/${project.name}/.settings/org.eclipse.jpt.core.prefs" failonerror="false" />
+		<delete file="${workspace.path}/${project.name}/.settings/org.eclipse.wst.common.project.facet.core.prefs.xml" failonerror="false" />
+		<delete file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" failonerror="false" />
+	</target>
+	<target name="adjust-new-hibernate" if="hibernate.persistance.platform">
+	</target>
+	<target name="adjust-new-none" if="none.persistance.platform">
+		<copy todir="${workspace.path}/${project.name}" overwrite="true">
+			<fileset dir="../resources/new_project_none" />
+		</copy>
+		<delete file="${workspace.path}/${project.name}/.settings/org.eclipse.jpt.core.prefs" failonerror="false" />
+		<delete file="${workspace.path}/${project.name}/.settings/org.eclipse.wst.common.project.facet.core.prefs.xml" failonerror="false" />
+		<delete file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" failonerror="false" />
 	</target>
 </project>

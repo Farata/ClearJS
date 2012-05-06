@@ -134,17 +134,23 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 				}
 				props.setProperty("app.name", model.getStringProperty(CDB_APPLICATION_NAME));
 
-				if (isHibernateExample) {
-					props.setProperty("is.hibernate.sample", "true");
-				} else if (isJavaExample) {
-					props.setProperty("is.plain.java.sample", "true");
-				} else if (isMyBatisExample) {
-					props.setProperty("is.mybatis.sample", "true");
-				}
 				if (model.getBooleanProperty(CDB_SPRING_INTEGRATION)) {
 					props.setProperty("add.spring.support", "true");
-				} else {
-					props.setProperty("dont.add.spring.support", "true");
+				}
+
+				if (isHibernateExample) {
+					props.setProperty("is.hibernate.sample", "true");
+					props.remove("add.spring.support");
+				} else if (isJavaExample) {
+					props.setProperty("is.plain.java.sample", "true");
+					props.remove("add.spring.support");
+				} else if (isMyBatisExample) {
+					props.setProperty("is.mybatis.sample", "true");
+					props.setProperty("add.spring.support", "true");
+				}
+
+				if (isNew) {
+					props.setProperty(model.getStringProperty(CDB_PERSISTANCE_PLATFORM) + ".persistance.platform", "true");
 				}
 
 				fillHibernateProps(props, monitor);
@@ -170,20 +176,16 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 			DatabaseIdentifier databaseIdentifier = null;
 			Dialect dialect = null;
 			if (profile != null) {
-				props.setProperty(PARAM_DS_DRIVER_CLASS_NAME,
-						profile.getBaseProperties().getProperty(ProfileUtil.DRIVERCLASS));
+				props.setProperty(PARAM_DS_DRIVER_CLASS_NAME, profile.getBaseProperties().getProperty(ProfileUtil.DRIVERCLASS));
 				props.setProperty(PARAM_DS_NAME, ProfileUtil.getProfileDatabaseName(profileName));
-				props.setProperty(PARAM_DS_PASSWORD,
-						ProfileUtil.getPassword(profile) == null ? "" : ProfileUtil.getPassword(profile));
+				props.setProperty(PARAM_DS_PASSWORD, ProfileUtil.getPassword(profile) == null ? "" : ProfileUtil.getPassword(profile));
 				props.setProperty(PARAM_DS_URL, profile.getBaseProperties().getProperty(ProfileUtil.URL));
 				props.setProperty(PARAM_DS_USER, ProfileUtil.getUserName(profile));
-				databaseIdentifier = new DatabaseIdentifier(profile.getName(),
-						ProfileUtil.getProfileDatabaseName(profileName));
+				databaseIdentifier = new DatabaseIdentifier(profile.getName(), ProfileUtil.getProfileDatabaseName(profileName));
 				try {
 					Connection conn = ProfileUtil.getOrCreateReusableConnection(databaseIdentifier);
 					dialect = DialectFactory.buildDialect(properties, conn);
-					ProfileUtil.closeConnection(profile.getName(), ProfileUtil.getProfileDatabaseName(profileName),
-							conn);
+					ProfileUtil.closeConnection(profile.getName(), ProfileUtil.getProfileDatabaseName(profileName), conn);
 				} catch (Throwable e) {
 					try {
 						IConnectionProfile iprofile = ProfileUtil.getProfile(profile.getName());
