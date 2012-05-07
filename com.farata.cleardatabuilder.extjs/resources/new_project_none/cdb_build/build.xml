@@ -167,6 +167,7 @@
 		</path>
 		<pathconvert property="srcfiles" refid="srcfiles" pathsep=" " />
 		<xslt classpathref="build.class.path" in="annotated.xml" style="src/service-impl-all.xsl" out="tmp.txt" force="true">
+			<param name="springIntegration" expression="${add-spring-support}" />
 			<param name="outputFolder" expression="${project-root}src" />
 			<param name="force" expression="${force.build}" />
 		</xslt>

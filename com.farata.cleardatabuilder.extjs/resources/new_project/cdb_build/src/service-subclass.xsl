@@ -7,11 +7,14 @@
 	<xsl:output omit-xml-declaration="yes" method="text"/>	
 	
 	<xsl:template match="/" name="service-subclass.xsl">
+		<xsl:param name="springIntegration"/>
 		<xsl:param name="subServiceName"/>
 		<xsl:param name="superServiceName"/>
 		<xsl:param name="interfaceName"/>
 		<xsl:param name="rootPackage"/>package <xsl:value-of select="$rootPackage"/>;
 import <xsl:value-of select="$rootPackage"/>.generated.*;
+<xsl:if test="$springIntegration = 'true'">
+@org.springframework.stereotype.Service("<xsl:value-of select="$interfaceName"/>")</xsl:if>
 public class <xsl:value-of select="$subServiceName"/> extends <xsl:value-of select="$superServiceName"/> {
 }
 </xsl:template>

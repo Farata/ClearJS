@@ -9,6 +9,7 @@
 
 	<xsl:param name="outputFolder" />
 	<xsl:param name="force" />
+	<xsl:param name="springIntegration"/>
 
 	<xsl:include href="service-impl.xsl" />
 	<xsl:include href="service-subclass.xsl" />
@@ -82,6 +83,7 @@
 		<xsl:if test="not(helper:fileExists($subclassFileName))">
 			<redirect:write file="{$subclassFileName}">
 				<xsl:call-template name="service-subclass.xsl">
+					<xsl:with-param name="springIntegration" select="$springIntegration"/>
 					<xsl:with-param name="subServiceName" select="$subServiceName" />
 					<xsl:with-param name="superServiceName" select="$serviceName" />
 					<xsl:with-param name="interfaceName" select="$interfaceName" />
