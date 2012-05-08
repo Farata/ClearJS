@@ -6,6 +6,7 @@ import java.util.Set;
 import org.eclipse.core.internal.runtime.LocalizationUtils;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jpt.jpa.core.internal.facet.JpaFacetDataModelProperties;
 import org.eclipse.jpt.jpa.core.internal.facet.JpaFacetInstallDataModelProvider;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelPropertyDescriptor;
 
@@ -68,6 +69,18 @@ public class CDBDataModelProvider extends JpaFacetInstallDataModelProvider imple
 			} else {
 				return new Status(4, "unknown", "cleardb installation folder is not valid.");
 			}
+		} else if (CDB_PERSISTANCE_PLATFORM.equals(s)) {
+			String platform = model.getStringProperty(s);
+			boolean isNew = "new".equals(model.getStringProperty(CDB_PROJECT_TYPE));
+			if (isNew && ("myBatis".equals(platform) || "hibernate".equals(platform))) {
+				boolean connectionActive = model.getBooleanProperty(JpaFacetDataModelProperties.CONNECTION_ACTIVE);
+				// boolean connectionActive =
+				// model.getProperty(JpaFacetDataModelProperties.CONNECTION_ACTIVE);
+				if (!connectionActive) {
+					return new Status(4, "unknown", "Connection should be selected and active.");
+				}
+			}
+			return Status.OK_STATUS;
 		}
 		return super.validate(s);
 	}

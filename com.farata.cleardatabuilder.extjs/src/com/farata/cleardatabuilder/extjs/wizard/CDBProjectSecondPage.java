@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jpt.jpa.core.internal.facet.JpaFacetDataModelProperties;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectFirstPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -51,6 +52,8 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		arrayList.add(CDB_APPLICATION_NAME);
 		arrayList.add(CDB_EXTJS_FOLDER);
 		arrayList.add(CDB_SAMPLEDB_FOLDER);
+		arrayList.add(CDB_PERSISTANCE_PLATFORM);
+		arrayList.add(JpaFacetDataModelProperties.CONNECTION_ACTIVE);
 		return (String[]) arrayList.toArray(new String[0]);
 	}
 
