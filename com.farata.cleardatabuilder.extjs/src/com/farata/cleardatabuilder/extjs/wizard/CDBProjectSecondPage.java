@@ -369,6 +369,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		springCheckbox.setLayoutData(new GridData());
 		springCheckbox.setText("Spring Integration");
 		springCheckbox.setSelection(true);
+		springCheckbox.setEnabled(false);
 		model.setBooleanProperty(CDB_SPRING_INTEGRATION, true);
 		springCheckbox.addSelectionListener(new SelectionListener() {
 
@@ -379,6 +380,22 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
+			}
+		});
+		
+		model.addListener(new IDataModelListener() {
+
+			@Override
+			public void propertyChanged(DataModelEvent e) {
+				if (e.getPropertyName().equals(CDB_PERSISTANCE_PLATFORM)) {
+					String platform = model.getStringProperty(CDB_PERSISTANCE_PLATFORM);
+					boolean enabled = platform.equals("hibernate") || platform.equals("none");
+					springCheckbox.setEnabled(enabled);
+					if (!enabled) {
+						springCheckbox.setSelection(true);
+						model.setBooleanProperty(CDB_SPRING_INTEGRATION, true);
+					}
+				}
 			}
 		});
 	}
