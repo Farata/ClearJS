@@ -106,6 +106,9 @@
 		<delete file="${workspace.path}/${project.name}/src/META-INF/persistence.xml" failonerror="false" />
 	</target>
 	<target name="adjust-new-hibernate" if="hibernate.persistance.platform">
+		<copy todir="${workspace.path}/${project.name}" overwrite="true">
+			<fileset dir="../resources/new_project_hibernate" />
+		</copy>
 	</target>
 	<target name="adjust-new-none" if="none.persistance.platform">
 		<copy todir="${workspace.path}/${project.name}" overwrite="true">
