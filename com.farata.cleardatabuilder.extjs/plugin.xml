@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
-	<extension point="org.eclipse.wst.common.project.facet.core.facets">
+	<!-- extension point="org.eclipse.wst.common.project.facet.core.facets">
 		<category id="com.farata.cleardatabuilder.extjs.facet.category">
 			<label>ClearDataBuilder for Ext JS, v 1.0 Facets</label>
 			<description>ClearDataBuilder for Ext JS, v 1.0 Facets</description>
@@ -93,7 +93,7 @@
 			<runtime-component any="true" />
 			<facet id="com.farata.cleardatabuilder.extjs.facet.sample" />
 		</supported>
-	</extension>
+	</extension -->
 	
 	<extension id="com.farata.cleardatabuilder.extjs.annotationProcessorFactory"
 		name="CDB Annotation Processor Factory" point="org.eclipse.jdt.apt.core.annotationProcessorFactory">

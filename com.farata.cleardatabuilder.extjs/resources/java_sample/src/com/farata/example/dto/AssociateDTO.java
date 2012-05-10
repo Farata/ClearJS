@@ -13,6 +13,7 @@ public class AssociateDTO implements Serializable{
 	private Integer id;
 	private String associateName;
 	private Integer companyId;
+	private CompanyDTO company;
 
 	public Integer getId() {
 		return id;
@@ -40,5 +41,11 @@ public class AssociateDTO implements Serializable{
 
 	//many-to-one reference:
 	@JSManyToOne(foreignKey="companyId")
-	public CompanyDTO company;
+	public CompanyDTO getCompany() {
+		return company;
+	}
+
+	public void setCompany(CompanyDTO company) {
+		this.company = company;
+	}
 }
