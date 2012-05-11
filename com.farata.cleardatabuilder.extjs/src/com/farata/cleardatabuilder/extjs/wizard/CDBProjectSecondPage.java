@@ -41,6 +41,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 	public CDBProjectSecondPage(IDataModel model, String pageName) {
 		super(model, pageName);
 		setShouldAddEARComposite(false);
+		setPageComplete(false);
 	}
 
 	protected String[] getValidationPropertyNames() {
@@ -382,7 +383,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 		});
-		
+
 		model.addListener(new IDataModelListener() {
 
 			@Override

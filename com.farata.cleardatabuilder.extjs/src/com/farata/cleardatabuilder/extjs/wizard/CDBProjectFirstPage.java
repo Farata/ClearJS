@@ -27,7 +27,6 @@ public class CDBProjectFirstPage extends DataModelWizardPage {
 
 	@Override
 	protected String[] getValidationPropertyNames() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
