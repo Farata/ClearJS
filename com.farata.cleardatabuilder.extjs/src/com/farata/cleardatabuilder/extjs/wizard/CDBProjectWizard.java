@@ -48,6 +48,7 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 
 	public CDBProjectWizard() {
 		super();
+		setWindowTitle("New ClearDataBuilder for Ext JS Project ");
 	}
 
 	protected IWizardPage[] createBeginingPages() {
