@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jpt.jpa.core.internal.facet.JpaFacetDataModelProperties;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectFirstPage;
 import org.eclipse.swt.SWT;
@@ -44,20 +45,44 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		setPageComplete(false);
 	}
 
+	@Override
+	public void storeDefaultSettings()
+    {
+		super.storeDefaultSettings();
+		IDialogSettings settings = getDialogSettings();
+		String locationType = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
+		String extjsFolder = model.getStringProperty(CDB_EXTJS_FOLDER);
+		String extjsPath = model.getStringProperty(CDB_EXTJS_PATH);
+		String extjsCDN = model.getStringProperty(CDB_EXTJS_CDN);
+		settings.put(CDB_EXTJS_LOCATION_TYPE, locationType);
+		settings.put(CDB_EXTJS_FOLDER, extjsFolder);
+		settings.put(CDB_EXTJS_PATH, extjsPath);
+		settings.put(CDB_EXTJS_CDN, extjsCDN);
+    }
+	
+	@Override
+	public void restoreDefaultSettings()
+    {
+    }
+	
+	@Override
 	protected String[] getValidationPropertyNames() {
-
 		String superProperties[] = super.getValidationPropertyNames();
 		List list = Arrays.asList(superProperties);
 		ArrayList<String> arrayList = new ArrayList<String>();
 		arrayList.addAll(list);
 		arrayList.add(CDB_APPLICATION_NAME);
 		arrayList.add(CDB_EXTJS_FOLDER);
+		arrayList.add(CDB_EXTJS_CDN);
+		arrayList.add(CDB_EXTJS_PATH);
+		arrayList.add(CDB_EXTJS_LOCATION_TYPE);
 		arrayList.add(CDB_SAMPLEDB_FOLDER);
 		arrayList.add(CDB_PERSISTANCE_PLATFORM);
 		arrayList.add(JpaFacetDataModelProperties.CONNECTION_ACTIVE);
 		return (String[]) arrayList.toArray(new String[0]);
 	}
 
+	@Override
 	protected Composite createTopLevelComposite(Composite parent) {
 		final Composite top = new Composite(parent, 0);
 		// PlatformUI.getWorkbench().getHelpSystem().setHelp(top,
@@ -200,11 +225,12 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 
 		final Text extJSPath = new Text(parent, SWT.BORDER);
 		extJSPath.setLayoutData(gdhfill());
+		model.setProperty(CDB_EXTJS_PATH, "/extjs");
 		extJSPath.setText("/extjs");
 		extJSPath.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
-				model.setProperty(CDB_EXTJS_FOLDER, extJSPath.getText());
+				model.setProperty(CDB_EXTJS_PATH, extJSPath.getText());
 			}
 		});
 
@@ -214,7 +240,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 			public void widgetSelected(SelectionEvent e) {
 				if (localFolderButton.getSelection()) {
 					model.setStringProperty(CDB_EXTJS_LOCATION_TYPE, TYPE_LOCAL_URL);
-					model.setProperty(CDB_EXTJS_FOLDER, extJSPath.getText());
+					model.setProperty(CDB_EXTJS_PATH, extJSPath.getText());
 				}
 			}
 
@@ -245,10 +271,11 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		final Text extJSPath = new Text(parent, SWT.BORDER);
 		extJSPath.setLayoutData(gdhfill());
 		extJSPath.setText("http://cdn.sencha.io/ext-4.1.0-gpl");
+		model.setProperty(CDB_EXTJS_CDN, extJSPath.getText());
 		extJSPath.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
-				model.setProperty(CDB_EXTJS_FOLDER, extJSPath.getText());
+				model.setProperty(CDB_EXTJS_CDN, extJSPath.getText());
 			}
 		});
 
@@ -258,7 +285,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 			public void widgetSelected(SelectionEvent e) {
 				if (localFolderButton.getSelection()) {
 					model.setStringProperty(CDB_EXTJS_LOCATION_TYPE, TYPE_CDN);
-					model.setProperty(CDB_EXTJS_FOLDER, extJSPath.getText());
+					model.setProperty(CDB_EXTJS_CDN, extJSPath.getText());
 				}
 			}
 

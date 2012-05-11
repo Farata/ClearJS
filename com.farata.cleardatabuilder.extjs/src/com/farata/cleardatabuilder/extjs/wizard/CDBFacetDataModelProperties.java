@@ -7,6 +7,8 @@ public interface CDBFacetDataModelProperties extends IFacetProjectCreationDataMo
 	public static final String CDB_PROJECT_TYPE = "cdb.projectType";
 	public static final String CDB_APPLICATION_NAME = "cdb.applicationName";
 	public static final String CDB_EXTJS_FOLDER = "cdb.extjs.folder";
+	public static final String CDB_EXTJS_PATH = "cdb.extjs.path";
+	public static final String CDB_EXTJS_CDN = "cdb.extjs.cdn";
 	public static final String CDB_EXTJS_LOCATION_TYPE = "cdb.extjs.location.type";
 	public static final String CDB_PERSISTANCE_PLATFORM = "cdb.persistance.platform";
 	public static final String CDB_SPRING_INTEGRATION = "cdb.spring.integration";

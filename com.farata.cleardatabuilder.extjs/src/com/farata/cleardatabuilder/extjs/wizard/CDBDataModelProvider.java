@@ -19,6 +19,8 @@ public class CDBDataModelProvider extends JpaFacetInstallDataModelProvider imple
 		names.add(CDB_PROJECT_TYPE);
 		names.add(CDB_APPLICATION_NAME);
 		names.add(CDB_EXTJS_FOLDER);
+		names.add(CDB_EXTJS_PATH);
+		names.add(CDB_EXTJS_CDN);
 		names.add(CDB_PERSISTANCE_PLATFORM);
 		names.add(CDB_SPRING_INTEGRATION);
 		names.add(CDB_SAMPLEDB_FOLDER);
@@ -36,18 +38,22 @@ public class CDBDataModelProvider extends JpaFacetInstallDataModelProvider imple
 			} else {
 				return new Status(4, "unknown", "Application name is not valid..");
 			}
-		} else if (CDB_EXTJS_FOLDER.equals(s)) {
+		} else if (CDB_EXTJS_LOCATION_TYPE.equals(s) || CDB_EXTJS_CDN.equals(s) || CDB_EXTJS_FOLDER.equals(s) || CDB_EXTJS_PATH.equals(s)) {
 			boolean valid = false;
-			String sPath = model.getStringProperty(s);
 			String locationType = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
-			if (CDB_EXTJS_LOCATION_TYPE.equals(locationType)) {
+			if (TYPE_LOCAL_FOLDER.equals(locationType)) {
+				String sPath = model.getStringProperty(CDB_EXTJS_FOLDER);
 				if (sPath != null && sPath.trim().length() > 0) {
 					File path = new File(sPath.trim());
 					if (path.exists()) {
 						valid = CommonInstallWizardPage.validateExtJSPath(path);
 					}
 				}
-			} else {
+			} else if (TYPE_CDN.equals(locationType)) {
+				String sPath = model.getStringProperty(CDB_EXTJS_CDN);
+				valid = sPath != null && sPath.trim().length() > 0;
+			} else if (TYPE_LOCAL_URL.equals(locationType)) {
+				String sPath = model.getStringProperty(CDB_EXTJS_PATH);
 				valid = sPath != null && sPath.trim().length() > 0;
 			}
 			if (valid) {

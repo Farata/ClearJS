@@ -7,35 +7,25 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.datatools.connectivity.ConnectionProfileException;
+import org.eclipse.datatools.connectivity.IConnectionProfile;
+import org.eclipse.datatools.sqltools.core.DatabaseIdentifier;
+import org.eclipse.datatools.sqltools.core.profile.ProfileUtil;
 import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.jpt.jpa.core.JpaDataSource;
-import org.eclipse.jpt.jpa.core.JpaProject;
-import org.eclipse.jpt.jpa.core.JptJpaCorePlugin;
-import org.eclipse.jpt.jpa.db.ConnectionProfile;
-import org.eclipse.jst.common.project.facet.core.JavaFacetInstallConfig;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelFactory;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.internal.operations.IProjectCreationPropertiesNew;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
-import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action.Type;
-import org.eclipse.wst.common.project.facet.ui.IWizardContext;
-import org.eclipse.datatools.connectivity.ConnectionProfileException;
-import org.eclipse.datatools.connectivity.IConnectionProfile;
-import org.eclipse.datatools.sqltools.core.DatabaseIdentifier;
-import org.eclipse.datatools.sqltools.core.profile.ProfileUtil;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.resolver.DialectFactory;
 
-import com.farata.cleardatabuilder.extjs.facet.common.CommonInstallConfig;
 import com.farata.cleardatabuilder.extjs.facet.common.Installer;
-import com.farata.cleardatabuilder.extjs.facet.sample.SampleInstallConfig;
 import com.farata.cleardatabuilder.extjs.facet.sample.SampleInstallDelegate;
 import com.farata.cleardatabuilder.extjs.util.HibernateDialectResolver;
 
@@ -91,7 +81,7 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 	protected void performFinish(IProgressMonitor monitor) throws CoreException {
 		super.performFinish(monitor);
 
-		String type = model.getStringProperty(CDB_PROJECT_TYPE);
+		final String type = model.getStringProperty(CDB_PROJECT_TYPE);
 		final boolean isNew = "new".equals(type);
 		final boolean isHibernateExample = "hibernateExample".equals(type);
 		final boolean isJavaExample = "javaExample".equals(type);
@@ -122,7 +112,7 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 					props.setProperty("project.java.version", "1.6");
 				}
 
-				String extjsPath = model.getStringProperty(CDB_EXTJS_FOLDER).trim();
+				String extjsPath = getExtjsPath();
 				if (extjsPath.endsWith("/")) {
 					extjsPath = extjsPath.substring(0, extjsPath.length() - 1);
 				}
@@ -161,6 +151,19 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 			}
 		};
 		job.schedule(5);
+	}
+
+	private String getExtjsPath() {
+		String res = null;
+		String type = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
+		if (TYPE_CDN.equals(type)) {
+			return model.getStringProperty(CDB_EXTJS_CDN).trim();
+		} else if (TYPE_LOCAL_FOLDER.equals(type)) {
+			return model.getStringProperty(CDB_EXTJS_FOLDER).trim();
+		} else if (TYPE_LOCAL_URL.equals(type)) {
+			return model.getStringProperty(CDB_EXTJS_PATH).trim();
+		}
+		return null;
 	}
 
 	private void fillHibernateProps(Properties props, IProgressMonitor monitor) {
