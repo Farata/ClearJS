@@ -51,14 +51,14 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		IDialogSettings settings = getDialogSettings();
 		String locationType = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
 		String extjsFolder = model.getStringProperty(CDB_EXTJS_FOLDER);
-		String extjsPath = model.getStringProperty(CDB_EXTJS_PATH);
+		String extjsPath = model.getStringProperty(CDB_EXTJS_URL);
 		String extjsCDN = model.getStringProperty(CDB_EXTJS_CDN);
 		String platform = model.getStringProperty(CDB_PERSISTANCE_PLATFORM);
 		String connection = model.getStringProperty(CONNECTION);
 		String springIntegration = String.valueOf(model.getBooleanProperty(CDB_SPRING_INTEGRATION));
 		settings.put(CDB_EXTJS_LOCATION_TYPE, locationType);
 		settings.put(CDB_EXTJS_FOLDER, extjsFolder);
-		settings.put(CDB_EXTJS_PATH, extjsPath);
+		settings.put(CDB_EXTJS_URL, extjsPath);
 		settings.put(CDB_EXTJS_CDN, extjsCDN);
 		settings.put(CDB_PERSISTANCE_PLATFORM, platform);
 		settings.put(CONNECTION, connection);
@@ -71,14 +71,14 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		IDialogSettings settings = getDialogSettings();
 		String locationType = settings.get(CDB_EXTJS_LOCATION_TYPE);
 		String extjsFolder = settings.get(CDB_EXTJS_FOLDER);
-		String extjsPath = settings.get(CDB_EXTJS_PATH);
+		String extjsPath = settings.get(CDB_EXTJS_URL);
 		String extjsCDN = settings.get(CDB_EXTJS_CDN);
 		String platform = settings.get(CDB_PERSISTANCE_PLATFORM);
 		String connection = settings.get(CONNECTION);
 		String springIntegration = settings.get(CDB_SPRING_INTEGRATION);
 		model.setProperty(CDB_EXTJS_LOCATION_TYPE, isEmpty(locationType) ? TYPE_LOCAL_FOLDER : locationType);
 		model.setProperty(CDB_EXTJS_FOLDER, extjsFolder);
-		model.setProperty(CDB_EXTJS_PATH, isEmpty(extjsPath) ? "/extjs" : extjsPath);
+		model.setProperty(CDB_EXTJS_URL, isEmpty(extjsPath) ? "/extjs" : extjsPath);
 		model.setProperty(CDB_EXTJS_CDN, isEmpty(extjsCDN) ? "http://cdn.sencha.io/ext-4.1.0-gpl" : extjsCDN);
 		model.setProperty(CDB_PERSISTANCE_PLATFORM, isEmpty(platform) ? "myBatis" : platform);
 		model.setProperty(CONNECTION, connection);
@@ -98,7 +98,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		arrayList.add(CDB_APPLICATION_NAME);
 		arrayList.add(CDB_EXTJS_FOLDER);
 		arrayList.add(CDB_EXTJS_CDN);
-		arrayList.add(CDB_EXTJS_PATH);
+		arrayList.add(CDB_EXTJS_URL);
 		arrayList.add(CDB_EXTJS_LOCATION_TYPE);
 		arrayList.add(CDB_SAMPLEDB_FOLDER);
 		arrayList.add(CDB_PERSISTANCE_PLATFORM);
@@ -252,12 +252,12 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 
 		final Text extJSPath = new Text(parent, SWT.BORDER);
 		extJSPath.setLayoutData(gdhfill());
-		model.setProperty(CDB_EXTJS_PATH, "/extjs");
+		model.setProperty(CDB_EXTJS_URL, "/extjs");
 		extJSPath.setText("/extjs");
 		extJSPath.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
-				model.setProperty(CDB_EXTJS_PATH, extJSPath.getText());
+				model.setProperty(CDB_EXTJS_URL, extJSPath.getText());
 			}
 		});
 
@@ -267,7 +267,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 			public void widgetSelected(SelectionEvent e) {
 				if (localFolderButton.getSelection()) {
 					model.setStringProperty(CDB_EXTJS_LOCATION_TYPE, TYPE_LOCAL_URL);
-					model.setProperty(CDB_EXTJS_PATH, extJSPath.getText());
+					model.setProperty(CDB_EXTJS_URL, extJSPath.getText());
 				}
 			}
 
@@ -287,8 +287,8 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 					boolean enabled = type.equals(TYPE_LOCAL_URL);
 					extJSPath.setEnabled(enabled);
 					localFolderButton.setSelection(enabled);
-				} else if (e.getPropertyName().equals(CDB_EXTJS_PATH)) {
-					extJSPath.setText(model.getStringProperty(CDB_EXTJS_PATH));
+				} else if (e.getPropertyName().equals(CDB_EXTJS_URL)) {
+					extJSPath.setText(model.getStringProperty(CDB_EXTJS_URL));
 				}
 			}
 		});

@@ -161,7 +161,7 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 		} else if (TYPE_LOCAL_FOLDER.equals(type)) {
 			return model.getStringProperty(CDB_EXTJS_FOLDER).trim();
 		} else if (TYPE_LOCAL_URL.equals(type)) {
-			return model.getStringProperty(CDB_EXTJS_PATH).trim();
+			return model.getStringProperty(CDB_EXTJS_URL).trim();
 		}
 		return null;
 	}
