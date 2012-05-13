@@ -46,25 +46,49 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 	}
 
 	@Override
-	public void storeDefaultSettings()
-    {
+	public void storeDefaultSettings() {
 		super.storeDefaultSettings();
 		IDialogSettings settings = getDialogSettings();
 		String locationType = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
 		String extjsFolder = model.getStringProperty(CDB_EXTJS_FOLDER);
 		String extjsPath = model.getStringProperty(CDB_EXTJS_PATH);
 		String extjsCDN = model.getStringProperty(CDB_EXTJS_CDN);
+		String platform = model.getStringProperty(CDB_PERSISTANCE_PLATFORM);
+		String connection = model.getStringProperty(CONNECTION);
+		String springIntegration = String.valueOf(model.getBooleanProperty(CDB_SPRING_INTEGRATION));
 		settings.put(CDB_EXTJS_LOCATION_TYPE, locationType);
 		settings.put(CDB_EXTJS_FOLDER, extjsFolder);
 		settings.put(CDB_EXTJS_PATH, extjsPath);
 		settings.put(CDB_EXTJS_CDN, extjsCDN);
-    }
-	
+		settings.put(CDB_PERSISTANCE_PLATFORM, platform);
+		settings.put(CONNECTION, connection);
+		settings.put(CDB_SPRING_INTEGRATION, springIntegration);
+	}
+
 	@Override
-	public void restoreDefaultSettings()
-    {
-    }
-	
+	public void restoreDefaultSettings() {
+		super.restoreDefaultSettings();
+		IDialogSettings settings = getDialogSettings();
+		String locationType = settings.get(CDB_EXTJS_LOCATION_TYPE);
+		String extjsFolder = settings.get(CDB_EXTJS_FOLDER);
+		String extjsPath = settings.get(CDB_EXTJS_PATH);
+		String extjsCDN = settings.get(CDB_EXTJS_CDN);
+		String platform = settings.get(CDB_PERSISTANCE_PLATFORM);
+		String connection = settings.get(CONNECTION);
+		String springIntegration = settings.get(CDB_SPRING_INTEGRATION);
+		model.setProperty(CDB_EXTJS_LOCATION_TYPE, isEmpty(locationType) ? TYPE_LOCAL_FOLDER : locationType);
+		model.setProperty(CDB_EXTJS_FOLDER, extjsFolder);
+		model.setProperty(CDB_EXTJS_PATH, isEmpty(extjsPath) ? "/extjs" : extjsPath);
+		model.setProperty(CDB_EXTJS_CDN, isEmpty(extjsCDN) ? "http://cdn.sencha.io/ext-4.1.0-gpl" : extjsCDN);
+		model.setProperty(CDB_PERSISTANCE_PLATFORM, isEmpty(platform) ? "myBatis" : platform);
+		model.setProperty(CONNECTION, connection);
+		model.setProperty(CDB_SPRING_INTEGRATION, isEmpty(springIntegration) ? true : Boolean.parseBoolean(springIntegration));
+	}
+
+	private boolean isEmpty(String extjsPath) {
+		return extjsPath == null || extjsPath.trim().length() == 0;
+	}
+
 	@Override
 	protected String[] getValidationPropertyNames() {
 		String superProperties[] = super.getValidationPropertyNames();
@@ -214,6 +238,9 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 					boolean enabled = type.equals(TYPE_LOCAL_FOLDER);
 					extJSPath.setEnabled(enabled);
 					button.setEnabled(enabled);
+					localFolderButton.setSelection(enabled);
+				} else if (e.getPropertyName().equals(CDB_EXTJS_FOLDER)) {
+					extJSPath.setText(model.getStringProperty(CDB_EXTJS_FOLDER));
 				}
 			}
 		});
@@ -259,6 +286,9 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 					String type = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
 					boolean enabled = type.equals(TYPE_LOCAL_URL);
 					extJSPath.setEnabled(enabled);
+					localFolderButton.setSelection(enabled);
+				} else if (e.getPropertyName().equals(CDB_EXTJS_PATH)) {
+					extJSPath.setText(model.getStringProperty(CDB_EXTJS_PATH));
 				}
 			}
 		});
@@ -303,6 +333,9 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 					String type = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
 					boolean enabled = type.equals(TYPE_CDN);
 					extJSPath.setEnabled(enabled);
+					localFolderButton.setSelection(enabled);
+				} else if (e.getPropertyName().equals(CDB_EXTJS_CDN)) {
+					extJSPath.setText(model.getStringProperty(CDB_EXTJS_CDN));
 				}
 			}
 		});
@@ -342,6 +375,19 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		myBatis.addSelectionListener(listener);
 		hibernate.addSelectionListener(listener);
 		none.addSelectionListener(listener);
+
+		model.addListener(new IDataModelListener() {
+
+			@Override
+			public void propertyChanged(DataModelEvent e) {
+				if (e.getPropertyName().equals(CDB_PERSISTANCE_PLATFORM)) {
+					String platform = model.getStringProperty(CDB_PERSISTANCE_PLATFORM);
+					myBatis.setSelection("myBatis".equals(platform));
+					hibernate.setSelection("hibernate".equals(platform));
+					none.setSelection("none".equals(platform));
+				}
+			}
+		});
 
 		persistancePlatformGroup = group;
 	}
@@ -423,6 +469,8 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 						springCheckbox.setSelection(true);
 						model.setBooleanProperty(CDB_SPRING_INTEGRATION, true);
 					}
+				} else if (e.getPropertyName().equals(CDB_SPRING_INTEGRATION)) {
+					springCheckbox.setSelection(model.getBooleanProperty(CDB_SPRING_INTEGRATION));
 				}
 			}
 		});
