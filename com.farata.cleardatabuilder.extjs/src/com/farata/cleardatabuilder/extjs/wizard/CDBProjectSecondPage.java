@@ -1,10 +1,13 @@
 package com.farata.cleardatabuilder.extjs.wizard;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jpt.jpa.core.internal.facet.JpaFacetDataModelProperties;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectFirstPage;
@@ -18,6 +21,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
@@ -85,8 +89,8 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		model.setProperty(CDB_SPRING_INTEGRATION, isEmpty(springIntegration) ? true : Boolean.parseBoolean(springIntegration));
 	}
 
-	private boolean isEmpty(String extjsPath) {
-		return extjsPath == null || extjsPath.trim().length() == 0;
+	private boolean isEmpty(String s) {
+		return s == null || s.trim().length() == 0;
 	}
 
 	@Override
@@ -240,7 +244,10 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 					button.setEnabled(enabled);
 					localFolderButton.setSelection(enabled);
 				} else if (e.getPropertyName().equals(CDB_EXTJS_FOLDER)) {
-					extJSPath.setText(model.getStringProperty(CDB_EXTJS_FOLDER));
+					String s = model.getStringProperty(CDB_EXTJS_FOLDER);
+					if (isEmpty(s) || !s.equals(extJSPath.getText())) {
+						extJSPath.setText(s);
+					}
 				}
 			}
 		});
@@ -276,7 +283,13 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 			}
 		});
 
-		Label l = new Label(parent, SWT.NONE);
+		final Button button = new Button(parent, SWT.NONE);
+		button.setText("   Validate      ");
+		button.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				new CDBPingJob(getShell(), extJSPath.getText(), true).schedule();
+			}
+		});
 
 		model.addListener(new IDataModelListener() {
 
@@ -286,9 +299,17 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 					String type = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
 					boolean enabled = type.equals(TYPE_LOCAL_URL);
 					extJSPath.setEnabled(enabled);
+					button.setEnabled(enabled && CDBPingJob.isExternalURL(extJSPath.getText()));
 					localFolderButton.setSelection(enabled);
 				} else if (e.getPropertyName().equals(CDB_EXTJS_URL)) {
-					extJSPath.setText(model.getStringProperty(CDB_EXTJS_URL));
+					String type = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
+					boolean enabled = type.equals(TYPE_LOCAL_URL);
+					button.setEnabled(enabled && CDBPingJob.isExternalURL(extJSPath.getText()));
+					
+					String s = model.getStringProperty(CDB_EXTJS_URL);
+					if (isEmpty(s) || !s.equals(extJSPath.getText())) {
+						extJSPath.setText(s);
+					}
 				}
 			}
 		});
@@ -323,7 +344,14 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 		});
-		Label l = new Label(parent, SWT.NONE);
+
+		final Button button = new Button(parent, SWT.NONE);
+		button.setText("   Validate      ");
+		button.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				new CDBPingJob(getShell(), extJSPath.getText(), false).schedule();
+			}
+		});
 
 		model.addListener(new IDataModelListener() {
 
@@ -333,9 +361,13 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 					String type = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
 					boolean enabled = type.equals(TYPE_CDN);
 					extJSPath.setEnabled(enabled);
+					button.setEnabled(enabled);
 					localFolderButton.setSelection(enabled);
 				} else if (e.getPropertyName().equals(CDB_EXTJS_CDN)) {
-					extJSPath.setText(model.getStringProperty(CDB_EXTJS_CDN));
+					String s = model.getStringProperty(CDB_EXTJS_CDN);
+					if (isEmpty(s) || !s.equals(extJSPath.getText())) {
+						extJSPath.setText(s);
+					}
 				}
 			}
 		});
