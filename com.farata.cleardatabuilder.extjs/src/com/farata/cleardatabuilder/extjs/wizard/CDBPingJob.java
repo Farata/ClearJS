@@ -42,7 +42,7 @@ public class CDBPingJob extends PingJob {
 				URL u = new URL(url + "/ext-all.js");
 				u.openStream();
 			} catch (Exception e) {
-				return e;
+				return new RuntimeException(url + " is not valid", e);
 			}
 		}
 		return null;

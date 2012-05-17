@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -28,10 +29,15 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.eclipse.wst.common.frameworks.internal.operations.IProjectCreationPropertiesNew;
+import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
+import org.eclipse.wst.server.core.IServer;
+import org.eclipse.wst.server.core.ServerCore;
+import org.eclipse.wst.server.core.ServerPort;
 
 public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFacetDataModelProperties {
 
@@ -287,7 +293,13 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		button.setText("   Validate      ");
 		button.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
-				new CDBPingJob(getShell(), extJSPath.getText(), true).schedule();
+				String sUrl = extJSPath.getText();
+				if (!CDBPingJob.isExternalURL(sUrl)) {
+					sUrl = sUrl.startsWith("/") ? sUrl : "/" + sUrl;
+					IRuntime runtime = (IRuntime) model.getProperty(IFacetProjectCreationDataModelProperties.FACET_RUNTIME);
+					sUrl = "http://localhost:" + suggestHttpPort(runtime.getName()) + sUrl;
+				}
+				new CDBPingJob(getShell(), sUrl, false).schedule();
 			}
 		});
 
@@ -299,13 +311,13 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 					String type = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
 					boolean enabled = type.equals(TYPE_LOCAL_URL);
 					extJSPath.setEnabled(enabled);
-					button.setEnabled(enabled && CDBPingJob.isExternalURL(extJSPath.getText()));
+					button.setEnabled(enabled);
 					localFolderButton.setSelection(enabled);
 				} else if (e.getPropertyName().equals(CDB_EXTJS_URL)) {
 					String type = model.getStringProperty(CDB_EXTJS_LOCATION_TYPE);
 					boolean enabled = type.equals(TYPE_LOCAL_URL);
-					button.setEnabled(enabled && CDBPingJob.isExternalURL(extJSPath.getText()));
-					
+					button.setEnabled(enabled);
+
 					String s = model.getStringProperty(CDB_EXTJS_URL);
 					if (isEmpty(s) || !s.equals(extJSPath.getText())) {
 						extJSPath.setText(s);
@@ -569,5 +581,43 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 			gld.exclude = false;
 		}
 		c.setVisible(true);
+	}
+
+	private ServerPort findHttpPort(IServer server, IProgressMonitor monitor) {
+		final ServerPort[] serverPorts = server.getServerPorts(monitor);
+		ServerPort serverPort = null;
+
+		for (int i = 0; i < serverPorts.length; i++) {
+			if ("HTTP".equalsIgnoreCase(serverPorts[i].getProtocol())) {
+				serverPort = serverPorts[i];
+			}
+		}
+
+		return serverPort;
+	}
+
+	public int suggestHttpPort(String runtimeId) {
+		try {
+			final ServerPort httpPort = findHttpPort(findServer(runtimeId), null);
+			if (httpPort != null) {
+				return httpPort.getPort();
+			} else {
+				return 8080;
+			}
+		} catch (Throwable e) {
+			return 8080;
+		}
+	}
+
+	private static IServer findServer(final String runtimeId) {
+		final IServer[] servers = ServerCore.getServers();
+		for (int i = 0; i < servers.length; i++) {
+			final String serverRuntimeName = servers[i].getRuntime().getName();
+			final String serverRuntimeId = servers[i].getRuntime().getId();
+			if (serverRuntimeId.equals(runtimeId) || serverRuntimeName.equals(runtimeId)) {
+				return servers[i];
+			}
+		}
+		return null;
 	}
 }
