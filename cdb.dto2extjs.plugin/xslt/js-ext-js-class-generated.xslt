@@ -10,6 +10,7 @@
 >
 	<xsl:template match="/dto2extjs:class" mode="generated-file">
 		<xsl:variable name="thisClass" select="@name"/>
+		<xsl:variable name="javaClass" select="@javaClass"/>
     	<xsl:variable name="thisGeneratedClass">
 			<xsl:call-template name="generated-superclass">
 				<xsl:with-param name="packageName" select="$packageName"/>
@@ -25,12 +26,14 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 	extend: '<xsl:choose>
 	<xsl:when test="$superclass"><xsl:value-of select="$superclass/@name"/></xsl:when>
 		<xsl:otherwise>Ext.data.Model</xsl:otherwise>
-	</xsl:choose>',
+	</xsl:choose>',<xsl:if test="dto2extjs:features/dto2extjs:feature[@name = 'com.farata.dto2extjs.annotations.JSGeneratedId' and @declared-by = $javaClass]">
+	idgen: 'negativesequential',</xsl:if>
 	requires: [
 		<xsl:key name="distinct-custom-types" match="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.')) or @contentType]" 
 			use="@contentType | @type"/>
 		<xsl:variable name="required-types">
 			<xsl:if test="dto2extjs:property[starts-with(@type, 'Ext.data.Types.')]"><t>Ext.data.Types</t></xsl:if>
+			<xsl:if test="dto2extjs:features/dto2extjs:feature[@name = 'com.farata.dto2extjs.annotations.JSGeneratedId' and @declared-by = $javaClass]"><t>Clear.data.NegativeSequentialIdGenerator</t></xsl:if>
 			<xsl:for-each select="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.')) and not(dto2extjs:ManyToOne) or @contentType]">
 				<xsl:if test="generate-id() = generate-id(key('distinct-custom-types', @contentType | @type))">
 				<xsl:variable name="v">
