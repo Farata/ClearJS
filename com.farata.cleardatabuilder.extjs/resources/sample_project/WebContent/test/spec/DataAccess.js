@@ -98,7 +98,7 @@ Ext.define('Test.spec.DataAccess' ,{}, function () {
  	            10000
  	 	    );
  	        runs (function() { 	        	
- 	        		expect(newCompany.getId()).toNotEqual(-1);
+ 	        		expect(newCompany.getId()).toBeGreaterThan(0);
  	        });
  	    });
  	    
@@ -121,7 +121,6 @@ Ext.define('Test.spec.DataAccess' ,{}, function () {
  	           var associate = associateStore.createModel({
  	                associateName: 'Vasiliy Lokhankin'
  	            });
-	 	        associate.setId(associateStore.getLocalIdentity());	
 	 	        associateStore.add(associate);
 	 	        	expect(company.getId()===associate.companyId);
  	        });
@@ -140,12 +139,10 @@ Ext.define('Test.spec.DataAccess' ,{}, function () {
 	            var associate = associateStore.createModel({
 	                associateName: 'Associate1'
 	            });
-	 	        associate.setId(associateStore.getLocalIdentity());	
 	 	        associateStore.add(associate);
 	            associate = associateStore.createModel({
 	                associateName: 'Associate2'
 	            });
-	 	        associate.setId(associateStore.getLocalIdentity());	
 	 	        associateStore.add(associate);
 	 	        toolbarCtrl.sync();
 	 	        waitsFor(
@@ -172,7 +169,6 @@ Ext.define('Test.spec.DataAccess' ,{}, function () {
  	           var associate = associateStore.createModel({
  	                associateName: 'Vasiliy Lokhankin'
  	            });
-	 	        associate.setId(associateStore.getLocalIdentity());	
 	 	        associateStore.add(associate);
 	 	        toolbarCtrl.sync();
 	 	        waitsFor(
@@ -181,13 +177,9 @@ Ext.define('Test.spec.DataAccess' ,{}, function () {
 	 	        		10000
 	 	        ); 
 	 	        runs (function() { 	 	        	
-	 	        		expect(expect(associate.getId()).toNotEqual(-1));
+	 	        		expect(expect(associate.getId()).toBeGreaterThan(0));
 	 	        });
  	        });
 	    });
- 	    
- 
-
-
 	});	
 });

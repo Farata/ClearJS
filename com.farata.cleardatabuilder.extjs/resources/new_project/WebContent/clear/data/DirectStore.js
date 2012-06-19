@@ -168,52 +168,12 @@ Ext.define('Clear.data.DirectStore', {
         	read:	this.updateCommitRequired
         });
     },
+    //This method is internally called by load() and removeAll()
     //private
-    clearData: function() {
-        this.callParent();
+    clearData: function(isLoad) {
+        this.callParent([isLoad]);
         this.resetState();
     },
-    /**
-     * Returns a *local identity* - next available client-side-only id, a unique negative integer.
-     * 
-     * It is used to maintain referential integrity across models involved in {@link #sync store sync()} 
-     * when records of the store have `child` records associated via *hasMany* relations and the primaryKey of
-     * the *master* correspond to the database field that is automatically assigned by the server
-     * (eg. autoincrement, sequence).
-     *
-     * A typical use case is two database tables related with primary and foreign keys.
-     * Developer may add a new *master* record with the primary key equal to -1, then add
-     * two *child* records each containing foreignKey equal to -1. The primary keys of the child
-     * records will contain -1 and -2. In the course of {@link #sync sync()} server-side code
-     * will insert the record to the *master* database which and next autoincremented value of the
-     * primary key will become 15  - for the sake of example. Then, the server-side code will
-     * replace each foreignKey occurence of -1 in *child* records with 15, prior to insert. The
-     * replacement values of *child* -1 and -2 get memorized as well, so the process can go to
-     * any level of recursion.
-     * 
-     * Example:
-     *     insertCompany: function() {
-     *       var me = this,
-     *       store = this.getExampleCompanyStore(),
-     *       company = store.createModel({
-     *         companyName: "New Company"
-     *       });
-     *             
-     *       company.setId(store.getLocalIdentity());
-        
-     *       store.add(company);
-     *     },
-     */
-	getLocalIdentity: function () {
-		var min=0;
-
-		this.each(function(record){
-			if (record.get(record.idProperty) < min) 
-				min = record.get(record.idProperty);
-		});
-		return Math.min(0,min-1); 
-	}
-    ,
     setProxy: function(proxy) {
     	var me = this;
     	me.callParent([proxy]);
@@ -269,6 +229,8 @@ Ext.define('Clear.data.DirectStore', {
 	        	batchManager.addStore(me, 0);
 	        	batchManager.createBatch();
 	        	batchManager.sendBatch();
+	        	batchManager.on('complete', this.onBatchComplete, this);
+	        	batchManager.on('exception', this.onBatchException, this);
 	            //JSinternal::saveState(act);
 				//if (!autoSyncEnabled && !roundTripSync)
 				//	resetState();
@@ -303,15 +265,15 @@ Ext.define('Clear.data.DirectStore', {
     
     /**
      * @private
-     * Attached as the 'complete' event listener to a proxy's Batch object. Iterates over the batch operations
-     * and updates the Store's internal data MixedCollection.
-     */
-    
+     * Handles 'complete' event of the sync's batchManager.
+     */    
     onBatchComplete: function(batch, operation) {
-        this.callParent([batch, operation]);
-        this.resetState();
     },
     
+    /**
+     * @private
+     * Handles 'exception' event of the sync's batchManager.
+     */    
     onBatchException: function(message, where) {  		
         Ext.MessageBox.alert( "Batch Failed", Ext.String.format("{0}/n{1}", message, where));	
     },
@@ -331,8 +293,7 @@ Ext.define('Clear.data.DirectStore', {
         Ext.MessageBox.alert( error.message, Ext.String.format("{0}::{1} failed: {2}", error.action, error.method, error.where));	
     	
     },
-
-    /*
+    /**
      * @private
      * Attached as the 'remove' event listener
      */
@@ -359,7 +320,8 @@ Ext.define('Clear.data.DirectStore', {
       }
       this.updateCommitRequired();		
     },
-    /*
+    
+    /**
      * @private
      * Attached as the 'update' event listener
      */
@@ -397,7 +359,4 @@ Ext.define('Clear.data.DirectStore', {
 		}
 		this.updateCommitRequired();
     }
-    
-
-
 });

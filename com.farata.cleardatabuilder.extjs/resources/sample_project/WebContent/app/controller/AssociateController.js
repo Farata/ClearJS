@@ -1,6 +1,6 @@
 Ext.define('**{app.name}**.controller.AssociateController', {
     extend: 'Ext.app.Controller',
-    stores: ['example.AssociateStore'],
+ 
     refs: [{
        ref: 'associatePanel',
        selector: 'associatelist'
@@ -33,7 +33,7 @@ Ext.define('**{app.name}**.controller.AssociateController', {
     		
     		if (selectedCompany === null) {
     			panel.disable();
-     			associateStore = this.getExampleAssociateStore();
+     			associateStore = Ext.getStore('ext-empty-store');
     		} else {
     			panel.enable();
     			associateStore = selectedCompany.getAssociates();
@@ -54,9 +54,6 @@ Ext.define('**{app.name}**.controller.AssociateController', {
                 associateName: 'John Smith'
             });
         
-        //Ext Model won't make phantom if id is part of the config
-        associate.setId(store.getLocalIdentity());
-
         store.add(associate);
     },
    

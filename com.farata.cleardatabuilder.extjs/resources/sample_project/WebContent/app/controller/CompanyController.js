@@ -28,9 +28,6 @@ Ext.define('**{app.name}**.controller.CompanyController', {
         	  companyName: "New Company"
             });
         
-        //Ext Model won't make phantom if id is part of the config
-        company.setId(store.getLocalIdentity());
-        
         store.add(company);
     },
 
