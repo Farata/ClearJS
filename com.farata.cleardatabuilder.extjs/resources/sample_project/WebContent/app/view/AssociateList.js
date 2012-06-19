@@ -1,7 +1,8 @@
 Ext.define('**{app.name}**.view.AssociateList', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.associatelist',
-
+    //Effectively Ext JS will add 
+    //store: 'ext-empty-store',
     title: 'Associates',
  
     disabled: true,
