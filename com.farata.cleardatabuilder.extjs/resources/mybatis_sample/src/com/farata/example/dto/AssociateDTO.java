@@ -3,6 +3,7 @@ package com.farata.example.dto;
 import java.io.Serializable;
 
 import com.farata.dto2extjs.annotations.JSClass;
+import com.farata.dto2extjs.annotations.JSGeneratedId;
 import com.farata.dto2extjs.annotations.JSManyToOne;
 
 @JSClass
@@ -15,6 +16,7 @@ public class AssociateDTO implements Serializable{
 	private Integer companyId;
 	private CompanyDTO company;
 
+	@JSGeneratedId
 	public Integer getId() {
 		return id;
 	}

@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.*;
 
 import com.farata.dto2extjs.annotations.JSClass;
+import com.farata.dto2extjs.annotations.JSGeneratedId;
 import com.farata.dto2extjs.annotations.JSOneToMany;
 
 @JSClass
@@ -13,6 +14,7 @@ public class CompanyDTO  implements Serializable, Cloneable{
 	private java.lang.String companyName;
 	private List<AssociateDTO> associates;
 
+	@JSGeneratedId
 	public java.lang.Integer getId() {
 		return id;
 	}

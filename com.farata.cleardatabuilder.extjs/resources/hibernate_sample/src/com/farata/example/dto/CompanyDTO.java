@@ -16,5 +16,11 @@ public class CompanyDTO  extends com.farata.example.dto.$CompanyDTO{
 	public void setAssociates(List<AssociateDTO> associates) {
 		this.associates = associates;
 	}
+	
+	@JSGeneratedId
+	public java.lang.Integer getId() {
+		return super.getId();
+	}
+
 }		
 	
