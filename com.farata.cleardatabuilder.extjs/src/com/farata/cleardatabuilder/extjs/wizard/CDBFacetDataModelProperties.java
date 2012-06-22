@@ -26,6 +26,6 @@ public interface CDBFacetDataModelProperties extends IFacetProjectCreationDataMo
 	
 	public static final String WARNING_TEXT = "ATTENTION: Hibernate and MyBatis example projects require that cleardb is up and running.\n" +
 			"Please navigate to cleardb install folder and start the database with the batch file.\n\n"
-			+ "Windows users should use /startdb.bat.\n" 
-			+ "Mac users should chmod 777 and then use /startdb.sh";
+			+ "Windows users should execute ./startdb.bat.\n" 
+			+ "Mac users should chmod 777 and then execute ./startdb.sh";
 }

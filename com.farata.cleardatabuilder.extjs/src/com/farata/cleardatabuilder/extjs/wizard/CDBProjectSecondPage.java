@@ -387,7 +387,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 
 	private void createPersistancePlatformGroup(Composite parent) {
 		Group group = new Group(parent, SWT.SHADOW_IN);
-		group.setText("Persistance Platform");
+		group.setText("Persistence Platform");
 		group.setLayoutData(gdhfill());
 		group.setLayout(new GridLayout(3, false));
 
@@ -544,13 +544,13 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		}
 
 		if (isHibernateExample || isMyBatisExample) {
-			setTitle("Example CDB Project (with persistance)");
-			setDescription("Example CDB Project (with persistance)");
+			setTitle("Example CDB Project (with persistence)");
+			setDescription("Example CDB Project (with persistence)");
 		}
 
 		if (isJavaExample) {
-			setTitle("Example CDB Project (w/out persistance)");
-			setDescription("Example CDB Project (w/out persistance)");
+			setTitle("Example CDB Project (w/out persistence)");
+			setDescription("Example CDB Project (w/out persistence)");
 		}
 
 		top.layout();
