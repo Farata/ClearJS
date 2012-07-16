@@ -4,3 +4,51 @@
 *.jar
 *.war
 *.ear
+
+# /cdb.dto2extjs.annotations/
+/cdb.dto2extjs.annotations/build
+
+# /cdb.dto2extjs.annotations/export/lib/
+/cdb.dto2extjs.annotations/export/lib/com.farata.dto2extjs.annotations.jar
+/cdb.dto2extjs.annotations/export/lib/clear-dto2extjs-annotations.jar
+
+# /cdb.dto2extjs.plugin/
+/cdb.dto2extjs.plugin/export
+
+# /cdb.dto2extjs.plugin/lib/
+/cdb.dto2extjs.plugin/lib/com.farata.dto2extjs.annotations.jar
+/cdb.dto2extjs.plugin/lib/clear-dto2extjs-annotations.jar
+
+# /clear-extjs-runtime-core/
+/clear-extjs-runtime-core/dist
+
+# /clear-extjs-runtime-djn/
+/clear-extjs-runtime-djn/dist
+
+# /clear-extjs-runtime-djn/lib/
+/clear-extjs-runtime-djn/lib/clear-extjs-runtime-core.jar
+
+# /com.farata.cleardatabuilder.extjs/
+/com.farata.cleardatabuilder.extjs/bin
+
+# /com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/
+/com.farata.cleardatabuilder.extjs/resources/new_project/WebContent/WEB-INF/lib
+
+# /com.farata.cleardatabuilder.extjs/resources/spring_project/WebContent/WEB-INF/
+/com.farata.cleardatabuilder.extjs/resources/spring_project/WebContent/WEB-INF/lib
+
+# /com.farata.cleardatabuilder.extjs.helper/
+/com.farata.cleardatabuilder.extjs.helper/bin
+/com.farata.cleardatabuilder.extjs.helper/dist
+/com.farata.cleardatabuilder.extjs.helper/build
+
+# /com.farata.cleardatabuilder.extjs.site/
+/com.farata.cleardatabuilder.extjs.site/build
+/com.farata.cleardatabuilder.extjs.site/dist
+/com.farata.cleardatabuilder.extjs.site/features
+/com.farata.cleardatabuilder.extjs.site/plugins
+/com.farata.cleardatabuilder.extjs.site/artifacts.jar
+/com.farata.cleardatabuilder.extjs.site/content.jar
+
+# /com.farata.cleardatabuilder.extjs.tests/
+/com.farata.cleardatabuilder.extjs.tests/bin
