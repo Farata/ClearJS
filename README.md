@@ -32,4 +32,3 @@ Throw in one more Java annotation to generate a sample HTML application:
 	@JSGenerateHTML5(arguments="1")
 	@JSJPQLMethod(query="SELECT a FROM CompanyAssociate a WHERE companyId=:companyId")
 	List<CompanyAssociate> getCompanyAssociated(Integer companyId);
->>>>>>> 60d60072cb50c10f0cc9e363801b939dabb57ae3
