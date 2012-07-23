@@ -7,6 +7,8 @@ It supports [Ext JS](http://www.sencha.com/products/extjs/) with [Ext.Direct](ht
 
 CDB-H writes both JavaScript and Java code for you. All artifacts required for bringing together Ext JS, Java implementations of [ Ext.Direct](http://www.sencha.com/products/extjs/extdirect) (currently - [DirectJNGine](http://code.google.com/p/directjngine/)), [BlazeDS](http://opensource.adobe.com/wiki/display/blazeds/BlazeDS), and popular Java frameworks: [Spring](http://www.springsource.org/), [Hibernate](http://www.hibernate.org/docs), and [MyBatis](http://mybatis.org/) CDB-H generates automatically. 
 
+<iframe width="640" height="480" src="http://www.youtube.com/embed/13PgRSs2At0?rel=0" frameborder="0" allowfullscreen></iframe>
+
 [Source code](https://cleartoolkit.svn.sourceforge.net/svnroot/cleartoolkit/trunk/) is hosted on the SourceForge as part of the [Clear Toolkit Project](https://sourceforge.net/projects/cleartoolkit/) under [MIT license](http://www.opensource.org/licenses/mit-license.php). Commercial support of CDB-H is available from the source: [Farata Systems](http://www.faratasystems.com). 
 
 Intrigued? Check our [getting started guide](https://github.com/Farata/ClearJS/wiki/Getting-started-ClearDataBuilder-for-Ext-JS-4.1) in wiki
