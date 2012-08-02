@@ -23,18 +23,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.sax.SAXSource;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 import com.farata.dto2extjs.annotations.JSClass;
 import com.farata.dto2extjs.annotations.JSClassKind;
+import com.farata.dto2extjs.asap.env.IEnvironmentInspector;
 import com.farata.dto2extjs.asap.reflect.JSClassDeclarationReflector;
 import com.farata.dto2extjs.asap.reflect.JSEnumDeclarationReflector;
 import com.farata.dto2extjs.asap.reflect.JSInterfaceDeclarationReflector;
@@ -57,10 +51,12 @@ public class JSAnnotationProcessor implements AnnotationProcessor {
 	
 	final protected AnnotationProcessorEnvironment _environment;
 	final protected JSAnnotationProcessorOptions  _options;
+	final protected IEnvironmentInspector _inspector;
 	
-	public JSAnnotationProcessor(final AnnotationProcessorEnvironment environment, final JSAnnotationProcessorOptions options) {
+	public JSAnnotationProcessor(final AnnotationProcessorEnvironment environment, final JSAnnotationProcessorOptions options, final IEnvironmentInspector inspector) {
 		_environment = environment;
 		_options     = options;
+		_inspector   = inspector;
 	}
 
 	public void process() {
@@ -121,27 +117,33 @@ public class JSAnnotationProcessor implements AnnotationProcessor {
 			}
 			
 			try {
-				final Transformer serializer = templates.newTransformer();
-				
-				try {
-					serializer.setParameter("base", _options.output().getCanonicalPath());
-					serializer.setParameter("metadata-dump", _options.dumpMetadata() ? "yes" : "no");
-				} catch (final Exception e) {
-					
-				}
-				
 				final Source source = new SAXSource(reflector, noInput());
 				final Result result = noResult();
-				XsltUtils.pushPackagePathResolver(_options.packagePathTransformer());
-				try {
-					serializer.transform(source, result);
-					refresh(_options.output());
-				} finally {
-					XsltUtils.popPackagePathResolver();
-				}
-			} catch (final TransformerException ex) {
-				ex.printStackTrace();				
-				messager.printError( ex.getLocalizedMessage() );
+
+				XsltOperation.withCurrentClassLoader(new Runnable() {
+					public void run() {
+						try {
+							final Transformer serializer = templates.newTransformer();
+							
+							try {
+								serializer.setParameter("base", _options.output().getCanonicalPath());
+								serializer.setParameter("metadata-dump", _options.dumpMetadata() ? "yes" : "no");
+							} catch (final Exception e) {
+								
+							}
+	
+							XsltUtils.pushPackagePathResolver(_options.packagePathTransformer());
+							try {
+								serializer.transform(source, result);
+							} finally {
+								XsltUtils.popPackagePathResolver();
+							}
+						} catch (final TransformerException ex) {
+							throw new RuntimeException(ex);
+						} 
+					}
+				});
+				refresh(_options.output());
 			} catch (final InvalidJavaTypeException ex) {
 				// Reported by JSTypeReflector
 			} catch (final Exception ex) {
@@ -151,16 +153,8 @@ public class JSAnnotationProcessor implements AnnotationProcessor {
 		}
 	}
 
-	private void refresh(File file) {
-		try {
-			IWorkspace workspace= ResourcesPlugin.getWorkspace();    
-			IPath location= Path.fromOSString(file.getAbsolutePath()); 
-			IFile ifile= workspace.getRoot().getFileForLocation(location);
-			if (ifile != null)
-				ifile.refreshLocal(IResource.DEPTH_INFINITE, null);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+	private void refresh(final File file) {
+		_inspector.refreshFile(file);
 	}
 	
 	final private static byte[] VOID_BYTES = {};

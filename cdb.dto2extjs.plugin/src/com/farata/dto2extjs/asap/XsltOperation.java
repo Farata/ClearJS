@@ -12,6 +12,7 @@ package com.farata.dto2extjs.asap;
 import java.io.IOException;
 
 import java.net.URL;
+import java.util.concurrent.Callable;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
@@ -44,16 +45,51 @@ public abstract class XsltOperation {
 	}
 
 	public static Templates loadTemplates(final String uri) {
-		try {
-			final URL templateUrl = XsltOperation.class.getResource(uri);
-			BASE_URL.set( templateUrl );
-			try {
-				return TRANSFORMER_FACTORY.newTemplates( new StreamSource(templateUrl.openStream()) );
-			} finally {
-				BASE_URL.set(null);
+		final URL templateUrl = XsltOperation.class.getResource(uri);
+		return withCurrentClassLoader(new Callable<Templates>() {
+			public Templates call() throws Exception {
+				BASE_URL.set( templateUrl );
+				try {
+					return TRANSFORMER_FACTORY.newTemplates( new StreamSource(templateUrl.openStream()) );
+				} finally {
+					BASE_URL.set(null);
+				}
 			}
-		} catch (Exception ex) {
+		});
+	}
+	
+	public static <T> T withCurrentClassLoader(final Callable<T> block) {
+		return withCurrentClassLoader(block, XsltOperation.class.getClassLoader());
+	}
+	
+	public static void withCurrentClassLoader(final Runnable block) {
+		withCurrentClassLoader(block, XsltOperation.class.getClassLoader());
+	}
+
+	
+	public static void withCurrentClassLoader(final Runnable block, final ClassLoader classLoader) {
+		withCurrentClassLoader(new Callable<Void>() {
+			public Void call() {
+				block.run();
+				return null;
+			}
+		}, classLoader);
+	}
+	
+	public static <T> T withCurrentClassLoader(final Callable<T> block, final ClassLoader classLoader) {
+		final Thread currentThread = Thread.currentThread();
+		final ClassLoader currentContextClassLoader = currentThread.getContextClassLoader();
+		currentThread.setContextClassLoader(classLoader);
+		try {
+			return block.call();
+		} catch (final Error ex) {
+			throw ex;
+		} catch (final RuntimeException ex) {
+			throw ex;
+		} catch (final Exception ex) {
 			throw new RuntimeException(ex);
+		} finally {
+			currentThread.setContextClassLoader(currentContextClassLoader);
 		}
 	}
 	
@@ -69,8 +105,8 @@ public abstract class XsltOperation {
 	final protected static TransformerFactory TRANSFORMER_FACTORY;
 	static {
 //		TRANSFORMER_FACTORY = TransformerFactory.newInstance("org.apache.xalan.xsltc.trax.TransformerFactoryImpl", XsltOperation.class.getClassLoader());
-		TRANSFORMER_FACTORY = TransformerFactory.newInstance("com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl", XsltOperation.class.getClassLoader());
-//		TRANSFORMER_FACTORY = TransformerFactory.newInstance();
+//		TRANSFORMER_FACTORY = TransformerFactory.newInstance("com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl", XsltOperation.class.getClassLoader());
+		TRANSFORMER_FACTORY = TransformerFactory.newInstance();
 		TRANSFORMER_FACTORY.setURIResolver(new URIResolver() {
 			public Source resolve(final String href, final String base) throws TransformerException {
 				try {

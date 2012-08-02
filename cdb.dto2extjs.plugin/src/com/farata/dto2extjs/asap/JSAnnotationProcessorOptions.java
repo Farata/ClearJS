@@ -16,18 +16,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.resources.ResourcesPlugin;
-
 import com.farata.dto2extjs.annotations.JSClassKind;
+import com.farata.dto2extjs.asap.env.IEnvironmentInspector;
 
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 import com.sun.mirror.apt.Messager;
 
 public class JSAnnotationProcessorOptions {
 	
-	private static final String WORKSPACE_LINK_TOKEN = "${DOCUMENTS}";
-	
 	final private AnnotationProcessorEnvironment _env;
+	final private IEnvironmentInspector _inspector;
 	
 	private File             _output;  
 	private boolean          _reconcile = false;
@@ -38,8 +36,9 @@ public class JSAnnotationProcessorOptions {
 	private INameTransformer _classNameTransformer = INameTransformer.NOP;
 	private INameTransformer _packagePathTransformer = INameTransformer.NOP;	
 	
-	public JSAnnotationProcessorOptions(final AnnotationProcessorEnvironment env) {
+	public JSAnnotationProcessorOptions(final AnnotationProcessorEnvironment env, final IEnvironmentInspector inspector) {
 		_env = env;
+		_inspector = inspector;
 	}
 	
 	public boolean parse() {
@@ -72,23 +71,7 @@ public class JSAnnotationProcessorOptions {
 			);
 			isValid = false;
 		} else {
-			if (output.startsWith(WORKSPACE_LINK_TOKEN)) {
-				final File root = ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile();
-				// ${...}/directory
-				final int indexOfCharAfterLinkToken = WORKSPACE_LINK_TOKEN.length() + 1;
-				// handle the case if pointed to workspace root
-				if (output.length() > indexOfCharAfterLinkToken) {
-					_output = new File(root, output.substring(indexOfCharAfterLinkToken));
-				} else {
-					_output = root;
-				}
-			} else {
-				_output = new File(output);
-				if (!_output.isAbsolute()) {
-					File root = ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile();
-					_output = new File(root, output);
-				}
-			}
+			_output = _inspector.resolveOutputFolder(output);
 			try {
 				if (_output.exists() ) {
 					if ( !_output.isDirectory() ) {

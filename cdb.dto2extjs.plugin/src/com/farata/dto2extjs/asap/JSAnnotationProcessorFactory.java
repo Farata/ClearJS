@@ -67,7 +67,7 @@ public class JSAnnotationProcessorFactory implements AnnotationProcessorFactory 
 	final private Map<AnnotationProcessorEnvironment, Set<TypeDeclaration>> _envs = new WeakHashMap<AnnotationProcessorEnvironment, Set<TypeDeclaration>>();
 	
 	public AnnotationProcessor getProcessorFor(final Set<AnnotationTypeDeclaration> atds, final AnnotationProcessorEnvironment env) {
-		final JSAnnotationProcessorOptions options = new JSAnnotationProcessorOptions(env);
+		final JSAnnotationProcessorOptions options = new JSAnnotationProcessorOptions(env, INSPECTOR);
 		if ( !options.parse() )
 			return AnnotationProcessors.NO_OP;
 		
@@ -99,7 +99,7 @@ public class JSAnnotationProcessorFactory implements AnnotationProcessorFactory 
 			else
 				visited.addAll( targets );
 			
-			return new JSAnnotationProcessor(env, options);
+			return new JSAnnotationProcessor(env, options, INSPECTOR);
 			
 		} else {
 			/*
