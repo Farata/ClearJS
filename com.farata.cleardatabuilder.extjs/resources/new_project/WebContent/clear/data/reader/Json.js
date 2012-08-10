@@ -73,7 +73,7 @@ Ext.define('Clear.data.reader.Json', {
 		}
 
         return changeObject;
-	},
+	}
 	    
 }, function() {
 
