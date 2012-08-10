@@ -9,11 +9,21 @@
  */
 package com.farata.dto2extjs.asap.env;
 
+import java.io.File;
+
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 
 public class AptEnvironmentInspector implements IEnvironmentInspector {
 	public boolean isReconciliation(final AnnotationProcessorEnvironment env) {
 		return false;
+	}
+	
+	public File resolveOutputFolder(final String outputParameter) {
+		return new File(outputParameter);
+	}
+	
+	public void refreshFile(final File generatedFile) {
+		/* Do nothing */
 	}
 	
 	final public static IEnvironmentInspector INSTANCE = new AptEnvironmentInspector();	
