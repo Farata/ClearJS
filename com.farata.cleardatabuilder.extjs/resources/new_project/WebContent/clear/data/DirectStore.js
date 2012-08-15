@@ -213,24 +213,50 @@ Ext.define('Clear.data.DirectStore', {
 			this.fireEvent("commitRequiredChange", this, newValue, this.commitRequired);
 		}   	
     },
+    
     /**
-     * @inheritdoc
+     * Synchronizes the store with the server-side data. Batches together any 
+     * new, updated and deleted records in the store, updating the store's 
+     * internal representation of the records when entire batch is
+     * atomically applied on the server-side. Recursively synchronizes all
+     * children stores, aka all stores related to this one via 'hasMany' 
+     * associations of the store model.
+     * 
+     * @param {Object} [options] Object containing one or more properties supported by the sync method:
+     * @param {Function} [options.callback] The function to be called upon completion of the sync.
+     * The callback is called regardless of success or failure and is passed the following parameter:
+     * @param {Object} options The options argument that was originally passed into sync
+     * 
+     * @param {Function} [options.success] The function to be called upon batch operation has been successfully
+     * applied to the server-side. The success function is passed the following parameters:
+     * @param {Object} options The options argument that was originally passed into sync
+     *      
+     * @param {Function} [options.failure] The function to be called upon unsuccessful completion of the sync. The 
+     * failure function is called when applying the batch of operations to the server-side returns an exception.
+     * The failure function is called with the following parameters:
+     * @param {String} message The exception text
+     * @param {String} stackTrace The stack trace of the exception
+     * @param {Object} options The options argument that was originally passed into sync
+     * 
+     * @param {Object} [options.scope] The scope in which to execute any callbacks, defaults to the store.
      */
-    sync: function() {
+    sync: function(options) {
         var me        = this,
 			changes = me.getChanges(),
 			batchManager;
         	//Changes based purely on the top store will carry nothing
-            // event when child (associated) stores have been modified.
+            // event when child (associated) stores have been modified.a
         	//This is a design limitation of the beforesync event.
 	        if (me.fireEvent('beforesync', changes) !== false) {
-	        	
 	        	batchManager = Ext.create('Clear.transaction.BatchManager');
 	        	batchManager.addStore(me, 0);
 	        	batchManager.createBatch();
-	        	batchManager.sendBatch();
 	        	batchManager.on('complete', this.onBatchComplete, this);
 	        	batchManager.on('exception', this.onBatchException, this);
+	        	me.syncOptions = options || {};
+	        	me.syncOptions.batchManager = batchManager;
+	        	me.syncOptions.scope = me.syncOptions.scope || me;
+	        	batchManager.sendBatch();
 	            //JSinternal::saveState(act);
 				//if (!autoSyncEnabled && !roundTripSync)
 				//	resetState();
@@ -267,7 +293,18 @@ Ext.define('Clear.data.DirectStore', {
      * @private
      * Handles 'complete' event of the sync's batchManager.
      */    
-    onBatchComplete: function(batch, operation) {
+    onBatchComplete: function() {
+    	var me = this,
+    		callback = me.syncOptions.callback,
+    		success = me.syncOptions.success,
+    		scope = me.syncOptions.scope; 
+
+    	if (typeof success == 'function') {
+    		success.call(scope, me.syncOptions);
+    	}
+    	if (typeof callback == 'function') {
+    		callback.call(scope, me.syncOptions);
+    	}
     },
     
     /**
@@ -275,7 +312,19 @@ Ext.define('Clear.data.DirectStore', {
      * Handles 'exception' event of the sync's batchManager.
      */    
     onBatchException: function(message, where) {  		
-        Ext.MessageBox.alert( "Batch Failed", Ext.String.format("{0}/n{1}", message, where));	
+    	var me = this,
+		callback = me.syncOptions.callback,
+    		failure = me.syncOptions.failure,
+    		scope = me.syncOptions.scope; 
+
+    	if (typeof failure == 'function') {
+    		failure.call(scope, message, where, me.syncOptions);
+    	} else {    		
+    		Ext.MessageBox.alert( "Batch Failed", Ext.String.format("{0}/n{1}", message, where));	
+    	}
+    	if (typeof callback == 'function') {
+    		callback.call(scope, me.syncOptions);
+    	}
     },
     /**
      * @private
