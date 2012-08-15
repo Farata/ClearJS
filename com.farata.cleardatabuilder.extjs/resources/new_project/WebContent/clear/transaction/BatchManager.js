@@ -57,16 +57,15 @@ Ext.define('Clear.transaction.BatchManager', {
           /**
            * @event complete
            * Fired when this batch have been completed
-           * @param {Ext.data.Batch} batch The batch object
-           * @param {Object} operation The last operation that was executed
            */
           'complete',
 
           /**
            * @event exception
            * Fired when this batch encountered an exception
-           * @param {Ext.data.Batch} batch The batch object
-           * @param {Object} operation The operation that encountered the exception
+           * @param {String} message. Error message
+           * @param {String} where. Error stack trace
+           * 
            */
           'exception'
         );
