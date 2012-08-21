@@ -118,7 +118,7 @@ Ext.define('Clear.transaction.BatchManager', {
 		for ( i = registry.length-1; i>=0; i-- ) {
 			me.registerWithChildren(registry[i]);
 		}
-		_registry.sort(this.sortOnPriority);
+		Ext.Array.sort(_registry, this.sortOnPriority);
 		
 		for ( i=_registry.length-1; i>=0; i-- ) {
 			store = _registry[i].store;
@@ -358,7 +358,9 @@ Ext.define('Clear.transaction.BatchManager', {
 		         In turn, when we loose 'write' we loose recal of commitRequired 
 		        */
 			 } else {
-				console.log("Missing store for key: " + key);	
+				 if (Ext.isDefined(Ext.global.console)) {
+	                  Ext.global.console.log("Missing store for key: " + key);
+				 }     
 			 }			
 		}
 		me.fireEvent('complete'); 
@@ -392,14 +394,16 @@ Ext.define('Clear.transaction.BatchManager', {
 		var me = this,
 			internalRegistry = me.internalRegistry,
 			childRanking=[],
+			modifiedItems, 
+			removedItems,
 			store = registration.store;
 		
 	//if (store.syncRequired) {
 		internalRegistry.push(registration);
 		
 		// Add to registry all modified children
-		var modifiedItems = store.modifiedMap.getValues();
-		modifiedItems.forEach(function(item) {
+		modifiedItems = store.modifiedMap.getValues();
+		Ext.Array.forEach(modifiedItems, function(item) {
 			if (item.associatedDirty) {
 				var associations = item.associations;
 				var count = associations.getCount();
@@ -422,7 +426,8 @@ Ext.define('Clear.transaction.BatchManager', {
 		
 		// Children collections of deleted hierarchical items get cascade-removeAll, so
 		// they need to be added to registry too
-		store.getRemovedRecords().forEach(function(item){	
+		removedItems = store.getRemovedRecords();
+		Ext.Array.forEach(removedItems,function(item){	
 	
 			var associations = item.associations;
 			var count = associations.getCount();
