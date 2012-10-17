@@ -6,8 +6,6 @@
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jta-1.1.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jta-spec1_0_1.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jts1_0.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/directjngine.2.0-alpha1.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/gson-2.1.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/servlet/servlet-api.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-logging.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/log4j-1.2.15.jar"/>
@@ -42,5 +40,7 @@
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-remoting-3.1.0.RC3.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-taglibs-3.1.0.RC3.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-web-3.1.0.RC3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/directjngine.2.2.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/gson-2.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

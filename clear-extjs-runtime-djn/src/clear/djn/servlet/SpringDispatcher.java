@@ -3,7 +3,7 @@ package clear.djn.servlet;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.softwarementors.extjs.djn.api.RegisteredAction;
+import com.softwarementors.extjs.djn.api.RegisteredMethod;
 import com.softwarementors.extjs.djn.servlet.ssm.SsmDispatcher;
 
 /**
@@ -15,22 +15,17 @@ public class SpringDispatcher extends SsmDispatcher {
 	private final Map<Class<?>, Object> mapClassBeanName = new HashMap<Class<?>, Object>();
 
 	@Override
-	protected Object createActionInstance(RegisteredAction action) {
+	protected Object getInvokeInstanceForNonStaticMethod(RegisteredMethod method) throws Exception {
 		Object actionInstance = null;
-		try {
-			if (this.mapClassBeanName.containsKey(action.getActionClass())) {
-				actionInstance = this.mapClassBeanName.get(action.getActionClass());
-			} else {
-				actionInstance = SpringLoaderHelper.getBeanOfType(action.getActionClass());
-				if (actionInstance == null) {
-					actionInstance = action.getActionClass().newInstance();
-				}
-				this.mapClassBeanName.put(action.getActionClass(), actionInstance);
+		if (this.mapClassBeanName.containsKey(method.getActionClass())) {
+			actionInstance = this.mapClassBeanName.get(method.getActionClass());
+		} else {
+			actionInstance = SpringLoaderHelper.getBeanOfType(method.getActionClass());
+			if (actionInstance == null) {
+				actionInstance = method.getActionClass().newInstance();
 			}
-		} catch (Exception e) {
-			throw createUnableToCreateActionInstanceException(action, e);
+			this.mapClassBeanName.put(method.getActionClass(), actionInstance);
 		}
-
 		return actionInstance;
 	}
 }
