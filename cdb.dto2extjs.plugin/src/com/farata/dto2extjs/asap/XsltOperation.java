@@ -50,7 +50,7 @@ public abstract class XsltOperation {
 			public Templates call() throws Exception {
 				BASE_URL.set( templateUrl );
 				try {
-					return TRANSFORMER_FACTORY.newTemplates( new StreamSource(templateUrl.openStream()) );
+					return TRANSFORMER_FACTORY.newTemplates( new StreamSource(templateUrl.openStream(), templateUrl.toExternalForm()) );
 				} finally {
 					BASE_URL.set(null);
 				}
@@ -117,7 +117,7 @@ public abstract class XsltOperation {
 						throw new IllegalStateException(message);
 					}
 					final URL related = new URL(realBase, href);
-					return new StreamSource( related.openStream() );
+					return new StreamSource( related.openStream(), related.toExternalForm() );
 				} catch (final IOException ex) {
 					throw new TransformerException(ex);
 				}

@@ -5,9 +5,12 @@
   xmlns:exsl="http://exslt.org/common"
   xmlns:date="http://exslt.org/dates-and-times" 
   xmlns:u="xalan://com.farata.dto2extjs.asap"
-  exclude-result-prefixes="xsl dtodto2extjs exsl u date"
+  exclude-result-prefixes="xsl dto2extjs exsl u date"
   version="1.1" 
 >
+	<xsl:key name="distinct-custom-types" match="/dto2extjs:class/dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.')) or @contentType]" 
+		use="@contentType | @type"/>	
+		
 	<xsl:template match="/dto2extjs:class" mode="generated-file">
 		<xsl:variable name="thisClass" select="@name"/>
 		<xsl:variable name="javaClass" select="@javaClass"/>
@@ -29,8 +32,6 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
 	</xsl:choose>',<xsl:if test="dto2extjs:features/dto2extjs:feature[@name = 'com.farata.dto2extjs.annotations.JSGeneratedId' and @declared-by = $javaClass]">
 	idgen: 'negativesequential',</xsl:if>
 	requires: [
-		<xsl:key name="distinct-custom-types" match="dto2extjs:property[not(starts-with(@type, 'Ext.data.Types.')) or @contentType]" 
-			use="@contentType | @type"/>
 		<xsl:variable name="required-types">
 			<xsl:if test="dto2extjs:property[starts-with(@type, 'Ext.data.Types.')]"><t>Ext.data.Types</t></xsl:if>
 			<xsl:if test="dto2extjs:features/dto2extjs:feature[@name = 'com.farata.dto2extjs.annotations.JSGeneratedId' and @declared-by = $javaClass]"><t>Clear.data.NegativeSequentialIdGenerator</t></xsl:if>
@@ -166,7 +167,7 @@ Ext.define('<xsl:value-of select="$thisGeneratedClass"/>', {
     <xsl:call-template name="unqualifyClassName"><xsl:with-param name="string" select="$contentType"/></xsl:call-template>	  	
   </xsl:variable>
   <xsl:variable name="contentPackageName" select="substring-before($contentType, concat('.', $contentClassName))"/>
-  <xsl:call-template name="collectionsPackageFromDTOPackage"><xsl:with-param name="string" select="$contentPackageName"/><xsl:value-of select="$className"/></xsl:call-template>.<xsl:choose>
+  <xsl:call-template name="collectionsPackageFromDTOPackage"><xsl:with-param name="string" select="$contentPackageName"/></xsl:call-template>.<xsl:choose>
     	<xsl:when test="substring($contentClassName,string-length($contentClassName) - 2,3)='DTO'"><xsl:value-of select="substring($contentClassName,1,string-length($contentClassName) - 3)"/></xsl:when>
 		<xsl:otherwise><xsl:value-of select="$contentClassName"/></xsl:otherwise>
 	</xsl:choose>Collection</xsl:template>  

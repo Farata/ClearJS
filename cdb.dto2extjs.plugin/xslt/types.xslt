@@ -140,8 +140,7 @@
         </xsl:when>
         <xsl:otherwise>
           <xsl:text>, 
-<xsl:value-of select="$pad"/><xsl:value-of select="$qualifiedInterfaceName"/></xsl:text>
-        </xsl:otherwise>
+</xsl:text><xsl:value-of select="$pad"/><xsl:value-of select="$qualifiedInterfaceName"/>        </xsl:otherwise>
       </xsl:choose>    
     </xsl:for-each>
   </xsl:template>

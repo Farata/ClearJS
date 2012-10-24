@@ -3,7 +3,7 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:fn="http://www.w3.org/2005/xpath-functions"
   xmlns:io="xalan://java.io"
-  exclude-result-prefixes="xsl io fn">
+  exclude-result-prefixes="xsl io fn"      extension-element-prefixes="io">
   
   <!-- define a last-part-of named template -->
   <xsl:template name="last-part-of">
@@ -56,8 +56,7 @@
        </xsl:call-template>
      </xsl:variable>
      <xsl:if test="$p1 != $p2"><xsl:text>
-  <xsl:value-of select="concat('import ', $otherClass, ';')"/></xsl:text>
-     </xsl:if>
+  </xsl:text><xsl:value-of select="concat('import ', $otherClass, ';')"/>     </xsl:if>
    </xsl:template>
 
 	<xsl:template name="file-exists">

@@ -6,10 +6,6 @@
   exclude-result-prefixes="dto2extjs xsl u"  
   version="1.1" 
 >
-  <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"
-	standalone="yes" indent="yes"
-	media-type="text/xml"/>
-	
   <!-- Import utility functions -->
   <xsl:import href="functions.xslt"/>
   
@@ -22,6 +18,10 @@
   <!-- Import functionality -->  
   <xsl:import href="js-ext-js-class-generated.xslt"/>
   <xsl:import href="js-ext-js-class-custom.xslt"/>
+  
+  <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"
+	standalone="yes" indent="yes"
+	media-type="text/xml"/>
   
   <xsl:param name="base" select="."/>
   <xsl:param name="metadata-dump" select="'no'"/>
@@ -65,7 +65,7 @@
 	<xsl:call-template name="write.text.chunk">
 		<xsl:with-param name="filename" select="$generated_file"/>
 		<xsl:with-param name="encoding" select="'utf-8'"/>
-		<xsl:param name="media-type" select="'text/action-script'"/>	  
+		<xsl:with-param name="media-type" select="'text/action-script'"/>	  
 		<xsl:with-param name="content"><xsl:apply-templates 
 			select="." mode="generated-file"/></xsl:with-param>
 	</xsl:call-template>	
@@ -83,7 +83,7 @@
 		<xsl:call-template name="write.text.chunk">
 			<xsl:with-param name="filename" select="$custom_file"/>
 			<xsl:with-param name="encoding" select="'utf-8'"/>
-			<xsl:param name="media-type" select="'text/action-script'"/>	  
+			<xsl:with-param name="media-type" select="'text/action-script'"/>	  
 			<xsl:with-param name="content"><xsl:apply-templates 
 				select="." mode="custom-file"/></xsl:with-param>
 		</xsl:call-template>	
@@ -99,7 +99,7 @@
 			<xsl:with-param name="standalone" select="'yes'"/>
 			<xsl:with-param name="omit-xml-declaration" select="'no'"/>						
 			<xsl:with-param name="encoding" select="'utf-8'"/>
-			<xsl:param name="media-type" select="'text/xml'"/>	  
+			<xsl:with-param name="media-type" select="'text/xml'"/>	  
 			<xsl:with-param name="indent" select="'yes'"/>
 			<xsl:with-param name="content" select="."/>
 		</xsl:call-template>    	

@@ -54,7 +54,7 @@
 	<xsl:call-template name="write.text.chunk">
 		<xsl:with-param name="filename" select="$generated_file"/>
 		<xsl:with-param name="encoding" select="'utf-8'"/>
-		<xsl:param name="media-type" select="'text/action-script'"/>	  
+		<xsl:with-param name="media-type" select="'text/action-script'"/>	  
 		<xsl:with-param name="content"><xsl:apply-templates 
 			select="." mode="generated-file"/></xsl:with-param>
 	</xsl:call-template>	    
@@ -69,7 +69,7 @@
 			<xsl:with-param name="standalone" selct="'yes'"/>
 			<xsl:with-param name="omit-xml-declaration" select="'no'"/>						
 			<xsl:with-param name="encoding" select="'utf-8'"/>
-			<xsl:param name="media-type" select="'text/xml'"/>	  
+			<xsl:with-param name="media-type" select="'text/xml'"/>	  
 			<xsl:with-param name="indent" select="'yes'"/>
 			<xsl:with-param name="content" select="."/>
 		</xsl:call-template>    	
