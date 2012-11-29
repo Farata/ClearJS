@@ -275,6 +275,10 @@ public class Util {
 			final String srcFileName, final JarFile flexWarFile,
 			final JarEntry entry, final int override) throws IOException {
 		final File destFile = new File(destDir + "/" + entry.getName()); //$NON-NLS-1$
+		File parent = destFile.getParentFile();
+		if (parent != null && !parent.exists()) {
+			parent.mkdirs();
+		}
 		if (entry.isDirectory()) {
 			destFile.mkdirs();
 			return;
