@@ -69,9 +69,7 @@ public class CDBDataModelProvider extends JpaFacetInstallDataModelProvider imple
 			String sPath = model.getStringProperty(s);
 			if (sPath != null && sPath.trim().length() > 0) {
 				File path = new File(sPath.trim());
-				if (path.exists()) {
-					valid = SampleInstallWizardPage.validateInstallationFolder(path);
-				}
+				valid = SampleInstallWizardPage.validateInstallationFolder(path);
 			}
 			if (valid) {
 				return Status.OK_STATUS;
