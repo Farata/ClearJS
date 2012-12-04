@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="project" default="default">
+	<import file="macrodefs.xml"/>
+ 	<property name="workspace.path" value="${java.io.tmpdir}"/> 
+	<property file="${project.path}/.install/build.properties"/>
+	<target name="default">
+		<delete dir="${java.io.tmpdir}/${project.name}"/>
+		<mkdir dir="${java.io.tmpdir}/${project.name}"/>
+		
+		<ant antfile="../install/build.xml" inheritall="true"/>
+		
+		<!--choproperties/-->
+		<adjust-files src-dir="${java.io.tmpdir}/${project.name}/cdb_build/src" dist-dir="${project.path}/cdb_build/src" />
+		<adjust-files src-dir="${java.io.tmpdir}/${project.name}/cdb_build/extjs_src" dist-dir="${project.path}/cdb_build/extjs_src" />
+		<copy file="${java.io.tmpdir}/${project.name}/cdb_build/.version" tofile="${project.path}/cdb_build/.version"/>
+	</target>
+
+</project>

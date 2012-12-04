@@ -5,7 +5,7 @@
 	<property file="build.properties" />
 	<target name="default" depends="install-new, install-sample">
 		<mkdir dir="${workspace.path}/${project.name}/.install"/>
-		<copy file="build.properties" tofile="${workspace.path}/${project.name}/.install/build.properties"/>
+		<copy file="build.properties" tofile="${workspace.path}/${project.name}/.install/build.properties" failonerror="false"/>
 		<replace dir="${workspace.path}/${project.name}/src/META-INF" token="**{persistence.unit}**" value="${persistence.unit}" />
 		<replace dir="${workspace.path}/${project.name}/src/META-INF" token="**{jta.data.source}**" value="${jta.data.source}" />
 		<replace dir="${workspace.path}/${project.name}/src/META-INF" token="**{hibernate.dialect}**" value="${hibernate.dialect}" />

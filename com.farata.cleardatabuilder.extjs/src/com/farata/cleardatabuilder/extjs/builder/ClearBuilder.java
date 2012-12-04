@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+
+import com.farata.cleardatabuilder.extjs.migration.CDBMigration;
 
 public class ClearBuilder extends IncrementalProjectBuilder {
 
@@ -20,13 +21,14 @@ public class ClearBuilder extends IncrementalProjectBuilder {
 	protected IProject[] build(final int kind, final Map args,
 			final IProgressMonitor monitor) throws CoreException {
 		
-//		try {
-//			if (!CDBMigration.checkProjectVersion(getProject(), monitor, true)) {
-//				return new IProject[0];
-//			}
-//		} catch (Exception e1) {
-//			e1.printStackTrace();
-//		}
+/*		try {
+			if (!CDBMigration.checkProjectVersion(getProject(), monitor, true)) {
+				return new IProject[0];
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+*/		
 		IResourceDelta delta = getDelta(getProject());
 		if (delta != null) {
 			ClearResourceDeltaVisitor visitor = new ClearResourceDeltaVisitor(

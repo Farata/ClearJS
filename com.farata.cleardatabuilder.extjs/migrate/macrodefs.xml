@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="macrodefs">
+	<macrodef name="copy-changed-files">
+		<attribute name="src-dir" />
+		<attribute name="dist-dir" />
+		<sequential>
+			<fileset dir="@{src-dir}" id="different">
+				<different targetdir="@{dist-dir}" ignoreFileTimes="true" />
+			</fileset>
+			<echo>copy files: ${toString:different}</echo>
+			<copy todir="@{dist-dir}" overwrite="true">
+				<fileset refid="different" />
+			</copy>
+		</sequential>
+	</macrodef>
+	<macrodef name="delete-obsolete-files">
+		<attribute name="src-dir" />
+		<attribute name="dist-dir" />
+		<sequential>
+			<fileset dir="@{dist-dir}" id="present">
+				<present present="srconly" targetdir="@{src-dir}" />
+			</fileset>
+			<echo>delete files: ${toString:present}</echo>
+			<delete failonerror="false">
+				<fileset refid="present" />
+			</delete>
+		</sequential>
+	</macrodef>
+	<macrodef name="adjust-files">
+		<attribute name="src-dir" />
+		<attribute name="dist-dir" />
+		<sequential>
+			<mkdir dir="@{dist-dir}" />
+			<copy-changed-files src-dir="@{src-dir}" dist-dir="@{dist-dir}" />
+			<delete-obsolete-files src-dir="@{src-dir}" dist-dir="@{dist-dir}" />
+		</sequential>
+	</macrodef>
+</project>

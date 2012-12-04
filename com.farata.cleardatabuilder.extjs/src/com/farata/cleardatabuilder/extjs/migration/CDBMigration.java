@@ -1,16 +1,32 @@
 package com.farata.cleardatabuilder.extjs.migration;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
+import org.eclipse.ant.launching.IAntLaunchConstants;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunch;
+import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.osgi.framework.Version;
+
+import com.farata.cleardatabuilder.extjs.Activator;
+import com.farata.cleardatabuilder.extjs.util.Commons;
 
 public class CDBMigration {
 
@@ -38,15 +54,16 @@ public class CDBMigration {
 
 		if (showNeedsMigrationDialog(project.getName(),
 				pluginVersion.toString())) {
-//TODO
-//			final MigrationResult migrationResult = conf.migrate(monitor,
-//					projectCdbVersion);
-//			renameXSLFiles(project, migrationResult, monitor);
-//TODO
-//			conf.setProjectCdbVersion(pluginVersion, monitor);
+			migrate(project, monitor);
+			// TODO
+			// final MigrationResult migrationResult = conf.migrate(monitor,
+			// projectCdbVersion);
+			// renameXSLFiles(project, migrationResult, monitor);
+			// TODO
+			// conf.setProjectCdbVersion(pluginVersion, monitor);
 			conf.setIncrementalBuildSkipped(false, monitor);
-//			showMigrationResults(migrationResult, project.getName(),
-//					pluginVersion.toString());
+			// showMigrationResults(migrationResult, project.getName(),
+			// pluginVersion.toString());
 			return true;
 		}
 
@@ -56,19 +73,52 @@ public class CDBMigration {
 		return false;
 	}
 
-//	private static void renameXSLFiles(IProject project,
-//			MigrationResult migrationResult, IProgressMonitor monitor)
-//			throws CoreException {
-//		for (String file : migrationResult.backedFiles) {
-//			File f = project.getFile(migrationResult.backupFolder + "/" + file)
-//					.getLocation().toFile();
-//			if (file.endsWith(".xsl")) {
-//				File toFile = new File(f.getParentFile(), f.getName() + ".bak");
-//				f.renameTo(toFile);
-//			}
-//		}
-//		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-//	}
+	private static boolean migrate(IProject project, IProgressMonitor monitor) {
+		try {
+
+			File buildFile = Commons.getBundleEntry(Activator.getDefault()
+					.getBundle(), "migrate/migrate.xml");
+			Properties properties = new Properties();
+			properties.setProperty("project.path", project.getLocation().toOSString());
+			properties.setProperty("project.name", project.getName());
+			ILaunchManager launchManager = DebugPlugin.getDefault()
+					.getLaunchManager();
+			ILaunchConfigurationType lcType = launchManager
+					.getLaunchConfigurationType(IAntLaunchConstants.ID_ANT_LAUNCH_CONFIGURATION_TYPE);
+
+			String name = launchManager
+					.generateLaunchConfigurationName("Run Ant");
+			ILaunchConfigurationWorkingCopy wc = lcType.newInstance(null, name);
+			wc.setAttribute(ILaunchManager.ATTR_PRIVATE, true);
+			wc.setAttribute("org.eclipse.ui.externaltools.ATTR_LOCATION",
+					buildFile.getAbsolutePath());
+			wc.setAttribute("org.eclipse.ui.externaltools.ATTR_ANT_PROPERTIES", properties);
+
+			ILaunch res = wc.launch(ILaunchManager.RUN_MODE, monitor);
+			while (!res.isTerminated()) {
+				Thread.sleep(100);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return true;
+	}
+
+	// private static void renameXSLFiles(IProject project,
+	// MigrationResult migrationResult, IProgressMonitor monitor)
+	// throws CoreException {
+	// for (String file : migrationResult.backedFiles) {
+	// File f = project.getFile(migrationResult.backupFolder + "/" + file)
+	// .getLocation().toFile();
+	// if (file.endsWith(".xsl")) {
+	// File toFile = new File(f.getParentFile(), f.getName() + ".bak");
+	// f.renameTo(toFile);
+	// }
+	// }
+	// project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+	// }
 
 	private static boolean showNeedsMigrationDialog(final String projectName,
 			final String projectVersion) {
@@ -86,21 +136,21 @@ public class CDBMigration {
 		return result[0];
 	}
 
-//	private static void showMigrationResults(
-//			final MigrationResult migrationResult, final String projectName,
-//			final String projectVersion) {
-//
-//		Display.getDefault().asyncExec(new Runnable() {
-//
-//			public void run() {
-//				MessageDialog.openInformation(
-//						Display.getDefault().getActiveShell(),
-//						resultsTitle(projectName),
-//						resultsMessage(projectName, projectVersion,
-//								migrationResult));
-//			}
-//		});
-//	}
+	// private static void showMigrationResults(
+	// final MigrationResult migrationResult, final String projectName,
+	// final String projectVersion) {
+	//
+	// Display.getDefault().asyncExec(new Runnable() {
+	//
+	// public void run() {
+	// MessageDialog.openInformation(
+	// Display.getDefault().getActiveShell(),
+	// resultsTitle(projectName),
+	// resultsMessage(projectName, projectVersion,
+	// migrationResult));
+	// }
+	// });
+	// }
 
 	private static String errorTitle(final String projectName) {
 		return Messages.getString("CDB.Migration.NeedMigrationError.Title",
@@ -119,25 +169,25 @@ public class CDBMigration {
 				new Object[] { projectName });
 	}
 
-//	private static String resultsMessage(final String projectName,
-//			final String projectVersion, final MigrationResult migrationResult) {
-//		final String mainMessage = Messages.getString(
-//				"CDB.Migration.MigrationResultsMessage.MainMessage",
-//				new Object[] { projectName, projectVersion });
-//
-//		final String backupMessage;
-//		if (migrationResult.backedFiles.size() > 0) {
-//			backupMessage = Messages.getString(
-//					"CDB.Migration.MigrationResultsMessage.BackupMessage",
-//					new String[] { migrationResult.backupFolder })
-//					+ "\n" + formatFileNames(migrationResult.backedFiles);
-//		} else {
-//			backupMessage = Messages
-//					.getString("CDB.Migration.MigrationResultsMessage.NoBackupMessage");
-//		}
-//
-//		return mainMessage + "\n" + backupMessage;
-//	}
+	// private static String resultsMessage(final String projectName,
+	// final String projectVersion, final MigrationResult migrationResult) {
+	// final String mainMessage = Messages.getString(
+	// "CDB.Migration.MigrationResultsMessage.MainMessage",
+	// new Object[] { projectName, projectVersion });
+	//
+	// final String backupMessage;
+	// if (migrationResult.backedFiles.size() > 0) {
+	// backupMessage = Messages.getString(
+	// "CDB.Migration.MigrationResultsMessage.BackupMessage",
+	// new String[] { migrationResult.backupFolder })
+	// + "\n" + formatFileNames(migrationResult.backedFiles);
+	// } else {
+	// backupMessage = Messages
+	// .getString("CDB.Migration.MigrationResultsMessage.NoBackupMessage");
+	// }
+	//
+	// return mainMessage + "\n" + backupMessage;
+	// }
 
 	private static String formatFileNames(List<String> files) {
 		final StringBuilder builder = new StringBuilder();
