@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.ant.launching.IAntLaunchConstants;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -22,6 +23,7 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.widgets.Display;
 import org.osgi.framework.Version;
 
@@ -41,8 +43,9 @@ public class CDBMigration {
 		final CDBConfigurator conf = new CDBConfigurator(project);
 		final Version projectCdbVersion = conf.getProjectCdbVersion(monitor);
 		final Version pluginVersion = Resources.getPluginVersion();
-
-		if (pluginVersion.equals(projectCdbVersion)) {
+		IFile instProps = project.getFile(".install/build.properties");
+		
+		if (pluginVersion.equals(projectCdbVersion) || instProps == null || !instProps.exists()) {
 			if (conf.isIncrementalBuildSkipped(monitor))
 				conf.setIncrementalBuildSkipped(false, monitor);
 			return true; // EARLY EXIT: migration not needed!
@@ -54,13 +57,8 @@ public class CDBMigration {
 
 		if (showNeedsMigrationDialog(project.getName(),
 				pluginVersion.toString())) {
-			migrate(project, monitor);
-			// TODO
-			// final MigrationResult migrationResult = conf.migrate(monitor,
-			// projectCdbVersion);
-			// renameXSLFiles(project, migrationResult, monitor);
-			// TODO
-			// conf.setProjectCdbVersion(pluginVersion, monitor);
+			migrate(project, monitor, projectCdbVersion);
+			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			conf.setIncrementalBuildSkipped(false, monitor);
 			// showMigrationResults(migrationResult, project.getName(),
 			// pluginVersion.toString());
@@ -73,7 +71,7 @@ public class CDBMigration {
 		return false;
 	}
 
-	private static boolean migrate(IProject project, IProgressMonitor monitor) {
+	private static boolean migrate(IProject project, IProgressMonitor monitor, Version projectCdbVersion) {
 		try {
 
 			File buildFile = Commons.getBundleEntry(Activator.getDefault()
@@ -81,6 +79,8 @@ public class CDBMigration {
 			Properties properties = new Properties();
 			properties.setProperty("project.path", project.getLocation().toOSString());
 			properties.setProperty("project.name", project.getName());
+			properties.setProperty("cdb.version", projectCdbVersion.toString());
+
 			ILaunchManager launchManager = DebugPlugin.getDefault()
 					.getLaunchManager();
 			ILaunchConfigurationType lcType = launchManager

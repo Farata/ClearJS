@@ -7,12 +7,58 @@
 			<fileset dir="@{src-dir}" id="different">
 				<different targetdir="@{dist-dir}" ignoreFileTimes="true" />
 			</fileset>
-			<echo>copy files: ${toString:different}</echo>
+			<echo-fileset description="Copy:" />
 			<copy todir="@{dist-dir}" overwrite="true">
 				<fileset refid="different" />
 			</copy>
 		</sequential>
 	</macrodef>
+
+	<macrodef name="backup-changed-files">
+		<attribute name="src-dir" />
+		<attribute name="dist-dir" />
+		<attribute name="backup-dir" />
+		<sequential>
+			<fileset dir="@{dist-dir}" id="different">
+				<different targetdir="@{src-dir}" ignoreFileTimes="true" />
+			</fileset>
+			<echo-fileset description="Backup:" />
+			<copy todir="@{backup-dir}" overwrite="true" includeemptydirs="false">
+				<fileset refid="different" />
+			</copy>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="copy-changed-file">
+		<attribute name="src-file" />
+		<attribute name="dist-dir" />
+		<sequential>
+			<fileset file="@{src-file}" id="different">
+				<different targetdir="@{dist-dir}" ignoreFileTimes="true" />
+			</fileset>
+			<echo-fileset description="Copy:" />
+			<copy todir="@{dist-dir}" overwrite="true" includeemptydirs="false">
+				<fileset refid="different" />
+			</copy>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="backup-changed-file">
+		<attribute name="src-dir" />
+		<attribute name="dist-dir" />
+		<attribute name="backup-dir" />
+		<attribute name="file-name" />
+		<sequential>
+			<fileset file="@{dist-dir}/@{file-name}" id="different">
+				<different targetdir="@{src-dir}" ignoreFileTimes="true" />
+			</fileset>
+			<echo-fileset description="Backup:" />
+			<copy todir="@{backup-dir}" overwrite="true">
+				<fileset refid="different" />
+			</copy>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="delete-obsolete-files">
 		<attribute name="src-dir" />
 		<attribute name="dist-dir" />
@@ -20,12 +66,27 @@
 			<fileset dir="@{dist-dir}" id="present">
 				<present present="srconly" targetdir="@{src-dir}" />
 			</fileset>
-			<echo>delete files: ${toString:present}</echo>
+			<echo-fileset description="Delete:" />
 			<delete failonerror="false">
 				<fileset refid="present" />
 			</delete>
 		</sequential>
 	</macrodef>
+
+	<macrodef name="delete-obsolete-file">
+		<attribute name="src-dir" />
+		<attribute name="dist-file" />
+		<sequential>
+			<fileset file="@{dist-file}" id="present">
+				<present present="srconly" targetdir="@{src-dir}" />
+			</fileset>
+			<echo-fileset description="Delete:" />
+			<delete failonerror="false">
+				<fileset refid="present" />
+			</delete>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="adjust-files">
 		<attribute name="src-dir" />
 		<attribute name="dist-dir" />
@@ -33,6 +94,33 @@
 			<mkdir dir="@{dist-dir}" />
 			<copy-changed-files src-dir="@{src-dir}" dist-dir="@{dist-dir}" />
 			<delete-obsolete-files src-dir="@{src-dir}" dist-dir="@{dist-dir}" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="echo-fileset">
+		<attribute name="description" />
+		<sequential>
+			<!-- Format path -->
+			<local name="echo.path.compile" />
+			<pathconvert pathsep="${line.separator}" property="echo.path.compile" refid="different" />
+			<local name="message" />
+			<property name="message" value="@{description}${line.separator}${echo.path.compile}${line.separator}" />
+			<script language="javascript">
+				<![CDATA[
+					importClass(java.io.File);
+					var echo_path_compile = project.getProperty("echo.path.compile");
+					if (echo_path_compile != null && echo_path_compile.trim().length() > 0) {
+						var echoTask = project.createTask("echo");
+						echoTask.setAppend(true);
+						echoTask.setFile(new File(project.getProperty("log.file")));
+						echoTask.setMessage(project.getProperty("message"));
+						echoTask.execute();
+					}
+				]]>
+			</script>
+			<!--echo file="${log.file}" append="true">@{description}${line.separator}</echo>
+			<echo file="${log.file}" append="true">${echo.path.compile}</echo>
+			<echo file="${log.file}" append="true">${line.separator}</echo-->
 		</sequential>
 	</macrodef>
 </project>

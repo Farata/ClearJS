@@ -21,14 +21,14 @@ public class ClearBuilder extends IncrementalProjectBuilder {
 	protected IProject[] build(final int kind, final Map args,
 			final IProgressMonitor monitor) throws CoreException {
 		
-/*		try {
+		try {
 			if (!CDBMigration.checkProjectVersion(getProject(), monitor, true)) {
 				return new IProject[0];
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-*/		
+		
 		IResourceDelta delta = getDelta(getProject());
 		if (delta != null) {
 			ClearResourceDeltaVisitor visitor = new ClearResourceDeltaVisitor(

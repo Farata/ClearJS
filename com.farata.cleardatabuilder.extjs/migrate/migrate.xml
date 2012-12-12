@@ -1,18 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="project" default="default">
-	<import file="macrodefs.xml"/>
- 	<property name="workspace.path" value="${java.io.tmpdir}"/> 
-	<property file="${project.path}/.install/build.properties"/>
+	<import file="macrodefs.xml" />
+	<property name="workspace.path" value="${java.io.tmpdir}" />
+	<property file="${project.path}/.install/build.properties" />
+	<property name="cdb.version.bak" value="cdb_${cdb.version}.bak" />
+	<property name="log.file" value="${project.path}/${cdb.version.bak}/log.txt" />
 	<target name="default">
-		<delete dir="${java.io.tmpdir}/${project.name}"/>
-		<mkdir dir="${java.io.tmpdir}/${project.name}"/>
-		
-		<ant antfile="../install/build.xml" inheritall="true"/>
-		
-		<!--choproperties/-->
+		<mkdir dir="${project.path}/${cdb.version.bak}" />
+		<delete file="${project.path}/${cdb.version.bak}/log.txt" />
+
+		<!-- Create project folder in temp directory -->
+		<delete dir="${java.io.tmpdir}/${project.name}" failonerror="false" />
+		<mkdir dir="${java.io.tmpdir}/${project.name}" />
+
+		<!-- Install new project in temp folder using install properties from existing project to migrate. -->
+		<ant antfile="../install/build.xml" inheritall="true" />
+
+		<!-- Backup -->
+		<backup-changed-files src-dir="${java.io.tmpdir}/${project.name}/cdb_build/src" dist-dir="${project.path}/cdb_build/src" backup-dir="${project.path}/${cdb.version.bak}/cdb_build/src" />
+		<!-- Migrate -->
 		<adjust-files src-dir="${java.io.tmpdir}/${project.name}/cdb_build/src" dist-dir="${project.path}/cdb_build/src" />
+
+		<!-- Backup -->
+		<backup-changed-files src-dir="${java.io.tmpdir}/${project.name}/cdb_build/extjs_src" dist-dir="${project.path}/cdb_build/extjs_src" backup-dir="${project.path}/${cdb.version.bak}/cdb_build/extjs_src" />
+		<!-- Migrate -->
 		<adjust-files src-dir="${java.io.tmpdir}/${project.name}/cdb_build/extjs_src" dist-dir="${project.path}/cdb_build/extjs_src" />
-		<copy file="${java.io.tmpdir}/${project.name}/cdb_build/.version" tofile="${project.path}/cdb_build/.version"/>
+
+		<!-- Backup -->
+		<backup-changed-file src-dir="${java.io.tmpdir}/${project.name}/cdb_build" dist-dir="${project.path}/cdb_build" backup-dir="${project.path}/${cdb.version.bak}/cdb_build" file-name=".version" />
+		<!-- Migrate -->
+		<copy-changed-file src-file="${java.io.tmpdir}/${project.name}/cdb_build/.version" dist-dir="${project.path}/cdb_build" />
+
+		<!-- Rename all xsl files in backup folder -->
+		<move todir="${project.path}/${cdb.version.bak}" includeemptydirs="false">
+			<fileset dir="${project.path}/${cdb.version.bak}">
+				<include name="**/*.xsl" />
+			</fileset>
+			<mapper type="glob" from="*" to="*.bak" />
+		</move>
+
+		<!-- Remove temp project folder -->
+		<delete dir="${java.io.tmpdir}/${project.name}" failonerror="false" />
+
+		<echo level="error" message="See ${log.file} for migration details" />
 	</target>
 
 </project>
