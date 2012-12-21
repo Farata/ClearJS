@@ -24,7 +24,7 @@
 
  
     <init-param>
-      <param-name>createSourceFiles</param-name><param-value>true</param-value>
+      <param-name>createSourceFiles</param-name><param-value>false</param-value>
     </init-param>
 
     <init-param>

@@ -75,7 +75,7 @@ public class ClearPreferences extends PreferencePage implements
 		group.setLayout(gridLayout);
 		
 		label = new Label(group, SWT.NONE);
-		label.setText("ExtJS Nodel:");
+		label.setText("ExtJS Model:");
 
 		extjsLocation = new Text(group, SWT.BORDER);
 		extjsLocation.setText(pathToString(currentLocation));

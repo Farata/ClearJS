@@ -27,6 +27,16 @@
 		<adjust-files src-dir="${java.io.tmpdir}/${project.name}/cdb_build/extjs_src" dist-dir="${project.path}/cdb_build/extjs_src" />
 
 		<!-- Backup -->
+		<backup-changed-file src-dir="${java.io.tmpdir}/${project.name}/WebContent/WEB-INF" dist-dir="${project.path}/WebContent/WEB-INF" backup-dir="${project.path}/${cdb.version.bak}/WebContent/WEB-INF" file-name="web.xml" />
+		<!-- Migrate -->
+		<copy-changed-file src-file="${java.io.tmpdir}/${project.name}/WebContent/WEB-INF/web.xml" dist-dir="${project.path}/WebContent/WEB-INF" />
+
+		<!-- Backup -->
+		<backup-changed-file src-dir="${java.io.tmpdir}/${project.name}/cdb_build" dist-dir="${project.path}/cdb_build" backup-dir="${project.path}/${cdb.version.bak}/cdb_build" file-name="build.xml" />
+		<!-- Migrate -->
+		<copy-changed-file src-file="${java.io.tmpdir}/${project.name}/cdb_build/build.xml" dist-dir="${project.path}/cdb_build" />
+
+		<!-- Backup -->
 		<backup-changed-file src-dir="${java.io.tmpdir}/${project.name}/cdb_build" dist-dir="${project.path}/cdb_build" backup-dir="${project.path}/${cdb.version.bak}/cdb_build" file-name=".version" />
 		<!-- Migrate -->
 		<copy-changed-file src-file="${java.io.tmpdir}/${project.name}/cdb_build/.version" dist-dir="${project.path}/cdb_build" />

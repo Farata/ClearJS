@@ -25,6 +25,7 @@
 		<antcall target="compileServiceInterfaces" />
 		<antcall target="generateDTOs" />
 		<antcall target="generateServices" />
+		<antcall target="generateServerConfig" />
 		<antcall target="generateDNJSettings-xml" />
 		<antcall target="generateEXT_App" />
 	</target>
@@ -180,6 +181,22 @@
 		</script>
 		<javac includes="${entities.include}" srcdir="${project-root}/src" destdir="${classes-folder}" classpath="${cp}" debug="on" includeantruntime="false"/>
 	</target>
+	
+	<target name="generateServerConfig">
+			<path id="build.class.path">
+				<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+				<pathelement path="${classes-folder}" />
+			</path>
+			<pathconvert property="cp" refid="build.class.path" />
+			<path id="srcfiles">
+				<fileset dir="${project-root}/src">
+					<include name="**/*.java" />
+				</fileset>
+			</path>
+			<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-server-config.xsl" out="${project-root}/WebContent/app/direct/ServerConfig.js" force="true">
+				<param name="appName" expression="${appName}" />
+			</xslt>
+	</target>	
 
 	<target name="generateDNJSettings-xml">
 		<path id="build.class.path">
