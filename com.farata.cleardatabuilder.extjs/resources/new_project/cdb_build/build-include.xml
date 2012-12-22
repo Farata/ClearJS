@@ -1,0 +1,157 @@
+<project name="include">
+	<target name="generateHibernateCfg">
+		<xslt in="${project-root}/src/META-INF/persistence.xml" style="${project-root}/cdb_build/src/hibernate.cfg.xsl" out="${java-src-generated}/hibernate.cfg.xml" force="${force.build}" />
+	</target>
+	<target name="compileEntities">
+		<path id="build.class.path">
+			<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+			<pathelement path="${classes-folder}" />
+		</path>
+		<pathconvert property="cp" refid="build.class.path" />
+		<script language="javascript">
+			<![CDATA[
+			var includes = "";
+			var entitiesString = project.getProperty("persistence.persistence-unit.class");
+			if (entitiesString) {
+				var entities = entitiesString.split(",");
+				for (entity in entities) {
+					if (entities[entity] != null && entities[entity] != "") {
+						includes += String(entities[entity]).replace(/\./g, '/') + ".java,";
+					}
+				}
+			}
+			project.setProperty("entities.include", includes);
+			]]>
+		</script>
+		<mkdir dir="${classes-folder}" />
+		<javac includes="${entities.include}" srcdir="${java-src}" destdir="${classes-folder}" classpath="${cp}" debug="on" includeantruntime="false" />
+	</target>
+
+	<target name="findAnnotations">
+		<file name="annotated.xml" id="annotated.xml" />
+		<echo file="annotated.xml" message="&lt;annotated-types/&gt;" />
+		<path id="build.class.path">
+			<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+			<pathelement path="${classes-folder}" />
+		</path>
+		<pathconvert property="cp" refid="build.class.path" />
+		<path id="cfg-xml-path">
+			<fileset file="${project-root}/src/hibernate.cfg.xml" />
+		</path>
+		<pathconvert property="cfg-xml" refid="cfg-xml-path" />
+		<apt classpath="${cp}" compile="false" factory="com.farata.cdb.annotations.processor.CDBFullAnnotationProcessor" srcdir="${java-src}" sourcepath="${java-src}" includeantruntime="false">
+			<option name="com.faratasystems.cdb.annotations.file" value="annotated.xml" />
+			<option name="com.faratasystems.cdb.configuration.file" value="${cfg-xml}" />
+			<include name="**/*.java" />
+		</apt>
+	</target>
+
+	<target name="compileServiceInterfaces">
+		<path id="build.class.path">
+			<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+			<pathelement path="${classes-folder}" />
+		</path>
+		<pathconvert property="cp" refid="build.class.path" />
+		<xmlproperty file="annotated.xml" collapseAttributes="true" />
+		<script language="javascript">
+			<![CDATA[
+			var includes = "";
+			var typeNamesString = project.getProperty("annotated-types.annotated-type.name");
+			if (typeNamesString) {
+				var annotationNamesString = project.getProperty("annotated-types.annotated-type.annotations.annotation.name");
+				var annotationNames = annotationNamesString.split(",");
+				var typeNames = typeNamesString.split(",");
+				for (annotationName in annotationNames) {
+					if (annotationNames[annotationName] != null && annotationNames[annotationName] != "") {
+						if (annotationNames[annotationName] == "clear.cdb.extjs.annotations.JSService") {
+							includes += String(typeNames[annotationName]).replace(/\./g, '/') + ".java,";
+						}
+					}
+				}
+			}
+			project.setProperty("entities.include", includes);
+			]]>
+		</script>
+		<mkdir dir="${classes-folder}" />
+		<javac includes="${entities.include}" srcdir="${java-src}" destdir="${classes-folder}" classpath="${cp}" debug="on" includeantruntime="false" />
+	</target>
+
+	<target name="generateDTOs">
+		<xmlproperty file="annotated.xml" collapseAttributes="true" />
+		<path id="build.class.path">
+			<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+			<pathelement path="${classes-folder}" />
+		</path>
+		<pathconvert property="cp" refid="build.class.path" />
+		<xslt classpathref="build.class.path" in="annotated.xml" style="src/service-dto-all.xsl" out="tmp.txt" force="true">
+			<param name="outputFolder" expression="${java-src-generated}" />
+			<param name="force" expression="${force.build}" />
+		</xslt>
+		<script language="javascript" src="${basedir}/scripts.js">
+			<![CDATA[
+				var includes = getServicesDTOs();
+				includes += getServicesDTOSubclasses();
+				project.setProperty("entities.include", includes == ""? "none":includes);
+			]]>
+		</script>
+		<mkdir dir="${classes-folder}" />
+		<javac includes="${entities.include}" srcdir="${java-src}" destdir="${classes-folder}" classpath="${cp}" debug="on" failonerror="false" includeantruntime="false" />
+	</target>
+
+	<target name="generateServices">
+		<xmlproperty file="annotated.xml" collapseAttributes="true" />
+		<path id="build.class.path">
+			<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+			<pathelement path="${classes-folder}" />
+		</path>
+		<pathconvert property="cp" refid="build.class.path" />
+		<xslt classpathref="build.class.path" in="annotated.xml" style="src/service-impl-all.xsl" out="tmp.txt" force="true">
+			<param name="springIntegration" expression="${add-spring-support}" />
+			<param name="outputFolder" expression="${java-src-generated}" />
+			<param name="force" expression="${force.build}" />
+		</xslt>
+		<script language="javascript" src="${basedir}/scripts.js">
+			<![CDATA[
+			var includes = getServices();
+			includes += getServicesSubclasses();
+			project.setProperty("entities.include", includes == ""? "none":includes);
+			]]>
+		</script>
+		<mkdir dir="${classes-folder}" />
+		<javac includes="${entities.include}" srcdir="${java-src}" destdir="${classes-folder}" classpath="${cp}" debug="on" includeantruntime="false" />
+	</target>
+
+	<target name="generateServerConfig">
+		<path id="build.class.path">
+			<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+			<pathelement path="${classes-folder}" />
+		</path>
+		<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-server-config.xsl" out="${project-root}/WebContent/app/direct/ServerConfig.js" force="true">
+			<param name="appName" expression="${appName}" />
+		</xslt>
+	</target>
+
+	<target name="generateDNJSettings-xml">
+		<path id="build.class.path">
+			<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+			<pathelement path="${classes-folder}" />
+		</path>
+		<xslt classpathref="build.class.path" in="annotated.xml" style="src/djn-settings-generation.xsl" out="${project-root}/WebContent/WEB-INF/generated/djn-settings.inc" force="true">
+			<param name="apis" expression="${apis}" />
+			<param name="apiNamespace" expression="${apiNamespace}" />
+			<param name="package" expression="${cdb-package}" />
+		</xslt>
+	</target>
+
+	<target name="generateEXT_App">
+		<path id="build.class.path">
+			<fileset dir="${project-root}/WebContent/WEB-INF/lib" />
+			<pathelement path="${classes-folder}" />
+		</path>
+		<xslt classpathref="build.class.path" in="annotated.xml" style="extjs_src/generate-all-application.xsl" out="tmp.txt" force="true">
+			<param name="jsOutputFolder" expression="${project-root}/WebContent" />
+			<param name="appName" expression="${appName}" />
+			<param name="remoteActionNamespace" expression="${remoteActionsNamespace}" />
+		</xslt>
+	</target>
+</project>

@@ -35,6 +35,12 @@
 		<backup-changed-file src-dir="${java.io.tmpdir}/${project.name}/cdb_build" dist-dir="${project.path}/cdb_build" backup-dir="${project.path}/${cdb.version.bak}/cdb_build" file-name="build.xml" />
 		<!-- Migrate -->
 		<copy-changed-file src-file="${java.io.tmpdir}/${project.name}/cdb_build/build.xml" dist-dir="${project.path}/cdb_build" />
+		
+		<!-- Migrate -->
+		<copy-changed-file src-file="${java.io.tmpdir}/${project.name}/cdb_build/build-include.xml" dist-dir="${project.path}/cdb_build" />
+
+		<!-- Migrate -->
+		<copy-changed-file src-file="${java.io.tmpdir}/${project.name}/cdb_build/custom-build.properties" dist-dir="${project.path}/cdb_build" />
 
 		<!-- Backup -->
 		<backup-changed-file src-dir="${java.io.tmpdir}/${project.name}/cdb_build" dist-dir="${project.path}/cdb_build" backup-dir="${project.path}/${cdb.version.bak}/cdb_build" file-name=".version" />
