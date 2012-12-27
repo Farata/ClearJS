@@ -91,7 +91,10 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		model.setProperty(CDB_EXTJS_URL, isEmpty(extjsPath) ? "/extjs" : extjsPath);
 		model.setProperty(CDB_EXTJS_CDN, isEmpty(extjsCDN) ? "http://cdn.sencha.io/ext-4.1.0-gpl" : extjsCDN);
 		model.setProperty(CDB_PERSISTANCE_PLATFORM, isEmpty(platform) ? "myBatis" : platform);
-		model.setProperty(CONNECTION, connection);
+		try {
+			model.setProperty(CONNECTION, connection);
+		} catch (Exception e) {
+		}
 		model.setProperty(CDB_SPRING_INTEGRATION, isEmpty(springIntegration) ? true : Boolean.parseBoolean(springIntegration));
 	}
 

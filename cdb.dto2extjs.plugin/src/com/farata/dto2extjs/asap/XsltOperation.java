@@ -77,6 +77,11 @@ public abstract class XsltOperation {
 	}
 	
 	public static <T> T withCurrentClassLoader(final Callable<T> block, final ClassLoader classLoader) {
+		//Try to execute without calling of setContextClassLoader
+		try {
+			return block.call();
+		} catch (Exception e) {
+		}
 		final Thread currentThread = Thread.currentThread();
 		final ClassLoader currentContextClassLoader = currentThread.getContextClassLoader();
 		currentThread.setContextClassLoader(classLoader);
