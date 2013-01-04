@@ -89,7 +89,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 		model.setProperty(CDB_EXTJS_LOCATION_TYPE, isEmpty(locationType) ? TYPE_LOCAL_FOLDER : locationType);
 		model.setProperty(CDB_EXTJS_FOLDER, extjsFolder);
 		model.setProperty(CDB_EXTJS_URL, isEmpty(extjsPath) ? "/extjs" : extjsPath);
-		model.setProperty(CDB_EXTJS_CDN, isEmpty(extjsCDN) ? "http://cdn.sencha.io/ext-4.1.0-gpl" : extjsCDN);
+		model.setProperty(CDB_EXTJS_CDN, isEmpty(extjsCDN) ? "http://cdn.sencha.io/ext-4.1.1a-gpl" : extjsCDN);
 		model.setProperty(CDB_PERSISTANCE_PLATFORM, isEmpty(platform) ? "myBatis" : platform);
 		try {
 			model.setProperty(CONNECTION, connection);
@@ -336,7 +336,7 @@ public class CDBProjectSecondPage extends WebProjectFirstPage implements CDBFace
 
 		final Text extJSPath = new Text(parent, SWT.BORDER);
 		extJSPath.setLayoutData(gdhfill());
-		extJSPath.setText("http://cdn.sencha.io/ext-4.1.0-gpl");
+		extJSPath.setText("http://cdn.sencha.io/ext-4.1.1a-gpl");
 		model.setProperty(CDB_EXTJS_CDN, extJSPath.getText());
 		extJSPath.addModifyListener(new ModifyListener() {
 			@Override

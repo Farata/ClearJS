@@ -28,8 +28,6 @@
 		<replace dir="${workspace.path}/${project.name}/WebContent/test" token="**{app.name}**" value="${app.name}" />
 		<replace file="${workspace.path}/${project.name}/WebContent/index.html" token="**{extjs.path}**" value="${extjs.path}" />
 		<replace file="${workspace.path}/${project.name}/WebContent/test.html" token="**{extjs.path}**" value="${extjs.path}" />
-		<replace file="${workspace.path}/${project.name}/WebContent/index.html" token="http://cdn.sencha.io/ext-4.1.0-gpl/ext-debug.js" value="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all.js" />
-		<replace file="${workspace.path}/${project.name}/WebContent/test.html" token="http://cdn.sencha.io/ext-4.1.0-gpl/ext-debug.js" value="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all.js" />
 	</target>
 	<target name="install-new">
 		<mkdir dir="${workspace.path}/${project.name}" />
