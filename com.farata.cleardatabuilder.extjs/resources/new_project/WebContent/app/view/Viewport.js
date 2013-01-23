@@ -1,4 +1,4 @@
-Ext.define('**{app.name}**view.Viewport' ,{
+Ext.define('**{app.name}**.view.Viewport' ,{
     extend: 'Ext.container.Viewport',
  
     layout: {

@@ -167,8 +167,21 @@ Ext.define('Clear.data.proxy.DirectProxy', {
     	// We intercept the parameters as of the read operation
     	this.readParamString = Ext.Object.getValues(operation.params).join(".");
         this.callParent(arguments);
-    }
+    },
+    
+    /**
+     * @inheritdoc
+     * We needed it only to enforce sending direct options from client to server
+     */
+    buildRequest: function(operation) {
+    	
+    	var directRelatedOptions = {};
 
+    	this.directOptions = operation.directOptions || {}; //if any
+    	Ext.copyTo(directRelatedOptions, operation, 'page,start,limit');
+    	Ext.applyIf(this.directOptions, directRelatedOptions); //whatever missing
+        return this.callParent(arguments);
+    }
 });
 
 

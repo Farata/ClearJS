@@ -42,7 +42,6 @@
 		var store = this.getStore('<xsl:value-of select="$storeName"/>'),
 			record = store.createModel({});
 			
-		record.setId(store.getLocalIdentity());
 		return store.add(record);	    	
 	},	
 	onRemove: function(){

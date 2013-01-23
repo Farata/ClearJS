@@ -1,12 +1,12 @@
-Ext.define('Clear.override.data.HasManyAssociation', {
+Ext.define('Clear.override.data.association.HasMany', {
     requires: [
-       'Ext.data.HasManyAssociation'  
+       'Ext.data.association.HasMany'  
     ]
 }, function () {
-	// Here we patch the createStore() method of the HasManyAssociation
+	// Here we patch the createStore() method of the HasMany
 	// because we need the nested stores to be of clear.data.DirectStore type
    
-    Ext.data.HasManyAssociation.override({
+    Ext.data.association.HasMany.override({
 	    createStore:function() {
 		        var that            = this,
 	            associatedModel = that.associatedModel,
