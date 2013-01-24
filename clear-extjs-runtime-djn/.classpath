@@ -41,6 +41,6 @@
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-taglibs-3.1.0.RC3.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/spring3.1.0/spring-security-web-3.1.0.RC3.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/directjngine.2.2.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/gson-2.2.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/gson-2.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
