@@ -39,25 +39,25 @@ public class JsonRequestData extends StandardRequestData {
   public static final String TID_ELEMENT = "tid";
   public static final String TYPE_ELEMENT = "type";
   public static final String DATA_ELEMENT = "data";
-  public static final String OPTIONS_ELEMENT = "options";
+  public static final String OPTIONS_ELEMENT = "directOptions";
   
   @NonNull private JsonArray jsonData;
-  private JsonObject jsonOptions;
+  private JsonObject jsonDirectOptions;
   
-  /* package */ JsonRequestData(@NonNull String type, String action, String method, Long tid, JsonArray jsonData, JsonObject jsonOptions) {
+  /* package */ JsonRequestData(@NonNull String type, String action, String method, Long tid, JsonArray jsonData, JsonObject jsonDirectOptions) {
     super( type, action, method, tid );
 
     assert type.equals(TransferType.RPC);
     this.jsonData = jsonData;
-    this.jsonOptions = jsonOptions;
+    this.jsonDirectOptions = jsonDirectOptions;
   }
 
   /* package */ public JsonArray getJsonData() {
     return this.jsonData;
   }
   
-  /* package */ public JsonObject getJsonOptions() {
-	    return this.jsonOptions;
+  /* package */ public JsonObject getJsonDirectOptions() {
+	    return this.jsonDirectOptions;
  }
   
 }

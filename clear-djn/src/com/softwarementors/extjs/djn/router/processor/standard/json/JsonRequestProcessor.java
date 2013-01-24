@@ -502,8 +502,8 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
       JsonDeserializationManager mgr = JsonDeserializationManager.getManager();
       try {
 //VR BEGIN
-    	Map<String,Object> requestOptions = (Map<String,Object>)toSimpleJavaType(request.getJsonOptions());
-    	DirectOptions.setOptions(requestOptions);
+    	Map<String,Object> directOptions = (Map<String,Object>)toSimpleJavaType(request.getJsonDirectOptions());
+    	DirectOptions.setOptions(directOptions);
 //VR END    	      	  
         Object result = dispatchStandardMethod(action, method, parameters);
         mgr.friendOnlyAccess_setRoot(result);
