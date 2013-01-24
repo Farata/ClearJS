@@ -74,39 +74,77 @@ Ext.define('Clear.data.reader.Json', {
 
         return changeObject;
 	},
-	    
-}, function() {
+	
+    /**
+     * @private
+     * We're just preparing the data for the superclass by pulling out the record objects we want. If a {@link #record}
+     * was specified we have to pull those out of the larger JSON object, which is most of what this function is doing
+     * @param {Object} root The JSON root node
+     * @return {Ext.data.Model[]} The records
+     */
+	 extractData: function(root) {
+		 
+        var recordName = this.record,
+            data = [],
+            length, i;
 
-    // Here we patch the extractData() method in the ancestory tree:
-    
-    Ext.data.Reader.override ({
-    	extractData : function(root) {
-            var me = this,
-                records = [],
-                i       = 0,
-                length  = root.length,
-                node, record;
-                
-            if (!root.length && Ext.isObject(root)) {
-                root = [root];
-                length = 1;
+        if (recordName) {
+            length = root.length;
+            
+            // Response could be outright an Array or records
+            if (!length && Ext.isObject(root)) {
+            	// Paged response will hide array of records in .records property
+            	if (root.records && Ext.isArray(root.records)) {            		
+            		root = root.records;
+            	} else {
+            		root = [root];
+            		length = 1;            		
+            	}
             }
 
-            for (; i < length; i++) {
-                node   = root[i];
-                if (node.__type__ == 'changeObject') {
-                	records.push(me.deserializeChangeObject(node));
-                } else {   
-                	// Otherwise, follow the standard logic for item
-                	record = me.deserializeRecord(node);
-                	records.push(record);            	
-                	if (me.implicitIncludes) {
-                		me.readAssociated(record, node);
-                	}
-                }
+            for (i = 0; i < length; i++) {
+                data[i] = root[i][recordName];
             }
-            return records;
+        } else {
+            data = root;
         }
-    	
-    });
+        //This method is entirely copying the ancestor's one, except it deviates from the
+        //logic of Reader.js
+        return this.extractData2(data);
+    },
+    
+    extractData2 : function(root) {
+        var me = this,
+            records = [],
+            i       = 0,
+            length  = root.length,
+            node, record;
+         
+        // Response could be outright an Array or records
+        if (!root.length && Ext.isObject(root)) {
+        	// Paged response will hide array of records in .records property
+        	if (root.records && Ext.isArray(root.records)) {            		
+        		root = root.records;
+        		length = root.length;
+        	} else {
+        		root = [root];
+        		length = 1;            		
+        	}
+        }
+
+        for (; i < length; i++) {
+            node   = root[i];
+            if (node.__type__ == 'changeObject') {
+            	records.push(me.deserializeChangeObject(node));
+            } else {   
+            	// Otherwise, follow the standard Reader.js logic for item
+            	record = me.deserializeRecord(node);
+            	records.push(record);            	
+            	if (me.implicitIncludes) {
+            		me.readAssociated(record, node);
+            	}
+            }
+        }
+        return records;
+    }    
 });   
