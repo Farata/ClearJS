@@ -541,6 +541,24 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
     }
   }
 
+//VR BEGIN  
+@SuppressWarnings("unchecked")
+protected Object dispatchStandardMethod( String actionName, String methodName, Object[] parameters ) {
+	  	Object records = super.dispatchStandardMethod(actionName, methodName, parameters);
+		@SuppressWarnings("rawtypes")
+		Map resultMap = null;
+	  	if (records instanceof List<?>) {
+	  		if (DirectOptions.getOption("total")!=null) {
+	  			resultMap = new HashMap();
+	  			resultMap.put("success", true);
+	  			resultMap.put("total", DirectOptions.getOption("total"));
+	  			resultMap.put("records", records);
+	  		}
+	  	}
+	    return (resultMap!=null)? resultMap:records;
+ }
+//VR END  
+  
   private static JsonObject[] parseIndividualJsonRequests(String requestString, JsonParser parser) {
     assert !StringUtils.isEmpty(requestString);
     assert parser != null;

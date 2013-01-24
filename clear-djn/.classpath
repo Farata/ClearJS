@@ -2,13 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="lib/compiletimeonly/jsr305.jar"/>
-	<classpathentry kind="lib" path="lib/compiletimeonly/annotations.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
-	<classpathentry kind="lib" path="lib/commons-io-1.4.jar"/>
-	<classpathentry kind="lib" path="lib/yuicompressor-2.4.2.jar"/>
-	<classpathentry kind="lib" path="lib/commons-fileupload-1.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/compiletimeonly/servlet-api.jar"/>
-	<classpathentry kind="lib" path="lib/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/yuicompressor-2.4.2.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-io-1.4.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-fileupload-1.2.1.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/servlet/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/jsr305.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/annotations.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
