@@ -175,11 +175,16 @@ Ext.define('Clear.data.proxy.DirectProxy', {
      */
     buildRequest: function(operation) {
     	
-    	var directRelatedOptions = {};
+    	var pageStartLimit = {};
 
-    	this.directOptions = operation.directOptions || {}; //if any
-    	Ext.copyTo(directRelatedOptions, operation, 'page,start,limit');
-    	Ext.applyIf(this.directOptions, directRelatedOptions); //whatever missing
+    	this.directOptions = operation.directOptions || {}; 
+    	Ext.copyTo(pageStartLimit, operation, 'page,start,limit');
+    	if (pageStartLimit.limit >0) {   
+    		//i.e. negative pageSize in config, 
+    		//or 0 pageSize after constructor, 
+    		//or 0 defaultPageSize will break pagination
+    		Ext.applyIf(this.directOptions, pageStartLimit); 
+    	}
         return this.callParent(arguments);
     }
 });
