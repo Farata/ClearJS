@@ -58,6 +58,5 @@
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/directjngine.2.2.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/directjngine.2.2.javadoc.jar"/>
 	<classpathentry kind="lib" path="/com.farata.lib.extjs/base/directjngine.2.2.src.jar"/>
-	<classpathentry kind="lib" path="/com.farata.lib.extjs/directjngine.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
