@@ -55,3 +55,6 @@
 
 /build/
 /.gradle/
+/clear-djn/build/
+/clear-extjs-runtime-core/build/
+/clear-extjs-runtime-djn/build/
