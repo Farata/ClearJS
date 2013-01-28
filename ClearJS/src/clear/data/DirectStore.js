@@ -215,22 +215,29 @@ Ext.define('Clear.data.DirectStore', {
     },
     /**
      * @inheritdoc
+     * options=
+     * callback:onCallback(batch, options);
+     * success:doSuccess(batch, options)
+     * failure:doFailure(batch, options)
+     * scope:scope for all/proxy
      */
-    sync: function() {
+    sync: function(options) {
         var me        = this,
 			changes = me.getChanges(),
 			batchManager;
         	//Changes based purely on the top store will carry nothing
-            // event when child (associated) stores have been modified.
+            // event when child (associated) stores have been modified.a
         	//This is a design limitation of the beforesync event.
 	        if (me.fireEvent('beforesync', changes) !== false) {
-	        	
 	        	batchManager = Ext.create('Clear.transaction.BatchManager');
 	        	batchManager.addStore(me, 0);
 	        	batchManager.createBatch();
-	        	batchManager.sendBatch();
 	        	batchManager.on('complete', this.onBatchComplete, this);
 	        	batchManager.on('exception', this.onBatchException, this);
+	        	me.syncOptions = options || {};
+	        	me.syncOptions.batchManager = batchManager;
+	        	me.syncOptions.scope = me.syncOptions.scope || me;
+	        	batchManager.sendBatch();
 	            //JSinternal::saveState(act);
 				//if (!autoSyncEnabled && !roundTripSync)
 				//	resetState();
@@ -267,7 +274,14 @@ Ext.define('Clear.data.DirectStore', {
      * @private
      * Handles 'complete' event of the sync's batchManager.
      */    
-    onBatchComplete: function(batch, operation) {
+    onBatchComplete: function() {
+    	var me = this,
+    		success = me.syncOptions.success,
+    		scope = me.syncOptions.scope; 
+
+    	if (typeof success == 'function') {
+    		success.call(scope);
+    	}
     },
     
     /**
@@ -275,7 +289,15 @@ Ext.define('Clear.data.DirectStore', {
      * Handles 'exception' event of the sync's batchManager.
      */    
     onBatchException: function(message, where) {  		
-        Ext.MessageBox.alert( "Batch Failed", Ext.String.format("{0}/n{1}", message, where));	
+    	var me = this,
+    		failure = me.syncOptions.failure,
+    		scope = me.syncOptions.scope; 
+
+    	if (typeof failure == 'function') {
+    		failure.call(scope, message, where);
+    	} else {    		
+    		Ext.MessageBox.alert( "Batch Failed", Ext.String.format("{0}/n{1}", message, where));	
+    	}
     },
     /**
      * @private
@@ -284,7 +306,9 @@ Ext.define('Clear.data.DirectStore', {
      */
     onProxyLoadDebug: function(store, records, successful){
     	  if (successful) {
-    		  console.log( "onLoad", Ext.String.format("Store {0} loaded {1} records", store.storeId, records.length));
+    		  if (Ext.isDefined(Ext.global.console)) {
+                  Ext.global.console.log( "onLoad", Ext.String.format("Store {0} loaded {1} records", store.storeId, records.length));
+    		  }    
     	  } 
     },
     

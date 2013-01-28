@@ -167,8 +167,25 @@ Ext.define('Clear.data.proxy.DirectProxy', {
     	// We intercept the parameters as of the read operation
     	this.readParamString = Ext.Object.getValues(operation.params).join(".");
         this.callParent(arguments);
-    }
+    },
+    
+    /**
+     * @inheritdoc
+     * We needed it only to enforce sending direct options from client to server
+     */
+    buildRequest: function(operation) {
+    	
+    	var pageStartLimit = {};
 
+    	this.directOptions = operation.directOptions || {}; //if any
+    	Ext.copyTo(pageStartLimit, operation, 'page,start,limit');
+    	if (pageStartLimit.limit >0) {   
+    		//i.e. negative pageSize in config, 
+    		//or 0 pageSize after constructor, or 0 defaultPageSize will break pagination
+    		Ext.applyIf(this.directOptions, pageStartLimit); 
+    	}
+        return this.callParent(arguments);
+    }
 });
 
 
