@@ -1,0 +1,81 @@
+allprojects{
+    apply plugin: 'java'
+    apply plugin: 'maven'
+}
+
+subprojects{
+      repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+project(':cdb.dto2extjs.annotations'){
+    sourceSets{
+        main{
+            java{
+                srcDir 'src'
+            }
+        }
+    }
+}
+
+project(':clear-extjs-runtime-core'){
+ sourceSets{
+        main{
+            java{
+                srcDir 'src'
+            }
+        }
+    }   
+    dependencies{
+        compile 'javax.transaction:jta:1.1'
+        //compile 'org.hibernate:hibernate:3.5.3-Final'
+        compile files ('../com.farata.lib.extjs/base/hibernate3.jar')
+        compile ('log4j:log4j:1.2.15'){
+            exclude group: "com.sun.jmx"
+            exclude group: "com.sun.jdmk"
+            exclude group: "javax.jms"
+        }
+    }
+}
+
+project(':clear-extjs-runtime-djn'){
+ sourceSets{
+        main{
+            java{
+                srcDir 'src'
+            }
+        }
+    }   
+    dependencies{
+        compile project(':clear-extjs-runtime-core')
+        compile project(':clear-djn')
+        compile 'org.springframework:spring-web:3.2.1.RELEASE'
+    }
+}
+
+project(':clear-djn'){
+ sourceSets{
+        main{
+            java{
+                srcDir 'src'
+            }
+        }
+    } 
+
+    dependencies{
+        compile 'com.google.code.gson:gson:2.2.2'
+        compile ('log4j:log4j:1.2.15'){
+            exclude group: "com.sun.jmx"
+            exclude group: "com.sun.jdmk"
+            exclude group: "javax.jms"
+        }
+        compile 'commons-fileupload:commons-fileupload:1.2.1'
+        compile 'com.yahoo.platform.yui:yuicompressor:2.4.2'
+        compile 'javax.servlet:servlet-api:2.5'
+        compile files ('../com.farata.lib.extjs/base/annotations.jar', '../com.farata.lib.extjs/base/jsr305.jar')
+        compile 'commons-io:commons-io:1.4'
+
+    }  
+}
