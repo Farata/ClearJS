@@ -52,3 +52,6 @@
 
 # /com.farata.cleardatabuilder.extjs.tests/
 /com.farata.cleardatabuilder.extjs.tests/bin
+
+/build/
+/.gradle/
