@@ -502,8 +502,7 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
       JsonDeserializationManager mgr = JsonDeserializationManager.getManager();
       try {
 //VR BEGIN
-    	Map<String,Object> directOptions = (Map<String,Object>)toSimpleJavaType(request.getJsonDirectOptions());
-    	DirectOptions.setOptions(directOptions);
+    	getDirectOptions(request);
 //VR END    	      	  
         Object result = dispatchStandardMethod(action, method, parameters);
         mgr.friendOnlyAccess_setRoot(result);
@@ -541,7 +540,22 @@ public class JsonRequestProcessor extends StandardRequestProcessorBase {
     }
   }
 
-//VR BEGIN  
+//VR BEGIN 
+ 
+private void getDirectOptions(JsonRequestData request) {	
+	@SuppressWarnings("unchecked")
+	Map<String,Object> directOptions = (Map<String,Object>)toSimpleJavaType(request.getJsonDirectOptions());
+
+	DirectOptions.setOptions(directOptions);
+
+	Double d = (Double) DirectOptions.getOption("start");
+	if (d!=null) DirectOptions.setOption("start", new Integer(d.intValue()));
+	d = (Double) DirectOptions.getOption("limit");
+	if (d!=null) DirectOptions.setOption("limit", new Integer(d.intValue()));
+	d = (Double) DirectOptions.getOption("page");
+	if (d!=null) DirectOptions.setOption("page", new Integer(d.intValue()));
+}
+  
 @SuppressWarnings("unchecked")
 protected Object dispatchStandardMethod( String actionName, String methodName, Object[] parameters ) {
 	  	Object records = super.dispatchStandardMethod(actionName, methodName, parameters);
