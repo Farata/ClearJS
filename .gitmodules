@@ -1,0 +1,3 @@
+[submodule "ClearJS"]
+	path = ClearJS
+	url = git@github.com:Farata/clear_extjs.git
