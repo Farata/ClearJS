@@ -262,6 +262,7 @@ function getServicesDTOs() {
 	reloadHelper();
 	var xslt = null;
 	projectRoot = project.getProperty("project-root");
+	// Java Src from properties has to be computed in each method
 	javaSrc = project.getProperty("java-src");
 	var entityNames = project
 			.getProperty("annotated-types.annotated-type.name");
