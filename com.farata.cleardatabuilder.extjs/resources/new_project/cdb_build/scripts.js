@@ -15,6 +15,7 @@ function reloadHelper() {
 function generateDTOs() {
 	reloadHelper();
 	projectRoot = project.getProperty("project-root");
+	javaSrc = project.getProperty("java-src");
 	entityNames = project.getProperty("annotated-types.annotated-type.name");
 	if (!entityNames)
 		return;
@@ -46,9 +47,10 @@ function generateDTOs() {
 			var xslt = project.createTask("xslt");
 			xslt.setIn(new java.io.File(projectRoot + "cdb_build/annotated.xml"));
 			xslt.setStyle(projectRoot + "cdb_build/src/java-dto.xsl");
-			xslt.setOut(new java.io.File(projectRoot + "/src/"
-					+ packageName.replace('.', '/') + "/dto/" + typeName
-					+ "DTO.java"));
+			xslt.setOut(new java.io.File(
+					javaSrc +
+					packageName.replace('.', '/') + "/dto/" + typeName +
+					"DTO.java"));
 			xslt.setClasspath(loaderpath);
 			// java.lang.System.out.println(loaderpath);
 			xslt.setForce(true);
@@ -77,6 +79,8 @@ function generateDTOs() {
 function generateServices() {
 	reloadHelper();
 	projectRoot = project.getProperty("project-root");
+	javaSrc = project.getProperty("java-src");
+
 	entityNames = project.getProperty("annotated-types.annotated-type.name");
 	var ret = "";
 	if (!entityNames)
@@ -99,8 +103,8 @@ function generateServices() {
 			var interfaceFileName = String(entityNamesArray[entity]).replace(
 					/\./g, '/')
 					+ ".java";
-			var cmp = compareLastModified(projectRoot + "/src/" + fileName,
-					projectRoot + "/src/" + interfaceFileName);
+			var cmp = compareLastModified(javaSrc + "/" + fileName,
+					javaSrc + "/" + interfaceFileName);
 			// System.out.println(">>>>>>>>>>>>>>> " + cmp);
 			if (cmp == 1 && !isForceBuild()) {
 				continue;
@@ -110,7 +114,7 @@ function generateServices() {
 			xslt.setStyle(projectRoot + "cdb_build/src/service-impl.xsl");
 
 			ret += fileName + ",";
-			xslt.setOut(new java.io.File(projectRoot + "/src/" + fileName));
+			xslt.setOut(new java.io.File(javaSrc + "/" + fileName));
 			xslt.setClasspath(loaderpath);
 			// java.lang.System.out.println(loaderpath);
 			xslt.setForce(true);
@@ -136,6 +140,7 @@ function generateServices() {
 function getServices() {
 	reloadHelper();
 	projectRoot = project.getProperty("project-root");
+	javaSrc = project.getProperty("java-src");
 	entityNames = project.getProperty("annotated-types.annotated-type.name");
 	var ret = "";
 	if (!entityNames)
@@ -158,8 +163,8 @@ function getServices() {
 			var interfaceFileName = String(entityNamesArray[entity]).replace(
 					/\./g, '/')
 					+ ".java";
-			var cmp = compareLastModified(projectRoot + "/src/" + fileName,
-					projectRoot + "/src/" + interfaceFileName);
+			var cmp = compareLastModified(javaSrc + "/" + fileName,
+					javaSrc + "/" + interfaceFileName);
 			// System.out.println(">>>>>>>>>>>>>>> " + cmp);
 			if (cmp == 1 && !isForceBuild()) {
 				continue;
@@ -174,6 +179,7 @@ function getServices() {
 function generateServicesSubclasses() {
 	reloadHelper();
 	projectRoot = project.getProperty("project-root");
+	javaSrc = project.getProperty("java-src");
 	entityNames = project.getProperty("annotated-types.annotated-type.name");
 	var ret = "";
 	if (!entityNames)
@@ -191,7 +197,7 @@ function generateServicesSubclasses() {
 			var fileName = packageName.replace('.', '/') + "/" + subServiceName
 					+ ".java";
 			ret += fileName + ",";
-			var outFile = new java.io.File(projectRoot + "/src/" + fileName);
+			var outFile = new java.io.File(javaSrc + "/" + fileName);
 			if (outFile.exists()) {
 				continue;
 			}
@@ -229,6 +235,7 @@ function generateServicesSubclasses() {
 function getServicesSubclasses() {
 	reloadHelper();
 	projectRoot = project.getProperty("project-root");
+	javaSrc = project.getProperty("java-src");
 	entityNames = project.getProperty("annotated-types.annotated-type.name");
 	var ret = "";
 	if (!entityNames)
@@ -254,7 +261,8 @@ function getServicesSubclasses() {
 function getServicesDTOs() {
 	reloadHelper();
 	var xslt = null;
-	var projectRoot = project.getProperty("project-root");
+	projectRoot = project.getProperty("project-root");
+	javaSrc = project.getProperty("java-src");
 	var entityNames = project
 			.getProperty("annotated-types.annotated-type.name");
 
@@ -314,8 +322,8 @@ function getServicesDTOs() {
 					var interfaceFileName = String(entityNamesArray[entity])
 							.replace(/\./g, '/')
 							+ ".java";
-					var cmp = compareLastModified(projectRoot + "/src/"
-							+ fileName, projectRoot + "/src/"
+					var cmp = compareLastModified(javaSrc + "/"
+							+ fileName, javaSrc + "/"
 							+ interfaceFileName);
 					// System.out.println(">>>>>>>>>>>>>>> " + cmp);
 //					if (cmp == 1 && !isForceBuild()) {
@@ -332,7 +340,8 @@ function getServicesDTOs() {
 function getServicesDTOSubclasses() {
 	var ret = "";
 	reloadHelper();
-	var projectRoot = project.getProperty("project-root");
+	projectRoot = project.getProperty("project-root");
+	javaSrc = project.getProperty("java-src");
 	var entityNames = project
 			.getProperty("annotated-types.annotated-type.name");
 	if (!entityNames)
@@ -386,7 +395,7 @@ function getServicesDTOSubclasses() {
 
 					var fileName = String(packageName).replace(/\./g, '/')
 							+ "/" + dtoName + ".java";
-					var outFile = new java.io.File(projectRoot + "/src/"
+					var outFile = new java.io.File(javaSrc + "/"
 							+ fileName);
 					ret += fileName + ',';
 				}
