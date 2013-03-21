@@ -1258,16 +1258,6 @@ public class AnnotationsHelper {
 		return genTypeName;
 	}
 
-	/*
-	 * public static String createStoreName(String dtoName) { String storeName =
-	 * dtoName.replaceAll("(DTO)$", "Store"); storeName = storeName; //
-	 * System.out.println(collectionName); return storeName; }
-	 * 
-	 * public static String createStorePackageName(String dtoPackageName) {
-	 * String packageName = ""; if (dtoPackageName.indexOf('.') != -1) {
-	 * packageName = dtoPackageName.replaceAll("\\.[^.]*$", ""); } //
-	 * System.out.println(packageName); return packageName; }
-	 */
 	public static String getStorePath(String fullDTOName) {
 		String fullName = getStoreNameFull(fullDTOName);
 		return getStorePathByStoreName(fullName);
@@ -1311,6 +1301,54 @@ public class AnnotationsHelper {
 
 	public static String getStoreNameFullGen(String fullDTOName) {
 		fullDTOName = getStoreNameFull(fullDTOName);
+		String name = fullDTOName.substring(fullDTOName.lastIndexOf('.') + 1);
+		String pkg = fullDTOName.substring(0, fullDTOName.lastIndexOf('.'));
+		return pkg + ".generated._" + name;
+	}
+	
+	public static String getServicePath(String fullDTOName) {
+		String fullName = getServiceNameFull(fullDTOName);
+		return getServicePathByServiceName(fullName);
+	}
+
+	public static String getServicePathByServiceName(String fullName) {
+		initAPTProperties();
+		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
+		String pkgTrans = aptProps
+				.getProperty("org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.service.package-path-transformer");
+		PatternPackageNameTransformer patternPackageNameTransformer = new PatternPackageNameTransformer(pkgTrans);
+		pkg = patternPackageNameTransformer.transform(pkg);
+
+		return pkg.replace('.', '/');
+	}
+
+	public static String getServicePackage(String fullDTOName) {
+		fullDTOName = getServiceNameFull(fullDTOName);
+		return fullDTOName.substring(0, fullDTOName.lastIndexOf('.'));
+	}
+
+	public static String getServiceNameShort(String fullDTOName) {
+		fullDTOName = getServiceNameFull(fullDTOName);
+		return fullDTOName.substring(fullDTOName.lastIndexOf('.') + 1);
+	}
+
+	public static String getServiceNameFull(String fullDTOName) {
+		initAPTProperties();
+
+		String cnTrans = aptProps
+				.getProperty("org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.service.class-name-transformer");
+		PatternClassNameTransformer patternClassNameTransformer = new PatternClassNameTransformer(cnTrans);
+
+		String fullName = patternClassNameTransformer.transform(fullDTOName);
+		String pkg = fullName.substring(0, fullName.lastIndexOf('.'));
+
+		String name = fullName.substring(fullName.lastIndexOf('.') + 1);
+
+		return pkg + '.' + name;
+	}
+
+	public static String getServiceNameFullGen(String fullDTOName) {
+		fullDTOName = getServiceNameFull(fullDTOName);
 		String name = fullDTOName.substring(fullDTOName.lastIndexOf('.') + 1);
 		String pkg = fullDTOName.substring(0, fullDTOName.lastIndexOf('.'));
 		return pkg + ".generated._" + name;

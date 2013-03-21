@@ -8,5 +8,9 @@ org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.output=**{pro
 
 org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.package-path-transformer=**{app.name}**:app
 org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.dto2extjs.class-name-transformer=**{app.name}**.model.$1$3Model<<^com.farata.((\\w+\\.)*)dto.(\\S+)DTO$
+
 org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.store.package-path-transformer=**{app.name}**:app
 org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.store.class-name-transformer=**{app.name}**.store.$1$3Store<<^com.farata.((\\w+\\.)*)dto.(\\S+)DTO$
+
+org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.service.package-path-transformer=**{app.name}**:app
+org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.service.class-name-transformer=**{app.name}**.service.$1$3<<^com.farata.((\\w+\\.)*)(\\S+)$

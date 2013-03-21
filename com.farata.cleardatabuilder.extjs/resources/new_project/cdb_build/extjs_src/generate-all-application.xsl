@@ -12,6 +12,7 @@
 	<xsl:param name="remoteActionNamespace" />
 
 	<xsl:include href="generate-store-all.xsl" />
+	<xsl:include href="generate-service-all.xsl" />
 	<xsl:include href="generate-model-all.xsl" />
 	<xsl:include href="generate-test-all.xsl" />
 
@@ -32,6 +33,14 @@
 			<xsl:with-param name="appName" select="$appName" />
 			<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />
 			<xsl:with-param name="outputFolder" select="$storePath" />
+		</xsl:call-template>
+
+		<xsl:variable name="servicePath"
+			select="concat($jsOutputFolder, '')" />
+		<xsl:call-template name="generate-service-all.xsl">
+			<xsl:with-param name="appName" select="$appName" />
+			<xsl:with-param name="remoteActionNamespace" select="$remoteActionNamespace" />
+			<xsl:with-param name="outputFolder" select="$servicePath" />
 		</xsl:call-template>
 
 		<xsl:variable name="testPath" select="concat($jsOutputFolder, '/samples/')" />
