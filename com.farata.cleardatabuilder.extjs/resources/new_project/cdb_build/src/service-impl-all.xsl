@@ -21,6 +21,7 @@
 			<xsl:variable name="cxService"
 				select="annotations/annotation[@name='clear.cdb.extjs.annotations.JSService']" />
 			<xsl:if test="$cxService">
+			<xsl:if test="methods/method/annotations/annotation[starts-with(@name,'clear.cdb.extjs.annotations.JS') and not(starts-with(@name,'clear.cdb.extjs.annotations.JSG'))]">
 				<xsl:variable name="typeName" select="helper:getTypeName($interfaceName)" />
 				<xsl:variable name="packageName"
 					select="helper:getPackageName($interfaceName)" />
@@ -32,6 +33,7 @@
 					<xsl:with-param name="subServiceName"
 						select="helper:createSubServiceName($typeName)" />
 				</xsl:apply-templates>
+			</xsl:if>
 			</xsl:if>
 		</xsl:for-each>
 	</xsl:template>

@@ -28,6 +28,7 @@ Ext.namespace( '<xsl:value-of select="$appName"/>.direct.action');
 <xsl:variable name="methods" select="current()/methods"/>
 	<xsl:for-each select="$methods/method">
 				<xsl:variable name="methodNode" select="current()"/>
+				<xsl:if test="$methodNode/annotations/annotation[starts-with(@name,'clear.cdb.extjs.annotations.JS') and not(starts-with(@name,'clear.cdb.extjs.annotations.JSG'))]">
 <xsl:text>			</xsl:text>{
 				name: '<xsl:value-of select="$methodNode/@name"/>_updateItems'/*(java.util.List) => java.util.List */,
 				len: 1,
@@ -43,6 +44,7 @@ Ext.namespace( '<xsl:value-of select="$appName"/>.direct.action');
 				len: 1,
 				formHandler: false
 			},
+				</xsl:if>
 			{
 				name: '<xsl:value-of select="$methodNode/@name"/>',
 				len: <xsl:value-of select="count($methodNode/parameters/parameter)"/>,

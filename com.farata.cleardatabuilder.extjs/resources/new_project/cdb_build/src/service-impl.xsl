@@ -78,6 +78,7 @@ public class <xsl:value-of select="$serviceName"/> implements <xsl:value-of sele
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
+	@DirectMethod
 	public <xsl:value-of select="$methodNode/@to-string"/> {
 					<xsl:if test="helper:methodHasReturnType($interfaceName, $methodNode/@name)">
 		return null;</xsl:if>

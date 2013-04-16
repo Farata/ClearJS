@@ -54,7 +54,7 @@
 				}
 			);
 		}
-	}
+	},
 
 </xsl:for-each>});    
 	</xsl:template>
