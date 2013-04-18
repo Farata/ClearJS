@@ -1,7 +1,7 @@
 /**
  * This file is part of the Clear Components for Ext JS 4.
  * 
- * Copyright (c) 2012 Farata Systems  http://www.faratasystems.com
+ * Copyright (c) 2013 Farata Systems  http://www.faratasystems.com
  *
  * Licensed under The MIT License
  * Re-distributions of files must retain the above copyright notice.
@@ -18,7 +18,6 @@
  *  
  */
 Ext.define('Clear.data.ChangeObject', {
-    extend: 'Ext.Base',
     alternateClassName: 'ChangeObject',
     changedPropertyNames: null, 
     newVersion: null,
