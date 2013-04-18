@@ -35,10 +35,11 @@
 	},
 
 <xsl:for-each select="annotated-types/annotated-type[@name=$interfaceName]/methods/method">
-<xsl:text>	</xsl:text><xsl:value-of select="@name"/>: function(resultHandler, faultHandler, scope) {
+<xsl:text>	</xsl:text><xsl:value-of select="@name"/>: function(<xsl:for-each select="parameters/parameter"><xsl:value-of select="@name"/>, </xsl:for-each>resultHandler, faultHandler, scope) {
 	        
 		if (Ext.isFunction(resultHandler)) {			
-			this.service.<xsl:value-of select="@name"/>( 
+			this.service.<xsl:value-of select="@name"/>(
+				<xsl:for-each select="parameters/parameter"><xsl:value-of select="@name"/>, </xsl:for-each>
 				function(result, remotingEvent) {
 					if (remotingEvent.status) {
 						resultHandler = Ext.Function.bind(resultHandler, scope);
