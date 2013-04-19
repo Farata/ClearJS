@@ -13,4 +13,4 @@ org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.store.package-pat
 org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.store.class-name-transformer=**{app.name}**.store.$1$3Store<<^com.farata.((\\w+\\.)*)dto.(\\S+)DTO$
 
 org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.service.package-path-transformer=**{app.name}**:app
-org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.service.class-name-transformer=**{app.name}**.proxy.$1$3Proxy<<^com.farata.((\\w+\\.)*)service.(\\S+)$
+org.eclipse.jdt.apt.processorOptions/-Acom.faratasystems.cdbjs.service.class-name-transformer=**{app.name}**.proxy.$1$3Proxy<<^((\\w+\\.)*)(\\S+)$
