@@ -10,23 +10,21 @@ Ext.Loader.setConfig({
 
 Ext.syncRequire('**{app.name}**.init.InitDirect');
 
-var Application = null;
-
-Ext.onReady(function() {
-    Application = Ext.create('Ext.app.Application', {
-        name: '**{app.name}**',
-        requires: [
-           'Clear.override.ExtJSOverrider',
-           'Test.spec.AllSpecs'
-        ],
-        controllers: [
-          'HelloController'
-        ],
-        launch: function() {
-            jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-            jasmine.getEnv().execute();
-        }
-    //,autoCreateViewport:true
-    });
+Ext.application({
+    name: '**{app.name}**',
+    requires: [
+        'Clear.override.ExtJSOverrider',
+        'Test.spec.AllSpecs'
+    ],
+    controllers: [
+        'ToolbarController',
+        'CompanyController',
+        'AssociateController'
+    ],
+	launch: function() {
+		var jasmineEnv = jasmine.getEnv();
+		jasmineEnv.application = this;
+	    jasmineEnv.addReporter(new jasmine.TrivialReporter());
+	    jasmineEnv.execute();
+	}
 });
-

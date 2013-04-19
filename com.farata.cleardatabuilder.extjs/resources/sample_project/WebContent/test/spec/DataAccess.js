@@ -5,15 +5,17 @@ Ext.define('Test.spec.DataAccess' ,{}, function () {
 	describe("Companies", function() {
         var modifiedCompanyName;
 
- 	    beforeEach(function(){
+        beforeEach(function(){
+ 	    	var application = this.env.application;
  	        if (!toolbarCtrl) {
- 	        		toolbarCtrl = Application.getController('ToolbarController');
+ 	        	
+ 	        	toolbarCtrl = application.getController('ToolbarController');
  	        }
 
 	        expect(toolbarCtrl).toBeTruthy();
 	        
  	        if (!companyCtrl) {
- 	        		companyCtrl = Application.getController('CompanyController');
+ 	        		companyCtrl = application.getController('CompanyController');
  	        }
  	        
 	        expect(companyCtrl).toBeTruthy();
