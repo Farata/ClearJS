@@ -17,13 +17,11 @@ Ext.application({
         'Test.spec.AllSpecs'
     ],
     controllers: [
-        'ToolbarController',
-        'CompanyController',
-        'AssociateController'
+          'HelloController'
     ],
 	launch: function() {
-		var jasmineEnv = jasmine.getEnv();
-		jasmineEnv.application = this;
+	    var jasmineEnv = jasmine.getEnv();
+	    jasmineEnv.application = this;
 	    jasmineEnv.addReporter(new jasmine.TrivialReporter());
 	    jasmineEnv.execute();
 	}
