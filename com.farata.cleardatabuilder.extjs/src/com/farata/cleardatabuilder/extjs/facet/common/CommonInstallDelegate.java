@@ -63,14 +63,15 @@ public class CommonInstallDelegate implements IDelegate {
 							@Override
 							protected IStatus run(IProgressMonitor iprogressmonitor) {
 								final Properties props = new Properties();
-								try {
-									 String v = javaFacetInstallConfig.getProjectFacetVersion()
-										.getVersionString();
-									props.setProperty("project.java.version", v);
-								} catch (Throwable e) {
-									props.setProperty("project.java.version", "1.6");
-								}
-
+//								try {
+//									 String v = javaFacetInstallConfig.getProjectFacetVersion()
+//										.getVersionString();
+//									props.setProperty("project.java.version", v);
+//								} catch (Throwable e) {
+//									props.setProperty("project.java.version", "1.6");
+//								}
+								props.setProperty("project.java.version", "1.6");
+								
 								props.setProperty("extjs.path", config.getExtJSPath().getAbsolutePath());
 								props.setProperty("app.name", config.getAppName());
 								if (sampleInstallConfig != null) {

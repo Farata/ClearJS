@@ -6,7 +6,7 @@
 			<fileset dir="../com.farata.lib.extjs" />
 		</path>
 		<pathconvert property="cp" refid="build.class.path" />
-		<javac classpath="${cp}" srcdir="src" optimize="false" debug="true" destdir="build" includeantruntime="false"/>
+		<javac classpath="${cp}" srcdir="src" optimize="false" debug="true" destdir="build" includeantruntime="false" source="1.6" target="1.6"/>
 		<jar destfile="dist/clear-extjs-annotations.jar">
 			<fileset dir="build" />
 			<fileset dir="src">

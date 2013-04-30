@@ -105,12 +105,13 @@ public class CDBProjectWizard extends WebProjectWizard implements CDBFacetDataMo
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				final Properties props = new Properties();
-				String v = getJavaVersion();
-				if (v != null) {
-					props.setProperty("project.java.version", v);
-				} else {
-					props.setProperty("project.java.version", "1.6");
-				}
+//				String v = getJavaVersion();
+//				if (v != null) {
+//					props.setProperty("project.java.version", v);
+//				} else {
+//					props.setProperty("project.java.version", "1.6");
+//				}
+				props.setProperty("project.java.version", "1.6");
 
 				String extjsPath = getExtjsPath();
 				if (extjsPath.endsWith("/")) {
