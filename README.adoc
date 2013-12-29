@@ -14,7 +14,7 @@ code] is hosted on the GitHub under http://www.opensource.org/licenses/mit-licen
 
 Commercial support of ClearDataBuilder is available from the source: http://www.faratasystems.com[Farata Systems].
 
-TIP: Intrigued? Check our https://github.com/Farata/ClearJS/wiki/Getting-started-ClearDataBuilder-for-Ext-JS-4.1[getting started guide] in wiki or read how to http://goo.gl/uc392z[improve your productivity with CDB] in free chapter from «http://enterprisewebbook.com/[Enterprise Web Development: From Desktop to Mobile]» book.
+TIP: Intrigued? Check our https://github.com/Farata/ClearJS/wiki/Getting-started-ClearDataBuilder-for-Ext-JS-4.1[getting started guide] in wiki or read how to http://goo.gl/uc392z[improve your productivity with CDB] in free chapter from http://enterprisewebbook.com/[«Enterprise Web Development: From Desktop to Mobile»] book.
 
 == Why Clear Data Builder?
 
