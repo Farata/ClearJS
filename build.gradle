@@ -1,15 +1,29 @@
 allprojects {
-    apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'idea'
     group = 'io.cleardb'
+    version = '0.0.1'
+}
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
+    }
 }
 
 subprojects {
-    version = "0.0.1-SNAPSHOT"
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'bintray'
+
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
+
     repositories {
-        mavenLocal()
-        mavenCentral()
+        jcenter()
     }
+
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
         from sourceSets.main.allSource
@@ -19,9 +33,44 @@ subprojects {
         classifier = 'javadoc'
         from javadoc.destinationDir
     }
+
     artifacts {
-        archives sourcesJar
-        archives javadocJar
+        archives sourcesJar, javadocJar
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                if (plugins.hasPlugin('war')) {
+                    from components.web
+                } else {
+                    from components.java
+                }
+
+                artifact sourcesJar {
+                    classifier "sources"
+                }
+
+                artifact javadocJar {
+                    classifier "javadoc"
+                }
+            }
+        }
+    }
+
+    bintray {
+        user = "bintray.user"
+        key = "bintray.key"
+        publications = ['mavenJava'] // When uploading Maven-based publication files
+        pkg {
+            repo = 'ClearDataBuilder'
+            userOrg = 'farata' // an optional organization name when the repo belongs to one of the user's orgs
+            name = 'ClearJS'
+            desc = 'Annotations and ClearDB runtime support'
+            licenses = ['The MIT License']
+            labels = ['java', 'ExtJS', 'HTML5']
+        }
+        dryRun = false // whether to run this as dry-run, without deploying
     }
 }
 
