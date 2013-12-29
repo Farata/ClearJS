@@ -31,8 +31,7 @@ You go through a set of simple steps to `declare` what data do you need
 artifacts: Java, JavaScript and configuration files. Below,
 `getCompanyAssociates` is annotated to return all records from a
 `company_associate` table1) and this declaration is all you write to
-build a BlazeDS service that returns a collection of employee data
-(link:[Run view-source enabled demo)]:
+build a service that returns a collection of employee data:
 
 [source,java]
 ----
