@@ -1,1 +1,2 @@
-include 'cdb.dto2extjs.annotations', 'clear-extjs-runtime-core', 'clear-extjs-runtime-djn', 'clear-djn'
+rootProject.name = 'cleardb-parent'
+include 'cdb.dto2extjs.annotations', 'clear-extjs-runtime-core', 'clear-extjs-runtime-djn', 'clear-djn', 'com.farata.cleardatabuilder.extjs.helper'

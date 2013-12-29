@@ -1,38 +1,54 @@
-allprojects{
+allprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
+    group = 'io.cleardb'
 }
 
-subprojects{
-      repositories {
+subprojects {
+    version = "0.0.1-SNAPSHOT"
+    repositories {
         mavenLocal()
         mavenCentral()
     }
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
 }
 
-project(':cdb.dto2extjs.annotations'){
-    sourceSets{
-        main{
-            java{
+project(':cdb.dto2extjs.annotations') {
+    archivesBaseName = 'dto2js.annotations'
+    sourceSets {
+        main {
+            java {
                 srcDir 'src'
             }
         }
     }
 }
 
-project(':clear-extjs-runtime-core'){
- sourceSets{
-        main{
-            java{
+project(':clear-extjs-runtime-core') {
+    sourceSets {
+        main {
+            java {
                 srcDir 'src'
             }
         }
-    }   
-    dependencies{
+    }
+    dependencies {
         compile 'javax.transaction:jta:1.1'
         //compile 'org.hibernate:hibernate:3.5.3-Final'
-        compile files ('../com.farata.lib.extjs/base/hibernate3.jar')
-        compile ('log4j:log4j:1.2.15'){
+        compile files('../com.farata.lib.extjs/base/hibernate3.jar')
+        compile('log4j:log4j:1.2.15') {
             exclude group: "com.sun.jmx"
             exclude group: "com.sun.jdmk"
             exclude group: "javax.jms"
@@ -40,33 +56,33 @@ project(':clear-extjs-runtime-core'){
     }
 }
 
-project(':clear-extjs-runtime-djn'){
- sourceSets{
-        main{
-            java{
+project(':clear-extjs-runtime-djn') {
+    sourceSets {
+        main {
+            java {
                 srcDir 'src'
             }
         }
-    }   
-    dependencies{
+    }
+    dependencies {
         compile project(':clear-extjs-runtime-core')
         compile project(':clear-djn')
         compile 'org.springframework:spring-web:3.2.1.RELEASE'
     }
 }
 
-project(':clear-djn'){
- sourceSets{
-        main{
-            java{
+project(':clear-djn') {
+    sourceSets {
+        main {
+            java {
                 srcDir 'src'
             }
         }
-    } 
+    }
 
-    dependencies{
+    dependencies {
         compile 'com.google.code.gson:gson:2.2.2'
-        compile ('log4j:log4j:1.2.15'){
+        compile('log4j:log4j:1.2.15') {
             exclude group: "com.sun.jmx"
             exclude group: "com.sun.jdmk"
             exclude group: "javax.jms"
@@ -74,8 +90,37 @@ project(':clear-djn'){
         compile 'commons-fileupload:commons-fileupload:1.2.1'
         compile 'com.yahoo.platform.yui:yuicompressor:2.4.2'
         compile 'javax.servlet:servlet-api:2.5'
-        compile files ('../com.farata.lib.extjs/base/annotations.jar', '../com.farata.lib.extjs/base/jsr305.jar')
+        compile files('../com.farata.lib.extjs/base/annotations.jar', '../com.farata.lib.extjs/base/jsr305.jar')
         compile 'commons-io:commons-io:1.4'
 
-    }  
+    }
+}
+
+project(':com.farata.cleardatabuilder.extjs.helper') {
+    //archivesBaseName = 'dto2js.annotations'
+    sourceSets {
+        main {
+            java {
+                srcDir 'src'
+            }
+        }
+        test {
+            java {
+                srcDir 'tests'
+            }
+        }
+
+    }
+    dependencies {
+        compile files('../com.farata.lib.extjs/base/hibernate3.jar')
+        compile files('./lib/org.eclipse.core.runtime_3.3.100.v20070530.jar')
+        compile files('./lib/org.eclipse.core.resources_3.3.1.R33x_v20080205.jar')
+        compile files('./lib/org.eclipse.equinox.common_3.3.0.v20070426.jar')
+        compile files('./lib/org.eclipse.core.jobs_3.3.1.R33x_v20070709.jar')
+        compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0.Final'
+        compile 'commons-beanutils:commons-beanutils:1.6.1'
+        compile 'commons-collections:commons-collections:3.1'
+        testCompile "junit:junit:4.11"
+        testCompile(project(':cdb.dto2extjs.annotations'))
+    }
 }
