@@ -58,3 +58,9 @@
 /clear-djn/build/
 /clear-extjs-runtime-core/build/
 /clear-extjs-runtime-djn/build/
+
+### IntelliJ ###
+*.iml
+*.ipr
+*.iws
+.idea/
