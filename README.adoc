@@ -1,0 +1,58 @@
+Clear Data Builder for Ext JS
+-----------------------------
+
+Clear Data Builder for Ext JS (CDB) is a free and open source 
+productivity tool to build applications with HTML5, JavaScript and Java EE technologies.
+
+It supports http://www.sencha.com/products/extjs/[Ext JS] with http://www.sencha.com/products/extjs/extdirect[Ext.Direct]/JEE.
+
+CDB for ExtJS writes both JavaScript and Java code for you.
+All artifacts required for bringing together Ext JS, Java implementations of http://www.sencha.com/products/extjs/extdirect[Ext.Direct] (currently - http://code.google.com/p/directjngine/[DirectJNGine]), and popular Java frameworks: http://www.springsource.org/[Spring], http://www.hibernate.org/docs[Hibernate], and http://mybatis.org/[MyBatis] ClearJS generates automatically.
+
+https://github.com/Farata/ClearJS[Source
+code] is hosted on the GitHub under http://www.opensource.org/licenses/mit-license.php[MIT license].
+
+Commercial support of ClearDataBuilder is available from the source: http://www.faratasystems.com[Farata Systems].
+
+TIP: Intrigued? Check our https://github.com/Farata/ClearJS/wiki/Getting-started-ClearDataBuilder-for-Ext-JS-4.1[getting started guide] in wiki or read how to http://goo.gl/uc392z[improve your productivity with CDB] in free chapter from «http://enterprisewebbook.com/[Enterprise Web Development: From Desktop to Mobile]» book.
+
+== Why Clear Data Builder?
+
+If your ever tried to create a combined Ext-JEE-DBMS project with or
+without Spring, you spent hours just to see a window populated with the
+simple data. Implementing data persistence and transaction processing is
+even more time consuming. How about batching all inserts, deletes and
+and updates done to your store as a single transaction? Want to
+incorporate changes to the associated stores to the same `sync()`?
+ClearJS substantially saves time by automating most of these efforts.
+
+You go through a set of simple steps to `declare` what data do you need
+(using SQL or Hibernate) and let ClearJS `generate` and `deploy` all the
+artifacts: Java, JavaScript and configuration files. Below,
+`getCompanyAssociates` is annotated to return all records from a
+`company_associate` table1) and this declaration is all you write to
+build a BlazeDS service that returns a collection of employee data
+(link:[Run view-source enabled demo)]:
+
+[source,java]
+----
+package com.farata.test.service;
+import java.util.List;
+import com.farata.test.entity.CompanyAssociate;
+import clear.cdb.annotations.*;
+
+@JSService
+public interface ICompanyService {
+    @JSJPQL(query="SELECT a FROM CompanyAssociate a WHERE companyId=:companyId")
+    List<CompanyAssociate> getCompanyAssociated(Integer companyId);
+}
+----
+
+Throw in one more Java annotation to generate a sample HTML application:
+
+[source,java]
+----
+@JSGenerateHTML5(arguments="1")
+@JSJPQLMethod(query="SELECT a FROM CompanyAssociate a WHERE companyId=:companyId")
+List<CompanyAssociate> getCompanyAssociated(Integer companyId);
+----
