@@ -59,15 +59,16 @@ subprojects {
     }
 
     bintray {
-        user = "bintray.user"
-        key = "bintray.key"
+        // add actuall values to ~/.gradle/gradle.properties
+        user = bintrayUser
+        key = bintrayKey
         publications = ['mavenJava'] // When uploading Maven-based publication files
         pkg {
             repo = 'ClearDataBuilder'
             userOrg = 'farata' // an optional organization name when the repo belongs to one of the user's orgs
             name = 'ClearJS'
             desc = 'Annotations and ClearDB runtime support'
-            licenses = ['The MIT License']
+            licenses = ['MIT']
             labels = ['java', 'ExtJS', 'HTML5']
         }
         dryRun = false // whether to run this as dry-run, without deploying
