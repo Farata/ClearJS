@@ -174,3 +174,59 @@ project(':com.farata.cleardatabuilder.extjs.helper') {
         testCompile(project(':cdb.dto2extjs.annotations'))
     }
 }
+
+project(':cdb.dto2extjs.plugin') {
+    sourceSets {
+        main {
+            java {
+                srcDir 'src'
+            }
+            resources {
+                srcDir '.'
+                exclude 'bin/**/*.*'
+                exclude 'src'
+                exclude '**/CVS/*.*'
+                exclude '.settings'
+                exclude 'export/**/*.*'
+                exclude 'lib'
+                exclude '.compatibility'
+                exclude '.classpath'
+                exclude '.project'
+                exclude 'build.properties'
+                exclude 'build.xml'
+                exclude 'build*'
+                exclude '*.iml'
+                exclude 'plugin.properties'
+                exclude 'plugin.xml'
+                exclude 'pom.xml'
+                exclude '.classpath'
+            }
+        }
+    }
+    dependencies {
+        compile(project(':cdb.dto2extjs.annotations'))
+        compile files('../com.farata.cleardatabuilder.extjs.helper/lib/org.eclipse.core.resources_3.3.1.R33x_v20080205.jar')
+        compile files('../com.farata.cleardatabuilder.extjs.helper/lib/org.eclipse.equinox.common_3.3.0.v20070426.jar')
+        compile files('../com.farata.cleardatabuilder.extjs.helper/lib/org.eclipse.jdt.apt.core_3.3.500.v20110420-1015.jar')
+        compile files('../com.farata.cleardatabuilder.extjs.helper/lib/org.eclipse.core.runtime_3.3.100.v20070530.jar')
+        compile files('../com.farata.cleardatabuilder.extjs.helper/lib/org.eclipse.osgi_3.3.2.R33x_v20080105.jar')
+        compile files('../com.farata.cleardatabuilder.extjs.helper/lib/org.eclipse.core.jobs_3.3.1.R33x_v20070709.jar')
+
+    }
+}
+
+project(':clear-annotation-processor') {
+    dependencies {
+        compile(project(':cdb.dto2extjs.annotations'))
+        testCompile(project(':clear-utils'))
+        testCompile "junit:junit:4.11"
+    }
+}
+
+project(':clear-utils') {
+    dependencies {
+        compile(project(':cdb.dto2extjs.annotations'))
+        compile "org.springframework:spring-core:3.2.6.RELEASE"
+        compile "junit:junit:4.11"
+    }
+}
