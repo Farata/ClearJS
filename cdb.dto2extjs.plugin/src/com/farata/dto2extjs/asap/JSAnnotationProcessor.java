@@ -9,23 +9,6 @@
  */
 package com.farata.dto2extjs.asap;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Templates;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.sax.SAXResult;
-import javax.xml.transform.sax.SAXSource;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.helpers.XMLFilterImpl;
-
 import com.farata.dto2extjs.annotations.JSClass;
 import com.farata.dto2extjs.annotations.JSClassKind;
 import com.farata.dto2extjs.asap.env.IEnvironmentInspector;
@@ -33,19 +16,22 @@ import com.farata.dto2extjs.asap.reflect.JSClassDeclarationReflector;
 import com.farata.dto2extjs.asap.reflect.JSEnumDeclarationReflector;
 import com.farata.dto2extjs.asap.reflect.JSInterfaceDeclarationReflector;
 import com.farata.dto2extjs.asap.reflect.JSTypeDeclarationReflector;
-import com.farata.dto2extjs.asap.types.JSTypeReflector;
 import com.farata.dto2extjs.asap.types.InvalidJavaTypeException;
-
+import com.farata.dto2extjs.asap.types.JSTypeReflector;
 import com.sun.mirror.apt.AnnotationProcessor;
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 import com.sun.mirror.apt.Messager;
+import com.sun.mirror.declaration.*;
+import org.xml.sax.InputSource;
+import org.xml.sax.helpers.XMLFilterImpl;
 
-import com.sun.mirror.declaration.AnnotationTypeDeclaration;
-import com.sun.mirror.declaration.Declaration;
-import com.sun.mirror.declaration.TypeDeclaration;
-import com.sun.mirror.declaration.InterfaceDeclaration;
-import com.sun.mirror.declaration.ClassDeclaration;
-import com.sun.mirror.declaration.EnumDeclaration;
+import javax.xml.transform.*;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.sax.SAXSource;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class JSAnnotationProcessor implements AnnotationProcessor {
 	

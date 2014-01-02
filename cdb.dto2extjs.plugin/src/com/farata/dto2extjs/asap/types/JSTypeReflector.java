@@ -9,37 +9,17 @@
  */
 package com.farata.dto2extjs.asap.types;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Arrays;
-
 import com.farata.dto2extjs.annotations.JSClass;
 import com.farata.dto2extjs.annotations.JSClassKind;
 import com.farata.dto2extjs.asap.INameTransformer;
 import com.farata.dto2extjs.asap.JSAnnotationProcessorOptions;
-
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
-
-import com.sun.mirror.declaration.AnnotationMirror;
-import com.sun.mirror.declaration.AnnotationTypeElementDeclaration;
-import com.sun.mirror.declaration.AnnotationValue;
-import com.sun.mirror.declaration.Declaration;
-import com.sun.mirror.declaration.EnumDeclaration;
-import com.sun.mirror.declaration.InterfaceDeclaration;
-import com.sun.mirror.declaration.Modifier;
-import com.sun.mirror.declaration.TypeDeclaration;
-
-import com.sun.mirror.type.ArrayType;
-import com.sun.mirror.type.DeclaredType;
-import com.sun.mirror.type.PrimitiveType;
-import com.sun.mirror.type.ReferenceType;
-import com.sun.mirror.type.TypeMirror;
-import com.sun.mirror.type.VoidType;
-
+import com.sun.mirror.declaration.*;
+import com.sun.mirror.type.*;
 import com.sun.mirror.util.SourcePosition;
 import com.sun.mirror.util.Types;
+
+import java.util.*;
 
 public class JSTypeReflector {
 	
