@@ -80,4 +80,11 @@ public final class DiagnosticsAssert {
                     + "> but was <" + diagnostic.getKind() + " on line " + diagnostic.getLineNumber() + ">");
         }
     }
+
+    public static void assertNoCompilerErrors(List<Diagnostic<? extends JavaFileObject>> diagnostics) {
+        for (Diagnostic d : diagnostics)
+            if (d.getKind().equals(Diagnostic.Kind.ERROR))
+                throw new AssertionFailedError("Diagnostic message expected without errors but was ERROR: " + d.toString());
+    }
+
 }

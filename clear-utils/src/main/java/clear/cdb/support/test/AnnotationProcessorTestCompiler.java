@@ -31,10 +31,7 @@ import org.springframework.core.io.ClassPathResource;
 import javax.annotation.processing.Processor;
 import javax.tools.*;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Utility class that compiles a Java class using the {@link Compiler} and an annotation {@link Processor}. This class
@@ -45,7 +42,7 @@ import java.util.Locale;
 public class AnnotationProcessorTestCompiler {
 
     private static final JavaCompiler COMPILER = ToolProvider.getSystemJavaCompiler();
-    private static final Iterable<String> COMPILER_OPTIONS = Collections.singletonList("-proc:only");
+    private static final String COMPILER_OPTIONS = "-proc:only";
 
     /**
      * Avoid instantiation.
@@ -64,13 +61,20 @@ public class AnnotationProcessorTestCompiler {
      * @param compilationUnits
      * @return a list of {@link Diagnostic} messages emitted during the compilation
      */
-    private static List<Diagnostic<? extends JavaFileObject>> compileClassInternal(Processor processor, StandardJavaFileManager fileManager, Iterable<? extends JavaFileObject> compilationUnits)
+    private static List<Diagnostic<? extends JavaFileObject>> compileClassInternal(Processor processor, StandardJavaFileManager fileManager, Iterable<? extends JavaFileObject> compilationUnits, String additionalOptions)
             throws IOException {
 
         DiagnosticCollector<JavaFileObject> collector = new DiagnosticCollector<JavaFileObject>();
 
         try {
-            JavaCompiler.CompilationTask task = COMPILER.getTask(null, fileManager, collector, COMPILER_OPTIONS, null, compilationUnits);
+            List<String> options = new ArrayList<>();
+            options.add(COMPILER_OPTIONS);
+            if (additionalOptions != null) {
+                options.add(additionalOptions);
+            }
+            options.add("-classpath");
+            options.add(System.getProperty("java.class.path"));
+            JavaCompiler.CompilationTask task = COMPILER.getTask(null, fileManager, collector, options, null, compilationUnits);
             task.setProcessors(Arrays.asList(processor));
             task.call();
 
@@ -82,17 +86,17 @@ public class AnnotationProcessorTestCompiler {
         }
     }
 
-    public static List<Diagnostic<? extends JavaFileObject>> compileClass(String classToCompile, Processor processor)
+    public static List<Diagnostic<? extends JavaFileObject>> compileClass(String classToCompile, Processor processor, String options)
             throws IOException {
         DiagnosticCollector<JavaFileObject> collector = new DiagnosticCollector<JavaFileObject>();
         final StandardJavaFileManager fileManager = getFileManager(collector);
-        return compileClassInternal(processor, fileManager, getCompilationUnitOfClass(fileManager, classToCompile));
+        return compileClassInternal(processor, fileManager, getCompilationUnitOfClass(fileManager, classToCompile), options);
     }
 
-    public static List<Diagnostic<? extends JavaFileObject>> compileClasses(String[] classesToCompile, Processor processor) throws IOException {
+    public static List<Diagnostic<? extends JavaFileObject>> compileClasses(String[] classesToCompile, Processor processor, String options) throws IOException {
         DiagnosticCollector<JavaFileObject> collector = new DiagnosticCollector<JavaFileObject>();
         final StandardJavaFileManager fileManager = getFileManager(collector);
-        return compileClassInternal(processor, fileManager, getCompilationUnitsOfClasses(fileManager, classesToCompile));
+        return compileClassInternal(processor, fileManager, getCompilationUnitsOfClasses(fileManager, classesToCompile), options);
     }
 
     private static StandardJavaFileManager getFileManager(DiagnosticCollector<JavaFileObject> diagnosticCollector) {
