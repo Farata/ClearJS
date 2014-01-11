@@ -27,6 +27,7 @@
 package clear.cdb.support.test;
 
 import clear.cdb.annotation.processors.JSAnnotationProcessor;
+import clear.cdb.annotation.processors.TypescriptAnnotationProcessor;
 
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
@@ -56,11 +57,15 @@ public class JSAnnotationProcessorSupport {
 
     protected List<Diagnostic<? extends JavaFileObject>> compileClass(String javaFile) throws IOException {
         return AnnotationProcessorTestCompiler.compileClass(PACKAGE + javaFile,
-                new JSAnnotationProcessor());
+                new TypescriptAnnotationProcessor(), getCompilerOptions());
     }
 
     protected List<Diagnostic<? extends JavaFileObject>> compileClasses(String[] javaFiles) throws IOException {
         return AnnotationProcessorTestCompiler.compileClasses(javaFiles,
-                new JSAnnotationProcessor());
+                new TypescriptAnnotationProcessor(), getCompilerOptions());
+    }
+
+    protected String getCompilerOptions() {
+        return null;
     }
 }

@@ -17,8 +17,8 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'bintray'
 
-    sourceCompatibility = 1.6
-    targetCompatibility = 1.6
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 
     repositories {
         jcenter()
@@ -218,6 +218,7 @@ project(':cdb.dto2extjs.plugin') {
 project(':clear-annotation-processor') {
     dependencies {
         compile(project(':cdb.dto2extjs.annotations'))
+        compile 'org.freemarker:freemarker:2.3.14'
         testCompile(project(':clear-utils'))
         testCompile "junit:junit:4.11"
     }
