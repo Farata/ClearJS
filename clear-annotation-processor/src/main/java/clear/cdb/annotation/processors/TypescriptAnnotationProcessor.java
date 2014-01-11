@@ -79,7 +79,7 @@ public class TypescriptAnnotationProcessor extends BaseAnnotationProcessor {
     }
 
     private Map<String, Object> getDTOContext(RoundEnvironment roundEnv, TypeElement elem) {
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<String, Object>();
         result.put("package", ((PackageElement)elem.getEnclosingElement()).getQualifiedName().toString());
         result.put("classSimpleName", elem.getSimpleName().toString());
         result.put("fields", getFields(roundEnv, elem));
@@ -98,24 +98,18 @@ public class TypescriptAnnotationProcessor extends BaseAnnotationProcessor {
     public String convertFromJava(Class type) {
         String t = type.getSimpleName().toLowerCase();
         if (t.contains("[]")) return "any[]";
-        switch (t) {
-            case "boolean":
-                return "boolean";
-            case "string":
-                return "string";
-            case "byte":
-            case "int":
-            case "short":
-            case "long":
-            case "float":
-            case "double":
-                return "number";
-            case "date":
-                return "Date";
-            case "list":
-                return "any[]";
-            case "map":
-                return "Object";
+        if (t.equals("boolean")) {
+            return "boolean";
+        } else if (t.equals("string")) {
+            return "string";
+        } else if (t.equals("byte") || t.equals("int") || t.equals("short") || t.equals("long") || t.equals("float") || t.equals("double")) {
+            return "number";
+        } else if (t.equals("date")) {
+            return "Date";
+        } else if (t.equals("list")) {
+            return "any[]";
+        } else if (t.equals("map")) {
+            return "Object";
         }
         throw new RuntimeException("Unknown Java to Typescript type conversion: " + t);
     }
