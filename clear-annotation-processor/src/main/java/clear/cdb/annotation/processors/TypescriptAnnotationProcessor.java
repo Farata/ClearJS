@@ -71,7 +71,7 @@ public class TypescriptAnnotationProcessor extends BaseAnnotationProcessor {
             logger.note(LogLocation.MESSAGER, "Generated " + filename);
         }
 
-        String filename2 = elem.getSimpleName().toString() + ".ts";
+        String filename2 = elem.getSimpleName().toString() + "_.ts";
         String destination2 = dtoGeneratedPath + "/" + packageName + "/" + filename2;
         String source2 = FreemarkerUtil.render("/ftl/typescript/typescript-model-generated.ftl", context);
         Files.write(FileSystems.getDefault().getPath(destination2), source2.getBytes());
