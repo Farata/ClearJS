@@ -67,7 +67,7 @@ public class AnnotationProcessorTestCompiler {
         DiagnosticCollector<JavaFileObject> collector = new DiagnosticCollector<JavaFileObject>();
 
         try {
-            List<String> options = new ArrayList<>();
+            List<String> options = new ArrayList<String>();
             options.add(COMPILER_OPTIONS);
             if (additionalOptions != null) {
                 options.add(additionalOptions);
